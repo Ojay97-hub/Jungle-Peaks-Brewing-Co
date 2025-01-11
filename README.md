@@ -243,7 +243,7 @@ Will include won't have's with moscow
 ## Site Flow 
 Using FIGMA
 
-![alt text](siteflow.jpeg)
+![alt text](/images/siteflow.jpeg)
 
 ## Wireframes
 Using UIZARD 
@@ -278,7 +278,7 @@ Using UIZARD
 ### ERD
 Using DBDIAGRAM 
 
-![alt text](ERD.jpeg) 
+![alt text](/images/ERD.jpeg) 
 
 
 #### Key Relationship Summary
