@@ -1,0 +1,82 @@
+[
+    {
+      "model": "products.category",
+      "pk": 1,
+      "fields": {
+        "name": "IPAs",
+        "description": "Hoppy and aromatic India Pale Ales with a variety of flavors ranging from citrus to pine."
+      }
+    },
+    {
+      "model": "products.category",
+      "pk": 2,
+      "fields": {
+        "name": "Lagers",
+        "description": "Crisp and refreshing lagers, perfect for any occasion."
+      }
+    },
+    {
+      "model": "products.category",
+      "pk": 3,
+      "fields": {
+        "name": "Stouts & Porters",
+        "description": "Rich and creamy dark beers with notes of chocolate, coffee, and roasted malt."
+      }
+    },
+    {
+      "model": "products.category",
+      "pk": 4,
+      "fields": {
+        "name": "Wheat Beers",
+        "description": "Light and smooth wheat beers with a hint of citrus and spice."
+      }
+    },
+    {
+      "model": "products.category",
+      "pk": 5,
+      "fields": {
+        "name": "Pale Ales",
+        "description": "Balanced pale ales with a mix of malt sweetness and hop bitterness."
+      }
+    },
+    {
+      "model": "products.category",
+      "pk": 6,
+      "fields": {
+        "name": "Sours",
+        "description": "Tart and tangy sour beers, often with fruity or funky flavors."
+      }
+    },
+    {
+      "model": "products.category",
+      "pk": 7,
+      "fields": {
+        "name": "Seasonal Brews",
+        "description": "Special brews available only during certain times of the year."
+      }
+    },
+    {
+      "model": "products.category",
+      "pk": 8,
+      "fields": {
+        "name": "Light Beers",
+        "description": "Low-alcohol, easy-drinking beers for casual enjoyment."
+      }
+    },
+    {
+        "model": "products.category",
+        "pk": 9,
+        "fields": {
+          "name": "Merchandise",
+          "description": "A range of branded merchandise including apparel, accessories, and more."
+        }
+      },
+      {
+        "model": "products.category",
+        "pk": 10,
+        "fields": {
+          "name": "Gift Sets",
+          "description": "Specially curated gift sets featuring our craft beers and other goodies."
+        }
+      }
+  ]

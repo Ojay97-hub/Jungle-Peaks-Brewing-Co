@@ -1,0 +1,642 @@
+[
+    {
+        "model": "products.product",
+        "pk": 1,
+        "fields": {
+            "name": "Citrus Peak IPA",
+            "type": "IPA",
+            "abv": 6.8,
+            "description": "A bold and citrusy IPA with a smooth finish.",
+            "category": 1,
+            "price": 5.99,
+            "rating": 4.5,
+            "image_url": "https://example.com/images/citrus_peak_ipa.jpg",
+            "image": null,
+            "sku": "IPA-001"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 2,
+        "fields": {
+            "name": "Hoppy Trails",
+            "type": "IPA",
+            "abv": 7.2,
+            "description": "A hop-forward IPA with tropical fruit and pine notes.",
+            "category": 1,
+            "price": 6.49,
+            "rating": 4.6,
+            "image_url": "https://example.com/images/hoppy_trails.jpg",
+            "image": null,
+            "sku": "IPA-002"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 3,
+        "fields": {
+            "name": "Alpine Glow",
+            "type": "IPA",
+            "abv": 6.4,
+            "description": "A juicy IPA bursting with citrus and melon flavors.",
+            "category": 1,
+            "price": 6.99,
+            "rating": 4.7,
+            "image_url": "https://example.com/images/alpine_glow.jpg",
+            "image": null,
+            "sku": "IPA-003"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 4,
+        "fields": {
+            "name": "Summit Breeze IPA",
+            "type": "IPA",
+            "abv": 7.0,
+            "description": "An aromatic IPA with floral and resinous hops.",
+            "category": 1,
+            "price": 6.49,
+            "rating": 4.8,
+            "image_url": "https://example.com/images/summit_breeze.jpg",
+            "image": null,
+            "sku": "IPA-004"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 5,
+        "fields": {
+            "name": "Golden Trail Lager",
+            "type": "Lager",
+            "abv": 4.9,
+            "description": "A crisp and golden lager for every adventure.",
+            "category": 2,
+            "price": 5.49,
+            "rating": 4.4,
+            "image_url": "https://example.com/images/golden_trail_lager.jpg",
+            "image": null,
+            "sku": "LGR-001"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 6,
+        "fields": {
+            "name": "Crystal Clear",
+            "type": "Lager",
+            "abv": 5.0,
+            "description": "A refreshing lager with a clean finish.",
+            "category": 2,
+            "price": 5.99,
+            "rating": 4.6,
+            "image_url": "https://example.com/images/crystal_clear.jpg",
+            "image": null,
+            "sku": "LGR-002"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 7,
+        "fields": {
+            "name": "Basecamp Lager",
+            "type": "Lager",
+            "abv": 4.8,
+            "description": "A light and smooth lager, perfect for summer.",
+            "category": 2,
+            "price": 5.49,
+            "rating": 4.3,
+            "image_url": "https://example.com/images/basecamp_lager.jpg",
+            "image": null,
+            "sku": "LGR-003"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 8,
+        "fields": {
+            "name": "Summit Chill",
+            "type": "Lager",
+            "abv": 5.1,
+            "description": "A malty and refreshing lager with a hint of sweetness.",
+            "category": 2,
+            "price": 5.99,
+            "rating": 4.5,
+            "image_url": "https://example.com/images/summit_chill.jpg",
+            "image": null,
+            "sku": "LGR-004"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 9,
+        "fields": {
+            "name": "Dark Peak Stout",
+            "type": "Stout",
+            "abv": 6.8,
+            "description": "A creamy stout with notes of chocolate and roasted coffee.",
+            "category": 3,
+            "price": 6.49,
+            "rating": 4.7,
+            "image_url": "https://example.com/images/dark_peak_stout.jpg",
+            "image": null,
+            "sku": "STP-001"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 10,
+        "fields": {
+            "name": "Velvet Porter",
+            "type": "Porter",
+            "abv": 6.4,
+            "description": "A rich porter with hints of caramel and vanilla.",
+            "category": 3,
+            "price": 6.49,
+            "rating": 4.5,
+            "image_url": "https://example.com/images/velvet_porter.jpg",
+            "image": null,
+            "sku": "STP-002"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 11,
+        "fields": {
+            "name": "Midnight Ridge",
+            "type": "Stout",
+            "abv": 7.0,
+            "description": "A full-bodied stout with smoky and nutty undertones.",
+            "category": 3,
+            "price": 6.99,
+            "rating": 4.6,
+            "image_url": "https://example.com/images/midnight_ridge.jpg",
+            "image": null,
+            "sku": "STP-003"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 12,
+        "fields": {
+            "name": "Shadow Brew",
+            "type": "Porter",
+            "abv": 5.8,
+            "description": "A smooth porter with rich chocolate malt character.",
+            "category": 3,
+            "price": 6.49,
+            "rating": 4.4,
+            "image_url": "https://example.com/images/shadow_brew.jpg",
+            "image": null,
+            "sku": "STP-004"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 13,
+        "fields": {
+            "name": "Citrus Cloud Wheat",
+            "type": "Wheat Beer",
+            "abv": 5.0,
+            "description": "A refreshing wheat beer with zesty citrus notes.",
+            "category": 4,
+            "price": 5.99,
+            "rating": 4.3,
+            "image_url": "https://example.com/images/citrus_cloud_wheat.jpg",
+            "image": null,
+            "sku": "WHT-001"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 14,
+        "fields": {
+            "name": "Golden Horizon",
+            "type": "Wheat Beer",
+            "abv": 4.8,
+            "description": "A smooth wheat beer with hints of orange and spice.",
+            "category": 4,
+            "price": 5.49,
+            "rating": 4.4,
+            "image_url": "https://example.com/images/golden_horizon.jpg",
+            "image": null,
+            "sku": "WHT-002"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 15,
+        "fields": {
+            "name": "Wheat Wanderer",
+            "type": "Wheat Beer",
+            "abv": 5.2,
+            "description": "A classic wheat beer with a crisp and clean finish.",
+            "category": 4,
+            "price": 6.49,
+            "rating": 4.5,
+            "image_url": "https://example.com/images/wheat_wanderer.jpg",
+            "image": null,
+            "sku": "WHT-003"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 16,
+        "fields": {
+            "name": "Canyon Wheat",
+            "type": "Wheat Beer",
+            "abv": 5.4,
+            "description": "A hazy wheat beer with tropical fruit aromas.",
+            "category": 4,
+            "price": 6.99,
+            "rating": 4.6,
+            "image_url": "https://example.com/images/canyon_wheat.jpg",
+            "image": null,
+            "sku": "WHT-004"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 17,
+        "fields": {
+            "name": "Amber Glow Pale Ale",
+            "type": "Pale Ale",
+            "abv": 5.4,
+            "description": "A malty pale ale with a touch of sweetness.",
+            "category": 5,
+            "price": 6.49,
+            "rating": 4.4,
+            "image_url": "https://example.com/images/amber_glow_pale.jpg",
+            "image": null,
+            "sku": "PAL-001"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 18,
+        "fields": {
+            "name": "Sunrise Pale",
+            "type": "Pale Ale",
+            "abv": 5.2,
+            "description": "A balanced pale ale with subtle citrus notes.",
+            "category": 5,
+            "price": 6.99,
+            "rating": 4.6,
+            "image_url": "https://example.com/images/sunrise_pale.jpg",
+            "image": null,
+            "sku": "PAL-002"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 19,
+        "fields": {
+            "name": "Trail Ale",
+            "type": "Pale Ale",
+            "abv": 5.6,
+            "description": "A hoppy pale ale with hints of pine and grapefruit.",
+            "category": 5,
+            "price": 6.49,
+            "rating": 4.5,
+            "image_url": "https://example.com/images/trail_ale.jpg",
+            "image": null,
+            "sku": "PAL-003"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 20,
+        "fields": {
+            "name": "Golden Trail Pale Ale",
+            "type": "Pale Ale",
+            "abv": 5.3,
+            "description": "A refreshing pale ale with a clean and smooth finish.",
+            "category": 5,
+            "price": 6.99,
+            "rating": 4.6,
+            "image_url": "https://example.com/images/golden_trail_pale.jpg",
+            "image": null,
+            "sku": "PAL-004"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 21,
+        "fields": {
+            "name": "Berry Burst Sour",
+            "type": "Sour",
+            "abv": 4.3,
+            "description": "A fruity sour ale with a tart berry kick.",
+            "category": 6,
+            "price": 5.99,
+            "rating": 4.5,
+            "image_url": "https://example.com/images/berry_burst_sour.jpg",
+            "image": null,
+            "sku": "SOR-001"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 22,
+        "fields": {
+            "name": "Citrus Zest Sour",
+            "type": "Sour",
+            "abv": 4.5,
+            "description": "A zesty sour beer with a tangy citrus bite.",
+            "category": 6,
+            "price": 6.49,
+            "rating": 4.6,
+            "image_url": "https://example.com/images/citrus_zest_sour.jpg",
+            "image": null,
+            "sku": "SOR-002"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 23,
+        "fields": {
+            "name": "Wildflower Sour",
+            "type": "Sour",
+            "abv": 4.8,
+            "description": "A floral and tart sour ale with a smooth finish.",
+            "category": 6,
+            "price": 6.49,
+            "rating": 4.7,
+            "image_url": "https://example.com/images/wildflower_sour.jpg",
+            "image": null,
+            "sku": "SOR-003"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 24,
+        "fields": {
+            "name": "Passionfruit Pucker",
+            "type": "Sour",
+            "abv": 4.7,
+            "description": "A tropical sour ale bursting with passionfruit flavor.",
+            "category": 6,
+            "price": 6.99,
+            "rating": 4.8,
+            "image_url": "https://example.com/images/passionfruit_pucker.jpg",
+            "image": null,
+            "sku": "SOR-004"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 25,
+        "fields": {
+            "name": "Frosty Peaks Winter Ale",
+            "type": "Seasonal Ale",
+            "abv": 6.6,
+            "description": "A warming winter ale with hints of cinnamon and nutmeg.",
+            "category": 7,
+            "price": 6.99,
+            "rating": 4.6,
+            "image_url": "https://example.com/images/frosty_peaks_winter.jpg",
+            "image": null,
+            "sku": "SEA-001"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 26,
+        "fields": {
+            "name": "Spring Blossom Ale",
+            "type": "Seasonal Ale",
+            "abv": 5.0,
+            "description": "A floral spring ale with subtle fruity notes.",
+            "category": 7,
+            "price": 5.99,
+            "rating": 4.5,
+            "image_url": "https://example.com/images/spring_blossom_ale.jpg",
+            "image": null,
+            "sku": "SEA-002"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 27,
+        "fields": {
+            "name": "Summer Breeze",
+            "type": "Seasonal Ale",
+            "abv": 5.2,
+            "description": "A light and refreshing summer ale.",
+            "category": 7,
+            "price": 5.99,
+            "rating": 4.4,
+            "image_url": "https://example.com/images/summer_breeze.jpg",
+            "image": null,
+            "sku": "SEA-003"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 28,
+        "fields": {
+            "name": "Autumn Amber",
+            "type": "Seasonal Ale",
+            "abv": 5.8,
+            "description": "A rich amber ale perfect for crisp autumn days.",
+            "category": 7,
+            "price": 6.49,
+            "rating": 4.6,
+            "image_url": "https://example.com/images/autumn_amber.jpg",
+            "image": null,
+            "sku": "SEA-004"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 29,
+        "fields": {
+            "name": "Easy Peak Light",
+            "type": "Light Beer",
+            "abv": 3.8,
+            "description": "A low-alcohol beer with a crisp and clean taste.",
+            "category": 8,
+            "price": 4.99,
+            "rating": 4.4,
+            "image_url": "https://example.com/images/easy_peak_light.jpg",
+            "image": null,
+            "sku": "LGT-001"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 30,
+        "fields": {
+            "name": "Sunny Days Light Lager",
+            "type": "Light Beer",
+            "abv": 4.0,
+            "description": "A refreshing and smooth light lager.",
+            "category": 8,
+            "price": 5.49,
+            "rating": 4.5,
+            "image_url": "https://example.com/images/sunny_days_light.jpg",
+            "image": null,
+            "sku": "LGT-002"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 31,
+        "fields": {
+            "name": "Alpine Light",
+            "type": "Light Beer",
+            "abv": 4.2,
+            "description": "A crisp light beer with a hint of malt sweetness.",
+            "category": 8,
+            "price": 5.99,
+            "rating": 4.6,
+            "image_url": "https://example.com/images/alpine_light.jpg",
+            "image": null,
+            "sku": "LGT-003"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 32,
+        "fields": {
+            "name": "Trail Light Ale",
+            "type": "Light Beer",
+            "abv": 4.1,
+            "description": "An easy-drinking light ale with subtle hop character.",
+            "category": 8,
+            "price": 5.49,
+            "rating": 4.5,
+            "image_url": "https://example.com/images/trail_light_ale.jpg",
+            "image": null,
+            "sku": "LGT-004"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 33,
+        "fields": {
+            "name": "Jungle Peaks T-Shirt",
+            "type": "Merchandise",
+            "abv": null,
+            "description": "A stylish cotton t-shirt featuring the Jungle Peaks Brewing logo.",
+            "category": 9,
+            "price": 20.00,
+            "rating": 4.3,
+            "image_url": "https://example.com/images/tshirt.jpg",
+            "image": null,
+            "sku": "MRCH-001"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 34,
+        "fields": {
+            "name": "Jungle Peaks Cap",
+            "type": "Merchandise",
+            "abv": null,
+            "description": "A high-quality cap embroidered with the Jungle Peaks logo.",
+            "category": 9,
+            "price": 15.00,
+            "rating": 4.4,
+            "image_url": "https://example.com/images/cap.jpg",
+            "image": null,
+            "sku": "MRCH-002"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 35,
+        "fields": {
+            "name": "Branded Beer Mug",
+            "type": "Merchandise",
+            "abv": null,
+            "description": "A sturdy beer mug with Jungle Peaks branding.",
+            "category": 9,
+            "price": 12.99,
+            "rating": 4.5,
+            "image_url": "https://example.com/images/beer_mug.jpg",
+            "image": null,
+            "sku": "MRCH-003"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 36,
+        "fields": {
+            "name": "Jungle Peaks Hoodie",
+            "type": "Merchandise",
+            "abv": null,
+            "description": "A warm and cozy hoodie featuring the Jungle Peaks Brewing design.",
+            "category": 9,
+            "price": 35.00,
+            "rating": 4.7,
+            "image_url": "https://example.com/images/hoodie.jpg",
+            "image": null,
+            "sku": "MRCH-004"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 37,
+        "fields": {
+            "name": "Brewery Tote Bag",
+            "type": "Merchandise",
+            "abv": null,
+            "description": "An eco-friendly tote bag perfect for carrying beer and merchandise.",
+            "category": 9,
+            "price": 10.00,
+            "rating": 4.2,
+            "image_url": "https://example.com/images/tote_bag.jpg",
+            "image": null,
+            "sku": "MRCH-005"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 38,
+        "fields": {
+            "name": "Ultimate IPA Gift Set",
+            "type": "Gift Set",
+            "abv": null,
+            "description": "A premium gift set featuring 4 unique IPA brews and an IPA glass.",
+            "category": 10,
+            "price": 39.99,
+            "rating": 4.9,
+            "image_url": "https://example.com/images/ipa_gift_set.jpg",
+            "image": null,
+            "sku": "GFT-001"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 39,
+        "fields": {
+            "name": "Craft Beer Sampler Box",
+            "type": "Gift Set",
+            "abv": null,
+            "description": "A curated box of 6 craft beers from different categories.",
+            "category": 10,
+            "price": 29.99,
+            "rating": 4.8,
+            "image_url": "https://example.com/images/sampler_box.jpg",
+            "image": null,
+            "sku": "GFT-002"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 40,
+        "fields": {
+            "name": "Beer Lover's Gift Basket",
+            "type": "Gift Set",
+            "abv": null,
+            "description": "Includes 3 seasonal brews, branded glassware, and coasters.",
+            "category": 10,
+            "price": 49.99,
+            "rating": 4.7,
+            "image_url": "https://example.com/images/gift_basket.jpg",
+            "image": null,
+            "sku": "GFT-003"
+        }
+    }
+]

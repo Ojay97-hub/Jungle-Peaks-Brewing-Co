@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 
     #apps
     'home', 
+    'products',
 
 ]
 
