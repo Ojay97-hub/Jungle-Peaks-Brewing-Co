@@ -53,7 +53,7 @@
                 {% if request.resolver_match.url_name == 'products' %}
                 <!-- Search Bar -->
                 <div class="search-group col-12 col-lg-4 my-auto py-1 py-lg-0">
-                    <form method="GET" action="" class="d-lg-flex">
+                    <form method="GET" action="{% url 'products' %}" class="d-lg-flex">
                         <div class="input-group w-100">
                             <input id="search-bar" class="form-control border border-black rounded-pill search-bar" type="text" name="q" placeholder="Go get some beer!">
                             <div class="input-group-append">
