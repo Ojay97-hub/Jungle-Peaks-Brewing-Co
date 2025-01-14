@@ -50,7 +50,7 @@
                     <h1 class="logo-font text-black m-0 fw-bold fs-3 fs-lg-1">Jungle Peaks</h1>
                 </a>
 
-                {% if request.resolver_match.url_name == 'shop' %}
+                {% if request.resolver_match.url_name == 'products' %}
                 <!-- Search Bar -->
                 <div class="search-group col-12 col-lg-4 my-auto py-1 py-lg-0">
                     <form method="GET" action="" class="d-lg-flex">
@@ -127,7 +127,7 @@
                                 <li><a href="#" class="dropdown-item">By Price</a></li>
                                 <li><a href="#" class="dropdown-item">By Rating</a></li>
                                 <li><a href="#" class="dropdown-item">By Category</a></li>
-                                <li><a href="#" class="dropdown-item">All Products</a></li>
+                                <li><a href="{% url 'products' %}" class="dropdown-item">All Products</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
