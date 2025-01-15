@@ -39,7 +39,7 @@
     <header class="bg-light border-bottom">
         <div id="delivery-banner" class="row text-center">
             <div class="col bg-black">
-                <p class="logo-font my-1">Free delivery on orders over ${{ free_shipping_threshold }}!</p>                
+                <p class="logo-font my-1">Free delivery on orders over ${{ free_delivery_threshold }}!</p>                
             </div>            
         </div>
         <!-- Main Header Section -->
@@ -71,7 +71,7 @@
                 <!-- Cart and Account Options -->
                 <div class="d-flex align-items-center justify-content-between">
                     <!-- Shopping Bag -->
-                    <a class="nav-link d-flex align-items-center me-4" href="#">
+                    <a class="nav-link d-flex align-items-center me-4" href="{% url 'view_bag' %}">
                         <i class="fas fa-shopping-bag fa-lg me-2"></i>
                         <span class="fw-bold">
                             {% if grand_total %}
