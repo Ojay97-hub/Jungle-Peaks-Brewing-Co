@@ -89,7 +89,6 @@ nav.bg-light.border-top {
     display: none !important;
 }
 
-
 .overlay {
 	height: 100%;
 	width: 100%;
@@ -98,6 +97,23 @@ nav.bg-light.border-top {
 	position: fixed;
 	background: white;
 	z-index: -1;
+}
+
+/* Scroll up button */
+.btt-button {
+    z-index: 1050;
+    width: 40px;
+    height: 40px;
+    transition: all 0.3s ease;
+    position: fixed;
+    bottom: 5px; 
+    left: 5px; 
+    /* transform: translateX(-50%);  */
+}
+
+.btt-button:hover {
+    transform: scale(1.1);
+    background-color: black;
 }
 
 /* ---------------------------------------- Media Queries */

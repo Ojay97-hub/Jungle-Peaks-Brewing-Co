@@ -34,6 +34,16 @@ def all_products(request):
             elif sort == 'rating':
                 products = products.order_by('-rating')
 
+        if sort:
+            if sort == 'price_asc':
+                products = products.order_by('price')
+            elif sort == 'price_desc':
+                products = products.order_by('-price')
+            elif sort == 'rating_asc':
+                products = products.order_by('rating')
+            elif sort == 'rating_desc':
+                products = products.order_by('-rating')
+
     context = {
         'products': products,
         'categories': categories,  # Pass categories to the template
