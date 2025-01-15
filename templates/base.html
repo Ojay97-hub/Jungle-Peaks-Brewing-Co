@@ -117,18 +117,10 @@
                 <div class="collapse navbar-collapse" id="secondary-nav">
                     <ul class="navbar-nav d-flex justify-content-center align-items-center flex-lg-row flex-column">
                         <li class="nav-item">
-                            <a href="#" class="nav-link text-uppercase px-3 fw-bold">Home</a>
+                            <a href="{% url 'home' %}" class="nav-link text-uppercase px-3 fw-bold">Home</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-uppercase px-3 fw-bold" href="#" id="shop-link" data-bs-toggle="dropdown" aria-expanded="false">
-                                Shop
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="shop-link">
-                                <li><a href="#" class="dropdown-item">By Price</a></li>
-                                <li><a href="#" class="dropdown-item">By Rating</a></li>
-                                <li><a href="#" class="dropdown-item">By Category</a></li>
-                                <li><a href="{% url 'products' %}" class="dropdown-item">All Products</a></li>
-                            </ul>
+                        <li class="nav-item">
+                            <a href="{% url 'products' %}" class="nav-link text-uppercase px-3 fw-bold">Shop</a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link text-uppercase px-3 fw-bold">Taproom</a>

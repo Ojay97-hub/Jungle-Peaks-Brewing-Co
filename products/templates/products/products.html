@@ -18,6 +18,52 @@
                 <hr class="w-50 mb-1">
             </div>
         </div>
+        <!-- Filter Buttons -->
+        <div class="row mb-4">
+            <div class="col text-center">
+                <!-- Sort Dropdown -->
+                <div class="dropdown d-inline-block me-3">
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Sort
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                        <li><a href="{% url 'products' %}?sort=price" class="dropdown-item">Sort by Price</a></li>
+                        <li><a href="{% url 'products' %}?sort=rating" class="dropdown-item">Sort by Rating</a></li>
+                    </ul>
+                </div>
+
+                <!-- Category Dropdown -->
+                <div class="dropdown d-inline-block">
+                    <button 
+                        class="btn btn-outline-primary dropdown-toggle" 
+                        type="button" 
+                        id="categoryDropdown" 
+                        data-bs-toggle="dropdown" 
+                        aria-expanded="false">
+                        Categories
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+                                <!-- All Products Option -->
+                            <li>
+                                <a href="{% url 'products' %}" class="dropdown-item">All Products</a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                        {% for category in categories %}
+                            <li>
+                                <a 
+                                    href="{% url 'products' %}?category={{ category.name }}" 
+                                    class="dropdown-item">
+                                    {{ category.name }}
+                                </a>
+                            </li>
+                        {% empty %}
+                            <li class="dropdown-item text-muted">No categories available</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="product-container col-10 offset-1">
                 <div class="row mt-1 mb-2"></div>
@@ -25,29 +71,25 @@
                     {% for product in products %}
                         <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
                             <div class="card h-100 border-0">
-                                {% if product.image %}
                                 <a href="{% url 'product_detail' product.id %}">
-                                    <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
+                                    {% if product.image_url %}
+                                        <img class="card-img-top img-fluid" src="{{ product.image_url }}" alt="{{ product.name }}">
+                                    {% elif product.image %}
+                                        <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
+                                    {% else %}
+                                        <img class="card-img-top img-fluid" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
+                                    {% endif %}
                                 </a>
-                                {% else %}
-                                <a href="{% url 'product_detail' product.id %}">
-                                    <img class="card-img-top img-fluid" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
-                                </a>
-                                {% endif %}
                                 <div class="card-body pb-0">
                                     <p class="mb-0">{{ product.name }}</p>
                                 </div>
                                 <div class="card-footer bg-white pt-0 border-0 text-left">
-                                    <div class="row">
-                                        <div class="col">
-                                            <p class="lead mb-0 text-left font-weight-bold">£{{ product.price }}</p>
-                                            {% if product.rating %}
-                                                <small class="text-muted"><i class="fas fa-star mr-1"></i>{{ product.rating }} / 5</small>
-                                            {% else %}
-                                                <small class="text-muted">No Rating</small>
-                                            {% endif %}
-                                        </div>
-                                    </div>
+                                    <p class="lead mb-0 text-left font-weight-bold">£{{ product.price }}</p>
+                                    {% if product.rating %}
+                                        <small class="text-muted"><i class="fas fa-star mr-1"></i>{{ product.rating }} / 5</small>
+                                    {% else %}
+                                        <small class="text-muted">No Rating</small>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
