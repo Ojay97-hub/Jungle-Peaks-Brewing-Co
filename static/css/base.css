@@ -111,6 +111,11 @@ nav.bg-light.border-top {
     /* transform: translateX(-50%);  */
 }
 
+.btt-link,
+.update-link,
+.remove-item {
+    cursor: pointer;
+}
 .btt-button:hover {
     transform: scale(1.1);
     background-color: black;
