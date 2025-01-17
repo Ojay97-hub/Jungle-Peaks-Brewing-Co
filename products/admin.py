@@ -9,8 +9,10 @@ class ProductAdmin(admin.ModelAdmin):
         'price',
         'rating',
         'sku',
+        'has_sizes',
     )
     ordering = ('sku',)
+    list_filter = ('has_sizes', 'category')
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = (

@@ -22,6 +22,7 @@ class Product(models.Model):
         help_text="Alcohol By Volume in percentage (e.g., 5.2). Leave blank for non-beverage products."
     )
     description = models.TextField()
+    has_sizes = models.BooleanField(default=False, null=True, blank=True)
     category = models.ForeignKey(
         Category, 
         on_delete=models.CASCADE, 
