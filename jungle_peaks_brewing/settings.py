@@ -27,12 +27,14 @@ SECRET_KEY = 'django-insecure-+8-nbe&0$rv&dq4kg=aqy@4lz&+em5@%((mn8#6x7#f$k=o=3d
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '8000-ojay97hub-junglepeaksbr-rlpjcwm6lxr.ws.codeinstitute-ide.net', 
+    '8000-ojay97hub-junglepeaksbr-rlpjcwm6lxr.ws.codeinstitute-ide.net',
+    '8080-ojay97hub-junglepeaksbr-rlpjcwm6lxr.ws.codeinstitute-ide.net',
 
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://8000-ojay97hub-junglepeaksbr-rlpjcwm6lxr.ws.codeinstitute-ide.net', 
+    'https://8080-ojay97hub-junglepeaksbr-rlpjcwm6lxr.ws.codeinstitute-ide.net',
 ]
 
 # Application definition
