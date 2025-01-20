@@ -124,12 +124,13 @@ nav.bg-light.border-top {
 }
 
 /* From boutique ado walkthrough */
-/* Updated bootstrap toasts styles */
+/* ------------------------------- bootstrap toasts */
+
 .message-container {
     position: fixed;
     top: 72px;
     right: 15px;
-    z-index: 1055; /* Lowered from excessive value */
+    z-index: 99999999999;
 }
 
 .custom-toast {
