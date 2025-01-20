@@ -5,7 +5,6 @@ html {
     box-sizing: border-box; 
     scroll-behavior: smooth; 
     overflow-x: hidden; 
-    
 }
 
 body {
@@ -14,7 +13,6 @@ body {
     padding: 0; 
     color: #555;
     font-family: 'Montserrat';
-
 }
 
 header {
@@ -26,7 +24,6 @@ header {
     position: sticky; 
     top: 0;
     z-index: 1030;
-
 }
 
 /* Secondary header styles */
@@ -83,25 +80,30 @@ nav.bg-light.border-top {
     font-size: 18px;
 }
 
-
 /* Remove the arrow for specific dropdown */
 .nav-link.dropdown-toggle.no-arrow::after {
     display: none !important;
 }
 
+/* Updated overlay styles */
 .overlay {
-	height: 100%;
-	width: 100%;
-	top: 0;
-	left: 0;
-	position: fixed;
-	background: white;
-	z-index: -1;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    background: rgba(255, 255, 255, 0.8); /* Optional transparency */
+    z-index: 1; /* Ensure it's above the background but below other fixed elements */
+    display: none; /* Hide by default */
+}
+
+.overlay.active {
+    display: block; /* Show when needed */
 }
 
 /* Scroll up button */
 .btt-button {
-    z-index: 1050;
+    z-index: 1049; /* Lower than toasts */
     width: 40px;
     height: 40px;
     transition: all 0.3s ease;
@@ -115,20 +117,19 @@ nav.bg-light.border-top {
 .remove-item {
     cursor: pointer;
 }
+
 .btt-button:hover {
     transform: scale(1.1);
     background-color: black;
 }
 
-
 /* From boutique ado walkthrough */
-/* ------------------------------- bootstrap toasts */
-
+/* Updated bootstrap toasts styles */
 .message-container {
     position: fixed;
     top: 72px;
     right: 15px;
-    z-index: 99999999999;
+    z-index: 1055; /* Lowered from excessive value */
 }
 
 .custom-toast {
@@ -191,7 +192,6 @@ nav.bg-light.border-top {
 }
 
 /* ---------------------------------------- Media Queries */
-
 @media (max-width: 768px) {
     form .input-group {
         width: 100%;
@@ -206,7 +206,6 @@ nav.bg-light.border-top {
         flex-direction: column; /* Stack items vertically */
         align-items: stretch; /* Align items to fill the container */
     }
-
 }
 
 @media (max-width: 991px) {
@@ -230,7 +229,6 @@ nav.bg-light.border-top {
         flex-shrink: 1;
         margin: 3px;
     }
-
 }
 
 /* fixed top navbar only on medium and up */
@@ -241,8 +239,8 @@ nav.bg-light.border-top {
 
     /* Hide the toggler and display links in a row */
     .navbar-toggler {
-            display: none;
-        }
+        display: none;
+    }
 
     /* Ensure navbar-collapse displays links in a row */
     .navbar-collapse {
@@ -257,17 +255,12 @@ nav.bg-light.border-top {
 
     .navbar-nav .nav-item {
         margin-bottom: 0;
-    }  
-    
-
+    }
 }
 
 /* Slightly larger container on xl screens */
 @media (min-width: 1200px) {
     .container {
-      max-width: 80%;
+        max-width: 80%;
     }
-  }
-  
-
-
+}
