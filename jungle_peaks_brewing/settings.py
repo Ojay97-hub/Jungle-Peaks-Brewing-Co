@@ -200,3 +200,6 @@ STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
 # Delivery Settings
 FREE_DELIVERY_THRESHOLD = 50
 STANDARD_DELIVERY_PERCENTAGE = 10
+
+# Email 
+DEFAULT_FROM_EMAIL = 'junglepeaksbrewing@example.com'
