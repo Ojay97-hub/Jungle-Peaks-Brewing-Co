@@ -32,7 +32,7 @@ def all_products(request):
                 if direction == 'desc':
                     sortkey = f'-{sortkey}'
             products = products.order_by(sortkey)
-            
+
         if 'category' in request.GET:
             categories = request.GET['category'].split(',')
             products = products.filter(category__name__in=categories)
@@ -43,10 +43,11 @@ def all_products(request):
             if not query:
                 messages.error(request, "You didn't enter any search criteria!")
                 return redirect(reverse('products'))
-            
             queries = Q(name__icontains=query) | Q(description__icontains=query)
             products = products.filter(queries)
 
+    # Always include all categories in the context
+    all_categories = Category.objects.all()
     current_sorting = f'{sort}_{direction}'
 
     context = {
@@ -54,6 +55,7 @@ def all_products(request):
         'search_term': query,
         'current_categories': categories,
         'current_sorting': current_sorting,
+        'all_categories': all_categories,  # Add all categories here
     }
 
     return render(request, 'products/products.html', context)
@@ -134,6 +136,13 @@ def delete_product(request, product_id):
         return redirect(reverse('home'))
 
     product = get_object_or_404(Product, pk=product_id)
+
+    # Update related order line items
+    related_items = product.orderlineitem_set.all()  # Adjust based on your related name
+    for item in related_items:
+        item.product = None
+        item.save()
+
     product.delete()
     messages.success(request, 'Product deleted!')
     return redirect(reverse('products'))
