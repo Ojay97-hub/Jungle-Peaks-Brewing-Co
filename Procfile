@@ -1,0 +1,1 @@
+web: gunicorn jungle_peaks_brewing.wsgi:application
