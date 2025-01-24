@@ -33,7 +33,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '8000-ojay97hub-junglepeaksbr-rlpjcwm6lxr.ws.codeinstitute-ide.net',
     '8080-ojay97hub-junglepeaksbr-rlpjcwm6lxr.ws.codeinstitute-ide.net',
-    'jungle-peaks-brewing.herokuapp.com', 
+    'jungle-peaks-brewing-29d2cf7236c2.herokuapp.com', 
     'localhost', 
 
 ]
