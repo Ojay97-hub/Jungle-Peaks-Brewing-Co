@@ -2,5 +2,102 @@
 {% load static %}
 
 {% block content %}
-    <h1 class="display-4 text-success">It works!</h1>
+<div class="hero-image position-relative">
+    <img src="{% static 'images/jungle-hero-image.jpg' %}" class="hero-img" alt="Hero Image">
+    <div class="hero-text position-absolute top-50 start-50 translate-middle text-center text-white">
+      <h1 class="display-3 fw-bold">Jungle Peaks Brewing</h1>
+    </div>
+  </div>
+  
+  <div class="container my-5">
+    <!-- About Us Section -->
+    <div class="row align-items-center mb-5">
+      <div class="col-md-6">
+        <h2 class="fw-bold">About Us</h2>
+        <p>
+          Jungle Peaks Brewing is dedicated to crafting unique beer flavors inspired by the lush landscapes of our surroundings. Established in 2010, we pride ourselves on our commitment to sustainability and our use of locally sourced ingredients. Join us on a journey through the flavors of nature, and discover what makes us truly unique.
+        </p>
+      </div>
+      <div class="col-md-6">
+        <img src="{% static 'images/jungle-about-us.jpg' %}" class="about-img" alt="About Jungle Peaks Brewing">
+      </div>
+    </div>
+  
+    <!-- CTA Section -->
+    <div class="row text-center my-5">
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h3 class="card-title">Craft Beer Selection</h3>
+            <p class="card-text">Explore our range of unique, hand-crafted beers.</p>
+            <a href="#" class="btn custom-btn">Shop Now</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h3 class="card-title">Merchandise</h3>
+            <p class="card-text">Check out our exclusive branded merchandise.</p>
+            <a href="#" class="btn custom-btn">Explore Our Shop</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h3 class="card-title">Taproom Experience</h3>
+            <p class="card-text">Book a tour and enjoy the ultimate brewing experience.</p>
+            <a href="#" class="btn custom-btn">Book a Tour</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Testimonials Section -->
+    <div class="my-5">
+      <h2 class="text-center fw-bold mb-4">What Our Customers Say</h2>
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <blockquote class="blockquote mb-0">
+                <p>The best craft beer I've ever tasted! Highly recommend.</p>
+                <footer class="blockquote-footer">John D.</footer>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <blockquote class="blockquote mb-0">
+                <p>Amazing taproom experience with great staff!</p>
+                <footer class="blockquote-footer">Emily R.</footer>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <blockquote class="blockquote mb-0">
+                <p>Top-notch merchandise and eco-friendly ethos.</p>
+                <footer class="blockquote-footer">Chris M.</footer>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Our Ethos Section -->
+    <div class="my-5">
+      <h2 class="text-center fw-bold mb-4">Our Ethos</h2>
+      <p class="text-center">
+        At Jungle Peaks Brewing, we prioritize sustainability, local sourcing, and community. Every pint we craft reflects our commitment to making a positive impact.
+      </p>
+    </div>
+  </div>
+
 {% endblock %}

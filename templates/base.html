@@ -41,9 +41,9 @@
     <title>Jungle Peaks Brewing {% block extra_title %}{% endblock %}</title>
   </head>
   <body>
-    <header class="bg-light border-bottom">
+    <header class="border-bottom">
         <div id="delivery-banner" class="row text-center">
-            <div class="col bg-black">
+            <div class="col bg-yellow banner">
                 <p class="logo-font my-1">Free delivery on orders over £{{ free_delivery_threshold }}!</p>                
             </div>            
         </div>
@@ -52,7 +52,7 @@
             <div class="d-flex align-items-center justify-content-between">
                 <!-- Brand -->
                 <a href="{% url 'home' %}" class="text-decoration-none">
-                    <h1 class="logo-font text-black m-0 fw-bold fs-3 fs-lg-1">Jungle Peaks</h1>
+                    <h1 class="logo-font text-white m-0 fw-bold fs-3 fs-lg-1">Jungle Peaks</h1>
                 </a>
 
                 {% if request.resolver_match.url_name == 'products' %}
@@ -63,7 +63,7 @@
                             <input id="search-bar" class="form-control border border-black rounded-pill search-bar" type="text" name="q" placeholder="Go get some beer!">
                             <div class="input-group-append">
                                 <button class="form-control btn btn-black border border-black rounded-pill mx-3" type="submit">
-                                    <span class="icon">
+                                    <span class="icon text-white">
                                         <i class="fas fa-search"></i>
                                     </span>
                                 </button>
@@ -73,23 +73,9 @@
                 </div>
                 {% endif %}
 
-                <!-- Cart and Account Options -->
-                <div class="d-flex align-items-center justify-content-between">
-                    <!-- Shopping Bag -->
-                    <a class="nav-link d-flex align-items-center me-4" href="{% url 'view_bag' %}">
-                        <i class="fas fa-shopping-bag fa-lg me-2"></i>
-                        <span class="fw-bold">
-                            {% if grand_total %}
-                                £{{ grand_total|floatformat:2 }}
-                            {% else %}
-                                £0.00
-                            {% endif %}
-                        </span>
-                    </a>
-                
                     <!-- Account Dropdown -->
                     <div class="dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center text-black" href="#" id="user-options" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center text-black text-white" href="#" id="user-options" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-user fa-lg me-2"></i>
                             <span>My Account</span>
                         </a>
@@ -106,15 +92,30 @@
                             {% endif %}
                         </ul>
                     </div>
-                </div>
+
+                                        <!-- Cart and Account Options -->
+                    <div class="d-flex align-items-center justify-content-between">
+                        <!-- Shopping Bag -->
+                        <a class="nav-link d-flex align-items-center me-4 text-white" href="{% url 'view_bag' %}">
+                            <i class="fas fa-shopping-bag fa-lg me-2 text-white"></i>
+                            <span class="fw-bold text-white">
+                                {% if grand_total %}
+                                    £{{ grand_total|floatformat:2 }}
+                                {% else %}
+                                    £0.00
+                                {% endif %}
+                            </span>
+                        </a>
+                    </div>
+
             </div>
         </div>
     
         <!-- Secondary Header Section for Navigation -->
-        <nav class="bg-light border-top">
+        <nav class="border-top">
             <div class="container py-3">
                 <!-- Toggler (Centered Below 992px) -->
-                <button class="navbar-toggler mb-2 mx-auto d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#secondary-nav" aria-controls="secondary-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler mb-2 mx-auto d-lg-none text-white" type="button" data-bs-toggle="collapse" data-bs-target="#secondary-nav" aria-controls="secondary-nav" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-bars"></i>
                 </button>
     
@@ -122,16 +123,16 @@
                 <div class="collapse navbar-collapse" id="secondary-nav">
                     <ul class="navbar-nav d-flex justify-content-center align-items-center flex-lg-row flex-column">
                         <li class="nav-item">
-                            <a href="{% url 'home' %}" class="nav-link text-uppercase px-3 fw-bold">Home</a>
+                            <a href="{% url 'home' %}" class="nav-link text-uppercase px-3 fw-bold text-white">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'products' %}" class="nav-link text-uppercase px-3 fw-bold">Shop</a>
+                            <a href="{% url 'products' %}" class="nav-link text-uppercase px-3 fw-bold text-white">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link text-uppercase px-3 fw-bold">Taproom</a>
+                            <a href="#" class="nav-link text-uppercase px-3 fw-bold text-white">Taproom</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link text-uppercase px-3 fw-bold">Tours & Tastings</a>
+                            <a href="#" class="nav-link text-uppercase px-3 fw-bold text-white">Tours & Tastings</a>
                         </li>
                     </ul>
                 </div>
