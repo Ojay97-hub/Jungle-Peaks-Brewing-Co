@@ -41,62 +41,44 @@
     <title>Jungle Peaks Brewing {% block extra_title %}{% endblock %}</title>
   </head>
   <body>
+    <!-- Top banner section -->
+    <div id="delivery-banner" class="row text-center">
+        <div class="col bg-yellow banner">
+            <p class="logo-font my-1 py-2">Free delivery on orders over £{{ free_delivery_threshold }}!</p>                
+        </div>            
+    </div>
     <header class="border-bottom">
-        <div id="delivery-banner" class="row text-center">
-            <div class="col bg-yellow banner">
-                <p class="logo-font my-1">Free delivery on orders over £{{ free_delivery_threshold }}!</p>                
-            </div>            
-        </div>
-        <!-- Main Header Section -->
-        <div class="container py-3">
-            <div class="d-flex align-items-center justify-content-between">
-                <!-- Brand -->
-                <a href="{% url 'home' %}" class="text-decoration-none">
-                    <h1 class="logo-font text-white m-0 fw-bold fs-3 fs-lg-1">Jungle Peaks</h1>
-                </a>
-
-                {% if request.resolver_match.url_name == 'products' %}
-                <!-- Search Bar -->
-                <div class="search-group col-12 col-lg-4 my-auto py-1 py-lg-0">
-                    <form method="GET" action="{% url 'products' %}" class="d-lg-flex">
-                        <div class="input-group w-100">
-                            <input id="search-bar" class="form-control border border-black rounded-pill search-bar" type="text" name="q" placeholder="Go get some beer!">
-                            <div class="input-group-append">
-                                <button class="form-control btn btn-black border border-black rounded-pill mx-3" type="submit">
-                                    <span class="icon text-white">
-                                        <i class="fas fa-search"></i>
-                                    </span>
-                                </button>
+            <!-- Main Header Section -->
+            <div class="container py-3">
+                <div class="d-flex align-items-center justify-content-between">
+                    <!-- Brand -->
+                    <a href="{% url 'home' %}" class="text-decoration-none">
+                        <h1 class="logo-font text-white m-0 fw-bold fs-3 fs-lg-1">Jungle Peaks</h1>
+                    </a>
+            
+                    {% if request.resolver_match.url_name == 'products' %}
+                    <!-- Search Bar -->
+                    <div class="search-group col-12 col-lg-4 my-auto py-1 py-lg-0">
+                        <form method="GET" action="{% url 'products' %}" class="d-lg-flex">
+                            <div class="input-group w-100">
+                                <input id="search-bar" class="form-control border border-black rounded-pill search-bar" 
+                                    type="text" name="q" placeholder="Go get some beer!">
+                                <div class="input-group-append">
+                                    <button class="form-control btn btn-black border border-black rounded-pill mx-3" type="submit">
+                                        <span class="icon text-white">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                </div>
-                {% endif %}
-
-                    <!-- Account Dropdown -->
-                    <div class="dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center text-black text-white" href="#" id="user-options" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user fa-lg me-2"></i>
-                            <span>My Account</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-options">
-                            {% if request.user.is_authenticated %}
-                                {% if request.user.is_superuser %}
-                                    <li><a href="{% url 'add_product' %}" class="dropdown-item">Product Management</a></li>
-                                {% endif %}
-                                <li><a href="{% url 'profile' %}" class="dropdown-item">My Profile</a></li>
-                                <li><a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a></li>
-                            {% else %}
-                                <li><a href="{% url 'account_signup' %}" class="dropdown-item">Register</a></li>
-                                <li><a href="{% url 'account_login' %}" class="dropdown-item">Login</a></li>
-                            {% endif %}
-                        </ul>
+                        </form>
                     </div>
-
-                                        <!-- Cart and Account Options -->
-                    <div class="d-flex align-items-center justify-content-between">
+                    {% endif %}
+            
+                    <!-- Cart and Account Options (aligned to the right as a group) -->
+                    <div class="d-flex align-items-center ms-auto">
                         <!-- Shopping Bag -->
-                        <a class="nav-link d-flex align-items-center me-4 text-white" href="{% url 'view_bag' %}">
+                        <a class="nav-link d-flex align-items-center me-4" href="{% url 'view_bag' %}">
                             <i class="fas fa-shopping-bag fa-lg me-2 text-white"></i>
                             <span class="fw-bold text-white">
                                 {% if grand_total %}
@@ -106,11 +88,34 @@
                                 {% endif %}
                             </span>
                         </a>
+            
+                        <!-- Account Dropdown -->
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" id="user-options" 
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user fa-lg me-2 text-white"></i>
+                                <span>My Account</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end text-white" aria-labelledby="user-options">
+                                {% if request.user.is_authenticated %}
+                                    {% if request.user.is_superuser %}
+                                        <li>
+                                            <a href="{% url 'add_product' %}" class="dropdown-item">Product Management</a>
+                                        </li>
+                                    {% endif %}
+                                    <li><a href="{% url 'profile' %}" class="dropdown-item">My Profile</a></li>
+                                    <li><a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a></li>
+                                {% else %}
+                                    <li><a href="{% url 'account_signup' %}" class="dropdown-item">Register</a></li>
+                                    <li><a href="{% url 'account_login' %}" class="dropdown-item">Login</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
                     </div>
-
+                </div>
             </div>
         </div>
-    
+
         <!-- Secondary Header Section for Navigation -->
         <nav class="border-top">
             <div class="container py-3">
@@ -141,50 +146,53 @@
     </header>
 
 
-    {% if messages %}
-    <div class="message-container">
-        {% for message in messages %}
+    <main>
+        {% if messages %}
+        <div class="message-container">
+            {% for message in messages %}
             {% with message.level as level %}
-                {% if level == 40 %}
-                    {% include 'includes/toasts/toast_error.html' %}
-                {% elif level == 30 %}
-                    {% include 'includes/toasts/toast_warning.html' %}
-                {% elif level == 25 %}
-                    {% include 'includes/toasts/toast_success.html' %}
-                {% else %}
-                    {% include 'includes/toasts/toast_info.html' %}
-                {% endif %}
+            {% if level == 40 %}
+            {% include 'includes/toasts/toast_error.html' %}
+            {% elif level == 30 %}
+            {% include 'includes/toasts/toast_warning.html' %}
+            {% elif level == 25 %}
+            {% include 'includes/toasts/toast_success.html' %}
+            {% else %}
+            {% include 'includes/toasts/toast_info.html' %}
+            {% endif %}
             {% endwith %}
-        {% endfor %}
-    </div>
-    {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
 
-    {% block page_header %}
-    {% endblock %}
+        {% block page_header %}
+        {% endblock %}
 
-    {% block content %}
-    {% endblock %}
+        {% block content %}
+        {% endblock %}
+    </main>
 
     <!-- FOOTER SECTION -->
     
     <footer class="footer bg-black text-white py-5">
         <div class="container">
+          <!-- Main Footer Content -->
           <div class="row justify-content-between">
             <!-- Newsletter Section -->
             <div class="col-md-4">
-              <h5 class="text">Newsletter</h5>
-              <p class="text">Sign up for our newsletter to stay updated on our latest brews and events.</p>
+              <h5 class="text-start fw-bold">Newsletter</h5>
+              <p class="text-start">Sign up for our newsletter to stay updated on our latest brews and events.</p>
               <form action="#" method="POST" class="d-flex align-items-center">
                 <input 
-                  type="email" 
-                  name="email" 
-                  class="input me-2" 
-                  placeholder="Enter your email" 
-                  required
+                    type="email" 
+                    name="email" 
+                    class="form-control me-2 input-lg" 
+                    placeholder="Enter your email" 
+                    required
                 >
                 <button 
                   type="submit" 
-                  class="button custom-btn">
+                  class="btn custom-btn">
                   Subscribe
                 </button>
               </form>
@@ -192,55 +200,60 @@
       
             <!-- Explore Section -->
             <div class="col-md-2">
-              <h5 class="text">Explore</h5>
-              <ul class="list-unstyled">
-                <li><a href="/home" class="text-white text-decoration-none text">Home</a></li>
-                <li><a href="/shop" class="text-white text-decoration-none text">Shop</a></li>
-                <li><a href="/taproom" class="text-white text-decoration-none text">Taproom</a></li>
-                <li><a href="/tours" class="text-white text-decoration-none text">Tours</a></li>
+              <h5 class="text-start fw-bold">Explore</h5>
+              <ul class="list-unstyled text-start">
+                <li><a href="/home" class="text-white text-decoration-none">Home</a></li>
+                <li><a href="/shop" class="text-white text-decoration-none">Shop</a></li>
+                <li><a href="/taproom" class="text-white text-decoration-none">Taproom</a></li>
+                <li><a href="/tours" class="text-white text-decoration-none">Tours</a></li>
               </ul>
             </div>
       
             <!-- Quick Links Section -->
             <div class="col-md-2">
-              <h5 class="text">Quick Links</h5>
-              <ul class="list-unstyled">
-                <li><a href="/privacy-policy" class="text-white text-decoration-none text">Privacy Policy</a></li>
-                <li><a href="/contact-us" class="text-white text-decoration-none text">Contact Us</a></li>
-                <li><a href="/about-us" class="text-white text-decoration-none text">About Us</a></li>
-                <li><a href="/faqs" class="text-white text-decoration-none text">FAQs</a></li>
+              <h5 class="text-start fw-bold">Quick Links</h5>
+              <ul class="list-unstyled text-start">
+                <li><a href="/privacy-policy" class="text-white text-decoration-none">Privacy Policy</a></li>
+                <li><a href="/contact-us" class="text-white text-decoration-none">Contact Us</a></li>
+                <li><a href="/about-us" class="text-white text-decoration-none">About Us</a></li>
+                <li><a href="/faqs" class="text-white text-decoration-none">FAQs</a></li>
               </ul>
             </div>
       
             <!-- Follow Us Section -->
-            <div class="col-md-3">
-                <h5 class="text">Follow Us</h5>
-                <ul class="list-unstyled d-flex gap-3">
-                  <li><a href="https://facebook.com" target="_blank" class="text-white text-decoration-none">
-                    <i class="fab fa-facebook icon"></i>
-                  </a></li>
-                  <li><a href="https://twitter.com" target="_blank" class="text-white text-decoration-none">
-                    <i class="fab fa-twitter icon"></i>
-                  </a></li>
-                  <li><a href="https://instagram.com" target="_blank" class="text-white text-decoration-none">
-                    <i class="fab fa-instagram icon"></i>
-                  </a></li>
-                </ul>
-              </div>
+            <div class="col-md-3 text-center">
+                <h5 class="fw-bold">Follow Us</h5>
+                <div class="d-flex justify-content-center gap-3 mt-3">
+                <a href="https://facebook.com" target="_blank" class="text-warning text-decoration-none">
+                    <i class="fab fa-facebook fa-2x icon"></i>
+                </a>
+                <a href="https://twitter.com" target="_blank" class="text-warning text-decoration-none">
+                    <i class="fab fa-twitter fa-2x icon"></i>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="text-warning text-decoration-none">
+                    <i class="fab fa-instagram fa-2x icon"></i>
+                </a>
+                </div>
+            </div>
           </div>
-          <div class="divider-horizontal mt-4"></div>
-          <p class="text-center mt-3">Jungle Peaks Brewing, 123 Craft Lane, Beer Town, BT 78910</p>
-          <p class="text-center">
-            <a href="https://www.google.com/maps?q=AM-070 - Iranduba, Manaus - AM, 69405-000, Brazil" 
-               target="_blank" 
-               class="text-white text-decoration-none">
-              View on Google Maps
-            </a>
-          </p>
+      
+          <!-- Divider and Footer Bottom -->
+          <hr class="text-white opacity-25 mt-4">
+          <div class="text-center mt-3">
+            <p class="mb-1">Jungle Peaks Brewing, 123 Craft Lane, Beer Town, BT 78910</p>
+            <p>
+              <a href="https://www.google.com/maps?q=AM-070 - Iranduba, Manaus - AM, 69405-000, Brazil"  
+                 target="_blank" 
+                 class="text-white text-decoration-none">
+                View on Google Maps
+              </a>
+            </p>
+          </div>
         </div>
       </footer>
       
-      
+
+     
   </body>
 </html>
 
