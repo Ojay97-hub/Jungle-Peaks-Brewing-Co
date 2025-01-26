@@ -40,6 +40,12 @@ header {
     z-index: 1030;
 }
 
+/* Search Bar and Magnifying Glass */
+
+form.input-group-2 {
+    margin-left: 350px;
+}
+
 /* Secondary header styles */
 nav.bg-light.border-top {
     background-color: #f8f9fa;
@@ -407,6 +413,16 @@ ul.list-unstyled li a:hover {
     form {
         flex-direction: column; /* Stack items vertically */
         align-items: stretch; /* Align items to fill the container */
+    }
+
+    .form-2 .input-group-2 {
+        flex-wrap: nowrap;
+        width: 100%;
+    } 
+
+    form.form-2 {
+        flex-direction: row;
+        align-items: center; 
     }
 }
 
