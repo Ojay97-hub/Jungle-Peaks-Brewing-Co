@@ -56,7 +56,7 @@
                     <h1 class="logo-font text-white m-0 fw-bold fs-3">Jungle Peaks</h1>
                   </a>
             
-                    {% if request.resolver_match.url_name == 'products' %}
+                    {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}
                   <!-- Search Bar -->
                   <div class="flex-grow-1 mx-3">
                     <form method="GET" action="{% url 'products' %}" class="input-group-2 form-2 d-flex">
