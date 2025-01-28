@@ -37,57 +37,51 @@
                 <h2 class="logo-font products-heading">Products</h2>
             </div>
         </div>
-    <!-- Filter Buttons -->
-    <div class="row mb-4">
-        <div class="col-12 d-flex justify-content-center align-items-center gap-3">
-            <!-- Core Categories as Badges -->
-            <div>
-                <a href="{% url 'products' %}" class="badge custom-badge">All Products</a>
-                <a href="{% url 'products' %}?category=Merchandise" class="badge custom-badge">Merchandise</a>
-                <a href="{% url 'products' %}?category=Gift Sets" class="badge custom-badge">Gift Sets</a>
-            </div>
+        <!-- Filter Buttons -->
+        <div class="row mb-4">
+            <div class="col-12 filter-buttons d-flex justify-content-center align-items-center gap-3 flex-wrap">
+                <!-- Core Categories as Badges -->
+                <div>
+                    <a href="{% url 'products' %}" class="badge custom-badge">All Products</a>
+                    <a href="{% url 'products' %}?category=Merchandise" class="badge custom-badge">Merchandise</a>
+                    <a href="{% url 'products' %}?category=Gift Sets" class="badge custom-badge">Gift Sets</a>
+                </div>
 
-                <!-- Vertical Divider -->
-            <div class="vr mx-3"></div> 
-    
-            <!-- Dropdown for Beer Categories -->
-            <div class="dropdown">
-                <button
-                    class="btn custom-dropdown-btn dropdown-toggle-2"
-                    type="button"
-                    id="beerCategoryDropdown"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                >
-                    Beer Categories
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="beerCategoryDropdown">
-                    {% for category in all_categories %}
-                    {% if category.name != "Merchandise" and category.name != "Gift Sets" %}
-                        <li>
-                            <a href="{% url 'products' %}?category={{ category.name|urlencode }}" class="dropdown-item">
-                                {{ category.name }}
-                            </a>
-                        </li>
-                    {% endif %}
-                    {% endfor %}
-                </ul>
-            </div>
-    
-            <!-- Sort Dropdown -->
-            <div class="dropdown product-sort-dropdown">
-                <button class="btn product-sort-btn dropdown-toggle-2" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    Sort
-                </button>
-                <ul class="dropdown-menu product-sort-menu" aria-labelledby="sortDropdown">
-                    <li><a href="{% url 'products' %}?sort=price_asc" class="dropdown-item product-sort-item">Price: Low to High</a></li>
-                    <li><a href="{% url 'products' %}?sort=price_desc" class="dropdown-item product-sort-item">Price: High to Low</a></li>
-                    <li><a href="{% url 'products' %}?sort=rating_asc" class="dropdown-item product-sort-item">Rating: Low to High</a></li>
-                    <li><a href="{% url 'products' %}?sort=rating_desc" class="dropdown-item product-sort-item">Rating: High to Low</a></li>
-                </ul>
+                <!-- Vertical Divider (Hidden on Mobile) -->
+                <div class="custom-vr divider-2 mx-3 d-none d-md-block"></div> 
+
+                <!-- Dropdown for Beer Categories -->
+                <div class="dropdown">
+                    <button class="btn custom-dropdown-btn dropdown-toggle-2" type="button" id="beerCategoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Beer Categories
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="beerCategoryDropdown">
+                        {% for category in all_categories %}
+                            {% if category.name != "Merchandise" and category.name != "Gift Sets" %}
+                                <li>
+                                    <a href="{% url 'products' %}?category={{ category.name|urlencode }}" class="dropdown-item">
+                                        {{ category.name }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Sort Dropdown -->
+                <div class="dropdown product-sort-dropdown">
+                    <button class="btn product-sort-btn dropdown-toggle-2" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Sort
+                    </button>
+                    <ul class="dropdown-menu product-sort-menu" aria-labelledby="sortDropdown">
+                        <li><a href="{% url 'products' %}?sort=price_asc" class="dropdown-item product-sort-item">Price: Low to High</a></li>
+                        <li><a href="{% url 'products' %}?sort=price_desc" class="dropdown-item product-sort-item">Price: High to Low</a></li>
+                        <li><a href="{% url 'products' %}?sort=rating_asc" class="dropdown-item product-sort-item">Rating: Low to High</a></li>
+                        <li><a href="{% url 'products' %}?sort=rating_desc" class="dropdown-item product-sort-item">Rating: High to Low</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
         <!-- Product Cards -->
         <div class="row">

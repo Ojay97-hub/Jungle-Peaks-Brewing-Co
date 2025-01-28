@@ -2,6 +2,24 @@
     padding: 0px;
 }
 
+/* Icon Styling */
+.hero-description i {
+    font-size: 1.2rem;
+    color: #ff6600; /* Accent color for the icon */
+}
+
+/* General Styles */
+.container-fluid {
+    padding: 20px;
+}
+
+h2.logo-font {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+
 /* Hero Section Styling */
 .hero-section {
     position: relative;
@@ -87,10 +105,11 @@
     width: 120px;  /* Expands when hovered */
 }
 
-.vr {
-    width: 2px;
-    height: 30px;
-    background-color: #ccc;
+.custom-vr.divider-2 { /* No space between classes */
+    max-width: 5px;
+    height: 30px; /* Adjust height to match button sizes */
+    background-color: #ffd700; /* Light gray for subtle separation */
+    opacity: 0.7; /* Slightly transparent */
 }
 
 /* Custom Sort Dropdown Styles */
@@ -138,22 +157,6 @@
     border-radius: 5px;
 }
 
-/* Icon Styling */
-.hero-description i {
-    font-size: 1.2rem;
-    color: #ff6600; /* Accent color for the icon */
-}
-
-/* General Styles */
-.container-fluid {
-    padding: 20px;
-}
-
-h2.logo-font {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
 
 /* Badge Styling */
 .custom-badge {
@@ -212,6 +215,31 @@ h2.logo-font {
     color: #000; /* Black text */
 }
 
+/* Keep badges, dropdowns, and sort button in a compact row */
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    max-width: 900px; /* Prevents elements from spreading too wide */
+    margin: 0 auto; /* Center it on bigger screens */
+}
+
+/* Ensure each element doesn't shrink too much */
+.filter-buttons > div,
+.filter-buttons > a,
+.filter-buttons > button {
+    flex: 1 1 auto; 
+    min-width: 140px; /* Keep them a good size */
+    text-align: center;
+}
+
+/* Ensure dropdowns stay close */
+.filter-buttons .dropdown {
+    min-width: 160px;
+}
+
 /* Product Card */
 .card {
     border-radius: 12px;
@@ -266,6 +294,16 @@ h2.logo-font {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
+/* ------------------------ MEDIA QUERIES */
+
+/* Fix layout for bigger screens */
+@media (min-width: 1200px) {
+    .filter-buttons {
+        justify-content: space-evenly; /* Space out evenly */
+        max-width: 1100px;
+    }
+}
+
 /* Mobile Responsiveness */
 @media screen and (max-width: 768px) {
     .card-img-top {
@@ -295,5 +333,24 @@ h2.logo-font {
 
     .hero-description {
         font-size: 0.9rem;
+    }
+
+    .filter-buttons {
+        flex-direction: column; /* Stack them vertically */
+        align-items: center; /* Keep them centered */
+    }
+
+    /* Make sure dropdowns & buttons are centered */
+    .filter-buttons .dropdown,
+    .filter-buttons .product-sort-dropdown {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Remove margin from individual badges */
+    .custom-badge {
+        margin: 5px 0;
+        width: 100%;
+        max-width: 200px;
     }
 }

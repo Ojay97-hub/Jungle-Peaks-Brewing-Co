@@ -43,7 +43,7 @@
   <body>
     <header class="border-bottom">
             <!-- Top banner section -->
-            <div id="delivery-banner" class="row text-center mb-3">
+            <div id="delivery-banner" class="row text-center mb-3 rounded">
               <div class="col bg-yellow banner">
                   <p class="logo-font my-1 py-2">
                       🚛 <a href="{% url 'products' %}" class="text-dark fw-bold promo-link">
@@ -56,32 +56,32 @@
             <!-- Main Header Section -->
             <div class="container py-2">
                 <div class="d-flex align-items-center justify-content-between">
-                  <!-- Brand -->
+                  <!-- Brand Logo -->
                   <a href="{% url 'home' %}" class="text-decoration-none d-none d-md-inline">
-                    <h1 class="logo-font text-white m-0 fw-bold fs-3">Jungle Peaks</h1>
+                    <h1 class="jungle-peaks-logo m-0 fw-bold"> 
+                        <i class="fas fa-mountain"></i> Jungle Peaks 🍻
+                    </h1>
                   </a>
-            
-                    {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}
-                  <!-- Search Bar -->
+          
+                  {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}
+                  <!-- Search Bar --> 
                   <div class="flex-grow-1 mx-3">
                     <form method="GET" action="{% url 'products' %}" class="input-group-2 form-2 d-flex">
-                      <input 
-                        type="text" 
-                        name="q" 
-                        class="form-control border-0 rounded-start-pill px-3" 
-                        placeholder="Search for specific products, categories, tastings etc" 
-                        style="background-color: #fff; color: #6c757d; height: 40px; max-width: 800px; font-size: 16px;"
-                      >
-                      <button 
-                        class="btn btn-black border-0 rounded-end-pill mx-2" 
-                        type="submit" 
-                        style="height: 40px; width: 40px;"
-                      >
-                        <i class="fas fa-search text-white"></i>
-                      </button>
+                        <input 
+                            type="text" 
+                            name="q" 
+                            class="form-control border-0 rounded-start-pill px-3" 
+                            placeholder="Search for specific products, categories, tastings etc" 
+                        >
+                        <button 
+                            class="btn btn-black border-0 rounded-end-pill" 
+                            type="submit"
+                        >
+                            <i class="fas fa-search text-white"></i>
+                        </button>
                     </form>
                   </div>
-                    {% endif %}
+                  {% endif %}
               
                   <!-- Cart and Account Options -->
                   <div class="d-flex align-items-center ms-auto">

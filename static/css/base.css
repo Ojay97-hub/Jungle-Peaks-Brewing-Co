@@ -57,6 +57,42 @@ main {
     text-decoration: underline;
 }
 
+/* BRAND LOGO */
+.jungle-peaks-logo {
+    font-size: 2.8rem; /* Make it bigger */
+    font-weight: bold;
+    text-transform: uppercase;
+    font-family: 'Righteous', sans-serif; /* Custom Google Font */
+    color: #FFD700; /* Neon Gold */
+    text-shadow: 0px 0px 15px rgba(255, 215, 0, 1);
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between icon & text */
+    animation: neonGlow 2s infinite alternate;
+}
+
+/* Neon Flicker Animation */
+@keyframes flicker {
+    0% { opacity: 1; }
+    50% { opacity: 0.8; text-shadow: 0px 0px 10px rgba(255, 215, 0, 0.9); }
+    100% { opacity: 1; }
+}
+
+@keyframes neonGlow {
+    0% { text-shadow: 0px 0px 5px rgba(255, 215, 0, 0.8); }
+    50% { text-shadow: 0px 0px 15px rgba(255, 215, 0, 1); }
+    100% { text-shadow: 0px 0px 5px rgba(255, 215, 0, 0.8); }
+}
+
+/* Add Hover Effect */
+.jungle-peaks-logo:hover {
+    color: #ffcc00; /* Brighter gold */
+    text-shadow: 0px 0px 20px rgba(255, 165, 0, 1);
+    transition: all 0.3s ease-in-out;
+}
+
+
+
 /* HEADER */
 header {
     background-color: #262626;
@@ -69,9 +105,31 @@ header {
 }
 
 /* Search Bar and Magnifying Glass */
+/* Center & Adjust Search Bar */
+.input-group-2 {
+    max-width: 700px; /* Slightly smaller for better fit */
+    width: 100%; /* Ensure it resizes properly */
+    display: flex;
+    justify-content: flex-start; /* Move it slightly left */
+}
 
-form.input-group-2 {
-    margin-left: 350px;
+/* Adjust Search Box */
+.input-group-2 input {
+    background-color: #fff;
+    color: #6c757d;
+    height: 40px;
+    font-size: 16px;
+    border-radius: 50px; /* Keeps the rounded style */
+}
+
+/* Fix Button Alignment */
+.input-group-2 button {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: -5px; /* Remove extra spacing */
 }
 
 /* Secondary header styles */
