@@ -43,8 +43,8 @@
             <!-- Core Categories as Badges -->
             <div>
                 <a href="{% url 'products' %}" class="badge custom-badge">All Products</a>
-                <a href="{% url 'products' %}?category=merchandise" class="badge custom-badge">Merchandise</a>
-                <a href="{% url 'products' %}?category=gift-sets" class="badge custom-badge">Gift Sets</a>
+                <a href="{% url 'products' %}?category=Merchandise" class="badge custom-badge">Merchandise</a>
+                <a href="{% url 'products' %}?category=Gift Sets" class="badge custom-badge">Gift Sets</a>
             </div>
     
             <!-- Dropdown for Beer Categories -->
@@ -62,15 +62,12 @@
                     {% for category in all_categories %}
                     {% if category.name != "Merchandise" and category.name != "Gift Sets" %}
                         <li>
-                            <a
-                                href="{% url 'products' %}?category={{ category.name }}"
-                                class="dropdown-item"
-                            >
+                            <a href="{% url 'products' %}?category={{ category.name|urlencode }}" class="dropdown-item">
                                 {{ category.name }}
                             </a>
                         </li>
                     {% endif %}
-                {% endfor %}
+                    {% endfor %}
                 </ul>
             </div>
     
