@@ -63,6 +63,36 @@
     gap: 8px;
 }
 
+/* Products header */
+.products-heading {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+}
+
+.products-heading::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: #FFD700;  /* Gold underline */
+    margin: 8px auto 0;
+    transition: width 0.3s ease-in-out;
+}
+
+.products-heading:hover::after {
+    width: 120px;  /* Expands when hovered */
+}
+
+.vr {
+    width: 2px;
+    height: 30px;
+    background-color: #ccc;
+}
+
 /* Custom Sort Dropdown Styles */
 .product-sort-dropdown {
     position: relative;

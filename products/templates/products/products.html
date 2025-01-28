@@ -33,8 +33,8 @@
     <div class="overlay"></div>
     <div class="container-fluid pt-5">
         <div class="row">
-            <div class="col text-center mt-3">
-                <h2 class="logo-font">Products</h2>
+            <div class="col text-center mt-1">
+                <h2 class="logo-font products-heading">Products</h2>
             </div>
         </div>
     <!-- Filter Buttons -->
@@ -46,6 +46,9 @@
                 <a href="{% url 'products' %}?category=Merchandise" class="badge custom-badge">Merchandise</a>
                 <a href="{% url 'products' %}?category=Gift Sets" class="badge custom-badge">Gift Sets</a>
             </div>
+
+                <!-- Vertical Divider -->
+            <div class="vr mx-3"></div> 
     
             <!-- Dropdown for Beer Categories -->
             <div class="dropdown">

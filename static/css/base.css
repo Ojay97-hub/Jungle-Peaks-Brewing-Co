@@ -24,12 +24,40 @@ main {
 }
 
 /* promo banner */
-.banner {
-    background-color: rgb(255, 214, 10); 
-    font: black; 
-    font-weight: bolder; 
+#delivery-banner {
+    background: #FFD700; /* Gold background */
+    color: #333;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 12px 0;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+/* Add subtle glow animation */
+@keyframes glow {
+    from {
+        box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.8);
+    }
+    to {
+        box-shadow: 0px 0px 20px rgba(255, 215, 0, 1);
+    }
+}
+
+#delivery-banner {
+    animation: glow 2s infinite alternate;
+}
+
+/* Style the clickable link */
+.promo-link {
+    text-decoration: none;
+}
+
+.promo-link:hover {
+    text-decoration: underline;
+}
+
+/* HEADER */
 header {
     background-color: #262626;
     border-bottom: 1px solid #eaeaea; 

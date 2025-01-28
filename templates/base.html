@@ -43,11 +43,16 @@
   <body>
     <header class="border-bottom">
             <!-- Top banner section -->
-        <div id="delivery-banner" class="row text-center">
-            <div class="col bg-yellow banner">
-                <p class="logo-font my-1 py-2">Free delivery on orders over £{{ free_delivery_threshold }}!</p>                
-            </div>            
-        </div>
+            <div id="delivery-banner" class="row text-center mb-3">
+              <div class="col bg-yellow banner">
+                  <p class="logo-font my-1 py-2">
+                      🚛 <a href="{% url 'products' %}" class="text-dark fw-bold promo-link">
+                          Free delivery on orders over £{{ free_delivery_threshold }}! Order now! 🎉
+                      </a>
+                      <span id="countdown"></span> ⏳
+                  </p>                
+              </div>            
+          </div>
             <!-- Main Header Section -->
             <div class="container py-2">
                 <div class="d-flex align-items-center justify-content-between">
@@ -278,6 +283,41 @@
             toast.show();
         });
     });
+
+
+    // countdown for promo banner
+    function startCountdown(hours, elementId) {
+        let now = new Date();
+        let resetTime = new Date();
+
+        // Set reset time to the next occurrence of the countdown duration
+        resetTime.setHours(resetTime.getHours() + hours, 0, 0, 0);
+
+        function updateCountdown() {
+            let currentTime = new Date();
+            let remainingTime = resetTime - currentTime;
+
+            if (remainingTime <= 0) {
+                // Reset countdown for the next cycle
+                resetTime.setHours(resetTime.getHours() + hours, 0, 0, 0);
+                remainingTime = resetTime - currentTime;
+            }
+
+            let seconds = Math.floor((remainingTime / 1000) % 60);
+            let minutes = Math.floor((remainingTime / 1000 / 60) % 60);
+            let hoursLeft = Math.floor((remainingTime / 1000 / 60 / 60));
+
+            document.getElementById(elementId).innerHTML = `Offer ends in: ${hoursLeft}h ${minutes}m ${seconds}s`;
+
+            setTimeout(updateCountdown, 1000);
+        }
+
+        updateCountdown();
+    }
+
+    // Start a 24-hour countdown (change number to set different hours)
+    startCountdown(24, "countdown");
+
 </script>
 {% endblock %}
 
