@@ -105,12 +105,6 @@ h2.logo-font {
     width: 120px;  /* Expands when hovered */
 }
 
-.custom-vr.divider-2 { /* No space between classes */
-    max-width: 5px;
-    height: 30px; /* Adjust height to match button sizes */
-    background-color: #ffd700; /* Light gray for subtle separation */
-    opacity: 0.7; /* Slightly transparent */
-}
 
 /* Custom Sort Dropdown Styles */
 .product-sort-dropdown {
@@ -231,13 +225,19 @@ h2.logo-font {
 .filter-buttons > a,
 .filter-buttons > button {
     flex: 1 1 auto; 
-    min-width: 140px; /* Keep them a good size */
     text-align: center;
 }
 
 /* Ensure dropdowns stay close */
 .filter-buttons .dropdown {
     min-width: 160px;
+}
+
+.custom-vr.divider-2 { /* No space between classes */
+    max-width: 5px;
+    height: 30px; /* Adjust height to match button sizes */
+    background-color: #ffd700;
+    opacity: 0.7; /* Slightly transparent */
 }
 
 /* Product Card */

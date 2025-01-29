@@ -136,23 +136,42 @@
                     <i class="fas fa-bars"></i>
                 </button>
     
-                <!-- Navigation Links -->
-                <div class="collapse navbar-collapse" id="secondary-nav">
-                    <ul class="navbar-nav d-flex justify-content-center align-items-center flex-lg-row flex-column">
-                        <li class="nav-item">
-                            <a href="{% url 'home' %}" class="nav-link text-uppercase px-3 fw-bold text-white">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'products' %}" class="nav-link text-uppercase px-3 fw-bold text-white">Shop</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link text-uppercase px-3 fw-bold text-white">Taproom</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link text-uppercase px-3 fw-bold text-white">Tours & Tastings</a>
-                        </li>
-                    </ul>
-                </div>
+              <!-- Navigation Links -->
+              <div class="collapse navbar-collapse" id="secondary-nav">
+                <ul class="navbar-nav d-flex justify-content-center align-items-center flex-lg-row flex-column">
+                    <li class="nav-item">
+                        <a href="{% url 'home' %}"
+                          class="nav-link-2 text-uppercase px-3 fw-bold text-white
+                          {% if request.resolver_match.url_name == 'home' %} active{% endif %}">
+                            Home
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="{% url 'products' %}"
+                          class="nav-link-2 text-uppercase px-3 fw-bold text-white
+                          {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %} active{% endif %}">
+                            Shop
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#"
+                          class="nav-link-2 text-uppercase px-3 fw-bold text-white
+                          {% if request.resolver_match.url_name == 'taproom' %} active{% endif %}">
+                            Taproom
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="#"
+                          class="nav-link-2 text-uppercase px-3 fw-bold text-white
+                          {% if request.resolver_match.url_name == 'tours' %} active{% endif %}">
+                            Tours & Tastings
+                        </a>
+                    </li>
+                </ul>
+              </div>
             </div>
         </nav>
     </header>
