@@ -1,0 +1,157 @@
+/* Section Padding */
+.container {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+/* Taproom Image Styling */
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Rounded Google Map */
+.map-container {
+    border-radius: 15px;  /* Adjust for roundness */
+    overflow: hidden;     /* Ensures the corners are clipped */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Optional: Adds subtle shadow */
+}
+
+/* Background for the Jungle Menu */
+.section-jungle {
+    background-color: #F4C430; /* Jungle yellow */
+    color: black;
+    padding: 50px 0;
+}
+
+/* Navigation Tabs */
+.nav-pills .nav-link {
+    color: black;
+    background-color: rgba(0, 0, 0, 0.1);
+    margin: 5px;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+.nav-pills .nav-link.active {
+    background-color: black;
+    color: white;
+}
+
+/* Menu Cards */
+.menu-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    color: black;
+    max-width: 750px;
+    margin: auto;
+}
+
+/* List Styling */
+.menu-card ul {
+    padding-left: 0;
+}
+
+.menu-card ul li {
+    margin-bottom: 10px;
+}
+/* Carousel Image Styling */
+.carousel-inner img {
+    max-height: 350px;
+    object-fit: cover;
+}
+
+/* Text Styling */
+h5 {
+    font-weight: bold;
+}
+
+/* CTA Booking Section */
+.booking-section {
+    background-color: white;
+    padding: 50px 0;
+    margin-bottom: 0; /* Prevents extra margin creating a gap */
+}
+
+.carousel-inner {
+    height: 100%;
+}
+
+.cta-card {
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.cta-card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+/* Booking Section */
+.booking-section {
+    background-color: white; /* Jungle yellow */
+    color: black;
+}
+
+/* Booking Card */
+.cta-card {
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Carousel Image Styling */
+.carousel-img {
+    height: 350px; /* Increased height */
+    object-fit: cover; /* Ensures images scale properly */
+    border-radius: 8px;
+}
+
+/* Custom Carousel Buttons */
+.custom-carousel-btn {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.6); /* Dark background */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-carousel-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8); /* Darker hover effect */
+}
+
+/* Custom Icons */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-size: 60%;
+    filter: invert(1); /* Makes arrows white */
+}
+
+/* Headings */
+h2, h3, h4 {
+    font-weight: bold;
+}
+
+p {
+    font-size: 18px;
+}
+
+/* List Styling */
+.list-unstyled {
+    padding-left: 0;
+}
+
+.list-unstyled li {
+    margin-bottom: 10px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .menu-card {
+        margin-bottom: 20px;
+    }
+}
