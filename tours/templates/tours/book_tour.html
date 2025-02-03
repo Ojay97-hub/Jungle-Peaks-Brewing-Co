@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card booking-card shadow-lg border-0 rounded-4 p-4">
+        <div class="card-body">
+            <h2 class="text-center fw-bold mb-4">📅 Book an Experience</h2>
+            <p class="text-center text-muted mb-4">
+                Select a tour and fill in your details to confirm your booking.
+            </p>
+
+            <form method="post" class="booking-form needs-validation">
+                {% csrf_token %}
+                {{ form|crispy }}  <!-- ✅ Custom Bootstrap 5 Crispy styling applied -->
+
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg shadow-sm">
+                        <i class="fas fa-check-circle"></i> Confirm Booking
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

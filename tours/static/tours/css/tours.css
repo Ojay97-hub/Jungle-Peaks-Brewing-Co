@@ -98,6 +98,40 @@
     color: #fff;
 }
 
+/* Booking Form Styling */
+.booking-card {
+    background: white;
+    max-width: 500px;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Custom Styles for Booking Form Only */
+.booking-form .form-control, 
+.booking-form .form-select {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+/* Button Enhancements */
+.booking-form .btn-primary {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border: none;
+    padding: 12px 20px;
+    font-size: 18px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.booking-form .btn-primary:hover {
+    background: linear-gradient(135deg, #0056b3, #003b75);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
 /* FAQ Section */
 .accordion-button {
     font-weight: bold;

@@ -35,7 +35,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Guided Brewery Tour</h5>
                     <p class="card-text">Join our expert guides for an in-depth look at our brewing process, from grain to glass.</p>
-                    <a href="#" class="btn custom-btn-2">Book Now</a>
+                    <a href="{% url 'book_tour_specific' tour_slug='guided' %}" class="btn custom-btn-2">Book Now</a>
                 </div>
             </div>
         </div>
@@ -45,7 +45,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Sunset Tour</h5>
                     <p class="card-text">Experience the beauty of our brewery at sunset, complete with a tasting session on our terrace.</p>
-                    <a href="#" class="btn custom-btn-2">Book Now</a>
+                    <a href="{% url 'book_tour_specific' tour_slug='sunset' %}" class="btn custom-btn-2">Book Now</a>
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@
                 <div class="card-body text-start">
                     <h5 class="card-title">Craft Beer Tasting</h5>
                     <p class="card-text">Sample a variety of our finest craft beers, each brewed with locally sourced ingredients.</p>
-                    <a href="#" class="btn custom-btn-2">Book Now</a>
+                    <a href="{% url 'book_tour_specific' tour_slug='craft_tasting' %}" class="btn custom-btn-2">Book Now</a>
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@
                 <div class="card-body text-start">
                     <h5 class="card-title">Seasonal Selection</h5>
                     <p class="card-text">Enjoy a tasting session featuring our seasonal beers, crafted with unique and exciting flavors.</p>
-                    <a href="#" class="btn custom-btn-2">Book Now</a>
+                    <a href="{% url 'book_tour_specific' tour_slug='seasonal' %}" class="btn custom-btn-2">Book Now</a>
                 </div>
             </div>
         </div>
@@ -82,7 +82,7 @@
                 <div class="card-body text-start">
                     <h5 class="card-title">Master Brewer's Session</h5>
                     <p class="card-text">Participate in an educational tasting session led by our master brewer, exploring a range of beer styles and flavors.</p>
-                    <a href="#" class="btn custom-btn-2">Book Now</a>
+                    <a href="{% url 'book_tour_specific' tour_slug='brewer_session' %}" class="btn custom-btn-2">Book Now</a>
                 </div>
             </div>
         </div>
