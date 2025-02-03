@@ -212,7 +212,8 @@
             <div class="col-md-4 mb-4">
               <h5 class="text-start fw-bold">Newsletter</h5>
               <p class="text-start">Sign up for our newsletter to stay updated on our latest brews and events.</p>
-              <form action="#" method="POST" class="d-flex align-items-center">
+              <form action="{% url 'newsletter_signup' %}" method="POST" class="d-flex align-items-center">
+                {% csrf_token %}
                 <input 
                     type="email" 
                     name="email" 
@@ -220,12 +221,10 @@
                     placeholder="Enter your email" 
                     required
                 >
-                <button 
-                  type="submit" 
-                  class="btn custom-btn">
-                  Subscribe
+                <button type="submit" class="btn custom-btn">
+                    Subscribe
                 </button>
-              </form>
+            </form>
             </div>
       
             <!-- Explore and Quick Links Section -->
