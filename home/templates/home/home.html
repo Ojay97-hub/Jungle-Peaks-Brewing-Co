@@ -8,10 +8,11 @@
 {% block content %}
 <!-- Hero Section -->
 <div class="hero-image position-relative">
-    <img src="{% static 'images/jungle-hero-image.webp' %}" class="hero-img" loading="lazy" alt="Hero Image">
-    <div class="hero-text position-absolute top-50 start-50 translate-middle text-center text-white">
-      <h1 class="display-3 fw-boldest">Jungle Peaks Brewing</h1>
-    </div>
+  <img src="{% static 'images/jungle-hero-image.webp' %}" class="hero-img" loading="lazy" alt="Hero Image">
+  <div class="hero-overlay position-absolute top-50 start-50 translate-middle text-center">
+      <h1 class="display-3 fw-boldest hero-title">Jungle Peaks Brewing</h1>
+      <p class="hero-subtitle">Crafting nature’s finest beers</p>
+  </div>
 </div>
 
 <!-- About Us Section -->
