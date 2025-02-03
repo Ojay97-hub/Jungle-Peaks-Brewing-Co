@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'tours/css/tours.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <img
+        src="{% static 'images/tours-hero.jpg' %}"
+        alt="Jungle Peaks Brewery Tours"
+        class="hero-image"
+    />
+    <div class="hero-overlay">
+        <div class="hero-content">
+            <h1 class="hero-title">Explore Our Brewery Tours & Tastings</h1>
+            <p class="hero-tagline">Discover our craft, taste our passion.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Brewery Tours Section -->
+<section class="container my-5">
+    <h2 class="fw-bold">Brewery Tours</h2>
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card tour-card">
+                <img src="{% static 'images/brewery-tours.jpg' %}" class="card-img-top" alt="Guided Brewery Tour">
+                <div class="card-body">
+                    <h5 class="card-title">Guided Brewery Tour</h5>
+                    <p class="card-text">Join our expert guides for an in-depth look at our brewing process, from grain to glass.</p>
+                    <a href="#" class="btn custom-btn-2">Book Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card tour-card">
+                <img src="{% static 'images/sunset-tours.jpg' %}" class="card-img-top" alt="Sunset Tour">
+                <div class="card-body">
+                    <h5 class="card-title">Sunset Tour</h5>
+                    <p class="card-text">Experience the beauty of our brewery at sunset, complete with a tasting session on our terrace.</p>
+                    <a href="#" class="btn custom-btn-2">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Tasting Experiences Section -->
+<section class="container my-5">
+    <h2 class="fw-bold text-start">Tasting Experiences</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card tour-card">
+                <img src="{% static 'images/craft-beer-Tastings.jpg' %}" class="card-img-top" alt="Craft Beer Tasting">
+                <div class="card-body text-start">
+                    <h5 class="card-title">Craft Beer Tasting</h5>
+                    <p class="card-text">Sample a variety of our finest craft beers, each brewed with locally sourced ingredients.</p>
+                    <a href="#" class="btn custom-btn-2">Book Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card tour-card">
+                <img src="{% static 'images/seasonal-beer.jpg' %}" class="card-img-top" alt="Seasonal Selection">
+                <div class="card-body text-start">
+                    <h5 class="card-title">Seasonal Selection</h5>
+                    <p class="card-text">Enjoy a tasting session featuring our seasonal beers, crafted with unique and exciting flavors.</p>
+                    <a href="#" class="btn custom-btn-2">Book Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card tour-card">
+                <img src="{% static 'images/master-brewer.jpg' %}" class="card-img-top" alt="Master Brewer's Session">
+                <div class="card-body text-start">
+                    <h5 class="card-title">Master Brewer's Session</h5>
+                    <p class="card-text">Participate in an educational tasting session led by our master brewer, exploring a range of beer styles and flavors.</p>
+                    <a href="#" class="btn custom-btn-2">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="container my-5">
+    <h2 class="fw-bold">Frequently Asked Questions</h2>
+    <div class="accordion" id="faqAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                    What should I wear for the tour?
+                </button>
+            </h2>
+            <div id="faq1" class="accordion-collapse collapse show">
+                <div class="accordion-body">
+                    We recommend comfortable clothing and closed-toe shoes for safety during the tour.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                    Can I bring my kids to the tasting session?
+                </button>
+            </h2>
+            <div id="faq2" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    Our tasting sessions are limited to guests aged 21 and over. Children are welcome in our taproom area.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                    How do I book a tour or tasting experience?
+                </button>
+            </h2>
+            <div id="faq3" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    You can book directly through our website or contact our customer service team for assistance.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}  
