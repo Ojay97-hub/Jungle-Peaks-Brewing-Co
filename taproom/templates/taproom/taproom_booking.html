@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %} 
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'taproom/css/taproom_booking.css' %}"> 
+
+<div class="container"> 
+    <div class="booking-page">
+        <div class="mt-5"> 
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="booking-card">
+                        <h2>📅 Book a Table</h2>
+                        <p>Fill in the details below to reserve your spot.</p>
+
+                        <form method="post" class="needs-validation">
+                            {% csrf_token %}
+                            {{ form|crispy }}  
+
+                            <div class="d-grid mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg shadow-sm">
+                                    <i class="fas fa-check-circle"></i> Confirm Booking
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+{% endblock %}

@@ -16,7 +16,7 @@ def booking(request):
             return redirect('booking_success')
     else:
         form = BookingForm()
-    return render(request, 'taproom/booking.html', {'form': form})
+    return render(request, 'taproom/taproom_booking.html', {'form': form})
 
 # booking success view
 def booking_success(request):
