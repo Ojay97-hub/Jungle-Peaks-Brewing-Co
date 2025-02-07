@@ -1,69 +1,101 @@
-/* Book a table */
-/* Apply styles to Bootstrap form fields */
-.form-control {
-padding: 12px; /* Increase padding slightly */
-border: 2px solid #ddd !important;
-border-radius: 8px !important;
-font-size: 16px;
-transition: border 0.3s ease;
+/* Centering the Booking Form */
+.custom-container-2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-/* Focus Effects (Overrides Bootstrap) */
-.form-control:focus {
-border-color: #007bff !important;
-box-shadow: 0 0 5px rgba(0, 123, 255, 0.5) !important;
-outline: none;
-}
-
-/* Improve button appearance */
-.btn-primary {
-background-color: #007bff !important;
-border-color: #007bff !important;
-font-size: 18px;
-padding: 12px;
-border-radius: 10px;
-transition: all 0.3s ease;
-}
-
-.btn-primary:hover {
-background-color: #0056b3 !important;
-box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.card {
-background: white;
-padding: 30px;
-border-radius: 15px;
-}
-
-/* Booking Success - Centered Confirmation Card */
 .booking-card {
-background: white;
-max-width: 450px;
-padding: 30px;
-border-radius: 12px;
-box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-text-align: center;
-height: 100vh;
+    background: rgba(255, 255, 255, 0.9); /* Slight transparency */
+    max-width: 500px;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    border: 2px solid #4CAF50; /* Jungle green border */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 200px;
 }
 
-/* Make Confirmation Icon More Prominent */
+/* Header Styling */
 .booking-card h2 {
-font-size: 28px;
-font-weight: bold;
+    font-size: 30px;
+    font-weight: bold;
+    color: #2d6a4f; /* Deep green */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Success Button */
-.btn-success {
-background: linear-gradient(135deg, #28a745, #1e7e34);
-border: none;
-padding: 12px 20px;
-font-size: 18px;
-border-radius: 8px;
-transition: all 0.3s ease;
+/* Decorative Jungle Elements */
+.booking-card::before {
+    content: "🌿 Jungle Peaks 🍃";
+    font-size: 22px;
+    font-weight: bold;
+    color: #1b5e20;
+    display: block;
+    margin-bottom: 10px;
 }
 
-.btn-success:hover {
-background: linear-gradient(135deg, #1e7e34, #155d27);
-box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+/* Custom Form Styling */
+.custom-form-control {
+    padding: 12px;
+    border: 2px solid #4CAF50 !important;
+    border-radius: 8px !important;
+    font-size: 16px;
+    transition: border 0.3s ease;
+    background: #f0fff4; /* Light jungle green */
+}
+
+/* Focus Effects */
+.custom-form-control:focus {
+    border-color: #007bff !important;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5) !important;
+    outline: none;
+}
+
+/* Improve Labels for Better Readability */
+label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1b5e20;
+    display: block;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+
+/* Button Styling */
+.btn-primary-3 {
+    background: linear-gradient(135deg, #2e7d32, #1b5e20) !important;
+    border-color: #1b5e20 !important;
+    font-size: 18px;
+    padding: 12px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.btn-primary-3:hover {
+    background: linear-gradient(135deg, #1b5e20, #0d3c15) !important;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Special Requests Field */
+textarea.custom-form-control {
+    height: 60px;
+    min-height: 40px;
+    max-height: 500px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .booking-card {
+        width: 90%;
+        max-width: 400px;
+    }
 }

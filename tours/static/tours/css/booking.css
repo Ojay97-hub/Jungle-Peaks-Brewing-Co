@@ -1,3 +1,4 @@
+/* Global Styles */
 .booking-page main {
     min-height: calc(100vh - 150px); /* Adjust height based on header/footer */
     padding-top: 100px; /* Push content down to avoid overlapping header */
@@ -5,6 +6,7 @@
     z-index: 1;
 }
 
+/* Booking Page Styling */
 .booking-page .booking-card {
     background: #ffffff;
     width: 90%;
@@ -14,7 +16,6 @@
     margin: 0 auto;
 }
 
-/* Ensure buttons, inputs, etc., don't override globally */
 .booking-page .form-control {
     padding: 14px;
     border: 2px solid #ddd;
@@ -29,8 +30,8 @@
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-.booking-page .btn-primary {
-    background: linear-gradient(135deg, #007bff, #0056b3);
+/* General Button Styling */
+.btn-primary {
     border: none;
     padding: 14px;
     font-size: 18px;
@@ -38,9 +39,92 @@
     font-weight: bold;
     width: 100%;
     transition: all 0.3s ease-in-out;
+    color: #fff;
+}
+
+/* Booking Page Button */
+.booking-page .btn-primary {
+    background: linear-gradient(135deg, #007bff, #0056b3);
 }
 
 .booking-page .btn-primary:hover {
     background: linear-gradient(135deg, #0056b3, #003b75);
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Tour Experience Booking Form */
+.booking-experience {
+    background: rgba(255, 255, 224, 0.95);
+    width: 90%;
+    max-width: 600px; /* Ensures it doesn't get too wide */
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+    margin: 0 auto;
+    border: 2px solid #FFD700;
+}
+
+/* Custom Styling for Dropdown */
+.booking-experience .form-select {
+    background-size: 18px;
+    padding-right: 40px;
+    font-weight: bold;
+    color: #B8860B;
+}
+
+.booking-experience h2 {
+    font-size: 30px;
+    font-weight: bold;
+    color: #B8860B;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.booking-experience label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #B8860B;
+    display: block;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+.booking-experience .form-control {
+    padding: 14px;
+    border: 2px solid #FFD700;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border 0.3s ease;
+    background: #FFF8DC;
+}
+
+.booking-experience .form-control:focus {
+    border-color: #FFA500;
+    box-shadow: 0 0 8px rgba(255, 165, 0, 0.6);
+    outline: none;
+}
+
+.booking-experience textarea.form-control {
+    height: 80px;
+    min-height: 60px;
+    max-height: 150px;
+}
+
+/* Tour Experience Booking Button */
+.booking-experience .btn-primary {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+}
+
+.booking-experience .btn-primary:hover {
+    background: linear-gradient(135deg, #FFA500, #FF8C00);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .booking-page .booking-card, .booking-experience {
+        width: 95%;
+        padding: 30px;
+    }
 }

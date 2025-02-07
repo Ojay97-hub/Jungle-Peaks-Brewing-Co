@@ -8,7 +8,7 @@
 
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="card booking-card shadow-lg border-0 rounded-4 p-4">
+    <div class="card booking-experience shadow-lg border-0 rounded-4 p-4">
         <div class="card-body">
             <h2 class="text-center fw-bold mb-4">📅 Book an Experience</h2>
             <p class="text-center text-muted mb-4">
@@ -17,7 +17,7 @@
 
             <form method="post" class="booking-form needs-validation">
                 {% csrf_token %}
-                {{ form|crispy }}  <!-- ✅ Custom Bootstrap 5 Crispy styling applied -->
+                {{ form|crispy }}
 
                 <div class="d-grid mt-4">
                     <button type="submit" class="btn btn-primary btn-lg shadow-sm">
@@ -28,4 +28,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'tours/js/booking.js' %}"></script>
 {% endblock %}
