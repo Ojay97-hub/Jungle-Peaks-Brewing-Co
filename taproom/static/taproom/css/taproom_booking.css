@@ -1,74 +1,69 @@
 /* Book a table */
 /* Apply styles to Bootstrap form fields */
 .form-control {
-    padding: 12px; /* Increase padding slightly */
-    border: 2px solid #ddd !important;
-    border-radius: 8px !important;
-    font-size: 16px;
-    transition: border 0.3s ease;
+padding: 12px; /* Increase padding slightly */
+border: 2px solid #ddd !important;
+border-radius: 8px !important;
+font-size: 16px;
+transition: border 0.3s ease;
 }
 
 /* Focus Effects (Overrides Bootstrap) */
 .form-control:focus {
-    border-color: #007bff !important;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5) !important;
-    outline: none;
+border-color: #007bff !important;
+box-shadow: 0 0 5px rgba(0, 123, 255, 0.5) !important;
+outline: none;
 }
 
 /* Improve button appearance */
 .btn-primary {
-    background-color: #007bff !important;
-    border-color: #007bff !important;
-    font-size: 18px;
-    padding: 12px;
-    border-radius: 10px;
-    transition: all 0.3s ease;
+background-color: #007bff !important;
+border-color: #007bff !important;
+font-size: 18px;
+padding: 12px;
+border-radius: 10px;
+transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-    background-color: #0056b3 !important;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Add spacing */
-.container {
-    max-width: 600px;
+background-color: #0056b3 !important;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .card {
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
+background: white;
+padding: 30px;
+border-radius: 15px;
 }
 
 /* Booking Success - Centered Confirmation Card */
 .booking-card {
-    background: white;
-    max-width: 450px;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    height: 100vh;
+background: white;
+max-width: 450px;
+padding: 30px;
+border-radius: 12px;
+box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+text-align: center;
+height: 100vh;
 }
 
 /* Make Confirmation Icon More Prominent */
 .booking-card h2 {
-    font-size: 28px;
-    font-weight: bold;
+font-size: 28px;
+font-weight: bold;
 }
 
 /* Success Button */
 .btn-success {
-    background: linear-gradient(135deg, #28a745, #1e7e34);
-    border: none;
-    padding: 12px 20px;
-    font-size: 18px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
+background: linear-gradient(135deg, #28a745, #1e7e34);
+border: none;
+padding: 12px 20px;
+font-size: 18px;
+border-radius: 8px;
+transition: all 0.3s ease;
 }
 
 .btn-success:hover {
-    background: linear-gradient(135deg, #1e7e34, #155d27);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+background: linear-gradient(135deg, #1e7e34, #155d27);
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
