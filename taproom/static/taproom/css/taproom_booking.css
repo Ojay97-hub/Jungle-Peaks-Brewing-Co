@@ -1,24 +1,20 @@
 /* Centering the Booking Form */
 .custom-container-2 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    padding-top: 50px; /* Push content down slightly */
 }
 
 .booking-card {
-    background: rgba(255, 255, 255, 0.9); /* Slight transparency */
-    max-width: 500px;
+    position: relative; /* Change from absolute to relative */
+    width: 600px;
     padding: 30px;
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 12px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
     text-align: center;
-    border: 2px solid #4CAF50; /* Jungle green border */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin-top: 200px;
+    border: 2px solid #4CAF50;
+    margin: 0 auto; /* Center horizontally */
+    margin-bottom: 60px; 
+
 }
 
 /* Header Styling */

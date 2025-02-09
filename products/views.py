@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import Q, F
 from django.db.models.functions import Lower
 
 from .models import Product, Category
@@ -22,15 +22,29 @@ def all_products(request):
         if 'sort' in request.GET:
             sortkey = request.GET['sort']
             sort = sortkey
-            if sortkey == 'name':
-                sortkey = 'lower_name'
-                products = products.annotate(lower_name=Lower('name'))
-            if sortkey == 'category':
-                sortkey = 'category__name'
+            
+            # Custom sorting mapping
+            sort_mapping = {
+                'name': 'lower_name',
+                'category': 'category__name',
+                'rating_asc': 'rating',
+                'rating_desc': '-rating',
+                'price_asc': 'price',
+                'price_desc': '-price',
+            }
+
+            if sortkey in sort_mapping:
+                sortkey = sort_mapping[sortkey]
+
+                # Special case: sorting by name requires annotation
+                if sortkey == 'lower_name':
+                    products = products.annotate(lower_name=Lower('name'))
+
             if 'direction' in request.GET:
                 direction = request.GET['direction']
-                if direction == 'desc':
+                if direction == 'desc' and not sortkey.startswith('-'):
                     sortkey = f'-{sortkey}'
+
             products = products.order_by(sortkey)
 
         if 'category' in request.GET:
@@ -51,7 +65,7 @@ def all_products(request):
 
     # Always include all categories in the context
     all_categories = Category.objects.all()
-    current_sorting = f'{sort}_{direction}'
+    current_sorting = f'{sort}_{direction}' if sort and direction else sort
 
     context = {
         'products': products,
