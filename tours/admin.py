@@ -3,7 +3,9 @@ from .models import TourBooking
 
 @admin.register(TourBooking)
 class TourBookingAdmin(admin.ModelAdmin):
-    list_display = ('name', 'tour', 'date', 'guests', 'created_at')  # ✅ Columns to display
-    list_filter = ('tour', 'date')  # ✅ Add filtering by tour and date
-    search_fields = ('name', 'email', 'phone')  # ✅ Enable search functionality
-    ordering = ('-created_at',)  # ✅ Show latest bookings first
+    list_display = ("name", "tour", "date", "guests", "status", "created_at")
+    list_filter = ("tour", "date", "status")
+    search_fields = ("name", "email")
+    ordering = ("-created_at",)
+
+

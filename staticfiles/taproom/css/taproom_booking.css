@@ -1,0 +1,97 @@
+/* Centering the Booking Form */
+.custom-container-2 {
+    padding-top: 50px; /* Push content down slightly */
+}
+
+.booking-card {
+    position: relative; /* Change from absolute to relative */
+    width: 600px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    border: 2px solid #4CAF50;
+    margin: 0 auto; /* Center horizontally */
+    margin-bottom: 60px; 
+
+}
+
+/* Header Styling */
+.booking-card h2 {
+    font-size: 30px;
+    font-weight: bold;
+    color: #2d6a4f; /* Deep green */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Decorative Jungle Elements */
+.booking-card::before {
+    content: "🌿 Jungle Peaks 🍃";
+    font-size: 22px;
+    font-weight: bold;
+    color: #1b5e20;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Custom Form Styling */
+.custom-form-control {
+    padding: 12px;
+    border: 2px solid #4CAF50 !important;
+    border-radius: 8px !important;
+    font-size: 16px;
+    transition: border 0.3s ease;
+    background: #f0fff4; /* Light jungle green */
+}
+
+/* Focus Effects */
+.custom-form-control:focus {
+    border-color: #007bff !important;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5) !important;
+    outline: none;
+}
+
+/* Improve Labels for Better Readability */
+label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1b5e20;
+    display: block;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+
+/* Button Styling */
+.btn-primary-3 {
+    background: linear-gradient(135deg, #2e7d32, #1b5e20) !important;
+    border-color: #1b5e20 !important;
+    font-size: 18px;
+    padding: 12px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.btn-primary-3:hover {
+    background: linear-gradient(135deg, #1b5e20, #0d3c15) !important;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Special Requests Field */
+textarea.custom-form-control {
+    height: 60px;
+    min-height: 40px;
+    max-height: 500px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .booking-card {
+        width: 90%;
+        max-width: 400px;
+    }
+}

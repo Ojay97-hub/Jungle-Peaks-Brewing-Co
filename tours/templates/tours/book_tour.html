@@ -7,15 +7,19 @@
 {% endblock %}
 
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center vh-100">
+<div class="container-2">
     <div class="card booking-experience shadow-lg border-0 rounded-4 p-4">
         <div class="card-body">
             <h2 class="text-center fw-bold mb-4">📅 Book an Experience</h2>
             <p class="text-center text-muted mb-4">
                 Select a tour and fill in your details to confirm your booking.
             </p>
+            <!-- ✅ Tour Availability Notice -->
+            <div class="alert alert-info text-center" id="availability-alert">
+                <strong>Availability:</strong> <span id="availability-text"></span>
+            </div>
 
-            <form method="post" class="booking-form needs-validation">
+            <form method="post" class="booking-form needs-validation" id="booking-form">
                 {% csrf_token %}
                 {{ form|crispy }}
 
@@ -28,8 +32,56 @@
         </div>
     </div>
 </div>
+
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'tours/js/booking.js' %}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("✅ Availability Script Loaded!");  
+
+        const tourDropdown = document.getElementById("id_tour");
+        const datePicker = document.getElementById("id_date");
+        const guestsInput = document.getElementById("id_guests");
+        const availabilityAlert = document.getElementById("availability-alert");
+        const availabilityText = document.getElementById("availability-text");
+        const submitButton = document.querySelector("button[type='submit']");
+
+        function checkAvailability() {
+            const selectedTour = tourDropdown.value;
+            const selectedDate = datePicker.value;
+            if (!selectedTour || !selectedDate) return;
+
+            console.log(`🔄 Checking availability for ${selectedTour} on ${selectedDate}`);
+
+            fetch(`/tours/check-availability/?tour=${selectedTour}&date=${selectedDate}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("📊 API Response:", data);
+
+                    if (data.available_slots > 0) {
+                        // ✅ Show available spots
+                        availabilityAlert.style.display = "block";
+                        availabilityText.innerHTML = `✅ ${data.available_slots} spots left!`;
+                        availabilityAlert.classList.remove("alert-danger");
+                        availabilityAlert.classList.add("alert-info");
+                        guestsInput.max = data.available_slots;
+                        submitButton.disabled = false;  // Enable submission
+                    } else {
+                        // ❌ Show fully booked message
+                        availabilityAlert.style.display = "block";
+                        availabilityText.innerHTML = "⚠️ This tour is fully booked!";
+                        availabilityAlert.classList.remove("alert-info");
+                        availabilityAlert.classList.add("alert-danger");
+                        submitButton.disabled = true;  // Disable submission
+                    }
+                })
+                .catch(error => console.error("🚨 Error fetching availability:", error));
+        }
+
+        // Listen for changes
+        tourDropdown.addEventListener("change", checkAvailability);
+        datePicker.addEventListener("change", checkAvailability);
+    });
+</script>>
 {% endblock %}
