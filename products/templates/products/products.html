@@ -88,7 +88,7 @@
             <div class="product-container col-10 offset-1">
                 <div class="row">
                     {% for product in products %}
-                    <div class="col-sm-6 col-md-6 col-lg-4 mb-4">
+                    <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
                             <div class="card h-100 border-0 shadow">
                                 <a href="{% url 'product_detail' product.id %}" class="text-decoration-none">
                                     {% if product.image_url %}
@@ -122,7 +122,7 @@
                                         <input type="hidden" name="redirect_url" value="{{ request.path }}">
                                         <div class="input-group">
                                             <button type="button" class="btn btn-sm btn-outline-secondary" onclick="decreaseQuantity(this)">−</button>
-                                            <input type="number" name="quantity" value="1" min="1" class="form-control form-control-sm text-center" style="max-width: 50px;">
+                                            <input type="number" name="quantity" value="1" min="1" class="form-control form-control-sm text-center">
                                             <button type="button" class="btn btn-sm btn-outline-secondary" onclick="increaseQuantity(this)">+</button>
                                         </div>
                                         <button type="submit" class="btn product-page-btn btn-sm ms-2">Add to Cart</button>
@@ -135,22 +135,45 @@
             </div>
         </div>
 
-        <!-- Back to Top Button -->
-        <div class="btt-button shadow rounded p-2 bg-primary mb-5">
-            <a class="btt-link d-flex justify-content-center align-items-center text-white" href="#">
-                <i class="fas fa-arrow-up"></i>
-            </a>
-        </div>
+        <!-- Back to top button -->
+        <button
+                type="button"
+                class="btn btn-danger btn-floating btn-lg"
+                id="btn-back-to-top"
+                >
+        <i class="fas fa-arrow-up"></i>
+        </button>
     </div>
 {% endblock %}
 
 {% block postloadjs %}
     {{ block.super }}
     <script type="text/javascript">
-        document.querySelector('.btt-link').addEventListener('click', function (e) {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+       //Get the button
+        let mybutton = document.getElementById("btn-back-to-top");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () {
+        scrollFunction();
+        };
+
+        function scrollFunction() {
+        if (
+            document.body.scrollTop > 20 ||
+            document.documentElement.scrollTop > 20
+        ) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+        }
+        // When the user clicks on the button, scroll to the top of the document
+        mybutton.addEventListener("click", backToTop);
+
+        function backToTop() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+        }
 
 
         function decreaseQuantity(button) {
