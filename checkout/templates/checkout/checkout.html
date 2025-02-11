@@ -49,7 +49,7 @@
                                     </div>
                                 </td>
                                 <td>{% if item.product.has_sizes %}{{ item.size|upper }}{% else %}N/A{% endif %}</td>
-                                <td><input type="number" value="{{ item.quantity }}" class="quantity-input"></td>
+                                <td>{{ item.quantity }}</td>
                                 <td>£{{ item.product.price | calc_subtotal:item.quantity }}</td>
                             </tr>
                             {% endfor %}
@@ -64,7 +64,6 @@
                     </div>
                 </div>
             </div>
-        
             <!-- Right: Payment Form -->
             <div class="col-12 col-lg-6">
                 <p class="text-muted">Please fill out the form below to complete your order</p>

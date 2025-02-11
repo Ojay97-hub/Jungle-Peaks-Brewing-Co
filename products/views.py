@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q, F
 from django.db.models.functions import Lower
 
-from .models import Product, Category
+from .models import Product, Category,  Review
 from .forms import ProductForm
 
 # Create your views here.
@@ -163,3 +163,27 @@ def delete_product(request, product_id):
     product.delete()
     messages.success(request, 'Product deleted!')
     return redirect(reverse('products'))
+
+# leave a review
+@login_required
+def add_review(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    if request.method == "POST":
+        rating = int(request.POST.get("rating"))
+        comment = request.POST.get("comment")
+        
+        if not (1 <= rating <= 5):
+            messages.error(request, "Invalid rating. Must be between 1 and 5.")
+            return redirect('product_detail', product_id=product.id)
+        
+        Review.objects.create(
+            product=product,
+            user=request.user,
+            rating=rating,
+            comment=comment
+        )
+        product.update_rating()
+        messages.success(request, "Review submitted successfully!")
+        return redirect('product_detail', product_id=product.id)
+
+    return redirect('product_detail', product_id=product.id)

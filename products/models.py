@@ -1,8 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
 class Category(models.Model):
-    
     class Meta:
         verbose_name_plural = 'Categories'
         
@@ -33,5 +32,26 @@ class Product(models.Model):
     image_url = models.URLField(max_length=1024, null=True, blank=True)
     image = models.ImageField(null=True, blank=True)
 
+    def update_rating(self):
+        """Calculate and update the product's average rating based on reviews."""
+        reviews = self.reviews.all()
+        if reviews.exists():
+            self.rating = sum(review.rating for review in reviews) / reviews.count()
+        else:
+            self.rating = None
+        self.save()
+
     def __str__(self):
         return self.name
+
+
+class Review(models.Model):
+    """Model for user-submitted product reviews."""
+    product = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])  # Rating from 1 to 5
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Review by {self.user.username} - {self.rating}/5"
