@@ -9,28 +9,28 @@
 
 <!-- Taproom Section -->
 <section class="container my-5">
-    <div class="row align-items-center">
-        <div class="col-md-7 px-4">
+    <div class="taproom-grid">
+        <!-- Text Block -->
+        <div class="taproom-text">
             <h2 class="fw-bold">Our Taproom</h2>
-            <p class="text-justify">
+            <p>
                 Step into the heart of <strong>Jungle Peaks Brewing</strong>'s welcoming atmosphere, where every corner tells a story of craft beer and community.
                 Our taproom is a warm and inviting space that blends rustic charm with modern design, perfect for a casual drink, a tour with friends, or an afternoon relaxing with a cold brew in hand.
             </p>
-            <p class="text-justify">
+            <p>
                 Our taproom is designed with comfort in mind, featuring cozy seating areas, including high-top tables and booths, perfect for groups or intimate get-togethers.
                 Rustic touches like exposed brick, wood beams, and local artwork on the walls create a relaxed, earthy ambiance, making you feel at home the moment you walk in.
             </p>
-            <p class="text-justify">
-                For those looking to enjoy the great outdoors, our expansive patio area offers outdoor seating with sweeping views of the surrounding landscape—ideal for enjoying a sunny afternoon
-                with friends or joining us for one of our brewery events. Fire pits add warmth on cooler nights, creating a cozy, inviting environment for socializing or simply soaking in the peaceful surroundings.
-            </p>
-            <p class="text-justify">
+            <p>
                 Whether you're here to sample a new brew, learn about our brewing process, or simply unwind, <strong>Jungle Peaks Brewing's taproom</strong> offers a memorable experience that celebrates
                 the craft of beer, the beauty of nature, and the joy of good company.
             </p>
         </div>
-        <div class="col-md-5">
-            <img src="{% static 'images/taproom.jpg' %}" alt="Taproom Interior" class="img-fluid rounded">
+
+        <!-- Image Blocks -->
+        <div class="taproom-image-wrapper">
+            <img src="{% static 'images/taproom.jpg' %}" alt="Taproom Interior" class="taproom-image img-fluid main-image">
+            <img src="{% static 'images/taproom-2.jpg' %}" alt="Taproom Bar" class="taproom-image img-fluid overlay-image">
         </div>
     </div>
 </section>
@@ -187,7 +187,7 @@
 </section>
 
 <!-- Booking Section -->
-<section class="booking-section text-center py-5">
+<section class="booking-section text-center py-5" id="booking">
     <div class="container">
         <h3 class="fw-bold">🍽️ Make a Booking!</h3>
         <div class="row justify-content-center">

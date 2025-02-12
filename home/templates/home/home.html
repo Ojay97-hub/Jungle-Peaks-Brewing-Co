@@ -42,7 +42,7 @@
               <div class="card-body">
                   <h3 class="card-title fw-bold">Craft Beer Selection</h3>
                   <p class="card-text">Explore our diverse range of craft beers brewed with unique flavors inspired by nature.</p>
-                  <a href="#" class="btn btn-primary custom-btn-2 mt-3">Shop Now</a>
+                  <a href="{% url 'products' %}" class="btn btn-primary custom-btn-2 mt-3">Shop Now</a>
               </div>
           </div>
       </div>
@@ -52,7 +52,7 @@
               <div class="card-body">
                   <h3 class="card-title fw-bold">Merchandise</h3>
                   <p class="card-text">Discover our exclusive line of merchandise, perfect for any brewery enthusiast.</p>
-                  <a href="#" class="btn btn-primary custom-btn-2 mt-3">Explore Our Shop</a>
+                  <a href="{% url 'products' %}?category=Merchandise" class="btn btn-primary custom-btn-2 mt-3">Get our Merch</a>
               </div>
           </div>
       </div>
@@ -62,7 +62,7 @@
               <div class="card-body">
                   <h3 class="card-title fw-bold">Taproom Experience</h3>
                   <p class="card-text">Join us for an unforgettable taproom experience, featuring our latest brews.</p>
-                  <a href="#" class="btn btn-primary custom-btn-2 mt-3">Book a Tour</a>
+                  <a href="{% url 'taproom' %}#booking" class="btn btn-primary custom-btn-2 mt-3">Book a Table</a>
               </div>
           </div>
       </div>
