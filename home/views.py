@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.contrib import messages
 from .forms import NewsletterForm
 from .models import NewsletterSubscriber
@@ -22,6 +24,7 @@ def newsletter_signup(request):
                 form.save()
                 messages.success(request, "Thank you for subscribing!")
             
-            return redirect("home")  # Change this to your homepage name
+              # Redirect properly to ensure messages persist
+            return HttpResponseRedirect(reverse("home"))
 
     return redirect("home")  # Redirect back if accessed directly

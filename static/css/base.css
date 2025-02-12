@@ -103,31 +103,38 @@ header {
 }
 
 /* Search Bar and Magnifying Glass */
-/* Center & Adjust Search Bar */
+/* Search Bar Container */
+/* Position search button inside the input field */
 .input-group-2 {
-    max-width: 700px; /* Slightly smaller for better fit */
-    width: 100%; /* Ensure it resizes properly */
-    display: flex;
-    justify-content: flex-start; /* Move it slightly left */
+    position: relative;
+    width: 100%;
+    max-width: 700px;
 }
 
-/* Adjust Search Box */
+/* Adjust search input */
 .input-group-2 input {
-    background-color: #fff;
-    color: #6c757d;
-    height: 40px;
-    font-size: 16px;
-    border-radius: 50px; /* Keeps the rounded style */
+    width: 100%;
+    height: 45px;
+    padding-left: 15px;
+    padding-right: 50px; /* Ensure space for the icon */
+    border-radius: 50px;
 }
 
-/* Fix Button Alignment */
+/* Style search button */
 .input-group-2 button {
-    height: 40px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
     width: 40px;
+    height: 40px;
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: -5px; /* Remove extra spacing */
 }
 
 /* Secondary header styles */
@@ -226,9 +233,9 @@ nav.border-top {
 }
 
 /* Logo Font */
-.logo-font {
+.logo-font h2 {
     font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
+    font-size: 40px;
 }
 
 /* Remove the arrow for specific dropdown */
@@ -343,61 +350,6 @@ nav.border-top {
     overflow-y: auto;
 }
 
-
-/* Allauth form formatting */
-
-.allauth-form-inner-content p {
-    margin-top: 1.5rem; /* mt-4 */
-    color: #6c757d; /* text-secondary */
-}
-
-.allauth-form-inner-content input {
-    border-color: #000;
-    border-radius: 0;
-}
-
-.allauth-form-inner-content label:not([for='id_remember']) {
-    display: none;
-}
-
-.allauth-form-inner-content input::placeholder {
-    color: #aab7c4;
-}
-
-.allauth-form-inner-content button,
-.allauth-form-inner-content input[type='submit'] {
-	/* btn */
-	display: inline-block;
-    font-weight: 400;
-    color: #fff;
-    text-align: center;
-    vertical-align: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-color: #000;
-    border: 1px solid #000;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    border-radius: 0;
-
-    /* standard bootstrap btn transitions */
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}
-
-.allauth-form-inner-content button:hover,
-.allauth-form-inner-content input[type='submit']:hover {	
-	color: #fff;
-    background-color: #222;
-    border-color: #222;
-}
-
-.allauth-form-inner-content a {
-	color: #17a2b8; /* text-info */
-}
-
 /* Product Form */
 
 .btn-file {
@@ -425,8 +377,6 @@ nav.border-top {
     border-color: #dc3545;
     border-radius: 0;
 }
-
-
 
 /* Footer Section */
 .footer {
@@ -528,32 +478,225 @@ ul.list-unstyled li a {
 ul.list-unstyled li a:hover {
     color: #ffd60a;
 }
-  
+
+/* REGISTER ALLAUTH - Improved Styling */
+/* Modern Signup Page Styling */
+
+/* Modern Signup Page Styling */
+
+/* Layout Styling */
+.signup-container {
+    display: flex;
+    flex-direction: row;
+    max-width: 1400px; /* Reduce max width slightly */
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 20px; 
+    height: auto; /* Adjust height dynamically */
+    align-items: stretch; /* Ensure both sections are same height */
+}
+
+/* Ensure Form Section is Wider and Less Tall */
+.signup-form-section {
+    width: 65%; /* Reduce width slightly */
+    background: white;
+    padding: 60px; /* Reduce padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+    min-height: 450px; /* Reduce height slightly */
+    max-height: 85vh; /* Prevent excessive height */
+}
+
+/* Right Side (Image Section) - No Background Image */
+.signup-image-section {
+    width: 35%; /* Increase width slightly to balance */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 450px; /* Reduce height slightly */
+    max-height: 85vh;
+    overflow: hidden;
+}
+.signup-image-section img {
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0 8px 8px 0;
+}
+
+/* Button and Inputs Adjustments */
+.signup-form input {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #ddd;
+    font-size: 20px;
+    background-color: #97cc6524;
+    font-weight: 500;
+}
+
+.signup-form button {
+    background: #ffd60a;
+    color: black;
+    padding: 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 22px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 20px;
+}
+
+.signup-form button:hover {
+    background: black;
+    color: #ffd60a;
+}
+
+/* Align Checkbox and Label Properly */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.checkbox-container input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* Responsive Fixes */
+@media (max-width: 992px) {
+    .signup-container {
+        flex-direction: column;
+    }
+    .signup-form-section {
+        width: 100%;
+        padding: 50px;
+        min-height: auto;
+    }
+    .signup-image-section {
+        display: none;
+    }
+
+}
+
+
+/* LOGIN PAGE ALLAUTH */
+  /* Ensure form container is centered and properly padded */
+  /* Ensure full viewport height */
+  .center-container {
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    flex-direction: column; 
+}
+
+.signin-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Style input fields */
+.signin-container input[type="email"],
+.signin-container input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #eef1f5;
+}
+
+/* Align the "Remember Me" checkbox properly */
+.signin-container .remember-me-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Add spacing between checkbox and label */
+    margin: 10px 0;
+}
+
+.signin-container input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}
+
+/* Improve button styling */
+.signin-container .button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Home button */
+.signin-container .btn-outline-black {
+    flex: 1; /* Make buttons evenly spaced */
+    padding: 10px;
+    border: 1px solid black;
+    color: black;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+    text-align: center;
+}
+
+/* Home button hover */
+.signin-container .btn-outline-black:hover {
+    background-color: black;
+    color: white;
+}
+
+/* Sign In button */
+.signin-container button.primaryAction {
+    flex: 2; /* Make it slightly larger */
+    background-color: black;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.signin-container button.primaryAction:hover {
+    background-color: #333;
+}
+
+/* Forgot Password link */
+.signin-container a.button.secondaryAction {
+    display: block;
+    margin-top: 15px; /* Add spacing below buttons */
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.signin-container a.button.secondaryAction:hover {
+    text-decoration: underline;
+}
 
 /* ---------------------------------------- Media Queries */
-@media (max-width: 768px) {
-    form .input-group {
-        width: 100%;
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .signin-container {
+        width: 90%;
     }
 
-    form .btn {
-        width: 100%; /* Make the button full-width */
-        margin-top: 10px; /* Add spacing below the input field */
-    }
-
-    form {
-        flex-direction: column; /* Stack items vertically */
-        align-items: stretch; /* Align items to fill the container */
-    }
-
-    .form-2 .input-group-2 {
-        flex-wrap: nowrap;
-        width: 100%;
-    } 
-
-    form.form-2 {
-        flex-direction: row;
-        align-items: center; 
+    .signin-container .button-container {
+        flex-direction: column; /* Stack buttons on small screens */
     }
 }
 

@@ -65,21 +65,18 @@
           
                   {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}
                   <!-- Search Bar --> 
-                  <div class="flex-grow-1 mx-3">
-                    <form method="GET" action="{% url 'products' %}" class="input-group-2 form-2 d-flex">
-                        <input 
-                            type="text" 
-                            name="q" 
-                            class="form-control border-0 rounded-start-pill px-3" 
-                            placeholder="Search for specific products, categories, tastings etc" 
-                        >
-                        <button 
-                            class="btn btn-black border-0 rounded-end-pill" 
-                            type="submit"
-                        >
-                            <i class="fas fa-search text-white"></i>
-                        </button>
-                    </form>
+                  <div class="flex-grow-1 mx-3 search-bar-wrapper">
+                      <form method="GET" action="{% url 'products' %}" class="input-group-2 d-flex position-relative">
+                          <input 
+                              type="text" 
+                              name="q" 
+                              class="form-control border-0 px-3" 
+                              placeholder="Search for products, categories, tastings, etc." 
+                          >
+                          <button type="submit" class="btn btn-black">
+                              <i class="fas fa-search"></i>
+                          </button>
+                      </form>
                   </div>
                   {% endif %}
               
@@ -234,10 +231,10 @@
                 <div class="col-6">
                   <h5 class="text-start fw-bold">Explore</h5>
                   <ul class="list-unstyled text-start">
-                    <li><a href="/home" class="text-white text-decoration-none">Home</a></li>
-                    <li><a href="/shop" class="text-white text-decoration-none">Shop</a></li>
-                    <li><a href="/taproom" class="text-white text-decoration-none">Taproom</a></li>
-                    <li><a href="/tours" class="text-white text-decoration-none">Tours</a></li>
+                    <li><a href="{% url 'home' %}" class="text-white text-decoration-none">Home</a></li>
+                    <li><a href="{% url 'products' %}" class="text-white text-decoration-none">Shop</a></li>
+                    <li><a href="{% url 'taproom' %}" class="text-white text-decoration-none">Taproom</a></li>
+                    <li><a href="{% url 'tours' %}" class="text-white text-decoration-none">Tours</a></li>
                   </ul>
                 </div>
       
