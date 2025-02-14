@@ -1,5 +1,5 @@
 .order-history {
-    max-height: 416px; /* height of profile form + submit button */
+    max-height: 416px;
     overflow-y: auto;
 }
 
@@ -28,6 +28,7 @@
 .card:hover {
     transform: scale(1.02);
 }
+
 .btn-primary {
     border-radius: 8px;
     background-color: gold;

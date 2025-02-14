@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.contrib import messages
 from django.db.models import Sum
@@ -16,7 +17,9 @@ def book_tour(request, tour_slug=None):
     if request.method == "POST":
         form = TourBookingForm(request.POST)
         if form.is_valid():
-            booking = form.save(commit=False)  # Save but don't commit yet
+            booking = form.save(commit=False)
+            booking.user = request.user  # Link the tour booking to the logged-in user
+            booking.save()
 
             # ✅ Check availability dynamically
             selected_tour = booking.tour

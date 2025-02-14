@@ -64,10 +64,24 @@ def checkout(request):
         if order_form.is_valid():
             print("DEBUG: Order form is valid")
             order = order_form.save(commit=False)
+
+            # Ensure the order is linked to the user's profile
+            if request.user.is_authenticated:
+                try:
+                    # Get the user's profile and associate it with the order
+                    profile = UserProfile.objects.get(user=request.user)
+                    order.user_profile = profile  # Link the order to the user's profile
+                except UserProfile.DoesNotExist:
+                    print("DEBUG: UserProfile does not exist.")
+                    messages.error(request, "Profile not found. Please update your profile details.")
+                    return redirect(reverse('profile'))
+
+            # Continue with the existing logic:
             pid = request.POST.get('client_secret').split('_secret')[0]
             order.stripe_pid = pid
             order.original_bag = json.dumps(bag)
             order.save()
+
             print(f"DEBUG: Order created with order number: {order.order_number}")
 
             # Process each item in the bag

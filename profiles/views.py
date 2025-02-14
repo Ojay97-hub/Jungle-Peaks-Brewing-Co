@@ -6,6 +6,8 @@ from .forms import UserProfileForm
 
 from checkout.models import Order
 from products.models import Review
+from taproom.models import Booking  # adjust import as needed
+from tours.models import TourBooking      # adjust import as needed
 
 
 @login_required
@@ -14,6 +16,10 @@ def profile(request):
     profile = get_object_or_404(UserProfile, user=request.user)
     user_reviews = Review.objects.filter(user=request.user)  # Fetch reviews for logged-in user
     orders = profile.orders.all()  # Fetch user's order history
+    
+     # New queries for bookings:
+    table_bookings = Booking.objects.filter(user=request.user)
+    tour_bookings = TourBooking.objects.filter(user=request.user)
 
     if request.method == 'POST':
         form = UserProfileForm(request.POST, instance=profile)
@@ -29,6 +35,8 @@ def profile(request):
     context = {
         'form': form,
         'orders': orders,
+        'table_bookings': table_bookings,
+        'tour_bookings': tour_bookings,
         'reviews': user_reviews,  # Use 'reviews' instead of 'user_reviews' to match template variable
         'on_profile_page': True,
     }
