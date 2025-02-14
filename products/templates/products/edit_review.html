@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg p-4">
+                <h2 class="text-center mb-4">Edit Your Review</h2>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <!-- Star Rating System -->
+                    <div class="mb-3">
+                        <label class="form-label">Rating*</label>
+                        <div class="star-rating">
+                            <input type="radio" id="star5" name="rating" value="5" {% if form.instance.rating == 5 %}checked{% endif %}><label for="star5">★</label>
+                            <input type="radio" id="star4" name="rating" value="4" {% if form.instance.rating == 4 %}checked{% endif %}><label for="star4">★</label>
+                            <input type="radio" id="star3" name="rating" value="3" {% if form.instance.rating == 3 %}checked{% endif %}><label for="star3">★</label>
+                            <input type="radio" id="star2" name="rating" value="2" {% if form.instance.rating == 2 %}checked{% endif %}><label for="star2">★</label>
+                            <input type="radio" id="star1" name="rating" value="1" {% if form.instance.rating == 1 %}checked{% endif %}><label for="star1">★</label>
+                        </div>
+                    </div>
+
+                    <!-- Comment Field -->
+                    <div class="mb-3">
+                        {{ form.comment|as_crispy_field }}
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success px-4 py-2">Save Changes</button>
+                        <a href="{% url 'profile' %}" class="btn btn-secondary px-4 py-2">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Styling -->
+<style>
+    .card {
+        border-radius: 10px;
+        background: white;
+    }
+
+    h2 {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .star-rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+        font-size: 2rem;
+        color: lightgray;
+        cursor: pointer;
+    }
+
+    .star-rating input {
+        display: none;
+    }
+
+    .star-rating label {
+        margin: 0 5px;
+    }
+
+    .star-rating input:checked ~ label,
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+        color: gold;
+    }
+
+    button {
+        font-size: 1.1rem;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+        transition: 0.3s;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        transition: 0.3s;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+</style>
+{% endblock %}

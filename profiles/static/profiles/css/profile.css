@@ -30,7 +30,7 @@
 }
 .btn-primary {
     border-radius: 8px;
-    background-color: yellow;
+    background-color: gold;
     color: #000;
     border: none;
     padding: 10px 20px;
@@ -45,4 +45,93 @@
 }
 .collapse-content {
     display: none;
+}
+
+/* review section */
+.review-item {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.review-item:hover {
+    transform: scale(1.02);
+}
+
+.product-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.product-link:hover {
+    text-decoration: underline;
+}
+
+.star-rating {
+    color: gold;
+    font-size: 1.2rem;
+}
+
+.review-comment {
+    font-size: 0.95rem;
+    color: #555;
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.edit-btn {
+    background-color: #ffcc00;
+    border: none;
+    color: black;
+    font-weight: bold;
+}
+
+.edit-btn:hover {
+    background-color: #ffdb4d;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+    font-weight: bold;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+/* Delete pop up */
+.modal-content {
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    background-color: #dc3545;
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-secondary {
+    border: none;
 }

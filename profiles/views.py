@@ -5,12 +5,15 @@ from .models import UserProfile
 from .forms import UserProfileForm
 
 from checkout.models import Order
+from products.models import Review
 
 
 @login_required
 def profile(request):
     """ Display the user's profile. """
     profile = get_object_or_404(UserProfile, user=request.user)
+    user_reviews = Review.objects.filter(user=request.user)  # Fetch reviews for logged-in user
+    orders = profile.orders.all()  # Fetch user's order history
 
     if request.method == 'POST':
         form = UserProfileForm(request.POST, instance=profile)
@@ -21,16 +24,16 @@ def profile(request):
             messages.error(request, 'Update failed. Please ensure the form is valid.')
     else:
         form = UserProfileForm(instance=profile)
-    orders = profile.orders.all()
 
-    template = 'profiles/profile.html'
+    # Pass all required data to the template
     context = {
         'form': form,
         'orders': orders,
-        'on_profile_page': True
+        'reviews': user_reviews,  # Use 'reviews' instead of 'user_reviews' to match template variable
+        'on_profile_page': True,
     }
 
-    return render(request, template, context)
+    return render(request, 'profiles/profile.html', context)
 
 
 def order_history(request, order_number):

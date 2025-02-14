@@ -5,7 +5,7 @@ from django.db.models import Q, F
 from django.db.models.functions import Lower
 
 from .models import Product, Category,  Review
-from .forms import ProductForm
+from .forms import ProductForm, ReviewForm
 
 # Create your views here.
 
@@ -187,3 +187,34 @@ def add_review(request, product_id):
         return redirect('product_detail', product_id=product.id)
 
     return redirect('product_detail', product_id=product.id)
+
+# edit a review
+def edit_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id, user=request.user)
+    if request.method == "POST":
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')  # Redirect to the profile page after saving
+    else:
+        form = ReviewForm(instance=review)
+
+    return render(request, 'products/edit_review.html', {'form': form})
+
+# delete a review
+@login_required
+def delete_review(request, review_id):
+    """ Allow users to delete their reviews """
+    review = get_object_or_404(Review, id=review_id)
+
+    print(f"Attempting to delete review with ID: {review_id}")  # Debugging
+
+    if request.user == review.user or request.user.is_superuser:
+        review.delete()
+        print(f"Review {review_id} deleted.")  # Debugging
+        messages.success(request, "Review deleted successfully!")
+    else:
+        print(f"User {request.user} not authorised to delete review {review_id}")
+        messages.error(request, "You do not have permission to delete this review.")
+
+    return redirect("profile")
