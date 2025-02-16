@@ -200,96 +200,124 @@
         {% endblock %}
     </main>
 
-    <!-- FOOTER SECTION -->
-    <footer class="footer bg-black text-white py-5">
-        <div class="container">
+<!-- FOOTER SECTION -->
+<footer class="footer bg-black text-white py-5">
+  <div class="container">
           <!-- Main Footer Content -->
           <div class="row justify-content-between">
             <!-- Newsletter Section -->
             <div class="col-md-4 mb-4">
               <h5 class="text-start fw-bold">Newsletter</h5>
               <p class="text-start">Sign up for our newsletter to stay updated on our latest brews and events.</p>
-              <form action="{% url 'newsletter_signup' %}" method="POST" class="d-flex align-items-center">
-                {% csrf_token %}
-                <input 
-                    type="email" 
-                    name="email" 
-                    class="form-control me-2 input-lg" 
-                    placeholder="Enter your email" 
-                    required
-                >
+              <form action="{% url 'newsletter_signup' %}" method="POST" class="d-flex align-items-center" id="newsletter-form">
+                  {% csrf_token %}
+                  <input 
+                      type="email" 
+                      name="email"
+                      id="email" 
+                      class="form-control me-2 input-lg" 
+                      placeholder="Enter your email" 
+                      required
+                  >
                 <button type="submit" class="btn custom-btn">
-                    Subscribe
-                </button>
-            </form>
-            </div>
-      
-            <!-- Explore and Quick Links Section -->
+                      Subscribe
+                  </button>
+              </form>
+          </div>
+
+          <!-- Explore and Quick Links Section -->
             <div class="col-md-4">
               <div class="row">
                 <!-- Explore Section -->
                 <div class="col-6">
                   <h5 class="text-start fw-bold">Explore</h5>
                   <ul class="list-unstyled text-start">
-                    <li><a href="{% url 'home' %}" class="text-white text-decoration-none">Home</a></li>
-                    <li><a href="{% url 'products' %}" class="text-white text-decoration-none">Shop</a></li>
-                    <li><a href="{% url 'taproom' %}" class="text-white text-decoration-none">Taproom</a></li>
-                    <li><a href="{% url 'tours' %}" class="text-white text-decoration-none">Tours</a></li>
+                      <li><a href="{% url 'home' %}" class="text-white text-decoration-none">Home</a></li>
+                      <li><a href="{% url 'products' %}" class="text-white text-decoration-none">Shop</a></li>
+                      <li><a href="{% url 'taproom' %}" class="text-white text-decoration-none">Taproom</a></li>
+                      <li><a href="{% url 'tours' %}" class="text-white text-decoration-none">Tours</a></li>
                   </ul>
-                </div>
+              </div>
       
                 <!-- Quick Links Section -->
                 <div class="col-6">
                   <h5 class="text-start fw-bold">Quick Links</h5>
                   <ul class="list-unstyled text-start">
-                    <li><a href="/privacy-policy" class="text-white text-decoration-none">Privacy Policy</a></li>
-                    <li><a href="/contact-us" class="text-white text-decoration-none">Contact Us</a></li>
-                    <li><a href="/about-us" class="text-white text-decoration-none">About Us</a></li>
+                      <li><a href="/privacy-policy" class="text-white text-decoration-none">Privacy Policy</a></li>
+                      <li><a href="/contact-us" class="text-white text-decoration-none">Contact Us</a></li>
+                      <li><a href="/about-us" class="text-white text-decoration-none">About Us</a></li>
                     <li><a href="/faqs" class="text-white text-decoration-none">FAQs</a></li>
                   </ul>
-                </div>
               </div>
             </div>
-      
-            <!-- Follow Us Section -->
-            <div class="col-md-3 text-center">
-                <h5 class="fw-bold">Follow Us</h5>
-                <div class="d-flex justify-content-center gap-3 mt-3">
-                <a href="https://facebook.com" target="_blank" class="text-warning text-decoration-none">
-                    <i class="fab fa-facebook fa-2x icon"></i>
-                </a>
-                <a href="https://twitter.com" target="_blank" class="text-warning text-decoration-none">
-                    <i class="fab fa-twitter fa-2x icon"></i>
-                </a>
-                <a href="https://instagram.com" target="_blank" class="text-warning text-decoration-none">
-                    <i class="fab fa-instagram fa-2x icon"></i>
-                </a>
-                </div>
-            </div>
           </div>
-      
-          <!-- Divider and Footer Bottom -->
-          <hr class="text-white opacity-25 mt-4">
-          <div class="text-center mt-3">
-            <p class="mb-1">Jungle Peaks Brewing, 123 Craft Lane, Beer Town, BT 78910</p>
-            <p>
-              <a href="https://www.google.com/maps?q=AM-070 - Iranduba, Manaus - AM, 69405-000, Brazil"  
-                 target="_blank" 
-                 class="text-white text-decoration-none">
-                View on Google Maps
-              </a>
-            </p>
-          </div>
-        </div>
-      </footer>
-      
-      
 
+          <!-- Follow Us Section -->
+          <div class="col-md-3 text-center">
+              <h5 class="fw-bold">Follow Us</h5>
+              <div class="d-flex justify-content-center gap-3 mt-3">
+                  <a href="https://facebook.com" target="_blank" class="text-warning text-decoration-none">
+                      <i class="fab fa-facebook fa-2x icon"></i>
+                  </a>
+                  <a href="https://twitter.com" target="_blank" class="text-warning text-decoration-none">
+                      <i class="fab fa-twitter fa-2x icon"></i>
+                  </a>
+                  <a href="https://instagram.com" target="_blank" class="text-warning text-decoration-none">
+                      <i class="fab fa-instagram fa-2x icon"></i>
+                  </a>
+              </div>
+          </div>
+      </div>
+
+      <!-- Divider and Footer Bottom -->
+      <hr class="text-white opacity-25 mt-4">
+      <div class="text-center mt-3">
+          <p class="mb-1">Jungle Peaks Brewing, 123 Craft Lane, Beer Town, BT 78910</p>
+          <p>
+              <a href="https://www.google.com/maps?q=AM-070 - Iranduba, Manaus - AM, 69405-000, Brazil"  
+                  target="_blank" 
+                  class="text-white text-decoration-none">
+                  View in Google Maps
+              </a>
+          </p>
+      </div>
+  </div>
+</footer>
+
+    <!-- Newsletter Interest Pop-up -->
+    <div id="newsletter-popup" class="modal-overlay">
+      <div class="modal-card">
+          <h2 class="text-center fw-bold">🍻 Customize Your Subscription</h2>
+          <p class="text-center">Select what you're most interested in:</p>
+
+          <form id="interest-form">
+              <input type="hidden" id="subscriber_id"> <!-- Store the subscriber ID -->
+
+              <div class="checkbox-container">
+                  <label class="checkbox-label">
+                      <input type="checkbox" name="interest" value="beer"> 🍺 I'm a Beer Guy
+                  </label>
+                  <label class="checkbox-label">
+                      <input type="checkbox" name="interest" value="food"> 🍔 I'm a Foodie
+                  </label>
+                  <label class="checkbox-label">
+                      <input type="checkbox" name="interest" value="merch"> 👕 Give Me Your Merch
+                  </label>
+              </div>
+
+              <div class="text-center mt-3">
+                  <button type="submit" class="btn btn-success">Save Preferences</button>
+                  <button type="button" id="close-popup" class="btn btn-secondary">Close</button>
+              </div>
+          </form>
+      </div>
+    </div>
      
   </body>
 </html>
 
 {% block postloadjs %}
+<script src="{% static 'js/newsletter.js' %}"></script>
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
         var toastElements = document.querySelectorAll('.toast'); // Select all toast elements
