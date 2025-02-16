@@ -82,3 +82,33 @@ def check_availability(request):
     available_slots = TOUR_CAPACITY[tour] - booked_guests
 
     return JsonResponse({"available_slots": available_slots})
+
+# edit booking view
+@login_required
+def edit_booking(request, booking_id):
+    """Edit an existing tour booking."""
+    booking = get_object_or_404(TourBooking, id=booking_id, user=request.user)  # Ensure user owns the booking
+    
+    if request.method == "POST":
+        form = TourBookingForm(request.POST, instance=booking)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your tour booking has been updated successfully.")
+            return redirect("profile")  # Redirect to profile page
+    else:
+        form = TourBookingForm(instance=booking)  # Pre-fill form with booking data
+
+    return render(request, "tours/edit_booking.html", {"form": form})
+
+# cancel booking view
+@login_required
+def cancel_booking(request, booking_id):
+    """Cancel an existing tour booking."""
+    booking = get_object_or_404(TourBooking, id=booking_id, user=request.user)
+
+    if request.method == "POST":
+        booking.delete()  # Remove booking
+        messages.success(request, "Your tour booking has been successfully canceled.")
+        return redirect("profile")  # Redirect back to profile page
+
+    return render(request, "tours/cancel_booking.html", {"booking": booking})

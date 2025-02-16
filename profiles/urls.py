@@ -17,4 +17,7 @@ urlpatterns = [
     path('tours/', tour_views.tours, name='tours'),  # Corrected to use tour_views
     path('tours/book/<slug:tour_slug>/', tour_views.book_tour, name='book_tour'),
     path('tours/booking/success/<int:booking_id>/', tour_views.tour_booking_success, name='tour_booking_success'),
+    
+    # Reorder route
+    path('reorder/<int:order_id>/', views.reorder, name='reorder'),
 ]

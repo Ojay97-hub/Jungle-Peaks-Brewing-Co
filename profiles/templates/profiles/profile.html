@@ -9,10 +9,10 @@
     <div class="container my-5">
         <h2 class="text-center logo-font mb-4">My Profile</h2>
 
-        <div class="row">
+        <div class="row g-4">
             <!-- Order History -->
-            <div class="col-md-6 col-lg-3">
-                <div class="card p-3 shadow">
+            <div class="col-md-6 col-lg-4">
+                <div class="card p-3 shadow rounded">
                     <h5 class="card-title">Order History</h5>
                     <div class="order-history table-responsive">
                         <table class="table table-sm table-borderless">
@@ -20,15 +20,21 @@
                                 <tr>
                                     <th>Order</th>
                                     <th>Date</th>
-                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for order in orders %}
                                     <tr>
-                                        <td><a href="{% url 'order_history' order.order_number %}" class="text-primary">{{ order.order_number|truncatechars:6 }}</a></td>
-                                        <td>{{ order.date }}</td>
-                                        <td>{{ order.status }}</td>
+                                        <td>
+                                            <a href="{% url 'order_history' order.order_number %}" class="text-primary">
+                                                {{ order.order_number|slice:":6" }}...
+                                            </a>
+                                        </td>
+                                        <td>{{ order.date|date:"M d" }}</td>
+                                        <td>
+                                            <a href="{% url 'reorder' order.id %}" class="btn btn-sm btn-primary">Reorder</a>
+                                        </td>
                                     </tr>
                                 {% empty %}
                                     <tr><td colspan="3" class="text-center">No orders yet.</td></tr>
@@ -40,61 +46,71 @@
             </div>
 
             <!-- Bookings -->
-            <div class="col-md-6 col-lg-3">
-                <div class="card p-3 shadow">
+            <div class="col-md-6 col-lg-4">
+                <div class="card p-3 shadow rounded">
                     <h5 class="card-title">Bookings</h5>
-                    
+
                     <!-- Table Bookings -->
-                    <h6>Table Bookings</h6>
+                    <h6 class="fw-bold">Table Bookings</h6>
                     {% if table_bookings %}
                         {% for booking in table_bookings %}
-                            <div class="booking-item p-2 mb-2 border rounded bg-light">
+                            <div class="booking-item p-3 mb-3 border rounded bg-light">
                                 <strong>{{ booking.title|default:"Table Booking" }} - {{ booking.date|date:"M d, Y" }}</strong>
-                                <p>Status: <span class="badge bg-secondary">{{ booking.status|default:"Pending" }}</span></p>
-                                <div class="btn-group d-flex">
-                                    <a href="{% url 'edit_booking' booking.id %}" class="btn btn-warning flex-fill">Edit</a>
-                                    <a href="{% url 'cancel_booking' booking.id %}" class="btn btn-danger flex-fill">Cancel</a>
+                                <p>Status: 
+                                    <span class="badge {% if booking.status == 'confirmed' %}bg-success{% else %}bg-secondary{% endif %}">
+                                        {{ booking.status|default:"Pending" }}
+                                    </span>
+                                </p>
+                                <div class="d-flex gap-2">
+                                    <a href="{% url 'taproom:edit_booking' booking.id %}" class="btn btn-warning w-50">Edit</a>
+                                    <a href="{% url 'taproom:cancel_booking' booking.id %}" class="btn btn-danger w-50">Cancel</a>
                                 </div>
                             </div>
                         {% endfor %}
                     {% else %}
                         <p>No table bookings yet.</p>
                     {% endif %}
-                    <a href="{% url 'taproom_booking' %}" class="btn btn-primary mt-3">Book a Table</a>
+                    <a href="{% url 'taproom:taproom_booking' %}" class="btn btn-primary w-100 mt-2">Book a Table</a>
                     <hr>
-                    
+
                     <!-- Tour Bookings -->
-                    <h6>Tour Bookings</h6>
+                    <h6 class="fw-bold">Tour Bookings</h6>
                     {% if tour_bookings %}
                         {% for booking in tour_bookings %}
-                            <div class="booking-item p-2 mb-2 border rounded bg-light">
+                            <div class="booking-item p-3 mb-3 border rounded bg-light">
                                 <strong>{{ booking.get_tour_display }} - {{ booking.date|date:"M d, Y" }}</strong>
-                                <p>Status: <span class="badge bg-success">{{ booking.status }}</span></p>
-                                <div class="btn-group d-flex">
-                                    <a href="{% url 'edit_tour_booking' booking.id %}" class="btn btn-warning flex-fill">Edit</a>
-                                    <a href="{% url 'cancel_tour_booking' booking.id %}" class="btn btn-danger flex-fill">Cancel</a>
+                                <p>Status: 
+                                    <span class="badge {% if booking.status == 'confirmed' %}bg-success{% else %}bg-secondary{% endif %}">
+                                        {{ booking.status }}
+                                    </span>
+                                </p>
+                                <div class="d-flex gap-2">
+                                    <a href="{% url 'tour:edit_booking' booking.id %}" class="btn btn-warning w-50">Edit</a>
+                                    <a href="{% url 'tour:cancel_booking' booking.id %}" class="btn btn-danger w-50">Cancel</a>
                                 </div>
                             </div>
                         {% endfor %}
                     {% else %}
                         <p>No tour bookings yet.</p>
                     {% endif %}
-                    <a href="{% url 'tours' %}" class="btn btn-primary mt-3">Book a Tour</a>
+                    <a href="{% url 'tour:book_tour' %}" class="btn btn-primary w-100 mt-2">Book a Tour</a>
                 </div>
             </div>
 
             <!-- Review Management -->
-            <div class="col-md-6 col-lg-3">
-                <div class="card p-3 shadow">
+            <div class="col-md-6 col-lg-4">
+                <div class="card p-3 shadow rounded">
                     <h5 class="card-title">Review Management</h5>
                     {% for review in reviews %}
-                        <div class="review-item p-3 mb-3 border rounded shadow-sm">
-                            <strong>Product: <a href="{% url 'product_detail' review.product.id %}" class="product-link">{{ review.product.name }}</a></strong>
-                            <p class="mt-1">Rated: <span class="star-rating">{{ review.rating|floatformat }}/5 ★</span></p>
+                        <div class="review-item p-3 mb-3 border rounded shadow-sm bg-light">
+                            <strong>Product: 
+                                <a href="{% url 'product_detail' review.product.id %}" class="text-primary">{{ review.product.name }}</a>
+                            </strong>
+                            <p class="mt-1">Rated: <span class="star-rating">{{ review.rating|floatformat }}/5 ⭐</span></p>
                             <p class="review-comment"><i>"{{ review.comment }}"</i></p>
-                            <div class="btn-group d-flex">
-                                <a href="{% url 'edit_review' review.id %}" class="btn btn-warning flex-fill">Edit</a>
-                                <button class="btn btn-danger flex-fill delete-review" data-review-id="{{ review.id }}">Delete</button>
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'edit_review' review.id %}" class="btn btn-warning w-50">Edit</a>
+                                <button class="btn btn-danger w-50 delete-review" data-review-id="{{ review.id }}">Delete</button>
                             </div>
                         </div>
                     {% empty %}
@@ -104,15 +120,15 @@
             </div>
 
             <!-- Default Delivery Information -->
-            <div class="col-md-6 col-lg-3">
-                <div class="card p-3 shadow">
+            <div class="col-md-6 col-lg-4">
+                <div class="card p-3 shadow rounded">
                     <h5 class="card-title">Default Delivery Information</h5>
                     <button class="btn btn-primary btn-sm" onclick="toggleDeliveryInfo()">Edit Delivery Info</button>
                     <div id="delivery-info" class="collapse-content mt-3">
                         <form action="{% url 'profile' %}" method="POST">
                             {% csrf_token %}
                             {{ form|crispy }}
-                            <button class="btn btn-black rounded-0 text-uppercase float-right">Update Information</button>
+                            <button class="btn btn-dark rounded-0 text-uppercase float-end">Update Information</button>
                         </form>
                     </div>
                 </div>
