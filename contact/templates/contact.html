@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- Contact Us Section -->
+<section class="container my-5">
+<div class="text-center">
+    <h2 class="fw-bold">📬 Get in Touch</h2>
+    <p class="text-muted">We’d love to hear from you! Fill out the form below, and we’ll get back to you as soon as possible.</p>
+</div>
+
+<div class="row mt-4">
+    <!-- Contact Form -->
+    <div class="col-md-6">
+        <div class="card p-4 shadow-sm">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="form-label fw-bold">Your Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required placeholder="Enter your name">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-bold">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" required placeholder="Enter your email">
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label fw-bold">Your Message</label>
+                    <textarea class="form-control" id="message" name="message" rows="4" required placeholder="Write your message here..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="col-md-6">
+        <div class="p-4">
+            <h4 class="fw-bold">📍 Our Location</h4>
+            <p>Jungle Peaks Brewing Co.<br>123 Craft Beer Lane, Brewtown, USA</p>
+            
+            <h4 class="fw-bold">📞 Contact Details</h4>
+            <p>Email: <a href="mailto:info@junglepeaksbrew.com" class="text-decoration-none">info@junglepeaksbrew.com</a></p>
+            <p>Phone: <a href="tel:+1234567890" class="text-decoration-none">+1 (234) 567-890</a></p>
+
+            <h4 class="fw-bold">🕒 Business Hours</h4>
+            <p>Monday - Friday: 10 AM - 8 PM<br>Saturday - Sunday: 12 PM - 10 PM</p>
+
+            <!-- Google Map Embed (Replace with actual location) -->
+            <div class="mt-3">
+                <iframe
+                    width="100%"
+                    height="200"
+                    frameborder="0"
+                    style="border:0"
+                    src="https://www.google.com/maps/embed/v1/place?key=YOUR_GOOGLE_MAPS_API_KEY&q=Jungle+Peaks+Brewing"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- FAQs Section -->
+<section class="container my-5" id="faqs">
+    <h2 class="fw-bold text-center">❓ Frequently Asked Questions</h2>
+    <p class="text-muted text-center">Find quick answers to common questions about our brewery tours, tastings, and more.</p>
+
+    <div class="accordion mt-4" id="faqAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                    What are your operating hours?
+                </button>
+            </h2>
+            <div id="faq1" class="accordion-collapse collapse show">
+                <div class="accordion-body">
+                    We are open from <strong>Monday - Friday: 10 AM - 8 PM</strong> and <strong>Saturday - Sunday: 12 PM - 10 PM</strong>.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                    How do I book a brewery tour?
+                </button>
+            </h2>
+            <div id="faq2" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    You can book a tour directly through our website on the <a href="{% url 'tour:tours' %}">Brewery Tours</a> page, or visit us in person to check availability.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                    Can I bring my kids to the brewery?
+                </button>
+            </h2>
+            <div id="faq3" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    Yes! Families are welcome at Jungle Peaks Brewing, but our tasting sessions are restricted to guests **21+**.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                    Do you serve food at the brewery?
+                </button>
+            </h2>
+            <div id="faq4" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    Yes, we have a delicious selection of locally sourced snacks and food pairings to complement your craft beer experience.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
