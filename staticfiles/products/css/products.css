@@ -240,11 +240,43 @@ h2.logo-font {
     opacity: 0.7; /* Slightly transparent */
 }
 
+/* products container */
+.product-container {
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+.product-container .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 20px;
+}
+
+/* Bootstrap Grid Fix */
+.product-container .col-md-12 {
+    display: flex;
+    justify-content: center;
+}
+
+/* Ensuring consistent spacing */
+.product-container .col-lg-4 {
+    flex: 1 1 30%; /* Flexible width for large screens */
+    max-width: 33.333%; /* Ensures 3 items per row */
+    min-width: 400px; /* Prevents squishing on smaller screens */
+}
+
 /* Product Card */
 .card {
     border-radius: 12px;
     overflow: hidden;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    min-width: 320px; /* Ensures the card doesn’t get too small */
+    max-width: 450px; /* Ensures it doesn’t stretch too much */
+    flex: 1 1 32%; /* Allows responsiveness */
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
 }
 
 .card:hover {
@@ -254,8 +286,8 @@ h2.logo-font {
 
 .card-img-top {
     border-bottom: 1px solid #ddd;
-    height: 300px; /* Increased height for larger images */
-    object-fit: contain; /* Ensures the entire product fits */
+    height: 300px;
+    object-fit: contain;
 }
 
 .card-title {
@@ -272,19 +304,34 @@ h2.logo-font {
 /* Card Footer */
 .card-footer {
     padding: 10px 15px;
+    min-height: 65px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 10px;
 }
 
 /* Custom Button for Product Page */
 .product-page-btn {
-    font-size: 0.85rem;
-    background-color: #000; /* Black button */
-    color: #ffcc00; /* Yellow text */
+    font-size: 1rem;
+    background-color: #000;
+    color: #ffcc00;
     border: none;
     border-radius: 5px;
-    padding: 8px 15px;
+    padding: 10px 15px;
     font-weight: bold;
     text-transform: uppercase;
     transition: all 0.3s ease-in-out;
+    width: 100%;
+    min-width: 140px;
+    max-width: 160px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    text-align: center;
 }
 
 .product-page-btn:hover {
@@ -294,6 +341,43 @@ h2.logo-font {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
+/* quantity buttons */
+.input-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap; /* Prevents wrapping */
+    justify-content: center;
+    min-width: 140px; /* Prevents squishing */
+    max-width: 200px; /* Ensures it doesn't get too wide */
+}
+
+/* Number input field */
+.input-group input {
+    text-align: center;
+    max-width: 50px; /* Increases width */
+    height: 36px;
+    padding: 5px;
+    font-size: 1rem; /* Makes numbers more readable */
+}
+
+/* Decrease (-) and Increase (+) Buttons */
+.input-group button {
+    width: 40px; /* Matches input height */
+    height: 36px;
+    padding: 0;
+    text-align: center;
+    font-size: 1rem;
+}
+
+/* Back to Top Button */
+#btn-back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    z-index: 1000;
+  }
+
 /* ------------------------ MEDIA QUERIES */
 
 /* Fix layout for bigger screens */
@@ -301,6 +385,18 @@ h2.logo-font {
     .filter-buttons {
         justify-content: space-evenly; /* Space out evenly */
         max-width: 1100px;
+    }
+
+}
+
+@media (max-width: 1200px) {
+    .product-container .row {
+        justify-content: space-around;
+    }
+    
+    .card {
+        min-width: 300px;
+        flex: 1 1 45%;
     }
 }
 
@@ -352,5 +448,108 @@ h2.logo-font {
         margin: 5px 0;
         width: 100%;
         max-width: 200px;
+    }
+
+    .product-container .col-md-12 {
+        flex: 1 1 100%;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .card {
+        flex: 1 1 auto;
+        width: 90%;  /* Prevents it from being too wide */
+        max-width: 350px;  /* Ensures a reasonable max width */
+        margin: 0 auto; /* Centers the card */
+    }
+
+    .card-footer {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product-page-btn {
+        max-width: 180px;
+        margin-top: 10px;
+    }
+
+    .input-group {
+        min-width: 160px; /* Gives more space */
+        max-width: 220px;
+        justify-content: space-between;
+    }
+
+    .input-group input {
+        max-width: 60px; /* Allows more room for numbers */
+    }
+
+    .input-group button {
+        width: 45px; /* Slightly bigger for easier clicking */
+    }
+}
+
+/* small mobiles */
+@media screen and (max-width: 450px) {
+    .product-container {
+        max-width: 100%;
+        overflow-x: hidden;
+        padding: 0 10px; /* Prevents excessive spacing */
+    }
+    
+    .product-container .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .product-container .col-lg-4 {
+        flex: 1 1 100%; /* Forces each product card to take full width */
+        max-width: 100%;
+    }
+
+    /* Make product card smaller */
+    .card {
+        width: 90%;
+        max-width: 150px;
+        margin: 0 auto;
+        padding: 10px;
+    }
+
+    /* Hide non-essential details */
+    .card-text, /* Hide product description */
+    .star-rating, /* Hide star rating */
+    .product-category { /* Hide category text */
+        display: none;
+    }
+
+    /* Keep essential details visible */
+    .card-title {
+        font-size: 14px; /* Reduce title size */
+    }
+
+    /* Resize buttons */
+    .product-page-btn {
+        font-size: 12px;
+        padding: 6px 8px;
+        max-width: 100px;
+        height: 35px;
+    }
+
+    /* Adjust quantity selector */
+    .input-group {
+        min-width: 100px;
+    }
+
+    .input-group button {
+        width: 30px;
+        height: 28px;
+        font-size: 12px;
+    }
+
+    .input-group input {
+        max-width: 40px;
+        height: 28px;
+        font-size: 12px;
     }
 }

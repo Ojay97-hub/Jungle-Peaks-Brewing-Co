@@ -1,0 +1,106 @@
+/* Mobile Header Styles - Applies ONLY to small screens */
+@media screen and (max-width: 768px) {
+    /* Ensure header is responsive */
+    header {
+        background-color: #111;
+        color: #fff;
+        padding: 10px 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+    }
+
+    /* Delivery Banner */
+    #delivery-banner {
+        background: #ffd700;
+        color: #000;
+        font-size: 14px;
+        text-align: center;
+        padding: 5px 10px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    #delivery-banner p {
+        margin: 0;
+        white-space: nowrap;
+    }
+
+    /* Brand Logo */
+    .jungle-peaks-logo {
+        font-size: 20px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    /* Navbar Items (Cart, Profile, Menu) */
+    .navbar-icons {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .navbar-icons a {
+        color: white;
+        font-size: 20px;
+        transition: 0.3s ease-in-out;
+    }
+
+    .navbar-icons a:hover {
+        color: #ffd700;
+    }
+
+    /* Navigation Menu */
+    .navbar-toggler {
+        background: transparent;
+        border: none;
+        font-size: 22px;
+        color: white;
+        cursor: pointer;
+    }
+
+    .navbar-nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: #222;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        padding: 10px 0;
+    }
+
+    .navbar-nav.active {
+        display: flex;
+    }
+
+    .nav-item {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-link {
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 10px 0;
+        width: 100%;
+        text-transform: uppercase;
+        transition: 0.3s;
+    }
+
+    .nav-link:hover {
+        background: #ffd700;
+        color: black;
+    }
+}

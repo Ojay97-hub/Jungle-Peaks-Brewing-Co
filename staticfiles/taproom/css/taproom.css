@@ -4,13 +4,62 @@
     padding-bottom: 40px;
 }
 
-/* Taproom Image Styling */
-.img-fluid {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
+/* taproom image */
+.taproom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two-column layout */
+    gap: 40px;
+    align-items: center;
+    max-width: 1400px;
+    margin: auto;
 }
 
+/* Keep the text aligned properly */
+.taproom-text {
+    grid-column: 1;
+    max-width: 600px;
+}
+
+.taproom-image-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 700px; /* Adjust for better scaling */
+}
+
+/* Main (background) image */
+.main-image {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.15);
+    position: relative;
+    transition: transform 0.3s ease-in-out, z-index 0.3s;
+    z-index: 1; /* Initially behind */
+}
+
+/* Overlay (foreground) image */
+.overlay-image {
+    position: absolute;
+    bottom: -40px;
+    right: -50px;
+    width: 60%;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.15);
+    transform: rotate(-2deg);
+    transition: transform 0.3s ease-in-out, z-index 0.3s;
+    z-index: 2; /* Initially in front */
+}
+
+/* When hovering over the main (background) image */
+.main-image:hover {
+    z-index: 3; /* Bring to front */
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* When hovering over the overlay (foreground) image */
+.overlay-image:hover {
+    z-index: 3; /* Bring it to the front */
+    transform: scale(1.1) rotate(0deg); /* Enlarge and reset rotation */
+}
 /* Rounded Google Map */
 .map-container {
     border-radius: 15px;  /* Adjust for roundness */
@@ -92,7 +141,7 @@ h5 {
 
 /* Booking Section */
 .booking-section {
-    background-color: white; /* Jungle yellow */
+    background-color: white;
     color: black;
 }
 
@@ -150,84 +199,117 @@ p {
 }
 
 
-/* Book a table */
-/* Apply styles to Bootstrap form fields */
-.form-control {
-    padding: 12px; /* Increase padding slightly */
-    border: 2px solid #ddd !important;
-    border-radius: 8px !important;
-    font-size: 16px;
-    transition: border 0.3s ease;
+/* -------------------------------- media queries */
+/* Adjust for Extra-Large Screens (4K) */
+/* Adjust grid layout for large screens */
+@media (min-width: 2560px) { 
+    .taproom-grid {
+        grid-template-columns: 1fr 1.2fr; /* Make image column slightly bigger */
+        gap: 50px; /* Reduce gap to bring images closer to text */
+        max-width: 1800px; /* Increase max width for better layout balance */
+    }
+
+    /* Increase text area width slightly */
+    .taproom-text {
+        max-width: 750px;
+    }
+
+    /* Image wrapper - larger images */
+    .taproom-image-wrapper {
+        max-width: 700px; /* Increase image width */
+    }
+
+    /* Main image - bigger */
+    .main-image {
+        width: 100%;
+        max-width: 700px; /* Increase for better fit */
+        border-radius: 15px;
+        box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Overlay image - bigger but stays balanced */
+    .overlay-image {
+        width: 70%; /* Increase size */
+        bottom: -50px; /* Bring it down a little more */
+        right: -60px; /* Position it naturally */
+        transform: rotate(-2deg);
+    }
 }
 
-/* Focus Effects (Overrides Bootstrap) */
-.form-control:focus {
-    border-color: #007bff !important;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5) !important;
-    outline: none;
+/* Standard Desktop Fix (1920px - 2560px) */
+@media (min-width: 1920px) and (max-width: 2559px) {
+    .taproom-grid {
+        grid-template-columns: 1fr 1fr; 
+        gap: 40px; 
+        max-width: 1600px;
+    }
+
+    .taproom-text {
+        max-width: 700px;
+    }
+
+    .taproom-image-wrapper {
+        max-width: 600px;
+    }
+
+    .main-image {
+        max-width: 600px;
+    }
+
+    .overlay-image {
+        width: 65%;
+        bottom: -40px;
+        right: -50px;
+    }
 }
 
-/* Improve button appearance */
-.btn-primary {
-    background-color: #007bff !important;
-    border-color: #007bff !important;
-    font-size: 18px;
-    padding: 12px;
-    border-radius: 10px;
-    transition: all 0.3s ease;
+/* Fix for Large Laptop Screens */
+@media (max-width: 1600px) { 
+    .overlay-image {
+        bottom: -15px;
+        right: -30px;
+        width: 55%; /* Slightly smaller for better proportion */
+    }
 }
 
-.btn-primary:hover {
-    background-color: #0056b3 !important;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+@media (max-width: 1300px) and (min-width: 992px) { 
+    .taproom-image-wrapper {
+        max-width: 650px; /* Increase image container size */
+    }
+
+    .main-image {
+        max-width: 650px; /* Make the background image larger */
+    }
+
+    .overlay-image {
+        width: 65%; /* Increase the foreground image size */
+        bottom: -30px; /* Adjust position */
+        right: -40px;
+    }
 }
 
-/* Add spacing */
-.container {
-    max-width: 600px;
+/* Responsive Fixes for Smaller Screens */
+@media (max-width: 992px) {
+    .taproom-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .taproom-text {
+        max-width: 100%;
+    }
+
+    .taproom-image-wrapper {
+        max-width: 100%;
+    }
+
+    .overlay-image {
+        bottom: -20px;
+        right: -20px;
+        width: 70%;
+    }
 }
 
-.card {
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-}
-
-/* Booking Success - Centered Confirmation Card */
-.booking-card {
-    background: white;
-    max-width: 450px;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    height: 100vh;
-}
-
-/* Make Confirmation Icon More Prominent */
-.booking-card h2 {
-    font-size: 28px;
-    font-weight: bold;
-}
-
-/* Success Button */
-.btn-success {
-    background: linear-gradient(135deg, #28a745, #1e7e34);
-    border: none;
-    padding: 12px 20px;
-    font-size: 18px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-
-.btn-success:hover {
-    background: linear-gradient(135deg, #1e7e34, #155d27);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-
-
-/* Responsive Adjustments */
 @media (max-width: 768px) {
     .menu-card {
         margin-bottom: 20px;

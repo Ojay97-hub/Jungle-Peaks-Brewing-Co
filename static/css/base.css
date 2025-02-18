@@ -27,10 +27,10 @@ main {
 #delivery-banner {
     background: #FFD700; /* Gold background */
     color: #333;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: bold;
     text-align: center;
-    padding: 12px 0;
+    padding: 10px 0;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -103,25 +103,35 @@ header {
 }
 
 /* Search Bar and Magnifying Glass */
-/* Search Bar Container */
-/* Position search button inside the input field */
-.input-group-2 {
-    position: relative;
-    width: 100%;
-    max-width: 700px;
+/* Search Bar - Ensure Proper Width */
+.main-search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Ensure full width */
+    max-width: 800px; /* Increase width */
+    margin: 0 auto; /* Center the search bar */
 }
 
-/* Adjust search input */
-.input-group-2 input {
+/* Adjust input width */
+.main-search-bar .input-group-2 {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Style search input */
+.main-search-bar .input-group-2 input {
     width: 100%;
     height: 45px;
     padding-left: 15px;
-    padding-right: 50px; /* Ensure space for the icon */
+    padding-right: 50px; /* Space for icon */
     border-radius: 50px;
+    font-size: 1rem;
 }
 
 /* Style search button */
-.input-group-2 button {
+.main-search-bar .input-group-2 button {
     position: absolute;
     right: 10px;
     top: 50%;
@@ -585,7 +595,6 @@ ul.list-unstyled li a:hover {
 
 }
 
-
 /* LOGIN PAGE ALLAUTH */
   /* Ensure form container is centered and properly padded */
   /* Ensure full viewport height */
@@ -759,6 +768,111 @@ ul.list-unstyled li a:hover {
 }
 
 /* ---------------------------------------- Media Queries */
+/* Special Styling for Screens ≤ 430px */
+/* Main Search Bar - Always Visible for Screens > 400px */
+@media screen and (min-width: 436px) {
+    .main-search-bar {
+        display: flex !important;  /* Ensure visibility */
+    }
+
+    .search-bar-wrapper.inside-navbar {
+        display: none !important; 
+    }
+
+    #main-nav-toggle {
+        display: none !important;
+    }
+}
+
+/* Toggle Search Bar - Only for Screens ≤ 430px */
+@media screen and (max-width: 435px) {
+    .header-icons-wrapper {
+        display: flex;
+        justify-content: center; /* Center all items horizontally */
+        align-items: center;
+        gap: 15px; /* Adjust spacing between items */
+        width: 100%; /* Ensure it takes full width */
+    }
+
+    .navbar-toggler {
+        margin: 0 !important; /* Remove any extra margin */
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+    }
+
+    .secondary-navbar-toggler {
+        display: none !important;
+    }
+
+    .main-search-bar {
+        display: none !important; /* Hide main search bar */
+    }
+
+    .search-bar-wrapper.inside-navbar {
+        display: flex !important; /* Show search bar inside navbar */
+        width: 100%;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.9);
+        border-radius: 10px;
+        justify-content: center;
+    }
+
+    /* Ensure input field takes full width */
+    .search-bar-wrapper .input-group-2 {
+        width: 100%;
+        position: relative;
+    }
+
+    .search-bar-wrapper .form-control {
+        background-color: white;
+        border-radius: 50px;
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        padding-right: 50px; /* Ensure space for the search button */
+    }
+
+    /* Search button inside the input field */
+    .search-bar-wrapper .input-group-2 button {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 35px;
+        height: 35px;
+        background-color: black;
+        color: white;
+        border-radius: 50%;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Reduce button size for smaller screens */
+    .search-bar-wrapper .input-group-2 button i {
+        font-size: 14px;
+    }
+
+    /* promo banner */
+    #delivery-banner {
+        background: #FFD700;  /* Gold background */
+        color: #333;
+        font-size: 0.9rem;
+        text-align: center;
+        padding: 5px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #countdown-desktop {
+        display: none;
+    }
+}
+
+
 /* Responsive adjustments */
 @media (max-width: 600px) {
     .signin-container {
