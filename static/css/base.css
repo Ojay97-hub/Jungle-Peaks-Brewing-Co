@@ -490,37 +490,33 @@ ul.list-unstyled li a:hover {
 }
 
 /* REGISTER ALLAUTH - Improved Styling */
-/* Modern Signup Page Styling */
-
-/* Modern Signup Page Styling */
-
 /* Layout Styling */
 .signup-container {
     display: flex;
     flex-direction: row;
-    max-width: 1400px; /* Reduce max width slightly */
+    max-width: 1200px; /* Slightly reduce max width */
     width: 90%;
     margin: 0 auto;
-    margin-bottom: 20px; 
-    height: auto; /* Adjust height dynamically */
+    margin-bottom: 20px;
+    height: auto;
     align-items: stretch; /* Ensure both sections are same height */
+    gap: 20px; /* Add spacing between form and image */
 }
 
-/* Ensure Form Section is Wider and Less Tall */
+/* Ensure Form Section is More Compact */
 .signup-form-section {
-    width: 65%; /* Reduce width slightly */
+    flex: 2; /* Takes more space */
     background: white;
-    padding: 60px; /* Reduce padding */
+    padding: 50px; /* Reduce padding */
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: left;
     box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
-    min-height: 450px; /* Reduce height slightly */
-    max-height: 85vh; /* Prevent excessive height */
 }
 
-/* Right Side (Image Section) - No Background Image */
+/* Right Side (Image Section) */
+/* Ensure image section takes proper width */
 .signup-image-section {
     width: 35%; /* Increase width slightly to balance */
     display: flex;
@@ -530,6 +526,8 @@ ul.list-unstyled li a:hover {
     max-height: 85vh;
     overflow: hidden;
 }
+
+/* Ensure the image fits properly */
 .signup-image-section img {
     max-width: 100%;
     height: 100%;
@@ -537,26 +535,30 @@ ul.list-unstyled li a:hover {
     border-radius: 0 8px 8px 0;
 }
 
-/* Button and Inputs Adjustments */
+/* Make Inputs & Buttons More Responsive */
 .signup-form input {
     width: 100%;
-    padding: 11px;
+    padding: 12px;
     border: 1px solid #ddd;
-    font-size: 20px;
+    font-size: 18px; /* Reduce font size slightly */
     background-color: #97cc6524;
     font-weight: 500;
+    border-radius: 5px;
+    margin-bottom: 15px; /* Add spacing */
 }
 
+/* Style for the Submit Button */
 .signup-form button {
     background: #ffd60a;
     color: black;
-    padding: 18px;
+    padding: 14px;
     border: none;
-    border-radius: 8px;
-    font-size: 22px;
+    border-radius: 6px;
+    font-size: 18px; /* Reduce button size slightly */
     cursor: pointer;
     transition: background 0.3s ease;
-    margin-top: 20px;
+    margin-top: 15px;
+    width: 100%; /* Make button full width */
 }
 
 .signup-form button:hover {
@@ -568,31 +570,15 @@ ul.list-unstyled li a:hover {
 .checkbox-container {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 16px;
+    gap: 8px;
+    font-size: 14px;
     margin-top: 10px;
 }
 
 .checkbox-container input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     cursor: pointer;
-}
-
-/* Responsive Fixes */
-@media (max-width: 992px) {
-    .signup-container {
-        flex-direction: column;
-    }
-    .signup-form-section {
-        width: 100%;
-        padding: 50px;
-        min-height: auto;
-    }
-    .signup-image-section {
-        display: none;
-    }
-
 }
 
 /* LOGIN PAGE ALLAUTH */
@@ -697,8 +683,6 @@ ul.list-unstyled li a:hover {
     text-decoration: underline;
 }
 
-
-
 /* newsletter signup modal */
 /* Modal Overlay */
 .modal-overlay {
@@ -767,9 +751,67 @@ ul.list-unstyled li a:hover {
     }
 }
 
+/* 📌 Ensure product images fit correctly */
+/* 📌 Limit product image size for better responsiveness */
+.shopping-bag-mobile img {
+    max-width: 100px; /* Reduce image width */
+    height: auto;
+    display: block;
+    margin: 0 auto; /* Center the image */
+}
+
+/* 📌 Ensure the product details align properly */
+.shopping-bag-mobile .product-details {
+    text-align: left; /* Ensure text aligns correctly */
+    padding-left: 10px;
+}
+
+/* 📌 Adjust the quantity selector */
+.shopping-bag-mobile .quantity-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+/* 📌 Fix the layout of subtotal & remove link */
+.shopping-bag-mobile .subtotal-remove {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+}
+
+/* 📌 Improve spacing between items */
+.shopping-bag-mobile .bag-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+/* 📌 Adjust remove button for better alignment */
+.shopping-bag-mobile .remove-item {
+    font-size: 12px;
+    color: red;
+    text-decoration: underline;
+}
+
 /* ---------------------------------------- Media Queries */
-/* Special Styling for Screens ≤ 430px */
-/* Main Search Bar - Always Visible for Screens > 400px */
+/* Adjust for smaller screens */
+@media (max-width: 320px) {
+    .wrap-item {
+        font-size: 1rem; /* Slightly reduce font size */
+        white-space: normal; /* Allows wrapping if needed */
+        text-align: center; /* Keeps text centered */
+        line-height: 1.2; /* Improves readability */
+    }
+}
+
 @media screen and (min-width: 436px) {
     .main-search-bar {
         display: flex !important;  /* Ensure visibility */
@@ -781,6 +823,36 @@ ul.list-unstyled li a:hover {
 
     #main-nav-toggle {
         display: none !important;
+    }
+}
+
+
+/* 📌 Hide table on small screens */
+@media (max-width: 768px) {
+    .table-responsive {
+        display: none;
+    }
+
+    .shopping-bag-mobile {
+        display: block;
+    }
+
+    .bag-item {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+    }
+
+    /* Ensure buttons are properly sized */
+    .qty_input {
+        max-width: 40px;
+        text-align: center;
+    }
+
+    .increment-qty, .decrement-qty {
+        padding: 5px;
+        font-size: 12px;
     }
 }
 
@@ -872,7 +944,6 @@ ul.list-unstyled li a:hover {
     }
 }
 
-
 /* Responsive adjustments */
 @media (max-width: 600px) {
     .signin-container {
@@ -881,6 +952,61 @@ ul.list-unstyled li a:hover {
 
     .signin-container .button-container {
         flex-direction: column; /* Stack buttons on small screens */
+    }
+
+    .signup-form-section {
+        width: 100%; /* Full width */
+        padding: 30px; /* Reduce padding */
+    }
+
+    .signup-form input {
+        font-size: 16px; /* Adjust font size */
+        padding: 10px;
+    }
+
+    .signup-form button {
+        font-size: 16px;
+        padding: 12px;
+    }
+}
+
+/* 📌 Reduce spacing and improve layout for mobile */
+@media (max-width: 768px) {
+    .table thead {
+        display: none; /* Hide table headers on mobile */
+    }
+
+    .table tbody tr {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+    .table td {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    /* Center the product image */
+    .table td:first-child {
+        justify-content: center;
+    }
+
+    /* Align update/remove buttons */
+    .update-link, .remove-item {
+        font-size: 12px;
+        text-align: right;
+        display: block;
+    }
+
+    /* Adjust checkout and continue shopping buttons */
+    .btn-lg {
+        width: 100%;
+        margin-bottom: 10px;
     }
 }
 
@@ -923,6 +1049,22 @@ ul.list-unstyled li a:hover {
         padding: 1rem !important;
         margin: 0.5rem 0;
         text-align: center;
+    }
+
+    .signup-container {
+        flex-direction: column; /* Stack form and image */
+        align-items: center;
+        width: 100%;
+    }
+
+    .signup-form-section {
+        width: 90%; /* Reduce width slightly */
+        padding: 40px; /* Adjust padding */
+        min-height: auto;
+    }
+
+    .signup-image-section {
+        display: none; /* Hide image on small screens */
     }
 }
 

@@ -55,6 +55,7 @@ fieldset {
 }
 
 /* Order Summary Styling */
+/* 📌 General Order Summary Styling */
 .order-summary {
     background: #fff;
     padding: 20px;
@@ -62,6 +63,7 @@ fieldset {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* 📌 Desktop Table Styling */
 .order-table {
     width: 100%;
     border-collapse: collapse;
@@ -80,12 +82,14 @@ fieldset {
     border-bottom: 1px solid #ddd;
 }
 
+/* 📌 Desktop Product Info Layout */
 .product-info {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
+/* 📌 Ensure product images resize correctly */
 .product-image {
     width: 100px;
     height: 125px;
@@ -93,19 +97,35 @@ fieldset {
     object-fit: cover;
 }
 
+/* 📌 Reduce text size for descriptions */
 .product-subtext {
     color: gray;
     font-size: 12px;
 }
 
-.quantity-input {
-    width: 50px;
-    padding: 5px;
-    text-align: center;
-    border: 1px solid #ddd;
+/* 📌 Mobile Order Summary Layout */
+.order-summary-mobile .order-item {
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+/* 📌 Ensure text aligns correctly in mobile view */
+.order-details {
+    padding-left: 10px;
+}
+
+/* 📌 Mobile Product Image Styling */
+.order-img {
+    width: 80px;
+    height: auto;
+    object-fit: cover;
     border-radius: 5px;
 }
 
+/* 📌 Order Totals Styling (for both Desktop & Mobile) */
 .order-totals {
     text-align: right;
     font-size: 16px;
@@ -118,6 +138,15 @@ fieldset {
 .grand-total {
     font-size: 18px;
     font-weight: bold;
+}
+
+/* 📌 Quantity Input Styling */
+.quantity-input {
+    width: 50px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
 /* Button Styling */

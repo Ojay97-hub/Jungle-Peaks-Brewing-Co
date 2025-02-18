@@ -185,9 +185,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'tours' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white 
+                        <a href="{% url 'tours' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white wrap-item
                             {% if request.resolver_match.url_name == 'tours' %} active{% endif %}">
-                            Tours & Tastings
+                            Tours
                         </a>
                     </li>
                 </ul>
@@ -350,14 +350,8 @@
         toast.show();
     });
 
-    console.log("Desktop countdown:", document.getElementById("countdown-desktop"));
-    console.log("Mobile countdown:", document.getElementById("countdown-mobile"));
-
     if (document.getElementById("countdown-desktop")) {
         startCountdown(24, "countdown-desktop");
-    }
-    if (document.getElementById("countdown-mobile")) {
-        startCountdown(24, "countdown-mobile");
     }
 });
 
