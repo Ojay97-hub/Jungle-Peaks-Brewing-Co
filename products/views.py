@@ -204,17 +204,13 @@ def edit_review(request, review_id):
 # delete a review
 @login_required
 def delete_review(request, review_id):
-    """ Allow users to delete their reviews """
     review = get_object_or_404(Review, id=review_id)
 
-    print(f"Attempting to delete review with ID: {review_id}")  # Debugging
-
-    if request.user == review.user or request.user.is_superuser:
-        review.delete()
-        print(f"Review {review_id} deleted.")  # Debugging
-        messages.success(request, "Review deleted successfully!")
-    else:
-        print(f"User {request.user} not authorised to delete review {review_id}")
-        messages.error(request, "You do not have permission to delete this review.")
-
+    if request.method == "POST":
+        if request.user == review.user or request.user.is_superuser:
+            review.delete()
+            messages.success(request, "Review deleted successfully!")
+        else:
+            messages.error(request, "You do not have permission to delete this review.")
+    
     return redirect("profile")

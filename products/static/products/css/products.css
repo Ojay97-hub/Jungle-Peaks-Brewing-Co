@@ -190,21 +190,24 @@ h2.logo-font {
     transform: scale(1.1);
 }
 
-/* Dropdown Menu */
-.dropdown-menu {
+/* 🍺 Apply custom styles to both Sort and Beer Categories dropdowns */
+.product-sort-dropdown .dropdown-menu,
+.beer-category-dropdown .dropdown-menu {
     border-radius: 10px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     background-color: #000; /* Black background */
     color: #ffcc00; /* Yellow text */
 }
 
-.dropdown-item {
+.product-sort-dropdown .dropdown-item,
+.beer-category-dropdown .dropdown-item {
     color: #ffcc00; /* Yellow text */
     padding: 10px 15px;
     transition: all 0.3s ease-in-out;
 }
 
-.dropdown-item:hover {
+.product-sort-dropdown .dropdown-item:hover,
+.beer-category-dropdown .dropdown-item:hover {
     background-color: #ffcc00; /* Yellow background */
     color: #000; /* Black text */
 }
@@ -502,14 +505,14 @@ h2.logo-font {
     }
 }
 
-/* small mobiles */
+
 @media screen and (max-width: 450px) {
     .product-container {
         max-width: 100%;
-        overflow-x: hidden;
         padding: 0 10px; /* Prevents excessive spacing */
+        overflow-x: hidden;
     }
-    
+
     .product-container .row {
         display: flex;
         flex-wrap: wrap;
@@ -517,28 +520,81 @@ h2.logo-font {
     }
 
     .product-container .col-lg-4 {
+        flex: 1 1 80%; /* Allow cards to be wider on small screens */
+        max-width: 80%;
+    }
+
+    /* 🎯 Ensure product cards don’t get too tiny */
+    .card {
+        width: 100%;
+        max-width: 280px; /* Ensures a good minimum size */
+        min-width: 250px; /* Prevents them from getting too small */
+        margin: 10px auto; /* Centers the card */
+        padding: 15px;
+    }
+
+    /* 🎯 Adjust text and button sizes */
+    .card-title {
+        font-size: 16px; /* Slightly larger title */
+    }
+
+    .card-text {
+        font-size: 14px; /* Keep descriptions readable */
+    }
+
+    /* 🎯 Adjust buttons */
+    .product-page-btn {
+        font-size: 14px;
+        padding: 8px 12px;
+        max-width: 140px;
+        height: 40px;
+    }
+
+    /* 🎯 Ensure quantity selector is usable */
+    .input-group {
+        min-width: 130px;
+        max-width: 160px;
+    }
+
+    .input-group button {
+        width: 35px;
+        height: 32px;
+        font-size: 14px;
+    }
+
+    .input-group input {
+        max-width: 45px;
+        height: 32px;
+        font-size: 14px;
+    }
+
+}
+
+/* 📌 Adjust product cards for screens below 350px */
+@media screen and (max-width: 350px) {
+    .product-container .col-lg-4 {
         flex: 1 1 100%; /* Forces each product card to take full width */
         max-width: 100%;
     }
 
-    /* Make product card smaller */
+    /* Reduce product card size */
     .card {
         width: 90%;
-        max-width: 150px;
+        max-width: 200px; /* Adjust this as needed */
         margin: 0 auto;
         padding: 10px;
     }
 
     /* Hide non-essential details */
-    .card-text, /* Hide product description */
-    .star-rating, /* Hide star rating */
+    .card-text,  /* Hide product description */
+    .star-rating,  /* Hide star rating */
     .product-category { /* Hide category text */
         display: none;
     }
 
-    /* Keep essential details visible */
+    /* Reduce the size of the product title */
     .card-title {
-        font-size: 14px; /* Reduce title size */
+        font-size: 14px;
     }
 
     /* Resize buttons */

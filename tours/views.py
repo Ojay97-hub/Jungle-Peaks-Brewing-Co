@@ -106,9 +106,13 @@ def cancel_booking(request, booking_id):
     """Cancel an existing tour booking."""
     booking = get_object_or_404(TourBooking, id=booking_id, user=request.user)
 
+    # Only allow POST requests for security
     if request.method == "POST":
-        booking.delete()  # Remove booking
+        booking.delete()
         messages.success(request, "Your tour booking has been successfully canceled.")
-        return redirect("profile")  # Redirect back to profile page
+    else:
+        messages.error(request, "Invalid request method.")
 
-    return render(request, "tours/cancel_booking.html", {"booking": booking})
+    return redirect("profile")  # Redirect back to profile page
+
+    

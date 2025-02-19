@@ -47,68 +47,134 @@
 .collapse-content {
     display: none;
 }
-
-/* review section */
-.review-item {
-    background: white;
-    padding: 15px;
+/* 🎯 Order History Container */
+.order-history-container {
+    width: 100%;
+    overflow-x: auto;
+    padding: 10px;
     border-radius: 10px;
-    transition: transform 0.2s ease-in-out;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.review-item:hover {
-    transform: scale(1.02);
+/* 🎯 Order History Table */
+.order-history-table {
+    width: 100%;
+    border-collapse: collapse; /* Removes default spacing */
+    font-size: 16px;
 }
 
-.product-link {
+/* 🎯 Table Headers */
+.order-history-table thead {
+    background: #f8f9fa;
+    font-weight: bold;
+}
+
+/* 🎯 Table Header & Cell Styling */
+.order-history-table th, 
+.order-history-table td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* 🎯 Text Links */
+.order-history-table a {
     color: #007bff;
     text-decoration: none;
     font-weight: bold;
 }
 
-.product-link:hover {
+.order-history-table a:hover {
     text-decoration: underline;
 }
 
-.star-rating {
-    color: gold;
-    font-size: 1.2rem;
-}
-
-.review-comment {
-    font-size: 0.95rem;
-    color: #555;
-    background: #f8f9fa;
-    padding: 10px;
+/* 🎯 Reorder Button */
+.reorder-btn {
+    display: inline-block;
+    background: gold;
+    color: black;
+    padding: 6px 12px;
     border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
 }
 
-.btn-group {
+.reorder-btn:hover {
+    background: #0056b3;
+    color: white;
+}
+
+/* Review Card */
+.review-item {
+    background: #f9f9f9; /* Soft background */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 15px; /* Comfortable spacing */
+    margin-bottom: 15px; /* Space between reviews */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05); /* Light shadow for depth */
+}
+
+/* Product Name Link */
+.review-item a {
+    font-weight: bold;
+    text-decoration: none;
+    color: #007bff; /* Blue color for links */
+}
+
+/* Rating Styling */
+.review-item .rating {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffc107; /* Gold color */
+}
+
+/* Review Text */
+.review-comment {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 5px;
+}
+
+/* Action Links (Edit & Delete) */
+.review-actions {
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
     margin-top: 10px;
 }
 
-.edit-btn {
-    background-color: #ffcc00;
-    border: none;
-    color: black;
-    font-weight: bold;
+.review-actions a {
+    text-decoration: none;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
 }
 
-.edit-btn:hover {
-    background-color: #ffdb4d;
+/* Edit Link */
+.review-actions .edit-link {
+    color: #d89c00; /* Gold */
+    border: 1px solid #d89c00;
+    background: rgba(216, 156, 0, 0.1);
 }
 
-.delete-btn {
-    background-color: #dc3545;
-    border: none;
-    color: white;
-    font-weight: bold;
+.review-actions .edit-link:hover {
+    background: #d89c00;
+    color: #fff;
 }
 
-.delete-btn:hover {
-    background-color: #c82333;
+/* Delete Link */
+.review-actions .delete-link {
+    color: #d9534f; /* Red */
+    border: 1px solid #d9534f;
+    background: rgba(217, 83, 79, 0.1);
+}
+
+.review-actions .delete-link:hover {
+    background: #d9534f;
+    color: #fff;
 }
 
 /* Delete pop up */
@@ -135,4 +201,108 @@
 
 .btn-secondary {
     border: none;
+}
+
+/* Booking Card */
+.booking-item {
+    background: #f9f9f9; /* Softer background */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 15px; /* Comfortable spacing */
+    margin-bottom: 15px; /* Space between bookings */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05); /* Light shadow for depth */
+}
+
+/* Booking Headers */
+.booking-item strong {
+    font-size: 1.1rem;
+    color: #333;
+}
+
+/* Status Badge */
+.badge {
+    font-size: 0.85rem;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+/* Action Links Instead of Buttons */
+.booking-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.booking-actions a {
+    text-decoration: none;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Edit Link */
+.booking-actions .edit-link {
+    color: #d89c00; /* Gold */
+    border: 1px solid #d89c00;
+    background: rgba(216, 156, 0, 0.1);
+}
+
+.booking-actions .edit-link:hover {
+    background: #d89c00;
+    color: #fff;
+}
+
+/* Cancel Link */
+.booking-actions .cancel-link {
+    color: #d9534f; /* Red */
+    border: 1px solid #d9534f;
+    background: rgba(217, 83, 79, 0.1);
+}
+
+.booking-actions .cancel-link:hover {
+    background: #d9534f;
+    color: #fff;
+}
+
+/* Special Requests */
+.special-requests {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 5px;
+}
+
+/* 📌 Responsive Design */
+@media (max-width: 768px) {
+    /* 🎯 Keep table format for better readability */
+    .order-history-table {
+        display: table;
+        width: 100%;
+    }
+
+    .order-history-table thead {
+        display: table-header-group !important; /* Ensure headers are visible */
+    }
+
+    .order-history-table tbody tr {
+        display: table-row; /* Keep normal row format */
+    }
+
+    .order-history-table td {
+        display: table-cell; /* Prevent stacking */
+        text-align: center;
+    }
+
+    /* 🎯 Ensure the reorder button is properly aligned */
+    .order-history-table td:last-child {
+        text-align: right;
+    }
+
+    .reorder-btn {
+        display: inline-block;
+        padding: 5px 10px;
+        font-size: 14px;
+    }
 }

@@ -52,12 +52,10 @@ def edit_booking(request, booking_id):
 # Cancel booking view
 @login_required
 def cancel_booking(request, booking_id):
-    """Cancel an existing taproom booking."""
+    """Allow users to cancel their booking without a confirmation page"""
     booking = get_object_or_404(Booking, id=booking_id, user=request.user)
 
-    if request.method == "POST":
-        booking.delete()  # Remove booking
-        messages.success(request, "Your taproom booking has been successfully canceled.")
-        return redirect("profile")  # Redirect back to profile page
+    booking.delete()
+    messages.success(request, "Your booking has been cancelled successfully!")
 
-    return render(request, "taproom/cancel_booking.html", {"booking": booking})
+    return redirect("profile")  # Redirect the user back to their profile

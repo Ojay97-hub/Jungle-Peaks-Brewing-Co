@@ -14,9 +14,9 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card p-3 shadow rounded">
                     <h5 class="card-title">Order History</h5>
-                    <div class="order-history table-responsive">
-                        <table class="table table-sm table-borderless">
-                            <thead class="sticky-top bg-white">
+                    <div class="order-history-container">
+                        <table class="order-history-table">
+                            <thead>
                                 <tr>
                                     <th>Order</th>
                                     <th>Date</th>
@@ -28,12 +28,12 @@
                                     <tr>
                                         <td>
                                             <a href="{% url 'order_history' order.order_number %}" class="text-primary">
-                                                {{ order.order_number|slice:":6" }}...
+                                                {{ order.order_number|slice:":4" }}...
                                             </a>
                                         </td>
                                         <td>{{ order.date|date:"M d" }}</td>
                                         <td>
-                                            <a href="{% url 'reorder' order.id %}" class="btn btn-sm btn-primary">Reorder</a>
+                                            <a href="{% url 'reorder' order.id %}" class="reorder-btn">Reorder</a>
                                         </td>
                                     </tr>
                                 {% empty %}
@@ -50,67 +50,86 @@
                 <div class="card p-3 shadow rounded">
                     <h5 class="card-title">Bookings</h5>
 
-                    <!-- Table Bookings -->
-                    <h6 class="fw-bold">Table Bookings</h6>
-                    {% if table_bookings %}
-                        {% for booking in table_bookings %}
-                            <div class="booking-item p-3 mb-3 border rounded bg-light">
-                                <strong>{{ booking.title|default:"Table Booking" }} - {{ booking.date|date:"M d, Y" }}</strong>
-                                <p>Status: 
-                                    <span class="badge {% if booking.status == 'confirmed' %}bg-success{% else %}bg-secondary{% endif %}">
-                                        {{ booking.status|default:"Pending" }}
-                                    </span>
-                                </p>
-                                <div class="d-flex gap-2">
-                                    <a href="{% url 'taproom:edit_booking' booking.id %}" class="btn btn-warning w-50">Edit</a>
-                                    <a href="{% url 'taproom:cancel_booking' booking.id %}" class="btn btn-danger w-50">Cancel</a>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <p>No table bookings yet.</p>
-                    {% endif %}
-                    <a href="{% url 'taproom:taproom_booking' %}" class="btn btn-primary w-100 mt-2">Book a Table</a>
-                    <hr>
+            <!-- Table Bookings -->
+            <h6 class="fw-bold">Table Bookings</h6>
+            {% if table_bookings %}
+                {% for booking in table_bookings %}
+                    <div class="booking-item">
+                        <strong>Booking for {{ booking.name }}</strong><br>
+                        <span>Table for {{ booking.guests }} - {{ booking.date|date:"M d, Y" }} at {{ booking.time|time:"H:i" }}</span>
+                        <p>Status: 
+                            <span class="badge {% if booking.status == 'confirmed' %}bg-success{% else %}bg-secondary{% endif %}">
+                                {{ booking.status|default:"Pending" }}
+                            </span>
+                        </p>
+                        {% if booking.special_requests %}
+                            <p class="special-requests"><strong>Special Requests:</strong> {{ booking.special_requests }}</p>
+                        {% endif %}
+                        <div class="booking-actions">
+                            <a href="{% url 'taproom:edit_booking' booking.id %}" class="edit-link">Edit</a>
+                            <form action="{% url 'taproom:cancel_booking' booking.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="cancel-link">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No table bookings yet.</p>
+            {% endif %}
+            <a href="{% url 'taproom:taproom_booking' %}" class="btn btn-primary w-100 mt-2">Book a Table</a>
+            <hr>
 
-                    <!-- Tour Bookings -->
-                    <h6 class="fw-bold">Tour Bookings</h6>
-                    {% if tour_bookings %}
-                        {% for booking in tour_bookings %}
-                            <div class="booking-item p-3 mb-3 border rounded bg-light">
-                                <strong>{{ booking.get_tour_display }} - {{ booking.date|date:"M d, Y" }}</strong>
-                                <p>Status: 
-                                    <span class="badge {% if booking.status == 'confirmed' %}bg-success{% else %}bg-secondary{% endif %}">
-                                        {{ booking.status }}
-                                    </span>
-                                </p>
-                                <div class="d-flex gap-2">
-                                    <a href="{% url 'tour:edit_booking' booking.id %}" class="btn btn-warning w-50">Edit</a>
-                                    <a href="{% url 'tour:cancel_booking' booking.id %}" class="btn btn-danger w-50">Cancel</a>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <p>No tour bookings yet.</p>
-                    {% endif %}
-                    <a href="{% url 'tour:book_tour' %}" class="btn btn-primary w-100 mt-2">Book a Tour</a>
+            <!-- Tour Bookings -->
+            <h6 class="fw-bold">Tour Bookings</h6>
+            {% if tour_bookings %}
+                {% for booking in tour_bookings %}
+                    <div class="booking-item">
+                        <strong>{{ booking.get_tour_display }} - {{ booking.date|date:"M d, Y" }}</strong>
+                        <p>Guests: <strong>{{ booking.guests }}</strong></p>
+                        <p>Status: 
+                            <span class="badge {% if booking.status == 'confirmed' %}bg-success{% else %}bg-secondary{% endif %}">
+                                {{ booking.status }}
+                            </span>
+                        </p>
+                        {% if booking.special_requests %}
+                            <p class="special-requests"><strong>Special Requests:</strong> {{ booking.special_requests }}</p>
+                        {% endif %}
+                        <div class="booking-actions">
+                            <a href="{% url 'tour:edit_booking' booking.id %}" class="edit-link">Edit</a>
+                            <form action="{% url 'tour:cancel_booking' booking.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="cancel-link">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No tour bookings yet.</p>
+            {% endif %}
+            <a href="{% url 'tour:book_tour' %}" class="btn btn-primary w-100 mt-2">Book a Tour</a>
                 </div>
             </div>
-
             <!-- Review Management -->
             <div class="col-md-6 col-lg-4">
                 <div class="card p-3 shadow rounded">
                     <h5 class="card-title">Review Management</h5>
                     {% for review in reviews %}
-                        <div class="review-item p-3 mb-3 border rounded shadow-sm bg-light">
+                        <div class="review-item">
                             <strong>Product: 
-                                <a href="{% url 'product_detail' review.product.id %}" class="text-primary">{{ review.product.name }}</a>
+                                <a href="{% url 'product_detail' review.product.id %}" class="text-primary">
+                                    {{ review.product.name }}
+                                </a>
                             </strong>
-                            <p class="mt-1">Rated: <span class="star-rating">{{ review.rating|floatformat }}/5 ⭐</span></p>
-                            <p class="review-comment"><i>"{{ review.comment }}"</i></p>
-                            <div class="d-flex gap-2">
-                                <a href="{% url 'edit_review' review.id %}" class="btn btn-warning w-50">Edit</a>
-                                <button class="btn btn-danger w-50 delete-review" data-review-id="{{ review.id }}">Delete</button>
+                            <p>Rated: <span class="rating">{{ review.rating|floatformat }}/5 ⭐</span></p>
+                            <p class="review-comment">"{{ review.comment }}"</p>
+
+                            <div class="review-actions">
+                                <a href="{% url 'edit_review' review.id %}" class="edit-link">Edit</a>
+                                <form action="{% url 'delete_review' review.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="delete-link">Delete</button>
+                                </form>
                             </div>
                         </div>
                     {% empty %}
