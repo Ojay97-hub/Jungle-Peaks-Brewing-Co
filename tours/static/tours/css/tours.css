@@ -111,3 +111,77 @@
     border-radius: 10px;
     margin-bottom: 10px;
 }
+
+/* ✅ MEDIA QUERIES FOR MOBILE */
+
+/* 📱 Tablet Screens (992px and below) */
+@media (max-width: 992px) {
+    .hero-section {
+        height: 600px; /* Reduce hero height */
+    }
+
+    .hero-overlay {
+        padding: 20px 30px; /* Reduce padding */
+        max-width: 350px;
+    }
+
+    .hero-title {
+        font-size: 2rem; /* Scale title down */
+    }
+
+    .hero-tagline {
+        font-size: 1rem;
+    }
+
+    .hero-description {
+        font-size: 0.9rem;
+    }
+}
+
+/* 📱 Mobile Screens (768px and below) */
+@media (max-width: 768px) {
+    .hero-section {
+        height: 500px; /* Further reduce hero height */
+    }
+
+    .hero-overlay {
+        padding: 15px 25px; /* Reduce padding further */
+        max-width: 300px;
+    }
+
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .hero-tagline {
+        font-size: 0.95rem;
+    }
+
+    .hero-description {
+        font-size: 0.85rem;
+    }
+}
+
+/* 📱 Small Mobile Screens (500px and below) */
+@media (max-width: 500px) {
+    .hero-section {
+        height: 400px; /* Make hero even smaller */
+    }
+
+    .hero-overlay {
+        padding: 10px 20px;
+        max-width: 270px;
+    }
+
+    .hero-title {
+        font-size: 1.5rem; /* Further scale title */
+    }
+
+    .hero-tagline {
+        font-size: 0.85rem;
+    }
+
+    .hero-description {
+        font-size: 0.8rem;
+    }
+}

@@ -201,46 +201,37 @@ p {
 
 /* -------------------------------- media queries */
 /* Adjust for Extra-Large Screens (4K) */
-/* Adjust grid layout for large screens */
 @media (min-width: 2560px) { 
     .taproom-grid {
         grid-template-columns: 1fr 1.2fr; /* Make image column slightly bigger */
-        gap: 50px; /* Reduce gap to bring images closer to text */
-        max-width: 1800px; /* Increase max width for better layout balance */
+        gap: 50px;
+        max-width: 1800px;
     }
 
-    /* Increase text area width slightly */
     .taproom-text {
         max-width: 750px;
     }
 
-    /* Image wrapper - larger images */
     .taproom-image-wrapper {
-        max-width: 700px; /* Increase image width */
+        max-width: 700px;
     }
 
-    /* Main image - bigger */
     .main-image {
-        width: 100%;
-        max-width: 700px; /* Increase for better fit */
+        max-width: 700px;
         border-radius: 15px;
-        box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.15);
     }
 
-    /* Overlay image - bigger but stays balanced */
     .overlay-image {
-        width: 70%; /* Increase size */
-        bottom: -50px; /* Bring it down a little more */
-        right: -60px; /* Position it naturally */
+        width: 70%;
+        bottom: -50px;
+        right: -60px;
         transform: rotate(-2deg);
     }
 }
 
-/* Standard Desktop Fix (1920px - 2560px) */
+/* 💻 Standard Desktop (1920px - 2559px) */
 @media (min-width: 1920px) and (max-width: 2559px) {
     .taproom-grid {
-        grid-template-columns: 1fr 1fr; 
-        gap: 40px; 
         max-width: 1600px;
     }
 
@@ -248,12 +239,9 @@ p {
         max-width: 700px;
     }
 
-    .taproom-image-wrapper {
-        max-width: 600px;
-    }
-
+    .taproom-image-wrapper,
     .main-image {
-        max-width: 600px;
+        max-width: 700px;
     }
 
     .overlay-image {
@@ -263,55 +251,66 @@ p {
     }
 }
 
-/* Fix for Large Laptop Screens */
-@media (max-width: 1600px) { 
+/* 🖥 Large Laptop Screens (1300px - 1600px) */
+@media (max-width: 1600px) and (min-width: 1300px) {
     .overlay-image {
-        bottom: -15px;
+        bottom: -20px;
         right: -30px;
-        width: 55%; /* Slightly smaller for better proportion */
+        width: 60%; /* Maintain proportion */
+        transition: all 0.3s ease-in-out; /* Smooth size transition */
     }
 }
 
-@media (max-width: 1300px) and (min-width: 992px) { 
+/* 📌 Medium Screens & Tablets (992px - 1299px) */
+@media (max-width: 1299px) and (min-width: 992px) {
     .taproom-image-wrapper {
-        max-width: 650px; /* Increase image container size */
+        max-width: 650px;
     }
 
     .main-image {
-        max-width: 650px; /* Make the background image larger */
+        max-width: 650px;
     }
 
     .overlay-image {
-        width: 65%; /* Increase the foreground image size */
-        bottom: -30px; /* Adjust position */
+        width: 65%;
+        bottom: -30px;
         right: -40px;
+        transition: all 0.3s ease-in-out;
     }
 }
 
-/* Responsive Fixes for Smaller Screens */
+/* 📱 Responsive Fixes for Small Screens (Up to 992px) */
 @media (max-width: 992px) {
     .taproom-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Make it a single-column layout */
         text-align: center;
     }
 
-    .taproom-text {
-        max-width: 100%;
-    }
-
     .taproom-image-wrapper {
-        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
+    /* Prevent overlay image from overlapping */
     .overlay-image {
-        bottom: -20px;
-        right: -20px;
-        width: 70%;
+        position: static !important;
+        width: 80%;
+        margin-top: -20px;
+        transform: none;
+        transition: all 0.3s ease-in-out;
     }
 }
 
+/* 📱 Mobile & Small Tablets (Up to 768px) */
 @media (max-width: 768px) {
     .menu-card {
         margin-bottom: 20px;
+    }
+
+    .overlay-image {
+        width: 90%;
+        margin-top: -10px;
+        transition: all 0.3s ease-in-out;
     }
 }

@@ -294,32 +294,56 @@ nav.border-top {
 /* From boutique ado walkthrough */
 /* ------------------------------- bootstrap toasts */
 
+/* ✨ Base Toast Styles */
 .message-container {
     position: fixed;
     top: 72px;
     right: 15px;
     z-index: 99999999999;
+    max-width: 400px; /* Default width */
 }
 
+/* Default Toast */
 .custom-toast {
-    overflow: visible;
+    width: 100%;
+    max-width: 350px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out;
 }
 
-.toast-capper {
-    height: 2px;
+/* Toast Header */
+.toast-header {
+    background-color: #fff;
+    color: #000;
+    font-weight: bold;
+    border-radius: 10px 10px 0 0;
 }
 
-/* from CSS-tricks.com: https://css-tricks.com/snippets/css/css-triangle/ */
-.arrow-up {
-    width: 0; 
-    height: 0; 
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent; 
-    border-bottom: 10px solid black;
-    position: absolute;
-    top: -10px;
-    right: 36px;
+/* Toast Body */
+.toast-body {
+    padding: 15px;
+    font-size: 0.9rem;
+    color: #333;
+    text-align: center;
 }
+
+/* Close Button */
+.toast .btn-close {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+/* ✅ Fix Toast Overflow */
+.bag-notification-wrapper {
+    height: 120px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+
 
 /* Convenience classes - colors copied from Bootstrap */
 .arrow-primary {
@@ -354,11 +378,7 @@ nav.border-top {
     border-bottom-color: #343a40 !important;
 }
 
-.bag-notification-wrapper {
-    height: 100px;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
+
 
 /* Product Form */
 
@@ -824,6 +844,31 @@ ul.list-unstyled li a:hover {
     #main-nav-toggle {
         display: none !important;
     }
+
+    .message-container {
+        top: 50px;
+        right: 5px;
+        left: 5px;
+        max-width: 95%;
+    }
+
+    .custom-toast {
+        font-size: 0.8rem;
+    }
+
+    .toast-body {
+        font-size: 0.8rem;
+        padding: 10px;
+    }
+
+    .toast .btn-close {
+        font-size: 0.8rem;
+    }
+
+    .bag-notification-wrapper {
+        height: 100px;
+        max-height: 120px;
+    }
 }
 
 
@@ -853,6 +898,29 @@ ul.list-unstyled li a:hover {
     .increment-qty, .decrement-qty {
         padding: 5px;
         font-size: 12px;
+    }
+
+    .message-container {
+        top: 60px;
+        right: 10px;
+        left: 10px;
+        max-width: 90%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .custom-toast {
+        max-width: 100%;
+        font-size: 0.85rem;
+    }
+
+    .toast-body {
+        padding: 12px;
+        font-size: 0.85rem;
+    }
+
+    .toast .btn-close {
+        font-size: 0.9rem;
     }
 }
 
