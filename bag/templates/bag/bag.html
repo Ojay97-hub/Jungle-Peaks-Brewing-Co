@@ -10,6 +10,7 @@
     </div>
 {% endblock %}
 
+
 {% block content %}
     <div class="overlay"></div>
     <div class="container mb-2">
@@ -20,10 +21,11 @@
                 <hr>
             </div>
         </div>
-    
+
         <div class="row">
             <div class="col">
-                {% if bag_items %}
+                {% if bag_items %}  {# ✅ Check if the bag has items before showing anything #}
+
                     <!-- 📌 TABLE VIEW (Only for Desktops) -->
                     <div class="table-responsive rounded d-none d-md-block">
                         <table class="table table-sm table-borderless">
@@ -40,13 +42,13 @@
                                 {% for item in bag_items %}
                                     <tr>
                                         <td class="p-3 w-25">
-                                        {% if item.product.image_url %}
-                                        <img class="card-img-top img-fluid" src="{{ item.product.image_url }}" alt="{{ item.product.name }}">
-                                        {% elif item.product.image %}
-                                            <img class="card-img-top img-fluid" src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
-                                        {% else %}
-                                            <img class="card-img-top img-fluid" src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}">
-                                        {% endif %}
+                                            {% if item.product.image_url %}
+                                                <img class="card-img-top img-fluid" src="{{ item.product.image_url }}" alt="{{ item.product.name }}">
+                                            {% elif item.product.image %}
+                                                <img class="card-img-top img-fluid" src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                            {% else %}
+                                                <img class="card-img-top img-fluid" src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}">
+                                            {% endif %}
                                         </td>
                                         <td class="py-3">
                                             <p class="my-0"><strong>{{ item.product.name }}</strong></p>
@@ -81,28 +83,26 @@
                             </tbody>
                         </table>
                     </div>
-    
-                    <!-- 📌 MOBILE-FRIENDLY LIST VIEW (Visible only on small screens) -->
+
+                    <!-- 📌 MOBILE-FRIENDLY LIST VIEW -->
                     <div class="shopping-bag-mobile d-md-none">
                         {% for item in bag_items %}
                             <div class="card mb-3 p-3">
                                 <div class="d-flex align-items-center">
                                     {% if item.product.image_url %}
-                                    <img class="card-img-top img-fluid" src="{{ item.product.image_url }}" alt="{{ item.product.name }}">
+                                        <img class="card-img-top img-fluid" src="{{ item.product.image_url }}" alt="{{ item.product.name }}">
                                     {% elif item.product.image %}
                                         <img class="card-img-top img-fluid" src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
                                     {% else %}
                                         <img class="card-img-top img-fluid" src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}">
                                     {% endif %}
 
-                                    <!-- Product Details -->
                                     <div class="product-details">
                                         <p class="mb-0"><strong>{{ item.product.name }}</strong></p>
                                         <p class="text-muted small mb-0">Size: {{ item.size|upper }}</p>
                                         <p class="text-muted small mb-0">SKU: {{ item.product.sku|upper }}</p>
                                         <p class="mb-0">£{{ item.product.price }}</p>
 
-                                        <!-- Quantity Selector & Update/Remove Buttons -->
                                         <div class="quantity-container">
                                             <form class="update-form" method="POST" action="{% url 'adjust_bag' item.item_id %}">
                                                 {% csrf_token %}
@@ -125,17 +125,19 @@
                                             </form>
                                         </div>
 
-                                        <!-- Subtotal -->
                                         <p class="mt-2"><strong>Subtotal: £{{ item.product.price | calc_subtotal:item.quantity }}</strong></p>
                                     </div>
                                 </div>
-                            {% endfor %}
-                        </div>
-    
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- ✅ Grand Total and Checkout Buttons (Now Outside of Loops) -->
                     <h4 class="mt-4 text-right"><strong>Grand Total: £{{ grand_total|floatformat:2 }}</strong></h4>
                     <a href="{% url 'products' %}" class="btn btn-outline-black rounded-0 btn-lg">Keep Shopping</a>
                     <a href="{% url 'checkout' %}" class="btn btn-black rounded-0 btn-lg">Secure Checkout</a>
-                {% else %}
+
+                {% else %}  {# ✅ Empty Bag Message (Appears When No Items) #}
                     <p class="lead mb-5">Your bag is empty.</p>
                     <a href="{% url 'products' %}" class="btn btn-outline-black rounded-0 btn-lg">Keep Shopping</a>
                 {% endif %}
@@ -143,7 +145,6 @@
         </div>
     </div>
 {% endblock %}
-
 {% block postloadjs %}
 {{ block.super }}
 {% include 'products/includes/quantity_input_script.html' %}
