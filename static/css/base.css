@@ -30,7 +30,6 @@ main {
     font-size: 1rem;
     font-weight: bold;
     text-align: center;
-    padding: 10px 0;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -57,18 +56,25 @@ main {
     text-decoration: underline;
 }
 
-/* BRAND LOGO */
+/* BRAND LOGO (Reduce Size) */
 .jungle-peaks-logo {
-    font-size: 2.8rem; /* Make it bigger */
+    font-size: 1.8rem; /* Reduce font size */
     font-weight: bold;
     text-transform: uppercase;
-    font-family: 'Righteous', sans-serif; /* Custom Google Font */
+    font-family: 'Righteous', sans-serif; /* Keep the font */
     color: #FFD700; /* Neon Gold */
-    text-shadow: 0px 0px 15px rgba(255, 215, 0, 1);
+    text-shadow: 0px 0px 8px rgba(255, 215, 0, 0.8); /* Softer glow */
     display: flex;
     align-items: center;
-    gap: 10px; /* Space between icon & text */
+    gap: 6px; /* Reduce spacing between icon & text */
     animation: neonGlow 2s infinite alternate;
+    padding: 5px 0; /* Reduce top & bottom spacing */
+    margin: 0; /* Ensure no extra space */
+}
+
+/* Adjust Icon Size */
+.jungle-peaks-logo i {
+    font-size: 1.5rem; /* Make the icon smaller */
 }
 
 /* Neon Flicker Animation */
@@ -91,15 +97,26 @@ main {
     transition: all 0.3s ease-in-out;
 }
 
-/* HEADER */
-header {
-    background-color: #262626;
-    border-bottom: 1px solid #eaeaea; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); 
-    padding: 15px 20px;
-    position: sticky; 
+/* HEADER - Sticky + Scroll Effect */
+.site-header {
+    background-color: #262626; /* Keep the original background */
+    border-bottom: 1px solid #eaeaea;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 5px 10px; /* Reduce padding */
+    
+    /* Fixed positioning for hiding on scroll */
+    position: fixed;
     top: 0;
+    width: 100%;
     z-index: 1030;
+    
+    /* Smooth transition */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Ensuring smooth transition for hiding header */
+.hidden-header {
+    transform: translateY(-100%);
 }
 
 /* Search Bar and Magnifying Glass */
@@ -154,8 +171,17 @@ nav.border-top {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     max-width: 100%;
     border-radius: 10px;
-    margin-top: 5px;
+    margin-top: 3px; /* Reduce margin-top */
+    padding: 5px 0; /* Reduce vertical padding */
+    min-height: 50px; /* Prevent excessive height */
 }
+
+/* 🛠 Reduce Spacing Inside the Container */
+nav.border-top .container {
+    padding-top: 3px !important; /* Override Bootstrap padding */
+    padding-bottom: 3px !important;
+}
+
 
 /* Navigation links styling */
 .nav-link i {
@@ -168,11 +194,11 @@ nav.border-top {
 }
 
 .navbar-nav .nav-item .nav-link-2 {
-    padding: 0.5rem 1.5rem;
-    margin: 0 0.5rem;
-    font-size: 1rem;
+    padding: 0.3rem 1rem; /* Reduce padding */
+    margin: 0 0.3rem; /* Reduce margin between links */
+    font-size: 0.9rem; /* Slightly smaller font */
     font-weight: bold;
-    letter-spacing: 1px;
+    letter-spacing: 0.8px; /* Keep a sleek look */
     transition: all 0.3s ease;
     position: relative;
 }
@@ -213,8 +239,8 @@ nav.border-top {
 /* Toggler button styling */
 .navbar-toggler {
     border: 1px solid #ffd700 !important;
-    padding: 0.5rem 1rem !important;
-    font-size: 1.5rem;
+    padding: 0.4rem 0.8rem !important; /* Reduce padding */
+    font-size: 1.2rem; /* Reduce button size */
     transition: all 0.3s ease;
 }
 
@@ -229,8 +255,8 @@ nav.border-top {
 
 /* Dropdown Menu */
 .dropdown-menu {
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 0.3rem; /* Slightly reduce the roundness */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* from Bulma */
@@ -359,8 +385,6 @@ nav.border-top {
     border-radius: 5px; /* Optional: Add rounded corners */
 }
 
-
-
 /* Convenience classes - colors copied from Bootstrap */
 .arrow-primary {
     border-bottom-color: #007bff !important;
@@ -393,8 +417,6 @@ nav.border-top {
 .arrow-dark {
     border-bottom-color: #343a40 !important;
 }
-
-
 
 /* Product Form */
 

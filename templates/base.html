@@ -42,9 +42,9 @@
   </head>
   <body>
   <!-- Header -->
-  <header class="border-bottom">
+  <header class="border-bottom site-header">
       <!-- Top banner section -->
-      <div id="delivery-banner" class="row text-center mb-3 rounded">
+      <div id="delivery-banner" class="text-center">
           <div class="col bg-yellow banner">
               <p class="logo-font my-1 py-2">
                   🚛 <a href="{% url 'products' %}" class="text-dark fw-bold promo-link">
@@ -383,6 +383,25 @@ function startCountdown(hours, elementId){
 
     updateCountdown();
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    let lastScrollTop = 0;
+    const header = document.querySelector(".site-header");
+
+    window.addEventListener("scroll", function () {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop) {
+            // Scrolling down → Hide header
+            header.classList.add("hidden-header");
+        } else {
+            // Scrolling up → Show header
+            header.classList.remove("hidden-header");
+        }
+
+        lastScrollTop = scrollTop;
+    });
+})
 </script>
 {% endblock %}
 
