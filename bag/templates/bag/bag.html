@@ -134,12 +134,12 @@
 
                     <!-- ✅ Grand Total and Checkout Buttons (Now Outside of Loops) -->
                     <h4 class="mt-4 text-right"><strong>Grand Total: £{{ grand_total|floatformat:2 }}</strong></h4>
-                    <a href="{% url 'products' %}" class="btn btn-outline-black rounded-0 btn-lg">Keep Shopping</a>
-                    <a href="{% url 'checkout' %}" class="btn btn-black rounded-0 btn-lg">Secure Checkout</a>
+                    <a href="{% url 'products' %}" class="btn shopping-btn">Keep Shopping</a>
+                    <a href="{% url 'checkout' %}" class="btn checkout-btn">Secure Checkout</a>
 
                 {% else %}  {# ✅ Empty Bag Message (Appears When No Items) #}
                     <p class="lead mb-5">Your bag is empty.</p>
-                    <a href="{% url 'products' %}" class="btn btn-outline-black rounded-0 btn-lg">Keep Shopping</a>
+                    <a href="{% url 'products' %}" class="btn shopping-btn">Keep Shopping</a>
                 {% endif %}
             </div>
         </div>
