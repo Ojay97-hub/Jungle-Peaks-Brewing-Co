@@ -98,40 +98,6 @@
     color: #fff;
 }
 
-/* Booking Form Styling */
-.booking-card {
-    background: white;
-    max-width: 500px;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-    text-align: center;
-}
-
-/* Custom Styles for Booking Form Only */
-.booking-form .form-control, 
-.booking-form .form-select {
-    padding: 12px;
-    font-size: 16px;
-    border-radius: 8px;
-}
-
-/* Button Enhancements */
-.booking-form .btn-primary {
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    border: none;
-    padding: 12px 20px;
-    font-size: 18px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-
-.booking-form .btn-primary:hover {
-    background: linear-gradient(135deg, #0056b3, #003b75);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-
 /* FAQ Section */
 .accordion-button {
     font-weight: bold;
@@ -144,4 +110,78 @@
 .accordion-item {
     border-radius: 10px;
     margin-bottom: 10px;
+}
+
+/* ✅ MEDIA QUERIES FOR MOBILE */
+
+/* 📱 Tablet Screens (992px and below) */
+@media (max-width: 992px) {
+    .hero-section {
+        height: 600px; /* Reduce hero height */
+    }
+
+    .hero-overlay {
+        padding: 20px 30px; /* Reduce padding */
+        max-width: 350px;
+    }
+
+    .hero-title {
+        font-size: 2rem; /* Scale title down */
+    }
+
+    .hero-tagline {
+        font-size: 1rem;
+    }
+
+    .hero-description {
+        font-size: 0.9rem;
+    }
+}
+
+/* 📱 Mobile Screens (768px and below) */
+@media (max-width: 768px) {
+    .hero-section {
+        height: 500px; /* Further reduce hero height */
+    }
+
+    .hero-overlay {
+        padding: 15px 25px; /* Reduce padding further */
+        max-width: 300px;
+    }
+
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .hero-tagline {
+        font-size: 0.95rem;
+    }
+
+    .hero-description {
+        font-size: 0.85rem;
+    }
+}
+
+/* 📱 Small Mobile Screens (500px and below) */
+@media (max-width: 500px) {
+    .hero-section {
+        height: 400px; /* Make hero even smaller */
+    }
+
+    .hero-overlay {
+        padding: 10px 20px;
+        max-width: 270px;
+    }
+
+    .hero-title {
+        font-size: 1.5rem; /* Further scale title */
+    }
+
+    .hero-tagline {
+        font-size: 0.85rem;
+    }
+
+    .hero-description {
+        font-size: 0.8rem;
+    }
 }

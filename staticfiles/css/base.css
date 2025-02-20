@@ -7,12 +7,18 @@ html {
     overflow-x: hidden; 
 }
 
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh; /* Ensures the page spans the viewport height */
     margin: 0; 
-    padding: 0; 
+    padding: 0;
     color: #555;
     font-family: 'Montserrat', sans-serif;
 }
@@ -30,8 +36,10 @@ main {
     font-size: 1rem;
     font-weight: bold;
     text-align: center;
-    padding: 10px 0;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    margin: 0;
+    padding: 0.5rem 0; /* Adjust padding */
+    width: 100%;
 }
 
 /* Add subtle glow animation */
@@ -57,18 +65,25 @@ main {
     text-decoration: underline;
 }
 
-/* BRAND LOGO */
+/* BRAND LOGO (Reduce Size) */
 .jungle-peaks-logo {
-    font-size: 2.8rem; /* Make it bigger */
+    font-size: 1.8rem; /* Reduce font size */
     font-weight: bold;
     text-transform: uppercase;
-    font-family: 'Righteous', sans-serif; /* Custom Google Font */
+    font-family: 'Righteous', sans-serif; /* Keep the font */
     color: #FFD700; /* Neon Gold */
-    text-shadow: 0px 0px 15px rgba(255, 215, 0, 1);
+    text-shadow: 0px 0px 8px rgba(255, 215, 0, 0.8); /* Softer glow */
     display: flex;
     align-items: center;
-    gap: 10px; /* Space between icon & text */
+    gap: 6px; /* Reduce spacing between icon & text */
     animation: neonGlow 2s infinite alternate;
+    padding: 5px 0; /* Reduce top & bottom spacing */
+    margin: 0; /* Ensure no extra space */
+}
+
+/* Adjust Icon Size */
+.jungle-peaks-logo i {
+    font-size: 1.5rem; /* Make the icon smaller */
 }
 
 /* Neon Flicker Animation */
@@ -91,37 +106,52 @@ main {
     transition: all 0.3s ease-in-out;
 }
 
-/* HEADER */
-header {
-    background-color: #262626;
-    border-bottom: 1px solid #eaeaea; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); 
-    padding: 15px 20px;
-    position: sticky; 
+/* HEADER - Sticky + Scroll Effect */
+.site-header {
+    background-color: #262626; /* Keep the original background */
+    border-bottom: 1px solid #eaeaea;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    
+    /* Fixed positioning for hiding on scroll */
+    position: static;
     top: 0;
+    width: 100%;
     z-index: 1030;
+
+    /* Smooth transition */
+    transition: transform 0.3s ease-in-out;
 }
 
 /* Search Bar and Magnifying Glass */
-/* Search Bar Container */
-/* Position search button inside the input field */
-.input-group-2 {
-    position: relative;
-    width: 100%;
-    max-width: 700px;
+/* Search Bar - Ensure Proper Width */
+.main-search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Ensure full width */
+    max-width: 800px; /* Increase width */
+    margin: 0 auto; /* Center the search bar */
 }
 
-/* Adjust search input */
-.input-group-2 input {
+/* Adjust input width */
+.main-search-bar .input-group-2 {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Style search input */
+.main-search-bar .input-group-2 input {
     width: 100%;
     height: 45px;
     padding-left: 15px;
-    padding-right: 50px; /* Ensure space for the icon */
+    padding-right: 50px; /* Space for icon */
     border-radius: 50px;
+    font-size: 1rem;
 }
 
 /* Style search button */
-.input-group-2 button {
+.main-search-bar .input-group-2 button {
     position: absolute;
     right: 10px;
     top: 50%;
@@ -144,8 +174,17 @@ nav.border-top {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     max-width: 100%;
     border-radius: 10px;
-    margin-top: 5px;
+    margin-top: 3px; /* Reduce margin-top */
+    padding: 5px 0; /* Reduce vertical padding */
+    min-height: 50px; /* Prevent excessive height */
 }
+
+/* 🛠 Reduce Spacing Inside the Container */
+nav.border-top .container {
+    padding-top: 3px !important; /* Override Bootstrap padding */
+    padding-bottom: 3px !important;
+}
+
 
 /* Navigation links styling */
 .nav-link i {
@@ -158,11 +197,11 @@ nav.border-top {
 }
 
 .navbar-nav .nav-item .nav-link-2 {
-    padding: 0.5rem 1.5rem;
-    margin: 0 0.5rem;
-    font-size: 1rem;
+    padding: 0.3rem 1rem; /* Reduce padding */
+    margin: 0 0.3rem; /* Reduce margin between links */
+    font-size: 0.9rem; /* Slightly smaller font */
     font-weight: bold;
-    letter-spacing: 1px;
+    letter-spacing: 0.8px; /* Keep a sleek look */
     transition: all 0.3s ease;
     position: relative;
 }
@@ -203,8 +242,8 @@ nav.border-top {
 /* Toggler button styling */
 .navbar-toggler {
     border: 1px solid #ffd700 !important;
-    padding: 0.5rem 1rem !important;
-    font-size: 1.5rem;
+    padding: 0.4rem 0.8rem !important; /* Reduce padding */
+    font-size: 1.2rem; /* Reduce button size */
     transition: all 0.3s ease;
 }
 
@@ -219,8 +258,8 @@ nav.border-top {
 
 /* Dropdown Menu */
 .dropdown-menu {
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 0.3rem; /* Slightly reduce the roundness */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* from Bulma */
@@ -283,32 +322,70 @@ nav.border-top {
 
 /* From boutique ado walkthrough */
 /* ------------------------------- bootstrap toasts */
-
+/* Bootstrap Toasts - Ensure It's on the Right */
 .message-container {
     position: fixed;
     top: 72px;
     right: 15px;
     z-index: 99999999999;
+    max-width: 400px; /* Default width */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Align all toasts to the right */
 }
 
+/* Default Toast */
 .custom-toast {
-    overflow: visible;
+    width: auto;
+    max-width: 350px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out;
+    margin-left: auto; /* Forces the toast to align to the right */
 }
 
-.toast-capper {
-    height: 2px;
+/* Toast Header */
+.toast-header {
+    background-color: #fff;
+    color: #000;
+    font-weight: bold;
+    border-radius: 10px 10px 0 0;
 }
 
-/* from CSS-tricks.com: https://css-tricks.com/snippets/css/css-triangle/ */
-.arrow-up {
-    width: 0; 
-    height: 0; 
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent; 
-    border-bottom: 10px solid black;
-    position: absolute;
-    top: -10px;
-    right: 36px;
+/* Toast Body */
+.toast-body {
+    padding: 15px;
+    font-size: 0.9rem;
+    color: #333;
+    text-align: center;
+}
+
+/* Close Button */
+.toast .btn-close {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+/* ✅ Fix Toast Overflow */
+/* Fix Toast Image Display */
+.bag-notification-wrapper {
+    height: auto;
+    max-height: 200px; /* Adjust based on your layout */
+    overflow-y: auto; /* Enable vertical scroll if needed */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    padding: 10px;
+    text-align: center; /* Center items */
+}
+
+/* Resize Images in the Toast */
+.bag-notification-wrapper img {
+    max-width: 80px; /* Adjust image size */
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+    margin: 0 auto; /* Center horizontally */
+    border-radius: 5px; /* Optional: Add rounded corners */
 }
 
 /* Convenience classes - colors copied from Bootstrap */
@@ -342,12 +419,6 @@ nav.border-top {
 
 .arrow-dark {
     border-bottom-color: #343a40 !important;
-}
-
-.bag-notification-wrapper {
-    height: 100px;
-    overflow-x: hidden;
-    overflow-y: auto;
 }
 
 /* Product Form */
@@ -480,37 +551,33 @@ ul.list-unstyled li a:hover {
 }
 
 /* REGISTER ALLAUTH - Improved Styling */
-/* Modern Signup Page Styling */
-
-/* Modern Signup Page Styling */
-
 /* Layout Styling */
 .signup-container {
     display: flex;
     flex-direction: row;
-    max-width: 1400px; /* Reduce max width slightly */
+    max-width: 1200px; /* Slightly reduce max width */
     width: 90%;
     margin: 0 auto;
-    margin-bottom: 20px; 
-    height: auto; /* Adjust height dynamically */
+    margin-bottom: 20px;
+    height: auto;
     align-items: stretch; /* Ensure both sections are same height */
+    gap: 20px; /* Add spacing between form and image */
 }
 
-/* Ensure Form Section is Wider and Less Tall */
+/* Ensure Form Section is More Compact */
 .signup-form-section {
-    width: 65%; /* Reduce width slightly */
+    flex: 2; /* Takes more space */
     background: white;
-    padding: 60px; /* Reduce padding */
+    padding: 50px; /* Reduce padding */
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: left;
     box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
-    min-height: 450px; /* Reduce height slightly */
-    max-height: 85vh; /* Prevent excessive height */
 }
 
-/* Right Side (Image Section) - No Background Image */
+/* Right Side (Image Section) */
+/* Ensure image section takes proper width */
 .signup-image-section {
     width: 35%; /* Increase width slightly to balance */
     display: flex;
@@ -520,6 +587,8 @@ ul.list-unstyled li a:hover {
     max-height: 85vh;
     overflow: hidden;
 }
+
+/* Ensure the image fits properly */
 .signup-image-section img {
     max-width: 100%;
     height: 100%;
@@ -527,26 +596,30 @@ ul.list-unstyled li a:hover {
     border-radius: 0 8px 8px 0;
 }
 
-/* Button and Inputs Adjustments */
+/* Make Inputs & Buttons More Responsive */
 .signup-form input {
     width: 100%;
-    padding: 11px;
+    padding: 12px;
     border: 1px solid #ddd;
-    font-size: 20px;
+    font-size: 18px; /* Reduce font size slightly */
     background-color: #97cc6524;
     font-weight: 500;
+    border-radius: 5px;
+    margin-bottom: 15px; /* Add spacing */
 }
 
+/* Style for the Submit Button */
 .signup-form button {
     background: #ffd60a;
     color: black;
-    padding: 18px;
+    padding: 14px;
     border: none;
-    border-radius: 8px;
-    font-size: 22px;
+    border-radius: 6px;
+    font-size: 18px; /* Reduce button size slightly */
     cursor: pointer;
     transition: background 0.3s ease;
-    margin-top: 20px;
+    margin-top: 15px;
+    width: 100%; /* Make button full width */
 }
 
 .signup-form button:hover {
@@ -558,33 +631,16 @@ ul.list-unstyled li a:hover {
 .checkbox-container {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 16px;
+    gap: 8px;
+    font-size: 14px;
     margin-top: 10px;
 }
 
 .checkbox-container input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     cursor: pointer;
 }
-
-/* Responsive Fixes */
-@media (max-width: 992px) {
-    .signup-container {
-        flex-direction: column;
-    }
-    .signup-form-section {
-        width: 100%;
-        padding: 50px;
-        min-height: auto;
-    }
-    .signup-image-section {
-        display: none;
-    }
-
-}
-
 
 /* LOGIN PAGE ALLAUTH */
   /* Ensure form container is centered and properly padded */
@@ -688,8 +744,6 @@ ul.list-unstyled li a:hover {
     text-decoration: underline;
 }
 
-
-
 /* newsletter signup modal */
 /* Modal Overlay */
 .modal-overlay {
@@ -758,7 +812,247 @@ ul.list-unstyled li a:hover {
     }
 }
 
+/* 📌 Ensure product images fit correctly */
+/* 📌 Limit product image size for better responsiveness */
+.shopping-bag-mobile img {
+    max-width: 100px; /* Reduce image width */
+    height: auto;
+    display: block;
+    margin: 0 auto; /* Center the image */
+}
+
+/* 📌 Ensure the product details align properly */
+.shopping-bag-mobile .product-details {
+    text-align: left; /* Ensure text aligns correctly */
+    padding-left: 10px;
+}
+
+/* 📌 Adjust the quantity selector */
+.shopping-bag-mobile .quantity-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+/* 📌 Fix the layout of subtotal & remove link */
+.shopping-bag-mobile .subtotal-remove {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+}
+
+/* 📌 Improve spacing between items */
+.shopping-bag-mobile .bag-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+/* 📌 Adjust remove button for better alignment */
+.shopping-bag-mobile .remove-item {
+    font-size: 12px;
+    color: red;
+    text-decoration: underline;
+}
+
 /* ---------------------------------------- Media Queries */
+/* Adjust for smaller screens */
+@media (max-width: 320px) {
+    .wrap-item {
+        font-size: 1rem; /* Slightly reduce font size */
+        white-space: normal; /* Allows wrapping if needed */
+        text-align: center; /* Keeps text centered */
+        line-height: 1.2; /* Improves readability */
+    }
+}
+
+@media screen and (min-width: 436px) {
+    .main-search-bar {
+        display: flex !important;  /* Ensure visibility */
+    }
+
+    .search-bar-wrapper.inside-navbar {
+        display: none !important; 
+    }
+
+    #main-nav-toggle {
+        display: none !important;
+    }
+
+    .message-container {
+        top: 50px;
+        right: 5px;
+        left: 5px;
+        max-width: 95%;
+    }
+
+    .custom-toast {
+        font-size: 0.8rem;
+    }
+
+    .toast-body {
+        font-size: 0.8rem;
+        padding: 10px;
+    }
+
+    .toast .btn-close {
+        font-size: 0.8rem;
+    }
+
+    .bag-notification-wrapper {
+        height: 100px;
+        max-height: 120px;
+    }
+}
+
+
+/* 📌 Hide table on small screens */
+@media (max-width: 768px) {
+    .table-responsive {
+        display: none;
+    }
+
+    .shopping-bag-mobile {
+        display: block;
+    }
+
+    .bag-item {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+    }
+
+    /* Ensure buttons are properly sized */
+    .qty_input {
+        max-width: 40px;
+        text-align: center;
+    }
+
+    .increment-qty, .decrement-qty {
+        padding: 5px;
+        font-size: 12px;
+    }
+
+    .message-container {
+        top: 60px;
+        right: 10px;
+        left: 10px;
+        max-width: 90%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .custom-toast {
+        max-width: 100%;
+        font-size: 0.85rem;
+    }
+
+    .toast-body {
+        padding: 12px;
+        font-size: 0.85rem;
+    }
+
+    .toast .btn-close {
+        font-size: 0.9rem;
+    }
+}
+
+/* Toggle Search Bar - Only for Screens ≤ 430px */
+@media screen and (max-width: 435px) {
+    .header-icons-wrapper {
+        display: flex;
+        justify-content: center; /* Center all items horizontally */
+        align-items: center;
+        gap: 15px; /* Adjust spacing between items */
+        width: 100%; /* Ensure it takes full width */
+    }
+
+    .navbar-toggler {
+        margin: 0 !important; /* Remove any extra margin */
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+    }
+
+    .secondary-navbar-toggler {
+        display: none !important;
+    }
+
+    .main-search-bar {
+        display: none !important; /* Hide main search bar */
+    }
+
+    .search-bar-wrapper.inside-navbar {
+        display: flex !important; /* Show search bar inside navbar */
+        width: 100%;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.9);
+        border-radius: 10px;
+        justify-content: center;
+    }
+
+    /* Ensure input field takes full width */
+    .search-bar-wrapper .input-group-2 {
+        width: 100%;
+        position: relative;
+    }
+
+    .search-bar-wrapper .form-control {
+        background-color: white;
+        border-radius: 50px;
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        padding-right: 50px; /* Ensure space for the search button */
+    }
+
+    /* Search button inside the input field */
+    .search-bar-wrapper .input-group-2 button {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 35px;
+        height: 35px;
+        background-color: black;
+        color: white;
+        border-radius: 50%;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Reduce button size for smaller screens */
+    .search-bar-wrapper .input-group-2 button i {
+        font-size: 14px;
+    }
+
+    /* promo banner */
+    #delivery-banner {
+        background: #FFD700;  /* Gold background */
+        color: #333;
+        font-size: 0.9rem;
+        text-align: center;
+        padding: 5px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #countdown-desktop {
+        display: none;
+    }
+}
+
 /* Responsive adjustments */
 @media (max-width: 600px) {
     .signin-container {
@@ -767,6 +1061,61 @@ ul.list-unstyled li a:hover {
 
     .signin-container .button-container {
         flex-direction: column; /* Stack buttons on small screens */
+    }
+
+    .signup-form-section {
+        width: 100%; /* Full width */
+        padding: 30px; /* Reduce padding */
+    }
+
+    .signup-form input {
+        font-size: 16px; /* Adjust font size */
+        padding: 10px;
+    }
+
+    .signup-form button {
+        font-size: 16px;
+        padding: 12px;
+    }
+}
+
+/* 📌 Reduce spacing and improve layout for mobile */
+@media (max-width: 768px) {
+    .table thead {
+        display: none; /* Hide table headers on mobile */
+    }
+
+    .table tbody tr {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+    .table td {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    /* Center the product image */
+    .table td:first-child {
+        justify-content: center;
+    }
+
+    /* Align update/remove buttons */
+    .update-link, .remove-item {
+        font-size: 12px;
+        text-align: right;
+        display: block;
+    }
+
+    /* Adjust checkout and continue shopping buttons */
+    .btn-lg {
+        width: 100%;
+        margin-bottom: 10px;
     }
 }
 
@@ -810,6 +1159,22 @@ ul.list-unstyled li a:hover {
         margin: 0.5rem 0;
         text-align: center;
     }
+
+    .signup-container {
+        flex-direction: column; /* Stack form and image */
+        align-items: center;
+        width: 100%;
+    }
+
+    .signup-form-section {
+        width: 90%; /* Reduce width slightly */
+        padding: 40px; /* Adjust padding */
+        min-height: auto;
+    }
+
+    .signup-image-section {
+        display: none; /* Hide image on small screens */
+    }
 }
 
 /* fixed top navbar only on medium and up */
@@ -838,14 +1203,31 @@ ul.list-unstyled li a:hover {
         margin-bottom: 0;
     }
 
-    .nav-link {
-        font-size: 1.1rem;
+    /* Make header links larger */
+    .navbar-nav .nav-link {
+        font-size: 1.3rem; /* Increase font size */
+        font-weight: bold;
     }
+
+    /* Adjust specific branding or special links */
+    .nav-link-2 {
+        font-size: 2rem; /* Increase for emphasis */
+    }
+
+
 }
 
 /* Slightly larger container on xl screens */
 @media (min-width: 1200px) {
     .container {
         max-width: 80%;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 1.5rem; /* Make it even bigger */
+    }
+
+    .nav-link-2 {
+        font-size: 2.5rem; /* Boost the emphasized text */
     }
 }
