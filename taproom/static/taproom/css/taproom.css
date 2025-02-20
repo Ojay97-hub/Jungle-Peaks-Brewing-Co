@@ -1,3 +1,21 @@
+/* Headings */
+h2, h3, h4 {
+    font-weight: bold;
+}
+
+p {
+    font-size: 18px;
+}
+
+/* List Styling */
+.list-unstyled {
+    padding-left: 0;
+}
+
+.list-unstyled li {
+    margin-bottom: 10px;
+}
+
 /* Section Padding */
 .container {
     padding-top: 40px;
@@ -180,25 +198,6 @@ h5 {
     filter: invert(1); /* Makes arrows white */
 }
 
-/* Headings */
-h2, h3, h4 {
-    font-weight: bold;
-}
-
-p {
-    font-size: 18px;
-}
-
-/* List Styling */
-.list-unstyled {
-    padding-left: 0;
-}
-
-.list-unstyled li {
-    margin-bottom: 10px;
-}
-
-
 /* -------------------------------- media queries */
 /* Adjust for Extra-Large Screens (4K) */
 @media (min-width: 2560px) { 
@@ -268,7 +267,7 @@ p {
     }
 
     .main-image {
-        max-width: 650px;
+        max-width: 400px;
     }
 
     .overlay-image {
@@ -300,6 +299,16 @@ p {
         transform: none;
         transition: all 0.3s ease-in-out;
     }
+
+    /* 🌍 Location Section: Stack Text & Map */
+    .location-section .row {
+        flex-direction: column-reverse; /* Puts the map BELOW the text */
+        text-align: center;
+    }
+
+    .map-container {
+        margin-top: 20px; /* Adds space between text and map */
+    }
 }
 
 /* 📱 Mobile & Small Tablets (Up to 768px) */
@@ -312,5 +321,10 @@ p {
         width: 90%;
         margin-top: -10px;
         transition: all 0.3s ease-in-out;
+    }
+
+    .location-section .row {
+        flex-direction: column-reverse; /* Puts the map BELOW the text */
+        text-align: center;
     }
 }

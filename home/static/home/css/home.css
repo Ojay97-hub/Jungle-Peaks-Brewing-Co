@@ -1,6 +1,6 @@
 /* Hero Image */
 .hero-img {
-    position: relative;
+    position: static;
     width: 100%;
     height: 70vh; /* Adjust height dynamically */
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.16);
@@ -110,7 +110,7 @@
 }
 
 .cta-section .card {
-    max-width: 400px;  /* Prevents it from becoming too wide */
+    max-width: 550px;  /* Prevents it from becoming too wide */
     margin: 0 auto;    /* Centers the card when max-width is applied */
 }
 
@@ -237,7 +237,11 @@
 
 
 /* Responsive Adjustments */
-@media (max-width: 1024px) { /* Change min-width to max-width */
+@media (max-width: 1024px) {
+    .about-section .row {
+        flex-direction: column;
+    }
+
     .about-section {
         flex-direction: column;
         text-align: center; /* Centers text for better appearance */
@@ -292,7 +296,7 @@
     }
 
     .cta-section .card {
-        max-width: 350px;
+        max-width: 400px;
     }
     
 }

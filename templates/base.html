@@ -43,17 +43,15 @@
   <body>
   <!-- Header -->
   <header class="border-bottom site-header">
-      <!-- Top banner section -->
-      <div id="delivery-banner" class="text-center">
-          <div class="col bg-yellow banner">
-              <p class="logo-font my-1 py-2">
-                  🚛 <a href="{% url 'products' %}" class="text-dark fw-bold promo-link">
-                      Free delivery on orders over £{{ free_delivery_threshold }}! Order now! 🎉
-                  </a>
-                  <span id="countdown-desktop"></span> ⏳
-              </p>                
-          </div>            
-      </div>
+    <!-- Top banner section -->
+    <div id="delivery-banner" class="bg-yellow text-center py-2">
+        <p class="logo-font m-0">
+            🚛 <a href="{% url 'products' %}" class="text-dark fw-bold promo-link">
+                Free delivery on orders over £{{ free_delivery_threshold }}! Order now! 🎉
+            </a>
+            <span id="countdown-desktop"></span> ⏳
+        </p>                
+    </div>
 
       <!-- Main Header Section -->
       <div class="container py-2">

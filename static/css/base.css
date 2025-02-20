@@ -7,12 +7,18 @@ html {
     overflow-x: hidden; 
 }
 
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh; /* Ensures the page spans the viewport height */
     margin: 0; 
-    padding: 0; 
+    padding: 0;
     color: #555;
     font-family: 'Montserrat', sans-serif;
 }
@@ -31,6 +37,9 @@ main {
     font-weight: bold;
     text-align: center;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    margin: 0;
+    padding: 0.5rem 0; /* Adjust padding */
+    width: 100%;
 }
 
 /* Add subtle glow animation */
@@ -102,21 +111,15 @@ main {
     background-color: #262626; /* Keep the original background */
     border-bottom: 1px solid #eaeaea;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    padding: 5px 10px; /* Reduce padding */
     
     /* Fixed positioning for hiding on scroll */
-    position: fixed;
+    position: static;
     top: 0;
     width: 100%;
     z-index: 1030;
-    
+
     /* Smooth transition */
     transition: transform 0.3s ease-in-out;
-}
-
-/* Ensuring smooth transition for hiding header */
-.hidden-header {
-    transform: translateY(-100%);
 }
 
 /* Search Bar and Magnifying Glass */
@@ -1200,14 +1203,31 @@ ul.list-unstyled li a:hover {
         margin-bottom: 0;
     }
 
-    .nav-link {
-        font-size: 1.1rem;
+    /* Make header links larger */
+    .navbar-nav .nav-link {
+        font-size: 1.3rem; /* Increase font size */
+        font-weight: bold;
     }
+
+    /* Adjust specific branding or special links */
+    .nav-link-2 {
+        font-size: 2rem; /* Increase for emphasis */
+    }
+
+
 }
 
 /* Slightly larger container on xl screens */
 @media (min-width: 1200px) {
     .container {
         max-width: 80%;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 1.5rem; /* Make it even bigger */
+    }
+
+    .nav-link-2 {
+        font-size: 2.5rem; /* Boost the emphasized text */
     }
 }
