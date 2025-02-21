@@ -862,6 +862,32 @@ ul.list-unstyled li a:hover {
     text-decoration: underline;
 }
 
+/* Keep Shopping Button */
+.shopping-btn {
+    background-color: transparent;
+    color: #333;
+    border: 2px solid #333;
+}
+
+.shopping-btn:hover {
+    background-color: #333;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Secure Checkout Button */
+.checkout-btn {
+    background-color: #f8c100;
+    color: black;
+    border: 2px solid #f8c100;
+}
+
+.checkout-btn:hover {
+    background-color: black;
+    color: #f8c100;
+    transform: scale(1.05);
+}
+
 /* ---------------------------------------- Media Queries */
 /* Adjust for smaller screens */
 @media (max-width: 320px) {

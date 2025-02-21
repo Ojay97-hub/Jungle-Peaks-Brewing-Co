@@ -60,7 +60,7 @@
 /* About Us Section */
 .about-section {
     display: flex;
-    align-items: center;
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
     gap: 20px; /* Adjust spacing between text and image */
     background-color: #ffffff; /* White background */
     border-radius: 10px; /* Rounded corners */
@@ -68,20 +68,14 @@
     padding: 3rem 2rem; /* Add padding for spacing */
 }
 
-.about-section h2 {
-    font-size: 2rem; /* Heading size */
-    font-weight: bold;
-    margin-bottom: 1rem;
+/* Ensuring side-by-side layout on large screens */
+.about-section .text-content, .about-section .image-content {
+    flex: 1 1 50%; /* Each takes half the width */
 }
 
-.about-section p {
-    font-size: 1rem; /* Paragraph text size */
-    color: #555; /* Slightly muted text color */
-    line-height: 1.6; /* Improved readability */
-}
-
+/* Image Styling */
 .about-img {
-    flex: 1;
+    width: 100%;
     max-width: 100%; /* Adjust image width */ 
     height: auto; /* Maintains aspect ratio */
     max-height: 645px;
@@ -237,19 +231,20 @@
 
 
 /* Responsive Adjustments */
-@media (max-width: 1024px) {
-    .about-section .row {
-        flex-direction: column;
+@media (max-width: 1200px) {
+    .about-section {
+        flex-direction: column; /* Stack text above image */
+        text-align: center; /* Center align text */
     }
 
-    .about-section {
-        flex-direction: column;
-        text-align: center; /* Centers text for better appearance */
+    .about-section .text-content,
+    .about-section .image-content {
+        flex: 1 1 100%; /* Take full width */
     }
 
     .about-img {
-        max-width: 100%;
         margin-top: 20px; /* Adds space between text and image */
+        max-width: 90%; /* Prevents the image from being too wide */
     }
 
     .cta-section .col-md-4 {
@@ -274,7 +269,8 @@
     }
 
     .about-img {
-        margin: 1.5rem 0; /* Add space below the image */
+        margin-top: 30px; /* More space on mobile */
+        max-width: 100%; /* Adjusts width for better fit */
     }
 
     .hero-title {
