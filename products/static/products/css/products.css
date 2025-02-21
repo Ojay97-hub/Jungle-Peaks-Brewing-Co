@@ -387,6 +387,86 @@ h2.logo-font {
     left: 0 auto;
   }
 
+  /* add product template btns */
+/* Select Image Button */
+input[type="file"] {
+    display: none;
+}
+
+/* Ensure buttons have proper spacing */
+.text-right {
+    display: flex;
+    flex-wrap: wrap; /* Ensures buttons wrap on smaller screens */
+    justify-content: flex-end;
+    gap: 15px; /* Space between buttons */
+    margin-top: 15px; /* Adds space above buttons */
+}
+
+/* Ensure the Select Image button has proper spacing */
+.btn-select-image {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #000; /* Black background */
+    border: 2px solid #000;
+    border-radius: 5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin-bottom: 15px; /* Adds space below Select Image */
+}
+
+.btn-select-image:hover {
+    background-color: #ffcc00;
+    color: #000;
+    transform: scale(1.05);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Cancel Button */
+.btn-cancel {
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #000;
+    background-color: transparent;
+    border: 2px solid #000;
+    border-radius: 5px;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-cancel:hover {
+    background-color: #ff4d4d; /* Red background for warning effect */
+    color: #fff;
+    border-color: #ff4d4d;
+    transform: scale(1.05);
+    box-shadow: 0 5px 10px rgba(255, 77, 77, 0.2);
+}
+
+/* Add Product Button */
+.btn-add-product {
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #000; /* Black background */
+    border: 2px solid #000;
+    border-radius: 5px;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-add-product:hover {
+    background-color: #28a745; /* Green for success */
+    color: #fff;
+    border-color: #28a745;
+    transform: scale(1.05);
+    box-shadow: 0 5px 10px rgba(40, 167, 69, 0.2);
+}
+
 /* ------------------------ MEDIA QUERIES */
 
 /* Fix layout for bigger screens */
@@ -408,6 +488,7 @@ h2.logo-font {
         flex: 1 1 45%;
     }
 }
+
 
 /* Mobile Responsiveness */
 @media screen and (max-width: 768px) {
@@ -474,19 +555,32 @@ h2.logo-font {
     }
 
     .card-footer {
-        flex-direction: column;
-        align-items: center;
+        display: flex;
+        flex-direction: column; /* Stack elements in a column */
+        align-items: center; /* Center align */
+        justify-content: center;
+        width: 100%;
     }
 
-    .product-page-btn {
-        max-width: 180px;
-        margin-top: 10px;
+    .card-footer form {
+        display: flex;
+        flex-direction: column; /* Stack the quantity selector & Add to Cart button */
+        align-items: center;
+        width: 100%;
     }
 
     .input-group {
-        min-width: 160px; /* Gives more space */
-        max-width: 220px;
-        justify-content: space-between;
+        order: -1; /* Move the quantity selector above Add to Cart */
+        width: 100%; /* Make it full width */
+        max-width: 200px;
+        margin-bottom: 10px; /* Space between quantity selector and Add to Cart */
+        justify-content: center; /* Center align inside */
+    }
+
+    .product-page-btn {
+        width: 100%; /* Make the Add to Cart button full width */
+        max-width: 250px;
+        text-align: center;
     }
 
     .input-group input {
@@ -496,15 +590,25 @@ h2.logo-font {
     .input-group button {
         width: 45px; /* Slightly bigger for easier clicking */
     }
-}
 
-/* 📌 Remove Quantity Buttons on Small Mobile Screens */
-@media screen and (max-width: 500px) {
-    .input-group {
-        display: none !important;
+    .text-right {
+        flex-direction: column; /* Stack buttons vertically */
+        align-items: center; /* Center align buttons */
+        gap: 10px; /* Reduce space between buttons */
+    }
+
+    .btn-select-image {
+        width: 100%; /* Make the Select Image button full-width */
+        max-width: 250px; /* Prevent it from being too large */
+        text-align: center;
+    }
+
+    .btn-cancel, .btn-add-product {
+        width: 100%;
+        max-width: 250px;
+        text-align: center;
     }
 }
-
 
 @media screen and (max-width: 450px) {
     .product-container {
@@ -569,6 +673,7 @@ h2.logo-font {
     }
 
 }
+
 
 /* 📌 Adjust product cards for screens below 350px */
 @media screen and (max-width: 350px) {

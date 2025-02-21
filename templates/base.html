@@ -188,11 +188,16 @@
                             Tours
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{% url 'contact:contact' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white wrap-item
+                            {% if request.resolver_match.url_name == 'tours' %} active{% endif %}">
+                            Contact
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
       </nav>
-
   </header>
 
 
@@ -309,7 +314,7 @@
     <!-- Newsletter Interest Pop-up -->
     <div id="newsletter-popup" class="modal-overlay">
       <div class="modal-card">
-          <h2 class="text-center fw-bold">🍻 Customize Your Subscription</h2>
+          <h2 class="text-center fw-bold">🍻 Customise Your Subscription</h2>
           <p class="text-center">Select what you're most interested in:</p>
 
           <form id="interest-form">

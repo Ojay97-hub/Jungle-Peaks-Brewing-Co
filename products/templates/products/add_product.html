@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'products/css/products.css' %}">
+{% endblock %}
+
 {% block page_header %}
     <div class="container header-container">
         <div class="row">
@@ -29,12 +33,16 @@
                         {% if field.name != 'image' %}
                             {{ field | as_crispy_field }}
                         {% else %}
-                            {{ field }}
+                            <!-- Custom file input styling -->
+                            <div class="form-group">
+                                <label for="image-upload" class="btn btn-select-image">Select Image</label>
+                                <input type="file" id="image-upload" name="{{ field.name }}">
+                            </div>
                         {% endif %}
                     {% endfor %}
                     <div class="text-right">
-                        <a class="btn btn-outline-black rounded-0" href="{% url 'products' %}">Cancel</a>
-                        <button class="btn btn-black rounded-0" type="submit">Add Product</button>
+                        <a class="btn btn-cancel" href="{% url 'products' %}">Cancel</a>
+                        <button class="btn btn-add-product" type="submit">Add Product</button>
                     </div>
                 </form>
             </div>            
