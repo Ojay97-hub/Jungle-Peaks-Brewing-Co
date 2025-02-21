@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security settings
 SECRET_KEY = os.getenv('SECRET_KEY', '')
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'jungle-peaks-brewing-29d2cf7236c2.herokuapp.com',

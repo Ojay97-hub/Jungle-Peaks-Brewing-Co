@@ -243,42 +243,41 @@ Will include won't have's with moscow
 ## Site Flow 
 Using FIGMA
 
-![alt text](/images/siteflow.jpeg)
+![alt text]( /static/images/siteflow.jpeg)
 
 ## Wireframes
 Using UIZARD 
 
 ### Desktop
 #### Home Page
-![alt text](/images/homepage.jpeg)
+![alt text]( /static/images/homepage.jpeg)
 
 #### Product List
-![alt text](/images/product-list.jpeg)
+![alt text]( /static/images/product-list.jpeg)
 
 #### Product Detail
-![alt text](/images/product-detail.jpeg)
+![alt text]( /static/images/product-detail.jpeg)
 
 #### Shopping Cart 
-![alt text](/images/shopping-cart.jpeg)
+![alt text]( /static/images/shopping-cart.jpeg)
 
 #### Checkout
-![alt text](/images/checkout-page.jpeg)
+![alt text]( /static/images/checkout-page.jpeg)
 
 #### Taproom 
-![alt text](/images/taproom.jpeg)
+![alt text]( /static/images/taproom.jpeg)
 
 #### Tours & Tastings 
-![alt text](/images/tours-tasting-page.jpeg)
+![alt text]( /static/images/tours-tasting-page.jpeg)
 
 #### User Management
-![alt text](/images/user-management.jpeg)
+![alt text]( /static/images/user-management.jpeg)
 
 ## Custom-models 
 
 ### ERD
 Using DBDIAGRAM 
-
-![alt text](/images/ERD.jpeg) 
+![alt text]( /static/images/ERD.png)
 
 
 #### Key Relationship Summary
@@ -310,7 +309,18 @@ Using DBDIAGRAM
 ## Features 
 
 ## Testing
+### VALIDATION 
+#### HTML
+
+
+#### CSS
+
+#### JAVASCRIPT
+
+#### PYTHON
+
 ### Manual 
+
 ### Automated 
 
 ## Bugs 

@@ -53,6 +53,7 @@
 
     <title>Jungle Peaks Brewing {% block extra_title %}{% endblock %}</title>
   </head>
+
   <body>
   <!-- Header -->
   <header class="border-bottom site-header">
@@ -203,7 +204,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'contact:contact' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white wrap-item
-                            {% if request.resolver_match.url_name == 'tours' %} active{% endif %}">
+                            {% if request.resolver_match.url_name == 'contact' %} active{% endif %}">
                             Contact
                         </a>
                     </li>
@@ -314,7 +315,7 @@
       <div class="text-center mt-3">
           <p class="mb-1">Jungle Peaks Brewing, 123 Craft Lane, Beer Town, BT 78910</p>
           <p>
-              <a href="https://www.google.com/maps?q=AM-070 - Iranduba, Manaus - AM, 69405-000, Brazil"  
+              <a href="https://www.google.com/maps?q=AM-070%20-%20Iranduba,%20Manaus%20-%20AM,%2069405-000,%20Brazil"  
                   target="_blank" 
                   class="text-white text-decoration-none">
                   View in Google Maps
@@ -352,9 +353,7 @@
           </form>
       </div>
     </div>
-     
-  </body>
-</html>
+
 
 {% block postloadjs %}
 <script src="{% static 'js/newsletter.js' %}"></script>
@@ -420,6 +419,9 @@ document.addEventListener("DOMContentLoaded", function () {
 })
 </script>
 {% endblock %}
+
+    </body>
+</html>
 
 
  
