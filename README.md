@@ -311,8 +311,15 @@ Using DBDIAGRAM
 ## Testing
 ### VALIDATION 
 #### HTML
+![alt text]( home-valid-html.png)
 
+![alt text]( taproom-valid-html.png)
 
+![alt text]( tours-valid-html.png)
+
+![alt text]( contact-valid-html.png)
+
+![alt text]( profile-valid-html.png)
 #### CSS
 
 #### JAVASCRIPT
