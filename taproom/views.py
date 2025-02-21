@@ -1,43 +1,105 @@
-from django.shortcuts import get_object_or_404, render, redirect
+# Standard Library Imports
 
-from taproom.models import Booking 
-from .forms import BookingForm
+# Django Imports
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-# Create your views here.
+# Local Application Imports
+from taproom.models import Booking
+from .forms import BookingForm
+
+
 def taproom(request):
+    """
+    Displays the taproom homepage.
+
+    **Template Used:**
+        - `taproom/taproom.html`
+
+    **Request Method Supported:**
+        - GET: Renders the taproom page.
+    """
     return render(request, 'taproom/taproom.html')
 
-# Book a table view
+
 @login_required
 def booking(request):
-    """ Create a taproom booking for the logged-in user. """
+    """
+    Allows a logged-in user to book a table in the taproom.
+
+    **Models Used:**
+        - `Booking`
+
+    **Templates Used:**
+        - `taproom/taproom_booking.html`
+
+    **Request Methods Supported:**
+        - GET: Displays the booking form.
+        - POST: Creates a new booking for the logged-in user.
+
+    **Context Provided:**
+        - `form`: A booking form for user input.
+
+    **Workflow:**
+        - Saves the booking and associates it with the logged-in user.
+        - Redirects to `booking_success` upon successful submission.
+    """
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
-            # Associate the booking with the logged-in user
             booking = form.save(commit=False)
-            booking.user = request.user  # Link the booking to the logged-in user
+            booking.user = request.user  # Link booking to user
             booking.save()
 
             messages.success(request, 'Booking has been successfully created.')
-            return redirect('booking_success')  # Redirect to booking success page
+            return redirect('booking_success')  # Redirect to success page
     else:
         form = BookingForm()
 
     return render(request, 'taproom/taproom_booking.html', {'form': form})
 
-# booking success view
+
 def booking_success(request):
+    """
+    Displays a success message after a successful booking.
+
+    **Templates Used:**
+        - `taproom/booking_success.html`
+
+    **Request Method Supported:**
+        - GET: Shows a confirmation message.
+
+    **Context Provided:**
+        - None
+    """
     return render(request, "taproom/booking_success.html")
 
-# Edit booking view
+
 @login_required
 def edit_booking(request, booking_id):
-    """Edit an existing taproom booking."""
-    booking = get_object_or_404(Booking, id=booking_id, user=request.user)  # Ensure user owns the booking
-    
+    """
+    Allows a user to edit an existing taproom booking.
+
+    **Models Used:**
+        - `Booking`
+
+    **Templates Used:**
+        - `taproom/edit_booking.html`
+
+    **Request Methods Supported:**
+        - GET: Displays the booking form pre-filled with existing details.
+        - POST: Updates the booking details.
+
+    **Context Provided:**
+        - `form`: A pre-filled booking form.
+
+    **Workflow:**
+        - Ensures the logged-in user owns the booking.
+        - Saves changes and redirects to the user's profile.
+    """
+    booking = get_object_or_404(Booking, id=booking_id, user=request.user)
+
     if request.method == "POST":
         form = BookingForm(request.POST, instance=booking)
         if form.is_valid():
@@ -45,17 +107,34 @@ def edit_booking(request, booking_id):
             messages.success(request, "Your booking has been updated successfully.")
             return redirect("profile")  # Redirect to profile page
     else:
-        form = BookingForm(instance=booking)  # Pre-fill the form with booking data
+        form = BookingForm(instance=booking)
 
     return render(request, "taproom/edit_booking.html", {"form": form})
 
-# Cancel booking view
+
 @login_required
 def cancel_booking(request, booking_id):
-    """Allow users to cancel their booking without a confirmation page"""
+    """
+    Allows a user to cancel their booking without a confirmation page.
+
+    **Models Used:**
+        - `Booking`
+
+    **Request Method Supported:**
+        - POST: Cancels the booking.
+
+    **Redirects:**
+        - On success, redirects the user to `profile`.
+
+    **Security Measures:**
+        - Ensures the logged-in user owns the booking.
+
+    **Workflow:**
+        - Deletes the booking and displays a success message.
+    """
     booking = get_object_or_404(Booking, id=booking_id, user=request.user)
 
     booking.delete()
     messages.success(request, "Your booking has been cancelled successfully!")
 
-    return redirect("profile")  # Redirect the user back to their profile
+    return redirect("profile")  # Redirect user back to their profile

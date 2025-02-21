@@ -281,52 +281,120 @@ Using DBDIAGRAM
 
 
 #### Key Relationship Summary
-| Table         | Related Table | Relationship  | Key(s)                                  |
-|---------------|---------------|---------------|------------------------------------------|
-| Product       | Category      | One-to-Many   | `Product.category_id → Category.id`     |
-| TourTasting   | Booking       | One-to-Many   | `Booking.tour_tasting_id → TourTasting.id` |
-| Order         | OrderItem     | One-to-Many   | `OrderItem.order_id → Order.id`         |
-| Product       | OrderItem     | One-to-Many   | `OrderItem.product_id → Product.id`     |
-| Product       | Review        | One-to-Many   | `Review.product_id → Product.id`        |
-| TourTasting   | Review        | One-to-Many   | `Review.tour_tasting_id → TourTasting.id` |
-| Subscriber    | -             | Independent   | `Subscriber.email`                      |
 
 
 ### Modular Roadmap
-| Epic                    | Story                  | App         | Model(s)                  | View(s)                                              | Template(s)                                      |
-|-------------------------|------------------------|-------------|---------------------------|-----------------------------------------------------|-------------------------------------------------|
-| Manage Products         | products              | Product, Category | Django Admin (for CRUD), ProductListView, ProductDetailView | `products/list.html`, `products/detail.html`     |
-| Taproom & Brewery Pages | events                | (None)       | Filtered EventListView (taproom and brewery filters) | `events/list.html` (reused)                      |
-| Deals & Promotions      | products              | Product (with promotion field) | Part of ProductListView                             | `products/list.html` (reused, highlight promotions via context processor) |
-| Footer Links            | core                  | (None)       | (None)                                              | `core/footer.html`                               |
-| Browse Products         | products              | Product, Category | ProductListView, ProductDetailView                 | `products/list.html`, `products/detail.html`     |
-| Purchase Products       | checkout              | Order, OrderItem | CartView, CheckoutView, OrderSuccessView           | `checkout/cart.html`, `checkout/checkout.html`, `checkout/success.html` |
-| Book Tours & Tastings   | events                | Reuse Booking model | Reuse BookingCreateView and BookingListView        | `bookings/form.html`, `bookings/list.html`       |
-| Customer Reviews        | products or events    | Review       | Inline formsets within product or event detail views | Embed in `products/detail.html` or `events/detail.html` |
-| Newsletter Signup       | None (or integrate with core) | Optional: Subscriber | SubscribeView (or use third-party API)             | Include in `core/footer.html`                   |
+
 
 
 ## Features 
 
 ## Testing
-### VALIDATION 
+
+### Validation
+
 #### HTML
-![alt text]( home-valid-html.png)
+![alt text]( /static/images/home-valid-html.png)
 
-![alt text]( taproom-valid-html.png)
+![alt text]( /static/images/products-valid-html.png)
 
-![alt text]( tours-valid-html.png)
+![alt text]( /static/images/taproom-valid-html.png)
 
-![alt text]( contact-valid-html.png)
+![alt text]( /static/images/tours-valid-html.png)
 
-![alt text]( profile-valid-html.png)
+![alt text]( /static/images/contact-valid-html.png)
+
+![alt text]( /static/images/profile-valid-html.png)
+
 #### CSS
+BASE 
+
+![alt text]( /static/images/base-css-valid.png)
+
+CHECKOUT
+
+![alt text]( /static/images/checkout-css-valid.png)
+
+HOME
+
+![alt text]( /static/images/home-css-valid.png)
+
+PRODUCT DETAIL
+
+![alt text]( /static/images/product-detail-css-valid.png)
+
+PRODUCT
+
+![alt text]( /static/images/product-css-valid.png)
+
+PROFILE
+
+![alt text]( /static/images/profile-css-valid.png)
+
+TAPROOM
+
+![alt text]( /static/images/taproom-css-valid.png)
+
+TOUR
+
+![alt text]( /static/images/tour-css-valid.png)
 
 #### JAVASCRIPT
 
+base script
+
+![alt text]( /static/images/base-js-valid.png)
+
+pop up newsletter
+
+![alt text]( /static/images/newsletter-js-valid.png)
+
+quantity input - product 
+
+![alt text]( /static/images/quantity-input-js-valid.png)
+
+Stripe element js
+
+![alt text]( /static/images/stripe-element-valid.png)
+
+Product page scroll up btn
+
+![alt text]( /static/images/product-scroll-valid.png)
+
 #### PYTHON
 
-### Manual 
+Tours views
+
+![alt text]( /static/images/tours-view-pass.png)
+
+Taproom Views
+
+![alt text]( /static/images/taproom-views-pass.png)
+
+
+Profile views 
+
+![alt text]( /static/images/profile-views-pass.png)
+
+Product views
+
+![alt text]( /static/images/product-views.pass.png)
+
+Home Views
+
+![alt text]( /static/images/home-views-pass.png)
+
+Checkout Views
+
+![alt text]( /static/images/checkout-views-pass.png)
+
+Bag Views
+
+![alt text]( /static/images/bag-views-pass.png)
+
+### Lighthouse & Accessibility
+
+### Manual Forms
 
 ### Automated 
 

@@ -355,70 +355,74 @@
     </div>
 
 
-        {% block postloadjs %}
-        <script src="{% static 'js/newsletter.js' %}"></script>
-        <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var toastElements = document.querySelectorAll('.toast');
-            toastElements.forEach(function (toastEl) {
-                var toast = new bootstrap.Toast(toastEl);
-                toast.show();
-            });
+{% block postloadjs %}
+<script src="{% static 'js/newsletter.js' %}"></script>
+<script>
+    /* global bootstrap */
+    
+document.addEventListener("DOMContentLoaded", function () {
+    var toastElements = document.querySelectorAll(".toast");
+    toastElements.forEach(function (toastEl) {
+        var toast = new bootstrap.Toast(toastEl);
+        toast.show();
+    });
 
-            if (document.getElementById("countdown-desktop")) {
-                startCountdown(24, "countdown-desktop");
-            }
-        });
+    if (document.getElementById("countdown-desktop")) {
+        startCountdown(24, "countdown-desktop");
+    }
+});
 
-        function startCountdown(hours, elementId){
-            let now = new Date();
-            let resetTime = new Date(now);
-            resetTime.setHours(now.getHours() + hours, 0, 0, 0);
+function startCountdown(hours, elementId){
+    let now = new Date();
+    let resetTime = new Date(now);
+    resetTime.setHours(now.getHours() + hours, 0, 0, 0);
 
-            function updateCountdown() {
-                let currentTime = new Date();
-                let remainingTime = resetTime - currentTime;
+    function updateCountdown() {
+        let currentTime = new Date();
+        let remainingTime = resetTime - currentTime;
 
-                if (remainingTime <= 0) {
-                    resetTime.setHours(resetTime.getHours() + hours, 0, 0, 0);
-                    remainingTime = resetTime - currentTime;
-                }
-
-                let seconds = Math.floor((remainingTime / 1000) % 60);
-                let minutes = Math.floor((remainingTime / 1000 / 60) % 60);
-                let hoursLeft = Math.floor((remainingTime / 1000 / 60 / 60));
-
-                let countdownElement = document.getElementById(elementId);
-                if (countdownElement) {
-                    countdownElement.innerHTML = `Offer ends in: ${hoursLeft}h ${minutes}m ${seconds}s`;
-                }
-
-                setTimeout(updateCountdown, 1000);
-            }
-
-            updateCountdown();
+        if (remainingTime <= 0) {
+            resetTime.setHours(resetTime.getHours() + hours, 0, 0, 0);
+            remainingTime = resetTime - currentTime;
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
-            let lastScrollTop = 0;
-            const header = document.querySelector(".site-header");
+        let seconds = Math.floor((remainingTime / 1000) % 60);
+        let minutes = Math.floor((remainingTime / 1000 / 60) % 60);
+        let hoursLeft = Math.floor((remainingTime / 1000 / 60 / 60));
 
-            window.addEventListener("scroll", function () {
-                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        let countdownElement = document.getElementById(elementId);
+        if (countdownElement) {
+            countdownElement.innerHTML = `Offer ends in: ${hoursLeft}h ` +
+                             `${minutes}m ${seconds}s`;
+        }
 
-                if (scrollTop > lastScrollTop) {
-                    // Scrolling down → Hide header
-                    header.classList.add("hidden-header");
-                } else {
-                    // Scrolling up → Show header
-                    header.classList.remove("hidden-header");
-                }
+        setTimeout(updateCountdown, 1000);
+    }
 
-                lastScrollTop = scrollTop;
-            });
-        })
-        </script>
-        {% endblock %}
+    updateCountdown();
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    let lastScrollTop = 0;
+    const header = document.querySelector(".site-header");
+
+    window.addEventListener("scroll", function () {
+        let scrollTop = window.pageYOffset ||
+        document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop) {
+            // Scrolling down → Hide header
+            header.classList.add("hidden-header");
+        } else {
+            // Scrolling up → Show header
+            header.classList.remove("hidden-header");
+        }
+
+        lastScrollTop = scrollTop;
+    });
+});
+</script>
+{% endblock %}
 
     </body>
 </html>

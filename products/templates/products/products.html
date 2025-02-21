@@ -147,44 +147,66 @@
 
 {% block postloadjs %}
     {{ block.super }}
-    <script>
-       //Get the button
-        let mybutton = document.getElementById("btn-back-to-top");
+<script>
 
-        // When the user scrolls down 20px from the top of the document, show the button
-        window.onscroll = function () {
-        scrollFunction();
-        };
+    // Get the button
+let mybutton = document.getElementById("btn-back-to-top");
 
-        function scrollFunction() {
-        if (
-            document.body.scrollTop > 20 ||
-            document.documentElement.scrollTop > 20
-        ) {
-            mybutton.style.display = "block";
-        } else {
-            mybutton.style.display = "none";
-        }
-        }
-        // When the user clicks on the button, scroll to the top of the document
-        mybutton.addEventListener("click", backToTop);
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function () {
+    scrollFunction();
+};
 
-        function backToTop() {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-        }
+function scrollFunction() {
+    if (
+        document.body.scrollTop > 20 ||
+        document.documentElement.scrollTop > 20
+    ) {
+        mybutton.style.display = "block";
+    } else {
+        mybutton.style.display = "none";
+    }
+}
 
+// When the user clicks on the button, scroll to the top of the document
+mybutton.addEventListener("click", backToTop);
 
-        function decreaseQuantity(button) {
-            let input = button.nextElementSibling;
-            if (input.value > 1) {
-                input.value = parseInt(input.value) - 1;
-            }
-        }
+function backToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
 
-        function increaseQuantity(button) {
-            let input = button.previousElementSibling;
-            input.value = parseInt(input.value) + 1;
-        }
-    </script>
+// Function to decrease quantity
+function decreaseQuantity(button) {
+    let input = button.nextElementSibling;
+    if (input.value > 1) {
+        input.value = parseInt(input.value, 10) - 1;
+    }
+}
+
+// Function to increase quantity
+function increaseQuantity(button) {
+    let input = button.previousElementSibling;
+    input.value = parseInt(input.value, 10) + 1;
+}
+
+// Attach event listeners to quantity buttons
+document.addEventListener("DOMContentLoaded", function () {
+    let decreaseButtons = document.querySelectorAll(".decrease-btn");
+    let increaseButtons = document.querySelectorAll(".increase-btn");
+
+    decreaseButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            decreaseQuantity(this);
+        });
+    });
+
+    increaseButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            increaseQuantity(this);
+        });
+    });
+});
+
+</script>
 {% endblock %}
