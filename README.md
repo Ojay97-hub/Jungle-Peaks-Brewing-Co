@@ -307,37 +307,20 @@ Using DBDIAGRAM
 ![alt text]( /static/images/profile-valid-html.png)
 
 #### CSS
-BASE 
 
-![alt text]( /static/images/base-css-valid.png)
+The core list of CSS Files:
 
-CHECKOUT
+- BASE
+- CHECKOUT
+- HOME
+- PRODUCT
+- PRODUCT DETAIL
+- PROFILE 
+- TAPROOM
+- TOUR 
 
-![alt text]( /static/images/checkout-css-valid.png)
-
-HOME
-
-![alt text]( /static/images/home-css-valid.png)
-
-PRODUCT DETAIL
-
-![alt text]( /static/images/product-detail-css-valid.png)
-
-PRODUCT
-
-![alt text]( /static/images/product-css-valid.png)
-
-PROFILE
-
-![alt text]( /static/images/profile-css-valid.png)
-
-TAPROOM
-
-![alt text]( /static/images/taproom-css-valid.png)
-
-TOUR
-
-![alt text]( /static/images/tour-css-valid.png)
+These all received a validation pass from WS3 
+![alt text]( /static/images/css-valid.png)
 
 #### JAVASCRIPT
 
