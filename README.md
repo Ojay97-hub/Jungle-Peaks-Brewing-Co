@@ -361,7 +361,7 @@ Profile views
 
 Product views
 
-![alt text]( /static/images/product-views.pass.png)
+![alt text]( /static/images/product-views-pass.png)
 
 Home Views
 
