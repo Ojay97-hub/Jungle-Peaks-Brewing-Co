@@ -213,25 +213,47 @@ def add_review(request, product_id):
     - product_detail: After successful submission.
     """
     product = get_object_or_404(Product, id=product_id)
+
     if request.method == "POST":
-        rating = int(request.POST.get("rating"))
+        rating = request.POST.get("rating")
         comment = request.POST.get("comment")
 
+        # ✅ Ensure rating is not None and is a valid number
+        try:
+            rating = int(rating)
+        except (TypeError, ValueError):
+            messages.error(request, "Invalid rating."
+                           " Please select a valid rating.")
+            return redirect('product_detail', product_id=product.id)
+
+        # ✅ Check if rating is within range
         if not (1 <= rating <= 5):
             messages.error(request, "Invalid rating. Must be between 1 and 5.")
             return redirect('product_detail', product_id=product.id)
 
+        # ✅ Ensure comment is not empty
+        if not comment:
+            messages.error(request, "Please provide"
+                           "a comment for your review.")
+            return redirect('product_detail', product_id=product.id)
+
+        # ✅ Create the review
         Review.objects.create(
             product=product,
             user=request.user,
             rating=rating,
             comment=comment
         )
-        product.update_rating()
+
+        # ✅ Update product rating if applicable
+        if hasattr(product, 'update_rating'):
+            product.update_rating()
+
         messages.success(request, "Review submitted successfully!")
         return redirect('product_detail', product_id=product.id)
 
     return redirect('product_detail', product_id=product.id)
+
 
 
 @login_required
