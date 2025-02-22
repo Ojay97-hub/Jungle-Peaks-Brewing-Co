@@ -379,33 +379,36 @@ Bag Views
 
 Home
 
-![alt text](home-lighthouse.png)
+![alt text]( /static/images/home-lighthouse.png)
 
 Products
 
-![alt text](products-lighthouse.png)
+![alt text]( /static/images/products-lighthouse.png)
 
 Product Detail 
 
-![alt text](product-detail-lighthouse.png)
+![alt text]( /static/images/product-detail-lighthouse.png)
 
 Taproom 
 
-![alt text](taproom-lighthouse.png)
+![alt text]( /static/images/taproom-lighthouse.png)
 
 Tours
 
-![alt text](tours-lighthouse.png)
+![alt text]( /static/images/tours-lighthouse.png)
 
 Contact
 
-![alt text](contact-lighthouse.png)
+![alt text]( /static/images/contact-lighthouse.png)
 
 Profile
 
-![alt text](profile-lighthouse.png)
+![alt text]( /static/images/profile-lighthouse.png)
 
 ### Manual Forms
+
+#### Purchasing with Stripe
+
 
 ### Automated 
 
