@@ -286,7 +286,6 @@ Using DBDIAGRAM
 ### Modular Roadmap
 
 
-
 ## Features 
 
 ## Testing
@@ -442,6 +441,78 @@ Newsletter admin panel
 
 #### Write a review
 
+Add review success 
+
+![alt text]( /static/images/add-review.png)
+
+Delete review success 
+
+![alt text]( /static/images/delete-review.png)
+
+Edit review success
+
+![alt text]( /static/images/edit-review.png)
+
+#### Contact message 
+
+Contact message sent
+
+![alt text]( /static/images/send-message.png)
+
+Contact admin message received 
+
+![alt text]( /static/images/admin-message.png)
+
+
+#### Profile dashboard 
+
+All website activity successfully collected into profile dashboard
+
+![alt text]( /static/images/profile-dashboard.png)
+
+
+#### Product Categories
+
+Merch shows merch
+
+![alt text]( /static/images/merch-show.png)
+
+Gift sets show gift sets
+
+![alt text]( /static/images/gift-sets-show.png)
+
+IPA sort shows IPAs 
+
+![alt text]( /static/images/ipa-show.png)
+
+
+#### Add Product
+
+Add a product 
+
+![alt text]( /static/images/add-product.png)
+
+Delete a product 
+
+![alt text]( /static/images/delete-product.png)
+
+Edit a product
+
+![alt text]( /static/images/edit-product.png)
+
+
+#### Register for an account 
+Verification email
+
+![alt text](confirmation-email-sent.png)
+
+Email received
+
+![alt text](email-received.png)
+
+Confirmed email
+
+![alt text](confirm-email.png)
 
 
 ### Automated 
