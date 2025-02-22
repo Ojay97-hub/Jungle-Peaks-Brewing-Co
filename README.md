@@ -409,6 +409,30 @@ Profile
 
 #### Purchasing with Stripe
 
+![alt text]( purchase-stripe.png)
+
+#### Booking a table
+
+![alt text]( book-table.png)
+
+#### Booking a tour
+
+Availability 
+
+![alt text](tour-availability.png)
+
+Book tour success
+
+![alt text]( book-tour.png)
+
+
+#### Newsletter Signup
+
+Newsletter pop-up
+
+![alt text](newsletter-popup.png)
+
+
 
 ### Automated 
 

@@ -118,7 +118,22 @@ def set_interests(request):
             subscriber_id = data.get("subscriber_id")
             selected_interests = data.get("interests", [])
 
+            # Ensure subscriber_id is provided
+            if not subscriber_id:
+                return JsonResponse({
+                    "success": False,
+                    "message": "Missing subscriber ID."
+                })
+
             subscriber = NewsletterSubscriber.objects.get(id=subscriber_id)
+
+            # Ensure at least one interest is selected
+            if not selected_interests:
+                return JsonResponse({
+                    "success": False,
+                    "message": "No interests selected."
+                })
+
             subscriber.interests = ",".join(selected_interests)
             subscriber.save()
 
