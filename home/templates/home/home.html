@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static imgix_tags %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'home/css/home.css' %}">
@@ -8,9 +8,10 @@
 {% block content %}
 <!-- Hero Section -->
 <div class="hero-image position-relative">
-  <img src="{% static 'images/jungle-hero-image.webp' %}" class="hero-img" loading="lazy" alt="Hero Image">
+  <img src="{% imgix_url 'images/jungle-hero-image.jpg' 'w=1920&h=800&fit=crop&auto=format,compress&q=75' %}" 
+             class="hero-img" loading="lazy" width="1920" height="800" alt="Hero Image">
   <div class="hero-overlay position-absolute top-50 start-50 translate-middle text-center">
-      <h1 class="display-3 fw-boldest hero-title">Jungle Peaks Brewing</h1>
+      <h1 class="display-3 fw-bold hero-title">Jungle Peaks Brewing</h1>
       <p class="hero-subtitle">Crafting nature’s finest beers</p>
   </div>
 </div>
@@ -38,10 +39,10 @@
         </div>
         <!-- Image Section -->
         <div class="col-lg-6 col-md-12 text-center image-content">
-            <img src="{% static 'images/jungle-about-us.webp' %}" 
-                 class="about-img img-fluid rounded" 
-                 loading="lazy" 
-                 alt="About Jungle Peaks Brewing">
+          <img src="{% imgix_url 'images/jungle-about-us.webp' 'w=800&h=600&fit=crop' %}" 
+          class="about-img img-fluid rounded" width="1920" height="800"
+          loading="lazy" 
+          alt="About Jungle Peaks Brewing">
         </div>
     </div>
   </div>
@@ -53,7 +54,7 @@
     <div class="row">
       <div class="col-md-4 mb-4">
           <div class="card h-100 shadow border-0 rounded-3">
-              <img src="{% static 'images/shop-beer.webp' %}" class="card-img-top rounded-top-3" loading="lazy" alt="Craft Beer Selection">
+              <img src="{% imgix_url 'images/shop-beer.webp' 'w=800&h=600&fit=crop' %}" class="card-img-top rounded-top-3" loading="lazy"  width="1920" height="800" alt="Craft Beer Selection">
               <div class="card-body">
                   <h3 class="card-title fw-bold">Craft Beer Selection</h3>
                   <p class="card-text">Explore our diverse range of craft beers brewed with unique flavors inspired by nature.</p>
@@ -63,7 +64,7 @@
       </div>
       <div class="col-md-4 mb-4">
           <div class="card h-100 shadow border-0 rounded-3">
-              <img src="{% static 'images/shop-merch.webp' %}" class="card-img-top rounded-top-3" loading="lazy" alt="Merchandise">
+              <img src="{% imgix_url 'images/shop-merch.webp' 'w=800&h=600&fit=crop' %}" class="card-img-top rounded-top-3" loading="lazy" width="1920" height="800" alt="Merchandise">
               <div class="card-body">
                   <h3 class="card-title fw-bold">Merchandise</h3>
                   <p class="card-text">Discover our exclusive line of merchandise, perfect for any brewery enthusiast.</p>
@@ -73,7 +74,7 @@
       </div>
       <div class="col-md-4 mb-4">
           <div class="card h-100 shadow border-0 rounded-3">
-              <img src="{% static 'images/go-to-taproom.webp' %}" class="card-img-top rounded-top-3" loading="lazy" alt="Taproom Experience">
+              <img src="{% imgix_url 'images/go-to-taproom.webp' 'w=800&h=600&fit=crop' %}" class="card-img-top rounded-top-3" loading="lazy" width="1920" height="800" alt="Taproom Experience">
               <div class="card-body">
                   <h3 class="card-title fw-bold">Taproom Experience</h3>
                   <p class="card-text">Join us for an unforgettable taproom experience, featuring our latest brews.</p>
@@ -94,9 +95,9 @@
         <div class="card h-100 shadow border-0 rounded-3">
           <div class="card-body">
             <div class="d-flex align-items-center mb-3">
-              <img src="{% static 'images/sarah-review.webp' %}" alt="Sarah Thompson" class="rounded-circle me-3" loading="lazy" width="50" height="50">
+              <img src="{% static 'images/sarah-review.webp' %}" alt="Sarah Thompson" class="rounded-circle me-3" loading="lazy"  width="1920" height="800">
               <div>
-                <h5 class="fw-bold m-0">Sarah Thompson</h5>
+                <h3 class="fw-bold m-0">Sarah Thompson</h3>
                 <p class="text-primary mb-0">★★★★★</p>
               </div>
             </div>
@@ -108,9 +109,9 @@
         <div class="card h-100 shadow border-0 rounded-3">
           <div class="card-body">
             <div class="d-flex align-items-center mb-3">
-              <img src="{% static 'images/james-review.webp' %}" alt="James Lee" class="rounded-circle me-3" loading="lazy" width="50" height="50">
+              <img src="{% static 'images/james-review.webp' %}" alt="James Lee" class="rounded-circle me-3" loading="lazy" width="1920" height="800">
               <div>
-                <h5 class="fw-bold m-0">James Lee</h5>
+                <h3 class="fw-bold m-0">James Lee</h3>
                 <p class="text-primary mb-0">★★★★★</p>
               </div>
             </div>
@@ -122,9 +123,9 @@
         <div class="card h-100 shadow border-0 rounded-3">
           <div class="card-body">
             <div class="d-flex align-items-center mb-3">
-              <img src="{% static 'images/emily-review.webp' %}" alt="Emily Watson" class="rounded-circle me-3" loading="lazy" width="50" height="50">
+              <img src="{% static 'images/emily-review.webp' %}" alt="Emily Watson" class="rounded-circle me-3" loading="lazy" width="1920" height="800">
               <div>
-                <h5 class="fw-bold m-0">Emily Watson</h5>
+                <h3 class="fw-bold m-0">Emily Watson</h3>
                 <p class="text-primary mb-0">★★★★★</p>
               </div>
             </div>
@@ -144,19 +145,19 @@
       <!-- Sustainability -->
       <div class="col-md-4 mb-4">
         <i class="fas fa-leaf text-success fs-1 mb-3"></i>
-        <h5 class="fw-bold">Sustainability</h5>
+        <h3 class="fw-bold">Sustainability</h3>
         <p>Committed to eco-friendly brewing practices and reducing our carbon footprint.</p>
       </div>
       <!-- Local Sourcing -->
       <div class="col-md-4 mb-4">
         <i class="fas fa-map-marker-alt text-danger fs-1 mb-3"></i>
-        <h5 class="fw-bold">Local Sourcing</h5>
+        <h3 class="fw-bold">Local Sourcing</h3>
         <p>Using locally sourced ingredients to support local farmers and communities.</p>
       </div>
       <!-- Community -->
       <div class="col-md-4 mb-4">
         <i class="fas fa-users text-warning fs-1 mb-3"></i>
-        <h5 class="fw-bold">Community</h5>
+        <h3 class="fw-bold">Community</h3>
         <p>Building a strong community through events and partnerships.</p>
       </div>
     </div>

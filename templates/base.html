@@ -1,11 +1,10 @@
-{% load static %}
+{% load static imgix_tags %}
 
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
 
     {% block meta %}
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -16,6 +15,12 @@
         Stout beer, Wheat Beer, Pale Ale, Sour beer, Seasonal Ale, Light Beer, beer delivery, beer store, 
         buy beer online, craft beer gifts, best craft beer in Amazon">
         <meta name="author" content="Jungle Peaks Brewing">
+
+        <meta property="og:title" content="Jungle Peaks Brewing">
+        <meta property="og:description" content="Explore Jungle Peaks Brewing's diverse selection of craft beers, including IPAs, lagers, stouts, and more.">
+        <meta property="og:image" content="{% imgix_url 'images/og-image.jpg' %}">
+        <meta property="og:url" content="https://yourwebsite.com">
+        <meta property="og:type" content="website">
     {% endblock %}
 
     {% block extra_meta %}
@@ -25,7 +30,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Montserrat:wght@100..900&family=Noto+Sans:wght@100..900&display=swap">
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% endblock %}
 
@@ -34,13 +39,13 @@
 
     {% block corejs %}
         <script src="https://kit.fontawesome.com/e696cb5a12.js" crossorigin="anonymous"></script>
-        <!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script> -->
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-        <!-- Stripe -->
-        <script src="https://js.stripe.com/v3/"></script>
-        
+        <!-- Stripe -->        
+        {% if request.resolver_match.url_name == 'checkout' %}
+        <script src="https://js.stripe.com/v3/" async></script>
+        {% endif %}
     {% endblock %}
 
     {% block extra_js %}
@@ -51,52 +56,55 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.png'  %}">
 
+    <!-- pre-loading the hero images -->
+    <link rel="preload" as="image" href="{% imgix_url 'images/jungle-hero-image.jpg' 'w=1920&h=800&fit=crop&auto=format,compress&q=75' %}">
+
     <title>Jungle Peaks Brewing {% block extra_title %}{% endblock %}</title>
-  </head>
+    </head>
 
   <body>
-  <!-- Header -->
-  <header class="border-bottom site-header">
+<!-- Header --> 
+<header class="border-bottom site-header">
     <!-- Top banner section -->
     <div id="delivery-banner" class="bg-yellow text-center py-2">
         <p class="logo-font m-0">
             🚛 <a href="{% url 'products' %}" class="text-dark fw-bold promo-link">
                 Free delivery on orders over £{{ free_delivery_threshold }}! Order now! 🎉
             </a>
-            <span id="countdown-desktop"></span> ⏳
+            <span id="countdown-desktop" aria-live="polite"></span> ⏳
         </p>                
     </div>
 
-      <!-- Main Header Section -->
-      <div class="container py-2">
-          <div class="d-flex align-items-center justify-content-between">
-              <!-- Brand Logo -->
-              <a href="{% url 'home' %}" class="text-decoration-none d-none d-md-inline">
-                  <h1 class="jungle-peaks-logo m-0 fw-bold"> 
-                      <i class="fas fa-mountain"></i> Jungle Peaks 🍻
-                  </h1>
-              </a>
-          
-              {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}
-              <!-- Main Search Bar (Always Visible for Screens > 400px) -->
-              <div class="main-search-bar d-none d-md-flex">
-                  <form method="GET" action="{% url 'products' %}" class="input-group-2">
-                      <input 
-                          type="text" 
-                          name="q" 
-                          class="form-control border-0 px-3" 
-                          placeholder="Search for products...">
-                      <button type="submit" class="btn btn-dark">
-                          <i class="fas fa-search"></i>
-                      </button>
-                  </form>
-              </div>
-              {% endif %}
+    <!-- Main Header Section -->
+    <div class="container py-2">
+        <div class="d-flex align-items-center justify-content-between">
+            <!-- Brand Logo -->
+            <a href="{% url 'home' %}" class="text-decoration-none d-none d-md-inline" aria-label="Go to Jungle Peaks Brewing homepage">
+                <h1 class="jungle-peaks-logo m-0 fw-bold"> 
+                    <i class="fas fa-mountain"></i> Jungle Peaks 🍻
+                </h1>
+            </a>
+        
+            {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}
+            <!-- Main Search Bar -->
+            <div class="main-search-bar d-none d-md-flex">
+                <form method="GET" action="{% url 'products' %}" class="input-group-2">
+                    <input 
+                        type="text" 
+                        name="q" 
+                        class="form-control border-0 px-3" 
+                        placeholder="Search for products..." 
+                        aria-label="Search for products">
+                    <button type="submit" class="btn btn-dark" aria-label="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+            {% endif %}
 
             <!-- Header Icons -->
             <div class="d-flex align-items-center ms-auto header-icons-wrapper">
-                
-                <!-- Navbar Toggler (For Mobile) - ADDED BACK -->
+                <!-- Navbar Toggler (For Mobile) -->
                 <button 
                     class="navbar-toggler menu-toggle d-flex d-lg-none me-2" 
                     id="main-nav-toggle" 
@@ -105,13 +113,12 @@
                     data-bs-target="#secondary-nav" 
                     aria-controls="secondary-nav" 
                     aria-expanded="false" 
-                    aria-label="Toggle navigation"
-                >
+                    aria-label="Toggle navigation menu">
                     <i class="fas fa-bars"></i>
                 </button>
 
                 <!-- Shopping Bag -->
-                <a class="nav-link bag-icon d-flex align-items-center" href="{% url 'view_bag' %}">
+                <a class="nav-link bag-icon d-flex align-items-center" href="{% url 'view_bag' %}" aria-label="View shopping bag">
                     <div class="icon-wrapper">
                         <i class="fas fa-shopping-bag fa-lg"></i>
                     </div>
@@ -132,7 +139,7 @@
                         id="user-options" 
                         data-bs-toggle="dropdown" 
                         aria-expanded="false"
-                    >
+                        aria-label="User account options">
                         <div class="icon-wrapper">
                             <i class="fas fa-user fa-lg"></i>
                         </div>
@@ -154,14 +161,12 @@
                     </ul>
                 </div>
             </div>
-          </div>
-      </div>
+        </div>
+    </div>
 
-      <!-- Secondary Header Section for Navigation -->
-      <nav class="border-top">
+    <!-- Secondary Header Section for Navigation -->
+    <nav class="border-top">
         <div class="container py-3">
-            <!-- Toggler Button (Centered Below 992px) -->
-            <!-- Secondary Header Toggler (Only Hide at 435px) -->
             <div class="d-flex justify-content-center">
                 <button class="navbar-toggler mb-2 text-white d-lg-none secondary-navbar-toggler" type="button" 
                     data-bs-toggle="collapse" data-bs-target="#secondary-nav" 
@@ -173,60 +178,29 @@
 
             <!-- Collapsible Navigation Menu -->
             <div class="collapse navbar-collapse" id="secondary-nav">
-            
-              {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}
-              <!-- Search Bar (Only inside navbar toggle for screens ≤ 400px) -->
-              <div class="search-bar-wrapper d-block d-lg-none mb-3 inside-navbar">
-                  <form method="GET" action="{% url 'products' %}" class="input-group-2">
-                      <input 
-                          type="text" 
-                          name="q" 
-                          class="form-control border-0 px-3" 
-                          placeholder="Search for products...">
-                      <button type="submit" class="btn btn-dark">
-                          <i class="fas fa-search"></i>
-                      </button>
-                  </form>
-              </div>
-              {% endif %}
-
-                <!-- Navigation Links -->
                 <ul class="navbar-nav d-flex justify-content-center align-items-center flex-lg-row flex-column">
                     <li class="nav-item">
-                        <a href="{% url 'home' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white 
-                            {% if request.resolver_match.url_name == 'home' %} active{% endif %}">
-                            Home
-                        </a>
+                        <a href="{% url 'home' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white {% if request.resolver_match.url_name == 'home' %} active{% endif %}" aria-label="Go to Home Page">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'products' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white 
-                            {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %} active{% endif %}">
-                            Shop
-                        </a>
+                        <a href="{% url 'products' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %} active{% endif %}" aria-label="Go to Shop">Shop</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'taproom' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white 
-                            {% if request.resolver_match.url_name == 'taproom' %} active{% endif %}">
-                            Taproom
-                        </a>
+                        <a href="{% url 'taproom' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white {% if request.resolver_match.url_name == 'taproom' %} active{% endif %}" aria-label="Go to Taproom">Taproom</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'tours' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white wrap-item
-                            {% if request.resolver_match.url_name == 'tours' %} active{% endif %}">
-                            Tours
-                        </a>
+                        <a href="{% url 'tours' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white {% if request.resolver_match.url_name == 'tours' %} active{% endif %}" aria-label="Go to Tours">Tours</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'contact:contact' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white wrap-item
-                            {% if request.resolver_match.url_name == 'contact' %} active{% endif %}">
-                            Contact
-                        </a>
+                        <a href="{% url 'contact:contact' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white {% if request.resolver_match.url_name == 'contact' %} active{% endif %}" aria-label="Go to Contact Page">Contact</a>
                     </li>
                 </ul>
             </div>
         </div>
-      </nav>
-  </header>
+    </nav>
+</header>
+
+
 
 
     <main>
@@ -256,88 +230,91 @@
     </main>
 
 <!-- FOOTER SECTION -->
+<!-- FOOTER SECTION -->
 <footer class="footer bg-black text-white py-5">
-  <div class="container">
-          <!-- Main Footer Content -->
-          <div class="row justify-content-between">
-            <!-- Newsletter Section -->
-            <div class="col-md-4 mb-4">
-              <h5 class="text-start fw-bold">Newsletter</h5>
-              <p class="text-start">Sign up for our newsletter to stay updated on our latest brews and events.</p>
-              <form action="{% url 'newsletter_signup' %}" method="POST" class="d-flex align-items-center" id="newsletter-form">
-                  {% csrf_token %}
-                  <input 
-                      type="email" 
-                      name="email"
-                      id="email" 
-                      class="form-control me-2 input-lg" 
-                      placeholder="Enter your email" 
-                      required
-                  >
-                <button type="submit" class="btn custom-btn">
-                      Subscribe
-                  </button>
-              </form>
-          </div>
-
-          <!-- Explore and Quick Links Section -->
-            <div class="col-md-4">
-              <div class="row">
-                <!-- Explore Section -->
-                <div class="col-6">
-                  <h5 class="text-start fw-bold">Explore</h5>
-                  <ul class="list-unstyled text-start">
-                      <li><a href="{% url 'home' %}" class="text-white text-decoration-none">Home</a></li>
-                      <li><a href="{% url 'products' %}" class="text-white text-decoration-none">Shop</a></li>
-                      <li><a href="{% url 'taproom' %}" class="text-white text-decoration-none">Taproom</a></li>
-                      <li><a href="{% url 'tours' %}" class="text-white text-decoration-none">Tours</a></li>
-                  </ul>
-              </div>
-      
-                <!-- Quick Links Section -->
-                <div class="col-6">
-                  <h5 class="text-start fw-bold">Quick Links</h5>
-                  <ul class="list-unstyled text-start">
-                      <li><a href="https://www.termsfeed.com/live/1c4b584c-86ce-43c1-9a8e-09e3d3f9f315" class="text-white text-decoration-none">Privacy Policy</a></li>
-                      <li><a href="{% url 'contact:contact' %}" class="text-white text-decoration-none">Contact Us</a></li>
-                      <li><a href="{% url 'home' %}#about" class="text-white text-decoration-none">About Us</a></li>
-                    <li><a href="{% url 'contact:contact' %}#faqs" class="text-white text-decoration-none">FAQs</a></li>
-                  </ul>
+    <div class="container">
+            <!-- Main Footer Content -->
+            <div class="row justify-content-between">
+              <!-- Newsletter Section -->
+              <div class="col-md-4 mb-4">
+                <h3 class="text-start fw-bold">Newsletter</h3>
+                <p class="text-start">Sign up for our newsletter to stay updated on our latest brews and events.</p>
+                <form action="{% url 'newsletter_signup' %}" method="POST" class="d-flex align-items-center" id="newsletter-form">
+                    {% csrf_token %}
+                    <input 
+                        type="email" 
+                        name="email"
+                        id="email" 
+                        class="form-control me-2 input-lg" 
+                        placeholder="Enter your email" 
+                        required
+                        aria-label="Enter your email to subscribe">
+                  <button type="submit" class="btn custom-btn" aria-label="Subscribe to newsletter">
+                        Subscribe
+                    </button>
+                </form>
+            </div>
+  
+            <!-- Explore and Quick Links Section -->
+              <div class="col-md-4">
+                <div class="row">
+                  <!-- Explore Section -->
+                  <div class="col-6">
+                    <h3 class="text-start fw-bold">Explore</h3>
+                    <ul class="list-unstyled text-start">
+                        <li><a href="{% url 'home' %}" class="text-white text-decoration-none" aria-label="Go to Home">Home</a></li>
+                        <li><a href="{% url 'products' %}" class="text-white text-decoration-none" aria-label="Go to Shop">Shop</a></li>
+                        <li><a href="{% url 'taproom' %}" class="text-white text-decoration-none" aria-label="Go to Taproom">Taproom</a></li>
+                        <li><a href="{% url 'tours' %}" class="text-white text-decoration-none" aria-label="Go to Tours">Tours</a></li>
+                    </ul>
+                </div>
+        
+                  <!-- Quick Links Section -->
+                  <div class="col-6">
+                    <h3 class="text-start fw-bold">Quick Links</h3>
+                    <ul class="list-unstyled text-start">
+                        <li><a href="https://www.termsfeed.com/live/1c4b584c-86ce-43c1-9a8e-09e3d3f9f315" class="text-white text-decoration-none" aria-label="View Privacy Policy">Privacy Policy</a></li>
+                        <li><a href="{% url 'contact:contact' %}" class="text-white text-decoration-none" aria-label="Contact Us">Contact Us</a></li>
+                        <li><a href="{% url 'home' %}#about" class="text-white text-decoration-none" aria-label="Learn more About Us">About Us</a></li>
+                        <li><a href="{% url 'contact:contact' %}#faqs" class="text-white text-decoration-none" aria-label="View FAQs">FAQs</a></li>
+                    </ul>
+                </div>
               </div>
             </div>
-          </div>
-
-          <!-- Follow Us Section -->
-          <div class="col-md-3 text-center">
-              <h5 class="fw-bold">Follow Us</h5>
-              <div class="d-flex justify-content-center gap-3 mt-3">
-                  <a href="https://www.facebook.com/profile.php?id=61573268283619" target="_blank" rel="noopener" class="text-warning text-decoration-none">
-                      <i class="fab fa-facebook fa-2x icon"></i>
-                  </a>
-                  <a href="https://twitter.com" target="_blank"  rel="noopener" class="text-warning text-decoration-none">
-                      <i class="fab fa-twitter fa-2x icon"></i>
-                  </a>
-                  <a href="https://instagram.com" target="_blank" rel="noopener" class="text-warning text-decoration-none">
-                      <i class="fab fa-instagram fa-2x icon"></i>
-                  </a>
-              </div>
-          </div>
-      </div>
-
-      <!-- Divider and Footer Bottom -->
-      <hr class="text-white opacity-25 mt-4">
-      <div class="text-center mt-3">
-          <p class="mb-1">Jungle Peaks Brewing, 123 Craft Lane, Beer Town, BT 78910</p>
-          <p>
-              <a href="https://www.google.com/maps?q=AM-070%20-%20Iranduba,%20Manaus%20-%20AM,%2069405-000,%20Brazil"  
-                  target="_blank" 
-                  class="text-white text-decoration-none">
-                  View in Google Maps
-              </a>
-          </p>
-      </div>
-  </div>
-</footer>
+  
+            <!-- Follow Us Section -->
+            <div class="col-md-3 text-center">
+                <h3 class="fw-bold">Follow Us</h3>
+                <div class="d-flex justify-content-center gap-3 mt-3">
+                    <a href="https://www.facebook.com/profile.php?id=61573268283619" target="_blank" rel="noopener" class="text-warning text-decoration-none" aria-label="Follow us on Facebook">
+                        <i class="fab fa-facebook fa-2x icon"></i>
+                    </a>
+                    <a href="https://twitter.com" target="_blank"  rel="noopener" class="text-warning text-decoration-none" aria-label="Follow us on Twitter">
+                        <i class="fab fa-twitter fa-2x icon"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener" class="text-warning text-decoration-none" aria-label="Follow us on Instagram">
+                        <i class="fab fa-instagram fa-2x icon"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+  
+        <!-- Divider and Footer Bottom -->
+        <hr class="text-white opacity-25 mt-4">
+        <div class="text-center mt-3">
+            <p class="mb-1">Jungle Peaks Brewing, 123 Craft Lane, Beer Town, BT 78910</p>
+            <p>
+                <a href="https://www.google.com/maps?q=AM-070%20-%20Iranduba,%20Manaus%20-%20AM,%2069405-000,%20Brazil"  
+                    target="_blank" 
+                    class="text-white text-decoration-none" 
+                    aria-label="View Jungle Peaks Brewing location on Google Maps">
+                    View in Google Maps
+                </a>
+            </p>
+        </div>
+    </div>
+  </footer>
+  
 
     <!-- Newsletter Interest Pop-up -->
     <div id="newsletter-popup" class="modal-overlay">

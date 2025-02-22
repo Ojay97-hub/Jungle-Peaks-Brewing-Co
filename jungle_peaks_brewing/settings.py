@@ -64,6 +64,7 @@ INSTALLED_APPS = [
 
 # Middleware
 MIDDLEWARE = [
+    'django.middleware.gzip.GZipMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -155,6 +156,10 @@ USE_I18N = True
 USE_TZ = True
 
 USE_AWS = True
+
+# Imgix Configuration
+IMGIX_DOMAIN = "junglepeaksbrewing.imgix.net"
+USE_IMGIX = True  # Toggle this if you want to easily switch between S3 & Imgix
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
