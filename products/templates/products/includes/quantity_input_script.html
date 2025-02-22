@@ -1,6 +1,5 @@
-/* global $ */
-
 <script>
+    /* global $ */
     $(document).ready(function () {
         "use strict";
 
@@ -39,6 +38,8 @@
             $(closestInput).val(currentValue + 1);
             let itemId = $(this).data("item_id");
             handleEnableDisable(itemId);
+            
+            $(this).blur();
         });
 
         // Decrement quantity
@@ -51,6 +52,8 @@
             $(closestInput).val(currentValue - 1);
             let itemId = $(this).data("item_id");
             handleEnableDisable(itemId);
+
+            $(this).blur();
         });
     });
 </script>

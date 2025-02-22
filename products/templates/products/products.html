@@ -182,12 +182,14 @@ function decreaseQuantity(button) {
     if (input.value > 1) {
         input.value = parseInt(input.value, 10) - 1;
     }
+    button.blur(); // ✅ Remove focus after clicking
 }
 
 // Function to increase quantity
 function increaseQuantity(button) {
     let input = button.previousElementSibling;
     input.value = parseInt(input.value, 10) + 1;
+    button.blur(); // ✅ Remove focus after clicking
 }
 
 // Attach event listeners to quantity buttons

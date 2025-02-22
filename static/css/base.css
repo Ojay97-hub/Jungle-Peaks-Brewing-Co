@@ -122,6 +122,108 @@ main {
     transition: transform 0.3s ease-in-out;
 }
 
+/* HEADER ICONS - CART & ACCOUNT */
+.header-icons-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Reduced gap to bring icons closer */
+    position: relative;
+}
+
+/* Icon Styling */
+.header-icons-wrapper i {
+    font-size: 1.5rem;
+    color: white;
+    transition: color 0.3s ease, transform 0.2s ease-in-out;
+}
+
+/* Remove Bootstrap's default dropdown arrow */
+.user-icon::after {
+    display: none !important;
+}
+
+/* General Icon Wrapper */
+.icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Reduce background effect on small screens */
+@media (max-width: 768px) {
+    .icon-wrapper {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+/* Icon Hover Effect */
+.icon-wrapper:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+/* Ensure Icons and Text Stay Grouped */
+.bag-icon,
+.user-icon {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Reduced spacing */
+    text-decoration: none;
+    color: white;
+    position: relative;
+}
+
+/* Fix Shopping Bag Text Alignment */
+.bag-text {
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    margin-left: 5px;
+}
+
+/* Fix Hover Effects */
+.bag-icon:hover i,
+.user-icon:hover i {
+    transform: scale(1.2);
+    color: #FFD700; /* Gold Highlight */
+}
+
+/* Dropdown Arrow Fix */
+.dropdown-arrow {
+    font-size: 0.8rem;
+    margin-left: -3px; /* Adjusted for better alignment */
+    color: white !important; /* Forces correct color */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Dropdown Arrow Rotation on Hover */
+.user-icon:hover .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    background-color: #222;
+    border: none;
+}
+
+/* Dropdown Items */
+.dropdown-menu .dropdown-item {
+    color: white;
+    transition: background 0.3s ease;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #444;
+}
+
+
 /* Search Bar and Magnifying Glass */
 /* Search Bar - Ensure Proper Width */
 .main-search-bar {
@@ -899,7 +1001,7 @@ ul.list-unstyled li a:hover {
     }
 }
 
-@media screen and (min-width: 436px) {
+@media screen and (min-width: 435px) {
     .main-search-bar {
         display: flex !important;  /* Ensure visibility */
     }
@@ -941,6 +1043,19 @@ ul.list-unstyled li a:hover {
 
 /* 📌 Hide table on small screens */
 @media (max-width: 768px) {
+    .icon-wrapper {
+        width: 40px;
+        height: 40px;
+    }
+
+    .bag-text {
+        font-size: 0.9rem;
+    }
+
+    .dropdown-arrow {
+        font-size: 0.7rem;
+    }
+
     .table-responsive {
         display: none;
     }

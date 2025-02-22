@@ -36,8 +36,10 @@ BOOKING_STATUS = [
     ("canceled", "Canceled"),
 ]
 
+
 class TourBooking(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # Optional for guests
+    user = models.ForeignKey(User, on_delete=models.SET_NULL,
+                             null=True, blank=True)  # Optional for guests
     tour = models.CharField(max_length=20, choices=TOUR_CHOICES)
     name = models.CharField(max_length=100)
     email = models.EmailField()
@@ -45,15 +47,22 @@ class TourBooking(models.Model):
     date = models.DateField()
     guests = models.PositiveIntegerField()
     special_requests = models.TextField(blank=True, null=True)
-    status = models.CharField(max_length=10, choices=BOOKING_STATUS, default="pending")  # Default to pending
+    status = models.CharField(max_length=10,
+                              choices=BOOKING_STATUS, default="pending")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.name} - {self.get_tour_display()} on {self.date}"
 
     def get_available_slots(self):
-        """ Returns the number of available slots for the selected tour on a given date. """
-        booked_guests = TourBooking.objects.filter(tour=self.tour, date=self.date, status="confirmed").aggregate(models.Sum('guests'))['guests__sum'] or 0
+        """ Returns the number of available slots for
+            the selected tour on a given date. """
+        booked_guests = (
+                    TourBooking.objects
+                    .filter(tour=self.tour, date=self.date, status="confirmed")
+                    .aggregate(total=models.Sum("guests"))
+                    .get("total", 0) or 0
+                )
         return TOUR_CAPACITY[self.tour] - booked_guests
 
     def save(self, *args, **kwargs):

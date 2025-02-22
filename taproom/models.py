@@ -1,9 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# booking a table model
+
+# Booking a table model
 class Booking(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # Optional for guests
+    user = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True
+    )  # Optional for guests
     name = models.CharField(max_length=100)
     email = models.EmailField()
     phone = models.CharField(max_length=15)
@@ -14,4 +17,6 @@ class Booking(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Booking for {self.name} on {self.date} at {self.time}"
+        return (
+            f"Booking for {self.name} on {self.date} at {self.time}"
+        )
