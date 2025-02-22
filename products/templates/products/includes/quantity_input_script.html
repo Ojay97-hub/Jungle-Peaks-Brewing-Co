@@ -1,9 +1,9 @@
+<!-- Load this script AFTER jQuery is loaded -->
 <script>
     /* global $ */
     $(document).ready(function () {
         "use strict";
 
-        // Disable +/- buttons outside 1-99 range
         function handleEnableDisable(itemId) {
             let currentValue = parseInt($(`#id_qty_${itemId}`).val(), 10);
             if (isNaN(currentValue)) return;
@@ -15,20 +15,17 @@
             $(`#increment-qty_${itemId}`).prop("disabled", plusDisabled);
         }
 
-        // Ensure proper enabling/disabling of all inputs on page load
         let allQtyInputs = $(".qty_input");
         allQtyInputs.each(function () {
             let itemId = $(this).data("item_id");
             handleEnableDisable(itemId);
         });
 
-        // Check enable/disable every time the input is changed
         $(".qty_input").on("change", function () {
             let itemId = $(this).data("item_id");
             handleEnableDisable(itemId);
         });
 
-        // Increment quantity
         $(".increment-qty").on("click", function (e) {
             e.preventDefault();
             let closestInput = $(this).closest(".input-group").find(".qty_input")[0];
@@ -42,7 +39,6 @@
             $(this).blur();
         });
 
-        // Decrement quantity
         $(".decrement-qty").on("click", function (e) {
             e.preventDefault();
             let closestInput = $(this).closest(".input-group").find(".qty_input")[0];

@@ -80,9 +80,19 @@ p {
 }
 /* Rounded Google Map */
 .map-container {
-    border-radius: 15px;  /* Adjust for roundness */
-    overflow: hidden;     /* Ensures the corners are clipped */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Optional: Adds subtle shadow */
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Prevents any overflow */
+}
+
+.google-map-img {
+    width: 100%;
+    max-width: 900px; /* Adjust based on your layout */
+    height: auto;
+    border-radius: 8px; /* Optional for a rounded corner */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional for a shadow effect */
 }
 
 /* Background for the Jungle Menu */

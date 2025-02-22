@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load static imgix_tags %}
 
-
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'products/css/products.css' %}">
 {% endblock %}
@@ -17,9 +16,9 @@
 {% block content %}
     <div class="hero-section">
         <img
-            src="{% static 'images/jungle-hero-image.webp' %}"
+            src="{% imgix_url 'images/jungle-hero-image.jpg' %}"
             alt="Jungle Peaks Brewing Shop Hero"
-            class="hero-image">
+            class="hero-image" style="max-height: 800px;">
         <div class="hero-overlay">
             <div class="hero-content">
                 <h1 class="hero-title">Jungle Peaks Brewing Shop</h1>
@@ -92,15 +91,33 @@
                             <div class="card h-100 border-0 shadow">
                                 <a href="{% url 'product_detail' product.id %}" class="text-decoration-none">
                                     {% if product.image_url %}
-                                        <img class="card-img-top img-fluid" src="{{ product.image_url }}" alt="{{ product.name }}">
-                                    {% elif product.image %}
-                                        <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
+                                    {% if "http" in product.image_url %}
+                                        <!-- If image is an absolute URL (external), use it directly -->
+                                        <img class="card-img-top img-fluid" 
+                                             src="{{ product.image_url }}" 
+                                             alt="{{ product.name }}">
                                     {% else %}
-                                        <img class="card-img-top img-fluid" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
+                                        <!-- If it's a relative URL, use imgix -->
+                                        <img class="card-img-top img-fluid" 
+                                             src="{% imgix_url product.image_url params='w=800&h=600&fit=crop&auto=format,compress&q=75' %}" 
+                                             alt="{{ product.name }}">
                                     {% endif %}
+                                
+                                {% elif product.image %}
+                                    <!-- Ensure `product.image.name` gets properly processed -->
+                                    <img class="card-img-top img-fluid" 
+                                         src="{% imgix_url product.image.name params='w=800&h=600&fit=crop&auto=format,compress&q=75' %}" 
+                                         alt="{{ product.name }}">
+                                
+                                {% else %}
+                                    <!-- Default image -->
+                                    <img class="card-img-top img-fluid" 
+                                         src="{% imgix_url 'noimage.png' params='w=800&h=600&fit=crop&auto=format,compress&q=75' %}" 
+                                         alt="{{ product.name }}">
+                                {% endif %}
                                 </a>
                                 <div class="card-body">
-                                    <h5 class="card-title text-dark">{{ product.name }}</h5>
+                                    <h3 class="card-title text-dark">{{ product.name }}</h3>
                                     <p class="card-text text-muted"><small>{{ product.category.name }}</small></p>
                                      <!-- ADDING DESCRIPTION HERE -->
                                     <p class="card-text">{{ product.description|truncatewords:20 }}</p>
@@ -118,13 +135,27 @@
                                     <!-- Quantity Input with + and - Buttons -->
                                     <form method="POST" action="{% url 'add_to_bag' product.id %}" class="d-flex align-items-center">
                                         {% csrf_token %}
-                                        <!-- Include redirect_url -->
                                         <input type="hidden" name="redirect_url" value="{{ request.path }}">
+
                                         <div class="input-group">
-                                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="decreaseQuantity(this)">−</button>
-                                            <input type="number" name="quantity" value="1" min="1" class="form-control form-control-sm text-center">
-                                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="increaseQuantity(this)">+</button>
+                                            <!-- Visually Hidden Label for Accessibility -->
+                                            <label for="quantity-{{ product.id }}" class="visually-hidden">Quantity</label>
+                                            
+                                            <!-- Decrease Button -->
+                                            <button type="button" class="btn btn-sm btn-outline-secondary decrease-btn" 
+                                                    aria-label="Decrease quantity" onclick="decreaseQuantity(this)">−</button>
+                                            
+                                            <!-- Quantity Input with Proper ID and ARIA Label -->
+                                            <input type="number" id="quantity-{{ product.id }}" name="quantity" value="1" min="1" 
+                                                class="form-control form-control-sm text-center"
+                                                aria-labelledby="quantity-{{ product.id }}">
+                                            
+                                            <!-- Increase Button -->
+                                            <button type="button" class="btn btn-sm btn-outline-secondary increase-btn" 
+                                                    aria-label="Increase quantity" onclick="increaseQuantity(this)">+</button>
                                         </div>
+
+                                        <!-- Add to Cart Button -->
                                         <button type="submit" class="btn product-page-btn btn-sm ms-2">Add to Cart</button>
                                     </form>
                                 </div>

@@ -377,6 +377,34 @@ Bag Views
 
 ### Lighthouse & Accessibility
 
+Home
+
+![alt text](home-lighthouse.png)
+
+Products
+
+![alt text](products-lighthouse.png)
+
+Product Detail 
+
+![alt text](product-detail-lighthouse.png)
+
+Taproom 
+
+![alt text](taproom-lighthouse.png)
+
+Tours
+
+![alt text](tours-lighthouse.png)
+
+Contact
+
+![alt text](contact-lighthouse.png)
+
+Profile
+
+![alt text](profile-lighthouse.png)
+
 ### Manual Forms
 
 ### Automated 

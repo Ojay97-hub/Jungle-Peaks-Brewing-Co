@@ -31,9 +31,9 @@
 
 .btn-primary {
     border-radius: 8px;
-    background-color: gold;
-    color: #000;
-    border: none;
+    background-color: #FFC107; /* Bright Gold */
+    color: #000000; /* Black text */
+    border: 2px solid #DAA520; /* Darker Gold */
     padding: 10px 20px;
     font-size: 14px;
     font-weight: 600;
@@ -41,8 +41,8 @@
     max-width: 175px;
 }
 .btn-primary:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
+    background-color: #DAA520; /* Darker Gold */
+    color: #FFFFFF; /* White text */
 }
 .collapse-content {
     display: none;
@@ -59,6 +59,7 @@
 
 /* 🎯 Order History Table */
 .order-history-table {
+    color: #FFFFFF; /* White Text */
     width: 100%;
     border-collapse: collapse; /* Removes default spacing */
     font-size: 16px;
@@ -76,11 +77,12 @@
     text-align: left;
     padding: 12px;
     border-bottom: 1px solid #ddd;
+    color: #111111; /* Dark Gray for better contrast */
 }
 
 /* 🎯 Text Links */
 .order-history-table a {
-    color: #007bff;
+    color: black;
     text-decoration: none;
     font-weight: bold;
 }
@@ -92,8 +94,9 @@
 /* 🎯 Reorder Button */
 .reorder-btn {
     display: inline-block;
-    background: gold;
-    color: black;
+    background: #FFC107; /* Bright Gold */
+    color: #000000; /* Black */
+    border: 2px solid #DAA520; /* Dark Gold */
     padding: 6px 12px;
     border-radius: 5px;
     text-align: center;
@@ -102,8 +105,8 @@
 }
 
 .reorder-btn:hover {
-    background: #0056b3;
-    color: white;
+    background: #DAA520; /* Darker Gold */
+    color: #FFFFFF; /* White */
 }
 
 /* Review Card */
@@ -120,21 +123,26 @@
 .review-item a {
     font-weight: bold;
     text-decoration: none;
-    color: #007bff; /* Blue color for links */
+    color: black; /* Darker blue for better contrast */
+    font-weight: bold;
+}
+
+.review-item a:hover {
+    color: #001a66; /* Even darker blue */
 }
 
 /* Rating Styling */
 .review-item .rating {
     font-size: 1rem;
     font-weight: bold;
-    color: #ffc107; /* Gold color */
+    color: black; /* Bright Gold */
 }
 
 /* Review Text */
 .review-comment {
     font-style: italic;
     font-size: 0.9rem;
-    color: #555;
+    color: #333; /* Darker Gray */
     margin-top: 5px;
 }
 
@@ -148,35 +156,35 @@
 .review-actions a {
     text-decoration: none;
     font-weight: 600;
-    padding: 5px 10px;
+    padding: 5px 12px;
     border-radius: 5px;
     transition: all 0.3s ease-in-out;
 }
 
-/* Edit Link */
+/* Edit Button */
 .review-actions .edit-link {
-    color: #d89c00; /* Gold */
-    border: 1px solid #d89c00;
-    background: rgba(216, 156, 0, 0.1);
+    color: #ffffff; /* White text */
+    border: 2px solid black; /* Bright blue border */
+    background: black; /* Bright blue */
 }
 
 .review-actions .edit-link:hover {
-    background: #d89c00;
-    color: #fff;
+    background: white; /* Darker blue */
+    border-color: white;
+    color: black;
 }
 
-/* Delete Link */
+/* Delete Button */
 .review-actions .delete-link {
-    color: #d9534f; /* Red */
-    border: 1px solid #d9534f;
-    background: rgba(217, 83, 79, 0.1);
+    color: #ffffff; /* White text */
+    border: 2px solid #DC3545; /* Red border */
+    background: #DC3545; /* Red */
 }
 
 .review-actions .delete-link:hover {
-    background: #d9534f;
-    color: #fff;
+    background: #a71d2a; /* Darker red */
+    border-color: #a71d2a;
 }
-
 /* Delete pop up */
 .modal-content {
     border-radius: 10px;
@@ -227,6 +235,38 @@
     font-weight: 500;
 }
 
+.badge-confirmed {
+    background-color: #28A745; /* Dark Green */
+    color: #FFFFFF; /* White */
+    font-weight: bold;
+}
+
+/* 🟡 Booking Edit Button */
+.booking-actions .edit-link {
+    background-color: #000000; /* Black */
+    color: #FFFFFF; /* White */
+    border: 2px solid #000000; /* Black Border */
+}
+
+.booking-actions .edit-link:hover {
+    background-color: #FFFFFF; /* White */
+    color: #000000; /* Black */
+    border-color: #000000;
+}
+
+/* 🔴 Booking Cancel Button */
+.booking-actions .cancel-link {
+    background-color: #DC3545; /* Red */
+    color: #FFFFFF; /* White */
+    border: 2px solid #DC3545; /* Red Border */
+}
+
+.booking-actions .cancel-link:hover {
+    background-color: #B22222; /* Darker Red */
+    border-color: #B22222;
+    color: #FFFFFF;
+}
+
 /* Action Links Instead of Buttons */
 .booking-actions {
     display: flex;
@@ -240,30 +280,6 @@
     padding: 5px 10px;
     border-radius: 5px;
     transition: all 0.3s ease-in-out;
-}
-
-/* Edit Link */
-.booking-actions .edit-link {
-    color: #d89c00; /* Gold */
-    border: 1px solid #d89c00;
-    background: rgba(216, 156, 0, 0.1);
-}
-
-.booking-actions .edit-link:hover {
-    background: #d89c00;
-    color: #fff;
-}
-
-/* Cancel Link */
-.booking-actions .cancel-link {
-    color: #d9534f; /* Red */
-    border: 1px solid #d9534f;
-    background: rgba(217, 83, 79, 0.1);
-}
-
-.booking-actions .cancel-link:hover {
-    background: #d9534f;
-    color: #fff;
 }
 
 /* Special Requests */

@@ -13,7 +13,7 @@
             <!-- Order History -->
             <div class="col-md-6 col-lg-4">
                 <div class="card p-3 shadow rounded">
-                    <h5 class="card-title">Order History</h5>
+                    <h3 class="card-title">Order History</h3>
                     <div class="order-history-container">
                         <table class="order-history-table">
                             <thead>
@@ -48,10 +48,10 @@
             <!-- Bookings -->
             <div class="col-md-6 col-lg-4">
                 <div class="card p-3 shadow rounded">
-                    <h5 class="card-title">Bookings</h5>
+                    <h3 class="card-title">Bookings</h3>
 
             <!-- Table Bookings -->
-            <h6 class="fw-bold">Table Bookings</h6>
+            <h4 class="fw-bold">Table Bookings</h4>
             {% if table_bookings %}
                 {% for booking in table_bookings %}
                     <div class="booking-item">
@@ -81,7 +81,7 @@
             <hr>
 
             <!-- Tour Bookings -->
-            <h6 class="fw-bold">Tour Bookings</h6>
+            <h4 class="fw-bold">Tour Bookings</h4>
             {% if tour_bookings %}
                 {% for booking in tour_bookings %}
                     <div class="booking-item">
@@ -113,11 +113,11 @@
             <!-- Review Management -->
             <div class="col-md-6 col-lg-4">
                 <div class="card p-3 shadow rounded">
-                    <h5 class="card-title">Review Management</h5>
+                    <h3 class="card-title">Review Management</h3>
                     {% for review in reviews %}
                         <div class="review-item">
                             <strong>Product: 
-                                <a href="{% url 'product_detail' review.product.id %}" class="text-primary">
+                                <a href="{% url 'product_detail' review.product.id %}">
                                     {{ review.product.name }}
                                 </a>
                             </strong>
@@ -141,7 +141,7 @@
             <!-- Default Delivery Information -->
             <div class="col-md-6 col-lg-4">
                 <div class="card p-3 shadow rounded">
-                    <h5 class="card-title">Default Delivery Information</h5>
+                    <h3 class="card-title">Default Delivery Information</h3>
                     <button class="btn btn-primary btn-sm" onclick="toggleDeliveryInfo()">Edit Delivery Info</button>
                     <div id="delivery-info" class="collapse-content mt-3">
                         <form action="{% url 'profile' %}" method="POST">
