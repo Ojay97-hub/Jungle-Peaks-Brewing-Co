@@ -785,80 +785,192 @@ ul.list-unstyled li a:hover {
 
 
 /* LOGIN PAGE ALLAUTH */
-  /* Ensure form container is centered and properly padded */
-  /* Ensure full viewport height */
-  .center-container {
-    display: flex;
-    justify-content: center; /* Centers horizontally */
-    align-items: center; /* Centers vertically */
-    flex-direction: column; 
-}
-
+/* ✅ Center & Style the Login Form */
 .signin-container {
-    max-width: 400px;
+    max-width: 380px; /* Slightly narrower for a cleaner look */
     margin: 50px auto;
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    background: #ffffff; /* Pure white for a clean look */
+    border-radius: 12px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1); /* Softer shadow for depth */
     text-align: center;
 }
 
-/* Style input fields */
+/* ✅ Add a subtle background for the whole login area */
+.login-page-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ensure full viewport height */
+    background: linear-gradient(to bottom, #f8f9fa, #e9ecef); /* Soft gradient */
+    padding: 20px;
+}
+
+/* ✅ Improve form header */
+.signin-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* ✅ Style input fields */
 .signin-container input[type="email"],
 .signin-container input[type="password"] {
     width: 100%;
     padding: 12px;
     margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #f8f8f8;
+    transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Focus effect on inputs */
+.signin-container input:focus {
+    border-color: #ffcc00;
+    box-shadow: 0 0 8px rgba(255, 204, 0, 0.4);
+    outline: none;
+}
+
+/* ✅ Style checkbox & remember me */
+.signin-container .remember-me-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+}
+
+/* ✅ Checkbox styling */
+.signin-container input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* ✅ Buttons layout */
+.signin-container .button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* ✅ Home button */
+.signin-container .btn-outline-black {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid black;
+    color: black;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+}
+
+/* ✅ Home button hover */
+.signin-container .btn-outline-black:hover {
+    background-color: black;
+    color: white;
+}
+
+/* ✅ Sign In button */
+.signin-container button.primaryAction {
+    flex: 1.5;
+    background-color: black;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* ✅ Hover effect */
+.signin-container button.primaryAction:hover {
+    background-color: #333;
+}
+
+/* ✅ Forgot Password link */
+.signin-container a.button.secondaryAction {
+    display: block;
+    margin-top: 15px;
+    color: #ffcc00;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease-in-out;
+}
+
+.signin-container a.button.secondaryAction:hover {
+    color: #d4a000;
+    text-decoration: underline;
+}
+
+/* ALL AUTH PASSWORD RESET */
+/* 🔹 Password Reset Container */
+.password-reset-container {
+    max-width: 450px;
+    margin: 50px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* 🔹 Reset Instructions */
+.reset-instructions {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* 🔹 Password Reset Form */
+.password-reset-form input[type="email"] {
+    width: 100%;
+    padding: 12px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
     background-color: #eef1f5;
 }
 
-/* Align the "Remember Me" checkbox properly */
-.signin-container .remember-me-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px; /* Add spacing between checkbox and label */
-    margin: 10px 0;
-}
-
-.signin-container input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-}
-
-/* Improve button styling */
-.signin-container .button-container {
+/* 🔹 Button Styling */
+.password-reset-buttons {
     display: flex;
     justify-content: space-between;
     gap: 10px;
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
-/* Home button */
-.signin-container .btn-outline-black {
-    flex: 1; /* Make buttons evenly spaced */
+/* 🔹 Back to Login Button */
+.password-reset-buttons .btn-outline-black {
+    flex: 1;
     padding: 10px;
-    border: 1px solid black;
+    border: 2px solid black;
     color: black;
     text-decoration: none;
     border-radius: 5px;
-    transition: background 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     text-align: center;
 }
 
-/* Home button hover */
-.signin-container .btn-outline-black:hover {
+.password-reset-buttons .btn-outline-black:hover {
     background-color: black;
     color: white;
 }
 
-/* Sign In button */
-.signin-container button.primaryAction {
-    flex: 2; /* Make it slightly larger */
+/* 🔹 Reset Password Button */
+.password-reset-buttons .btn-reset-password {
+    flex: 2;
     background-color: black;
     color: white;
     padding: 12px;
@@ -866,23 +978,26 @@ ul.list-unstyled li a:hover {
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease-in-out;
 }
 
-.signin-container button.primaryAction:hover {
+.password-reset-buttons .btn-reset-password:hover {
     background-color: #333;
 }
 
-/* Forgot Password link */
-.signin-container a.button.secondaryAction {
-    display: block;
-    margin-top: 15px; /* Add spacing below buttons */
-    color: #007bff;
-    text-decoration: none;
+/* 🔹 Support Text */
+.support-text {
     font-size: 14px;
+    color: #777;
+    margin-top: 15px;
 }
 
-.signin-container a.button.secondaryAction:hover {
+.support-text a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.support-text a:hover {
     text-decoration: underline;
 }
 
@@ -1154,6 +1269,20 @@ ul.list-unstyled li a:hover {
     
     .btn-signup, .btn-back {
         width: 100%; /* Full width on smaller screens */
+    }
+
+    .signin-container {
+        max-width: 90%;
+        padding: 20px;
+    }
+
+    .signin-container .button-container {
+        flex-direction: column;
+    }
+
+    .signin-container .btn-outline-black,
+    .signin-container button.primaryAction {
+        width: 100%;
     }
 
     .icon-wrapper {
