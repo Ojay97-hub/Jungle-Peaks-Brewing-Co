@@ -28,8 +28,10 @@
 
 
 ![alt text]( /static/images/screenshot-responsive.png)
- - https://ui.dev/amiresponsive?url=https://jungle-peaks-brewing-29d2cf7236c2.herokuapp.com/ 
 
+[![Live Site](https://img.shields.io/badge/Live_Site-Jungle_Peaks_Brewing-brightgreen?style=for-the-badge&logo=heroku)](https://jungle-peaks-brewing-29d2cf7236c2.herokuapp.com/)
+
+[![Responsive Preview](https://img.shields.io/badge/View-Responsive_Test-blue?style=for-the-badge&logo=googlechrome)](https://ui.dev/amiresponsive?url=https://jungle-peaks-brewing-29d2cf7236c2.herokuapp.com/)
 
 ## Introduction  
 
@@ -57,6 +59,7 @@ From a **technical standpoint**, the project is built using **Django (Python) fo
 🔹 **Payments:** Stripe API  
 🔹 **File Storage:** AWS S3 & Imgix for static and media file hosting  
 🔹 **Deployment:** Hosted on **Heroku** with a PostgreSQL database  
+🔹 **💻 Development Environment:** Visual Studio Code (VS Code)  
 
 Whether you’re here for a **smooth stout, a hoppy IPA, or an exclusive brewery tour**, **Jungle Peaks Brewing & Co.** is your **ultimate craft beer adventure**. 🌿🍺  
 
@@ -68,6 +71,20 @@ Let’s raise a glass to bold flavours, seamless technology, and the perfect pin
 This project leverages a range of modern technologies to ensure a **robust, scalable, and efficient e-commerce platform**.  
 
 ---
+### **💻 Development Environment: Visual Studio Code (VS Code)**  
+For development, we used **Visual Studio Code (VS Code)** as the primary **Integrated Development Environment (IDE)**.  
+
+| Technology   | Description |  
+|-------------|------------|  
+| ![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white) | **VS Code** - A lightweight, powerful code editor with robust extensions. |  
+
+#### **Why VS Code?**  
+✅ **Extensive Extensions** – Support for Django, Python, PostgreSQL, and Git.  
+✅ **IntelliSense & Code Completion** – Boosts productivity with smart suggestions.  
+✅ **Integrated Terminal** – Allows seamless running of Django commands and Heroku deployments.  
+✅ **Version Control** – Built-in GitHub integration for easy collaboration.  
+
+By leveraging **VS Code**, we ensured a **smooth, efficient, and highly productive development workflow** for **Jungle Peaks Brewing & Co.** 🍻🚀
 
 ### **🌐 Frontend Technologies**  
 The frontend provides a **responsive** and **user-friendly** experience using the following technologies:  
@@ -1111,6 +1128,18 @@ The test suite includes various unit tests to validate the checkout functionalit
 ✅ **All these bugs have been identified and fixed, improving the checkout and shopping experience.** 🎉  
 ## Deployment
 
+### 🚀 Cloning this GitHub Repository to VS Code  
+To deploy my **Jungle Peaks Brewing** project, you need to **clone the GitHub repository into VS Code** and set it up for development.
+
+## **1️⃣ Open VS Code & Clone Repository**
+1. Open **VS Code**.
+2. Open the **Terminal** (press `Ctrl + ~` or navigate to `View > Terminal`).
+3. Run the following command to clone the repository:  
+   ```sh
+   git clone https://github.com/Ojay97-hub/Jungle-Peaks-Brewing-Co
+
+--- 
+
 This project was deployed on heroku - the steps to do so are number below:
 
 ### Heroku
@@ -1228,8 +1257,26 @@ python manage.py createsuperuser
 
 - You should be able to then deploy your heroku app with your database connected and begin production. 
 
+#### Heroku Config Vars
+
+The following environment variables were applied to Heroku:
+| Config Var             | Purpose                                      |
+|------------------------|----------------------------------------------|
+| AWS_ACCESS_KEY_ID      | Required for AWS S3 file storage.           |
+| AWS_SECRET_ACCESS_KEY  | Secret key for AWS S3.                      |
+| DATABASE_URL           | PostgreSQL database connection URL.         |
+| EMAIL_HOST_PASS        | Email service password for SMTP authentication. |
+| EMAIL_HOST_USER        | Email account for sending system emails.    |
+| SECRET_KEY             | Django’s secret key for security.           |
+| STRIPE_PUBLIC_KEY      | Public key for Stripe payments.             |
+| STRIPE_SECRET_KEY      | Secret key for Stripe payments.             |
+| STRIPE_WH_SECRET       | Webhook secret for Stripe event handling.   |
+| USE_AWS               | Boolean (True/False) to enable AWS for media storage. |
+
 **My heroku app link:** 
-- [the website link](https://jungle-peaks-brewing-29d2cf7236c2.herokuapp.com/)
+
+[![Website](https://img.shields.io/badge/Live_Site-Jungle_Peaks_Brewing-brightgreen?style=for-the-badge&logo=heroku)](https://jungle-peaks-brewing-29d2cf7236c2.herokuapp.com/)
+
 
 ## 🚀 Future Features
 
