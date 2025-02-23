@@ -1,7 +1,6 @@
 {% extends "allauth/layouts/base.html" %}
 {% load crispy_forms_tags %}
 {% load static %}
-
 {% load i18n %}
 
 {% block head_title %}{% trans "Signup" %}{% endblock %}
@@ -20,17 +19,21 @@
             {% if redirect_field_value %}
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}
-    
-            <div class="checkbox-container">
+
+            <!-- ✅ Terms & Conditions (External Link) -->
+            <div class="terms-container">
                 <input type="checkbox" id="terms" name="terms" required>
                 <label for="terms">
                     {% trans "I have read, understood, and accept the" %}
-                    <a href="/terms" target="_blank">{% trans "terms and conditions" %}</a>.
+                    <a href="https://www.example.com/terms" target="_blank" rel="noopener noreferrer">{% trans "terms and conditions" %}</a>.
                 </label>
             </div>
     
-            <button type="submit">{% trans "Sign Up" %}</button>
-            <a class="btn btn-outline-black rounded-0" href="{% url 'account_login' %}">{% trans "Back to Login" %}</a>
+                        <!-- ✅ Evenly Spaced Buttons -->
+            <div class="signup-buttons-container">
+                <a class="btn-back" href="{% url 'account_login' %}">{% trans "Back to Login" %}</a>
+                <button type="submit" class="btn-signup">{% trans "Sign Up" %}</button>
+            </div>
         </form>
     </div>
   </div>

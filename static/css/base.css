@@ -659,44 +659,38 @@ ul.list-unstyled li a:hover {
 }
 
 /* REGISTER ALLAUTH - Improved Styling */
-/* Layout Styling */
+/* 🔹 Signup Page Layout */
 .signup-container {
     display: flex;
     flex-direction: row;
-    max-width: 1200px; /* Slightly reduce max width */
+    max-width: 900px; /* Prevents it from going too wide */
     width: 90%;
-    margin: 0 auto;
-    margin-bottom: 20px;
-    height: auto;
-    align-items: stretch; /* Ensure both sections are same height */
-    gap: 20px; /* Add spacing between form and image */
+    margin: 40px auto; /* Centered with spacing */
+    align-items: stretch;
+    gap: 20px;
 }
 
-/* Ensure Form Section is More Compact */
+/* 🔹 Signup Form Section */
 .signup-form-section {
-    flex: 2; /* Takes more space */
+    flex: 1;
     background: white;
-    padding: 50px; /* Reduce padding */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    padding: 40px;
     text-align: left;
     box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
-/* Right Side (Image Section) */
-/* Ensure image section takes proper width */
+/* 🔹 Responsive Image Section */
 .signup-image-section {
-    width: 35%; /* Increase width slightly to balance */
+    width: 40%;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 450px; /* Reduce height slightly */
+    min-height: 450px;
     max-height: 85vh;
     overflow: hidden;
 }
 
-/* Ensure the image fits properly */
 .signup-image-section img {
     max-width: 100%;
     height: 100%;
@@ -704,51 +698,91 @@ ul.list-unstyled li a:hover {
     border-radius: 0 8px 8px 0;
 }
 
-/* Make Inputs & Buttons More Responsive */
+/* 🔹 Form Input Styling */
 .signup-form input {
     width: 100%;
     padding: 12px;
     border: 1px solid #ddd;
-    font-size: 18px; /* Reduce font size slightly */
-    background-color: #97cc6524;
+    font-size: 16px;
+    background-color: #f8f8f8;
     font-weight: 500;
     border-radius: 5px;
-    margin-bottom: 15px; /* Add spacing */
+    margin-bottom: 15px;
 }
 
-/* Style for the Submit Button */
-.signup-form button {
+/* 🔹 Button Container for Signup & Back to Login */
+/* 🔹 Button Container for Signup & Back to Login */
+.signup-buttons-container {
+    display: flex;
+    justify-content: center; /* Center buttons */
+    align-items: center;
+    margin-top: 20px;
+    gap: 15px; /* Adds spacing between buttons */
+}
+
+/* 🔹 Signup & Back to Login Buttons */
+.btn-signup, .btn-back {
+    width: 200px; /* ✅ Reduced width */
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+/* 🔹 Signup Button (Primary) */
+.btn-signup {
     background: #ffd60a;
     color: black;
-    padding: 14px;
     border: none;
-    border-radius: 6px;
-    font-size: 18px; /* Reduce button size slightly */
-    cursor: pointer;
-    transition: background 0.3s ease;
-    margin-top: 15px;
-    width: 100%; /* Make button full width */
 }
 
-.signup-form button:hover {
+.btn-signup:hover {
     background: black;
     color: #ffd60a;
 }
 
-/* Align Checkbox and Label Properly */
-.checkbox-container {
+/* 🔹 Back to Login Button (Secondary) */
+.btn-back {
+    background: transparent;
+    color: black;
+    border: 2px solid black;
+}
+
+.btn-back:hover {
+    background: black;
+    color: white;
+}
+
+/* 🔹 Terms & Conditions - Inline */
+.terms-container {
     display: flex;
     align-items: center;
+    justify-content: flex-start; /* Align left */
     gap: 8px;
     font-size: 14px;
     margin-top: 10px;
 }
 
-.checkbox-container input[type="checkbox"] {
+.terms-container input[type="checkbox"] {
     width: 16px;
     height: 16px;
     cursor: pointer;
 }
+
+.terms-container a {
+    color: #0056b3;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.terms-container a:hover {
+    text-decoration: underline;
+}
+
 
 /* LOGIN PAGE ALLAUTH */
   /* Ensure form container is centered and properly padded */
@@ -1108,6 +1142,20 @@ ul.list-unstyled li a:hover {
 
 /* 📌 Hide table on small screens */
 @media (max-width: 768px) {
+    .signup-buttons-container {
+        flex-direction: column; /* Stack buttons on mobile */
+        gap: 15px;
+    }
+
+    .signup-buttons-container {
+        flex-direction: column; /* Stack buttons on mobile */
+        gap: 10px;
+    }
+    
+    .btn-signup, .btn-back {
+        width: 100%; /* Full width on smaller screens */
+    }
+
     .icon-wrapper {
         width: 40px;
         height: 40px;
