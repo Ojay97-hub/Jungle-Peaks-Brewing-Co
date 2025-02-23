@@ -28,6 +28,14 @@
 
 ## Introduction
 
+
+
+
+## Technologies
+HTML, CSS, JavaScript, Python+Django
+Relational database (recommending MySQL or Postgres)
+Stripe payment
+
 ## Marketing Plan
 
 Jungle Peaks Brewing & Co is a vibrant craft brewery nestled in the heart of adventure. Known for its bold and innovative brews, the company draws inspiration from untamed wilderness and rugged mountain peaks. Each beer is crafted with care, using locally sourced ingredients and sustainable practices to ensure a brew that’s as refreshing as it is eco-conscious. From hoppy IPAs to smooth stouts, Jungle Peaks Brewing & Co offers a diverse range of flavors, perfect for explorers and enthusiasts alike. Whether you're unwinding after a hike or gathering with friends, this brewery captures the spirit of adventure in every pint.
@@ -185,11 +193,6 @@ Yes. Examples include:
 ### Facebook
 ### Newsletter 
 ### SEO Content
-
-## Technologies
-HTML, CSS, JavaScript, Python+Django
-Relational database (recommending MySQL or Postgres)
-Stripe payment
 
 ## Robots.txt & Sitemap.xml
 This project features both a robots.txt and sitemap.xml files for reasons outlined below:

@@ -33,6 +33,9 @@ CSRF_TRUSTED_ORIGINS = [
     'https://8080-ojay97hub-junglepeaksbr-rlpjcwm6lxr.ws.codeinstitute-ide.net',
 ]
 
+# am i responsive screenshot generator
+X_FRAME_OPTIONS = "ALLOWALL"
+
 # Installed applications
 INSTALLED_APPS = [
     'django.contrib.admin',
