@@ -2,7 +2,7 @@
 .hero-section {
     position: relative;
     width: 100%;
-    height: 800px; /* Adjust height as needed */
+    height: 800px; /* Default large screen height */
     overflow: hidden;
 }
 
@@ -55,29 +55,42 @@
     gap: 8px;
 }
 
-/* Tasting Experiences Section */
+/* Ensure all tour cards have equal height */
 .tour-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Keeps content distributed */
+    height: 100%; /* Ensures uniform height */
     border: none;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease-in-out;
     overflow: hidden;
-    height: 100%; /* Ensures consistent height across all cards */
 }
 
+/* Ensure images have uniform height */
 .tour-card img {
     width: 100%;
-    height: 250px; /* Set a fixed height for consistency */
-    object-fit: cover; /* Ensures the image fills the area without distortion */
+    height: 220px; /* Adjust to a fixed height */
+    object-fit: cover;
     object-position: center;
 }
 
+/* Fix card body height and spacing */
 .tour-card .card-body {
+    flex-grow: 1; /* Ensures equal spacing */
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
+    justify-content: space-between; /* Ensures button stays at the bottom */
+    padding: 20px;
 }
+
+/* Make sure buttons align at the bottom */
+.tour-card .custom-btn-2 {
+    margin-top: auto; /* Push button to the bottom */
+    align-self: center;
+}
+
 
 /* Button Styling from Home CSS */
 .custom-btn-2 {
@@ -113,20 +126,19 @@
 }
 
 /* ✅ MEDIA QUERIES FOR MOBILE */
-
-/* 📱 Tablet Screens (992px and below) */
-@media (max-width: 992px) {
+/* 📱 Adjust for Tablets (Landscape) (1024px and below) */
+@media (max-width: 1220px) {
     .hero-section {
-        height: 600px; /* Reduce hero height */
+        height: 500px; /* Reduce height for landscape tablets */
     }
 
     .hero-overlay {
-        padding: 20px 30px; /* Reduce padding */
+        padding: 20px 30px; /* Slightly smaller padding */
         max-width: 350px;
     }
 
     .hero-title {
-        font-size: 2rem; /* Scale title down */
+        font-size: 2rem; /* Adjust title size */
     }
 
     .hero-tagline {
@@ -138,15 +150,23 @@
     }
 }
 
+
+/* 📱 Tablet Screens (992px and below) */
+@media (max-width: 992px) {
+    .tour-card img {
+        height: 200px; /* Adjust image height for tablets */
+    }
+}
+
 /* 📱 Mobile Screens (768px and below) */
 @media (max-width: 768px) {
     .hero-section {
-        height: 500px; /* Further reduce hero height */
+        height: 400px; /* Further reduce hero height */
     }
 
     .hero-overlay {
-        padding: 15px 25px; /* Reduce padding further */
-        max-width: 300px;
+        padding: 15px 25px; /* Reduce padding */
+        max-width: 320px;
     }
 
     .hero-title {
@@ -160,12 +180,24 @@
     .hero-description {
         font-size: 0.85rem;
     }
+
+    .tour-card {
+        height: auto; /* Allow flexible height */
+    }
+
+    .tour-card img {
+        height: 180px; /* Reduce image height */
+    }
+
+    .tour-card .card-body {
+        padding: 15px;
+    }
 }
 
 /* 📱 Small Mobile Screens (500px and below) */
 @media (max-width: 500px) {
     .hero-section {
-        height: 400px; /* Make hero even smaller */
+        height: 300px; /* Make hero even smaller */
     }
 
     .hero-overlay {
@@ -183,5 +215,12 @@
 
     .hero-description {
         font-size: 0.8rem;
+    }
+    .tour-card img {
+        height: 160px; /* Make images smaller */
+    }
+
+    .tour-card .card-body {
+        padding: 10px;
     }
 }

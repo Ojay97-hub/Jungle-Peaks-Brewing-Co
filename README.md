@@ -519,6 +519,14 @@ Confirmed email
 
 ## Bugs 
 
+Quantity btns were going up by 2 instead of 1:
+How to Fix It
+Remove the Duplicate Binding:
+Decide whether you want to use the inline JavaScript or the jQuery approach. If you choose jQuery, remove the inline onclick attributes and adjust the button classes so that only one set of event listeners applies.
+
+Ensure Unique Class Names:
+Make sure the buttons don’t have both sets of classes (e.g., avoid having both increase-btn and increment-qty on the same element) to prevent multiple handlers from firing. 
+
 ## Deployment
 
 ## Future Features 
