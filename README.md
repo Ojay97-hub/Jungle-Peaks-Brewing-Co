@@ -569,6 +569,125 @@ Now, when "Update" is clicked, it finds the nearest <td> or .product-details con
 
 ## Deployment
 
+This project was deployed on heroku - the steps to do so are number below:
+
+### Heroku
+
+#### Step 1: Create a Heroku app
+
+1. Go to your Heroku app dashboard > Settings > Config Vars. Add:
+   - Key: `DISABLE_COLLECTSTATIC`
+   - Value: `1`  
+   _(Static files will be handled later.)_
+
+   ```bash
+   # Create a Heroku app and set DISABLE_COLLECTSTATIC
+   heroku create your-app-name
+   heroku config:set DISABLE_COLLECTSTATIC=1
+
+#### Step 2: Update your code for deployment 
+1.	Install the required dependencies and update requirements.txt:
+
+        pip install gunicorn django-heroku whitenoise psycopg2-binary
+        pip freeze > requirements.txt
+
+    - the requirements.txt tells heroku what version to run the app at. 
+    - This ensures heroku has the correct packages during deployment.
+    
+```bash
+echo "web: gunicorn event_scheduler.wsgi" > Procfile
+```
+
+- Update your settings debug == **false**
+
+- Add .herokuapp.com to ALLOWED_HOSTS: 
+
+```bash
+ALLOWED_HOSTS = ['your-app-name.herokuapp.com', '.herokuapp.com']
+```
+
+- Add whitenoise to static files  
+
+```bash
+django.middleware.security.SecurityMiddleware 
+whitenoise.middleware.WhiteNoiseMiddleware
+```
+
+- Static file configs: 
+```bash
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
+STATIC_URL = '/static/' 
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+  ```
+
+- Push changes to github via commit.
+```bash
+git add .
+git commit -m "Prepare app for Heroku deployment"
+git push origin main
+```
+
+#### Step 3: Deploy to heroku
+
+1.	Connect Heroku to your GitHub repository:
+
+    Go to the Heroku dashboard > Deploy tab.
+    Select “GitHub” as the deployment method and connect your repository.
+
+2.	Deploy the main branch:
+
+    Scroll to the “Manual deploy” section.
+    Select the main branch and click “Deploy Branch.”
+
+3.	Monitor activity logs to ensure a successful deployment.
+
+#### Step 4: Post-deployment
+
+1.	Connect to your PostgreSQL database:
+	•	Add the DATABASE_URL and SECRET_KEY to env.py:
+
+```bash
+import os
+os.environ["DATABASE_URL"] = "your-database-url"
+os.environ["SECRET_KEY"] = "your-secret-key"
+```
+
+be sure to add env.py to gitignore
+
+2.	Update settings.py to use dj_database_url:
+
+```bash
+import dj_database_url
+
+DATABASES = {
+    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+}
+```
+
+3.	Add DATABASE_URL and SECRET_KEY to Heroku Config Vars via the dashboard.
+4.	Run database migrations and create a superuser:
+
+- Run your database migrations "python manage.py makemigrations" "python manage.py migrate" 
+
+- create superuser for admin access "python manage.py createsuperuser"
+
+```bash
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+```
+
+- You need to then collectstatic:
+    - remove DISABLE_COLLECTSTATIC config var > then run in terminal 
+    
+```bash
+    "python manage.py collectstatic"
+```
+
+- You should be able to then deploy your heroku app with your database connected and begin production. 
+
+**My heroku app link:** 
+
 ## Future Features 
 
 ## Credits 
