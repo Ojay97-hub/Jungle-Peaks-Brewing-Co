@@ -106,7 +106,7 @@ main {
     transition: all 0.3s ease-in-out;
 }
 
-/* HEADER - Sticky + Scroll Effect */
+/* HEADER -  Scroll Effect */
 .site-header {
     background-color: #262626; /* Keep the original background */
     border-bottom: 1px solid #eaeaea;
@@ -152,14 +152,6 @@ main {
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease-in-out;
-}
-
-/* Reduce background effect on small screens */
-@media (max-width: 768px) {
-    .icon-wrapper {
-        width: 35px;
-        height: 35px;
-    }
 }
 
 /* Icon Hover Effect */
@@ -223,6 +215,20 @@ main {
     background-color: #444;
 }
 
+/* 🔵 Fix for Blue Highlight on Mobile Dropdown */
+.user-icon:focus,
+.user-icon:active {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Prevent blue highlight on dropdown items */
+.dropdown-menu .dropdown-item:focus,
+.dropdown-menu .dropdown-item:active {
+    outline: none !important;
+    background: #444 !important;
+    color: white !important;
+}
 
 /* Search Bar and Magnifying Glass */
 /* Search Bar - Ensure Proper Width */
@@ -1257,6 +1263,18 @@ ul.list-unstyled li a:hover {
     .btn-lg {
         width: 100%;
         margin-bottom: 10px;
+    }
+
+    /* Remove focus outline from dropdown toggle on mobile */
+    .user-dropdown .dropdown-toggle:focus,
+    .user-dropdown .dropdown-toggle:active {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    .icon-wrapper {
+        width: 35px;
+        height: 35px;
     }
 }
 
