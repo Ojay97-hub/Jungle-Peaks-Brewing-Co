@@ -320,7 +320,7 @@ A **well-optimized SEO strategy** ensures **Jungle Peaks Brewing & Co.** ranks h
 
 ### SEO Keywords
 
-![alt text]( meta-seo-tags.png)
+![alt text]( /static/images/meta-seo-tags.png)
 
 ### Keyword Strategy for Jungle Peaks Brewing & Co.
 
@@ -351,8 +351,7 @@ The **SEO keyword selection** for Jungle Peaks Brewing & Co. was carefully craft
 
 This **SEO keyword strategy** ensures Jungle Peaks Brewing & Co. ranks for **valuable search terms**, reaching both **craft beer enthusiasts** and **potential customers** effectively.
 
-
-
+---
 
 ## Robots.txt & Sitemap.xml
 This project features both a robots.txt and sitemap.xml files for reasons outlined below:
@@ -373,6 +372,7 @@ The `sitemap.xml` file is an essential component for SEO, as it provides search 
 
 Both files are crucial for **SEO optimisation** and ensuring that the **website structure is efficiently navigated by search engines**.
 
+--- 
 
 ## Agile Methodology
 
@@ -388,6 +388,7 @@ KANBAN on github projects will be used and include 4 iterations:
 | 4         | Final Enhancements and Testing  | Newsletter, QR codes, order history, polish.       |
 
 
+--- 
 
 ### User stories outlined
 In the initial planning these were the user stories to complete:
@@ -421,6 +422,8 @@ In the initial planning these were the user stories to complete:
 | ES12b| Business Owner  | Newsletter Signup       | As a business owner, I want to segment subscribers by interests (e.g., deals, events) so that I can send targeted campaigns. | Should Have     |
 | ES12c| Customer        | Newsletter Signup       | As a customer, I want to receive exclusive discount codes as part of the newsletter signup so that I feel rewarded for subscribing. | Could Have      |
 
+--- 
+
 ### User stories "won't have's"
 
 All of the user stories were completed excluding these below: 
@@ -434,12 +437,101 @@ All of the user stories were completed excluding these below:
   - ES11b: Upvote helpful reviews.
   - ES12c: Exclusive discount codes for newsletter signup.
 
-## Custom-models 
+## Custom-Models  
+
+The database models in **Jungle Peaks Brewing & Co.** have been designed to provide a seamless experience for **customers, business owners, and site administrators**. These models support core functionalities such as **product management, order processing, event bookings, user profiles, and reviews**.  
+
+The **custom models** developed for this project include:  
+
+### **1. Review Model**  
+- Allows customers to **leave reviews** on products they have purchased or brewery events they have attended.  
+- Stores **user feedback, ratings (1-5 scale), and timestamps** for submitted reviews.  
+- Helps enhance credibility and transparency by enabling future customers to see authentic product/event feedback.  
+
+**Key Fields:**  
+✔️ `product_id` – Links the review to a specific product.  
+✔️ `user_id` – Associates the review with the customer who submitted it.  
+✔️ `rating` – A numerical value representing the customer’s rating.  
+✔️ `comment` – A text field for customer feedback.  
+✔️ `created_at` – Timestamp of when the review was posted.  
+
+---
+
+### **2. TourBooking Model**  
+- Handles **brewery tour reservations** made by customers.  
+- Ensures a **structured approach** to managing event attendees and tour capacity.  
+- Enables business owners to **track bookings, handle special requests, and manage event status**.  
+
+**Key Fields:**  
+✔️ `user_id` – Links the booking to the registered customer.  
+✔️ `tour` – The specific tour type (e.g., "Behind-the-Scenes Brewery Tour").  
+✔️ `email`, `phone` – Contact details of the person making the booking.  
+✔️ `date`, `guests` – Date of the tour and the number of attendees.  
+✔️ `special_requests` – A text field for any dietary restrictions or custom requests.  
+✔️ `status` – Tracks whether the booking is **confirmed, pending, or cancelled**.  
+
+---
+
+### **3. NewsletterSubscriber Model**  
+- Manages **subscribers for the brewery’s newsletter**, allowing customers to receive updates on new beers, promotions, and events.  
+- Uses **interest-based segmentation** to **categorise subscribers** based on their preferences (e.g., beer releases, merchandise, or food pairings).  
+- Enables **targeted email campaigns** to provide a more personalised customer experience.  
+
+**Key Fields:**  
+✔️ `email` – The subscriber’s email address (unique).  
+✔️ `interests` – Categories of interest (e.g., "beer", "food", "merch"), stored as a comma-separated string.  
+✔️ `subscribed_at` – Timestamp of when the user signed up.  
+
+> **Implementation Note:** The `interests` field allows for segmentation, ensuring that subscribers receive content that aligns with their preferences, **enhancing engagement and email open rates**.  
+
+---
+
+### **4. ContactMessage Model**  
+- Stores **customer inquiries and messages submitted through the website’s contact form**.  
+- Enables the brewery’s team to **respond to customer concerns, partnership inquiries, or event-related questions**.  
+
+**Key Fields:**  
+✔️ `name` – The full name of the sender.  
+✔️ `email` – Contact email for replies.  
+✔️ `message` – The inquiry or feedback submitted by the customer.  
+✔️ `created_at` – Timestamp when the message was sent.  
+
+> **Implementation Note:** This model ensures that customer messages are properly recorded and organised, making it easy for the team to provide timely responses.  
+
+---
+
+### **5. Booking (Table Reservation) Model**  
+- Handles **taproom table reservations** for customers wishing to visit the brewery.  
+- Allows customers to **book in advance, specify group size, and provide additional requests**.  
+- Helps the brewery **manage seating capacity and improve customer service efficiency**.  
+
+**Key Fields:**  
+✔️ `user_id` – The registered customer making the reservation.  
+✔️ `name` – The name of the person booking.  
+✔️ `email`, `phone` – Contact details for confirmation.  
+✔️ `date`, `time` – The date and time of the reservation.  
+✔️ `guests` – Number of attendees.  
+✔️ `special_requests` – Any dietary needs or seating preferences.  
+✔️ `created_at` – Timestamp of when the reservation was made.  
+
+> **Implementation Note:** This model ensures a **smooth reservation process**, helping the brewery **allocate tables efficiently and enhance customer experience**.  
+
+---
+
+### **Summary**  
+These custom models **enable key functionalities** for the **Jungle Peaks Brewing & Co.** website, supporting:  
+✅ **Customer engagement** through reviews and newsletter subscriptions.  
+✅ **Event and tour management** with the ability to track **bookings, guest numbers, and preferences**.  
+✅ **Customer support and interaction** via the contact message system.  
+✅ **Taproom table reservations** to ensure a smooth and organised dining experience.  
+
+Together, these models provide a **robust foundation for e-commerce, event management, and customer relations**, enhancing both **business operations and user experience**.
 
 ### ERD
 Using DBDIAGRAM 
 ![alt text]( /static/images/ERD.png)
 
+--- 
 
 ### Key Relationship Summary
 The **Entity Relationship Diagram (ERD)** defines the core database structure for **Jungle Peaks Brewing & Co**. Below is a summary of key relationships between models:
@@ -475,6 +567,8 @@ The **Entity Relationship Diagram (ERD)** defines the core database structure fo
 - **Standalone table** storing messages submitted via the contact form.
 
 These relationships define how **customers interact with the platform**, enabling smooth purchasing, booking, and feedback processes.
+
+--- 
 
 ## Site Flow 
 Using FIGMA
@@ -1209,5 +1303,53 @@ While the core features of **Jungle Peaks Brewing & Co.** have been successfully
 ✅ Expanding discounts, subscriptions, and event booking features would **enhance user experience**.  
 ✅ Additional features like a **loyalty program, mobile app, and beer-pairing recommendations** could significantly improve engagement. 
 
-## Credits 
+## **Credits**  
+
+This project was made possible through the use of various technologies, resources, and contributions. Below are acknowledgments for the tools, frameworks, and inspirations that contributed to the development of **Jungle Peaks Brewing & Co.**  
+
+### **Development & Technologies**  
+- **[Django](https://www.djangoproject.com/)** – Python web framework used to build the backend.  
+- **[Python](https://www.python.org/)** – Core programming language for backend logic.  
+- **[Bootstrap](https://getbootstrap.com/)** – Frontend framework for styling and responsiveness.  
+- **[PostgreSQL](https://www.postgresql.org/)** – Database used for storing product, order, and user data.  
+- **[Stripe API](https://stripe.com/)** – Payment gateway for secure transactions.  
+- **[AWS S3](https://aws.amazon.com/s3/)** – Cloud storage for serving static and media files.  
+- **[Imgix](https://www.imgix.com/)** – Image optimization and serving.  
+- **[Heroku](https://www.heroku.com/)** – Deployment platform for hosting the website.  
+- **[Gunicorn](https://gunicorn.org/)** – WSGI server for running the Django application.  
+
+### **Design & Wireframing**  
+- **[Figma](https://www.figma.com/)** – Used for designing wireframes and site flow.  
+- **[UIZARD](https://uizard.io/)** – Assisted in creating interactive wireframes.  
+
+### **Testing & Debugging**  
+- **[Lighthouse](https://developers.google.com/web/tools/lighthouse/)** – Used for accessibility, performance, and SEO audits.  
+- **[W3C HTML & CSS Validators](https://validator.w3.org/)** – Ensured code compliance with web standards.  
+- **[Stripe Webhooks](https://stripe.com/docs/webhooks)** – Verified payment integration functionality.  
+
+### **Icons & Assets**  
+- **[Font Awesome](https://fontawesome.com/)** – Provided icons for UI elements.  
+- **[Shields.io](https://shields.io/)** – Used for technology badges in documentation.  
+
+### **SEO & Marketing Strategy References**  
+- **[Moz SEO Guide](https://moz.com/beginners-guide-to-seo)** – Informed keyword research and best practices.  
+- **[Google Search Console](https://search.google.com/search-console/)** – Used for monitoring site indexing and performance.  
+
+### **Inspiration & Additional Acknowledgments**  
+- The **craft beer community** for inspiration on branding, storytelling, and customer engagement strategies.  
+- Various **e-commerce platforms** for best practices in UI/UX design, checkout flows, and product categorization.  
+- Open-source contributors whose guides, tutorials, and Stack Overflow discussions helped resolve development challenges.  
+
+### AI assistance
+- Chatgpt for providing general coding solutions, debugging, and planning.
+- UIZARD for its AI design assistant - provided quick design plans based off my suggestions and desired outcomes. 
+
+### Code Institute
+- Thanks to code institute for providing amazing learning content including the boutique ado walkthrough that was brilliant at breaking down the approach to developing an e-commerce website. Bits of this project stemmed from this. 
+- I would like thank the code institute tutoring staff for giving me a hand when I came across some technical issues - always quick to assist.
+- Finally, I would like to strongly thank my student mentor Rory Patrick for being an awesome help guiding me through all of my projects - I wouldn't have done this diploma without his care and attention. 
+--- 
+Final note - I have really enjoyed being a part of code institute and being on their 12 month full stack developer course - its been really fun!
+
+
 
