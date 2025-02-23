@@ -996,6 +996,65 @@ ul.list-unstyled li a:hover {
     transform: scale(1.05);
 }
 
+/* ALL AUTH */
+/* 🔹 Custom Styling for Sign Out Page */
+.logout-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* 🔹 Sign Out Page Buttons */
+.logout-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* 🔹 Custom Styling for "Sign Out" Button */
+.logout-btn {
+    background-color: transparent;
+    color: black;
+    border: 2px solid black;
+    padding: 10px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+}
+
+.logout-btn:hover,
+.logout-btn:focus {
+    background-color: black;
+    color: white;
+    border-color: black;
+    text-decoration: none;
+}
+
+/* 🔹 Custom Styling for "Cancel" Button (Renamed to cancel-btn-2) */
+.cancel-btn-2 {
+    background-color: #f8f8f8;
+    color: black;
+    border: 2px solid black;
+    padding: 10px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+}
+
+.cancel-btn-2:hover,
+.cancel-btn-2:focus {
+    background-color: white;
+    color: black;
+    border-color: black;
+    text-decoration: none;
+}
+
 /* ---------------------------------------- Media Queries */
 /* Adjust for smaller screens */
 @media (max-width: 320px) {

@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load static imgix_tags %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'products/css/products.css' %}">
+{% endblock %}
+
 {% block page_header %}
     <div class="container header-container">
         <div class="row">
@@ -25,16 +29,23 @@
             <div class="col-12 col-md-6">
                 <form method="POST" action="{% url 'edit_product' product.id %}" class="form mb-2" enctype="multipart/form-data">
                     {% csrf_token %}
+                    
                     {% for field in form %}
                         {% if field.name != 'image' %}
                             {{ field | as_crispy_field }}
                         {% else %}
-                            {{ field }}
+                            <!-- Custom File Input Styling -->
+                            <div class="form-group">
+                                <label for="image-upload" class="btn btn-select-image">Select Image</label>
+                                <input type="file" id="image-upload" name="{{ field.name }}" class="d-none">
+                                <span id="filename" class="text-muted ml-2">No file selected</span>
+                            </div>
                         {% endif %}
                     {% endfor %}
+
                     <div class="text-right">
-                        <a class="btn btn-outline-black rounded-0" href="{% url 'products' %}">Cancel</a>
-                        <button class="btn btn-black rounded-0" type="submit">Update Product</button>
+                        <a class="btn btn-cancel" href="{% url 'products' %}">Cancel</a>
+                        <button class="btn btn-add-product" type="submit">Update Product</button>
                     </div>
                 </form>
             </div>            
@@ -45,9 +56,10 @@
 {% block postloadjs %}
     {{ block.super }}
     <script>
-        $('#new-image').change(function() {
-            var file = $('#new-image')[0].files[0];
-            $('#filename').text(`Image will be set to: ${file.name}`);
+        // ✅ Update the displayed file name when selecting an image
+        document.getElementById('image-upload').addEventListener('change', function() {
+            var fileName = this.files[0] ? this.files[0].name : "No file selected";
+            document.getElementById('filename').textContent = fileName;
         });
     </script>
 {% endblock %}
