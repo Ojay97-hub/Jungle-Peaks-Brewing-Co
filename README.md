@@ -26,15 +26,103 @@
 - [Future Features](#future-features)
 - [Credits](#credits)
 
-## Introduction
+
+![alt text]( /static/images/screenshot-responsive.png)
+ - https://ui.dev/amiresponsive?url=https://jungle-peaks-brewing-29d2cf7236c2.herokuapp.com/ 
 
 
+## Introduction  
 
+Welcome to **Jungle Peaks Brewing & Co.** – where adventure meets craft beer! 🍻🏔️  
 
-## Technologies
-HTML, CSS, JavaScript, Python+Django
-Relational database (recommending MySQL or Postgres)
-Stripe payment
+Inspired by the untamed wilderness, **Jungle Peaks Brewing & Co.** is more than just a brewery—it’s a **bold expedition into flavoUr**. Every sip is crafted with locally sourced ingredients and a commitment to sustainability, delivering unique brews that capture the essence of adventure. Whether you’re a **seasoned craft beer enthusiast** or a newcomer looking for something wild, we’ve got the perfect pint for you!  
+
+### **About the Project**  
+This is a **full-stack e-commerce web application** built to bring Jungle Peaks Brewing & Co. online. It provides customers with an **immersive shopping experience**, allowing them to **browse products, make secure purchases, and book brewery tours and taproom experiences**. The site seamlessly integrates **frontend and backend technologies**, ensuring smooth navigation and reliable performance.  
+
+From a **technical standpoint**, the project is built using **Django (Python) for backend functionality**, coupled with **HTML, CSS, JavaScript, and Bootstrap** for a responsive frontend. Payments are securely handled using **Stripe**, while **AWS S3** and **Imgix** are used for efficient static and media file storage and optimisation, ensuring **fast and scalable file serving**.  
+
+### **🔹 Key Features & Functionality**  
+✔️ **Full E-Commerce System** – Browse and buy craft beers and merchandise with a streamlined checkout process.  
+✔️ **Brewery Tour Bookings** – Customers can easily book and manage brewery tours and taproom visits.  
+✔️ **User Accounts & Order History** – Users can create accounts, track orders, and manage past bookings.  
+✔️ **Secure Payments** – Integrated **Stripe** payment gateway for safe and seamless transactions.  
+✔️ **Reviews & Community Engagement** – Customers can leave product reviews and interact with the brand.  
+✔️ **Optimised Media Handling** – **AWS S3 & Imgix** are utilised for fast, efficient image processing and storage.  
+✔️ **Admin Dashboard** – Business owners can manage products, orders, and customer interactions.  
+
+### **Technology Stack**  
+🔹 **Backend:** Django, Python, PostgreSQL  
+🔹 **Frontend:** HTML, CSS, JavaScript, Bootstrap  
+🔹 **Payments:** Stripe API  
+🔹 **File Storage:** AWS S3 & Imgix for static and media file hosting  
+🔹 **Deployment:** Hosted on **Heroku** with a PostgreSQL database  
+
+Whether you’re here for a **smooth stout, a hoppy IPA, or an exclusive brewery tour**, **Jungle Peaks Brewing & Co.** is your **ultimate craft beer adventure**. 🌿🍺  
+
+Let’s raise a glass to bold flavours, seamless technology, and the perfect pint.  
+**Welcome to Jungle Peaks Brewing & Co.!** 🍻✨  
+
+## 🛠️ Technologies Used  
+
+This project leverages a range of modern technologies to ensure a **robust, scalable, and efficient e-commerce platform**.  
+
+---
+
+### **🌐 Frontend Technologies**  
+The frontend provides a **responsive** and **user-friendly** experience using the following technologies:  
+
+| Technology   | Description |  
+|-------------|------------|  
+| ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white) | **HTML5** - Provides the structure and markup for the website. |  
+| ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white) | **CSS3** - Styles the website for a visually appealing UI. |  
+| ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black) | **JavaScript** - Enables interactive elements and enhances UX. |  
+| ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white) | **Bootstrap** - Ensures a responsive and mobile-friendly design. |  
+
+---
+
+### **⚙️ Backend Technologies**  
+The backend is powered by **Django**, ensuring smooth database interactions, authentication, and business logic handling.  
+
+| Technology   | Description |  
+|-------------|------------|  
+| ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) | **Python** - The core programming language for backend logic. |  
+| ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white) | **Django** - A powerful Python framework for managing models, views, and authentication. |  
+| ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white) | **PostgreSQL** - A reliable relational database for storing user and order data. |  
+| ![Stripe](https://img.shields.io/badge/Stripe-008CDD?style=for-the-badge&logo=stripe&logoColor=white) | **Stripe API** - Handles secure payment processing for online purchases. |  
+
+---
+
+### **🗄️ Storage & File Handling**  
+Handling **static and media files** efficiently with cloud-based storage solutions.  
+
+| Technology   | Description |  
+|-------------|------------|  
+| ![AWS S3](https://img.shields.io/badge/AWS_S3-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white) | **AWS S3** - Secure and scalable cloud storage for media files. |  
+| ![Imgix](https://img.shields.io/badge/Imgix-1478FF?style=for-the-badge&logo=imgix&logoColor=white) | **Imgix** - Optimises and serves images efficiently to improve performance. |  
+
+---
+
+### **🚀 Deployment & Hosting**  
+Ensuring smooth deployment and scalability for production.  
+
+| Technology   | Description |  
+|-------------|------------|  
+| ![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white) | **Heroku** - Cloud platform used to deploy and manage the live site. |  
+| ![Gunicorn](https://img.shields.io/badge/Gunicorn-499848?style=for-the-badge&logo=gunicorn&logoColor=white) | **Gunicorn** - A WSGI HTTP server for handling Django requests efficiently. |  
+| ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white) | **GitHub** - Version control and collaborative code management. |  
+
+---
+
+### **🔗 Additional Integrations**  
+- **Django Allauth** – Handles user authentication and social logins.  
+- **Whitenoise** – Manages static file handling for better performance.  
+- **Cloudinary (Optional)** – Alternative media storage for image optimisation.  
+
+---
+
+This combination of technologies ensures **Jungle Peaks Brewing & Co.** delivers a **fast, secure, and scalable** shopping and booking experience! 🚀🍻  
+
 
 ## Marketing Plan
 
@@ -191,6 +279,9 @@ Yes. Examples include:
 
 ### E-commerce Business Model 
 ### Facebook
+
+![alt text]( /static/images/mock-facebook-page.png)
+
 ### Newsletter 
 ### SEO Content
 
@@ -975,8 +1066,79 @@ python manage.py createsuperuser
 - You should be able to then deploy your heroku app with your database connected and begin production. 
 
 **My heroku app link:** 
+- [the website link](https://jungle-peaks-brewing-29d2cf7236c2.herokuapp.com/)
 
-## Future Features 
+## 🚀 Future Features
+
+While the core features of **Jungle Peaks Brewing & Co.** have been successfully implemented, there are some functionalities that were initially planned but not included in this version. Additionally, there are exciting possibilities for future development to enhance user experience and business operations.
+
+---
+
+## 📌 Features for Future Implementation  
+
+### 1️⃣ Enhanced Taproom & Brewery Tour Experience  
+#### **Downloadable guides/maps for taproom & brewery tours** (**ES3b**)  
+- Adding **downloadable maps or digital guides** for brewery tours and taproom events would improve customer experience by providing clear navigation and details about available attractions.  
+- **Potential Implementation:**  
+  - Generate **dynamic PDF guides** for customers.  
+  - Integrate **Google Maps API** with custom brewery routes.  
+
+---
+
+### 2️⃣ Expanded Checkout & Discounts  
+
+#### **Apply discount codes during checkout** (**ES8b**)  
+- Allowing customers to use **promo codes or loyalty discounts** during checkout would incentivize repeat purchases.  
+- **Potential Implementation:**  
+  - Create a **discount model** that tracks active codes.  
+  - Implement **validation logic** in the checkout process.  
+  - Add **auto-applied discounts** for newsletter subscribers or loyal customers.  
+
+#### **Exclusive discount codes for newsletter signup** (**ES12c**)  
+- Rewarding newsletter subscribers with a **personalized discount code** would increase subscription rates and encourage purchases.  
+- **Potential Implementation:**  
+  - Generate **unique discount codes per user**.  
+  - Send via **automated emails** using **Mailchimp API** or Django’s email system.  
+
+---
+
+### 3️⃣ Subscription Model for Beer Lovers  
+
+#### **Monthly beer care package subscription** (**ES8c**)  
+- Introducing a **beer subscription box** where customers receive curated beers every month would generate **recurring revenue** and boost customer retention.  
+- **Potential Implementation:**  
+  - Allow users to **subscribe to a plan** (e.g., **Monthly, Quarterly, Seasonal**).  
+  - Use **Stripe Subscriptions API** for automatic billing.  
+  - Implement an **admin dashboard** for managing curated selections.  
+
+---
+
+### 4️⃣ Improved Customer Engagement & Reviews  
+
+#### **Upvote helpful reviews** (**ES11b**)  
+- Implementing an **upvote/downvote system** for product reviews would help customers find the most relevant feedback.  
+- **Potential Implementation:**  
+  - Add a **vote counter** to reviews.  
+  - Use **AJAX or WebSockets** to update votes dynamically.  
+  - Display **top-rated reviews** first.  
+
+---
+
+### 5️⃣ Event Booking Enhancements  
+
+#### **QR Code for event bookings** (**ES10c**)  
+- Sending a **QR code ticket** to customers upon booking an event would simplify check-in and improve security at brewery tours or taproom events.  
+- **Potential Implementation:**  
+  - Use **Python’s qrcode library** to generate unique QR codes.  
+  - Validate **QR codes at event entry**.  
+  - Implement **email automation** to send tickets upon successful booking.  
+
+---
+
+## 🎯 Summary  
+✅ The planned **“Won’t Have”** features have been reframed into **future development opportunities**.  
+✅ Expanding discounts, subscriptions, and event booking features would **enhance user experience**.  
+✅ Additional features like a **loyalty program, mobile app, and beer-pairing recommendations** could significantly improve engagement. 
 
 ## Credits 
 
