@@ -12,7 +12,10 @@ def bag_contents(request):
     bag = request.session.get("bag", {})
 
     for item_id, item_data in bag.items():
-        product = get_object_or_404(Product, pk=item_id)
+        try:
+            product = Product.objects.get(pk=item_id)
+        except Product.DoesNotExist:
+            continue  # Skip the missing product instead of raising 404
         if isinstance(item_data, int):
             total += item_data * product.price
             product_count += item_data

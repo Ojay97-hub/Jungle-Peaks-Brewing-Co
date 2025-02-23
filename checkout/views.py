@@ -84,17 +84,14 @@ def checkout(request):
     - checkout_success: If the order is successful.
     - view_bag: If a product in the cart is invalid.
     """
-    print("DEBUG: checkout view reached")
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
     if request.method == "POST":
-        print("DEBUG: Received POST request in checkout view")
         bag = request.session.get("bag", {})
 
         if not bag:
-            messages.error(request, "There's nothing in"
-                           "your bag at the moment")
+            messages.error(request, "There's nothing in your bag at the moment.")
             return redirect(reverse("products"))
 
         form_data = {
@@ -112,7 +109,6 @@ def checkout(request):
         order_form = OrderForm(form_data)
 
         if order_form.is_valid():
-            print("DEBUG: Order form is valid")
             order = order_form.save(commit=False)
 
             # Link the order to the user's profile if authenticated
@@ -121,10 +117,7 @@ def checkout(request):
                     profile = UserProfile.objects.get(user=request.user)
                     order.user_profile = profile
                 except UserProfile.DoesNotExist:
-                    messages.error(
-                        request, "Profile not found."
-                        "Please update your profile."
-                    )
+                    messages.error(request, "Profile not found. Please update your profile.")
                     return redirect(reverse("profile"))
 
             pid = request.POST.get("client_secret").split("_secret")[0]
@@ -132,57 +125,44 @@ def checkout(request):
             order.original_bag = json.dumps(bag)
             order.save()
 
-            print(f"DEBUG: Order created with order number: {order.order_number}")
-
             # Process each item in the bag
             for item_id, item_data in bag.items():
                 try:
                     product = Product.objects.get(id=item_id)
-                    print(f"DEBUG: Found product - {product.name}")
 
                     if isinstance(item_data, int):
-                        OrderLineItem.objects.create(
-                            order=order, product=product, quantity=item_data
-                        )
+                        OrderLineItem.objects.create(order=order, product=product, quantity=item_data)
                     else:
-                        for size, quantity in item_data["items_by_size"].items():
+                        for size, quantity in item_data.get("items_by_size", {}).items():
                             OrderLineItem.objects.create(
-                                order=order, product=product,
-                                quantity=quantity, product_size=size
+                                order=order, product=product, quantity=quantity, product_size=size
                             )
 
                 except Product.DoesNotExist:
                     messages.error(
                         request,
-                        "One of the products in your bag wasn't found. "
-                        "Please call us for assistance!"
+                        "One of the products in your bag wasn't found. Please call us for assistance!"
                     )
                     order.delete()
                     return redirect(reverse("view_bag"))
 
             request.session["save_info"] = "save-info" in request.POST
-            return redirect(reverse
-                            ("checkout_success", args=[order.order_number]))
             return redirect(reverse("checkout_success", args=[order.order_number]))
-            messages.error(
-                request, "There was an error with your form. "
-                "Please double-check your information."
-            )
+
+        else:
+            messages.error(request, "There was an error with your form. Please double-check your information.")
 
     else:
         bag = request.session.get("bag", {})
         if not bag:
-            messages.error(request, "There's nothing in"
-                           "your bag at the moment")
+            messages.error(request, "There's nothing in your bag at the moment.")
             return redirect(reverse("products"))
 
         current_bag = bag_contents(request)
         total = current_bag["grand_total"]
         stripe_total = round(total * 100)
         stripe.api_key = stripe_secret_key
-        intent = stripe.PaymentIntent.create(
-            amount=stripe_total, currency=settings.STRIPE_CURRENCY
-        )
+        intent = stripe.PaymentIntent.create(amount=stripe_total, currency=settings.STRIPE_CURRENCY)
 
         order_form = OrderForm()
         if request.user.is_authenticated:
@@ -203,11 +183,7 @@ def checkout(request):
                 order_form = OrderForm()
 
     if not stripe_public_key:
-        messages.warning(
-            request,
-            "Stripe public key is missing."
-            "Did you forget to set it in your environment?"
-        )
+        messages.warning(request, "Stripe public key is missing. Did you forget to set it in your environment?")
 
     return render(
         request, "checkout/checkout.html",

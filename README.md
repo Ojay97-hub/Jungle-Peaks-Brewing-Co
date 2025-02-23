@@ -408,11 +408,29 @@ Profile
 
 #### Purchasing with Stripe
 
+Payment success message 
 ![alt text]( /static/images/purchase-stripe.png)
+
+Checkout contents of £7.14
+
+![alt text]( /static/images/checkout-contents.png)
+
+Stripe events log correctly displaying charge of £7.14
+![alt text]( /static/images/stripe-hooked-up.png)
 
 #### Booking a table
 
+Book a table success
+
 ![alt text]( /static/images/book-table.png)
+
+Edit table booking 
+
+![alt text]( /static/images/edit-table.png)
+
+Cancel table booking 
+
+![alt text]( /static/images/cancel-table.png)
 
 #### Booking a tour
 
@@ -423,6 +441,15 @@ Availability
 Book tour success
 
 ![alt text]( /static/images/book-tour.png)
+
+
+Edit tour booking 
+
+![alt text]( /static/images/edit-tour.png)
+
+Cancel tour booking
+
+![alt text]( /static/images/cancel-tour.png)
 
 #### Newsletter Signup
 
@@ -517,56 +544,123 @@ Confirmed email
 
 ### Automated 
 
-## Bugs 
 
-### Quantity btns were going up by 2 instead of 1:
-How to Fix It
-Remove the Duplicate Binding:
-Decide whether you want to use the inline JavaScript or the jQuery approach. If you choose jQuery, remove the inline onclick attributes and adjust the button classes so that only one set of event listeners applies.
+### Checkout views tests 
 
-Ensure Unique Class Names:
-Make sure the buttons don’t have both sets of classes (e.g., avoid having both increase-btn and increment-qty on the same element) to prevent multiple handlers from firing. 
+![alt text]( /static/images/checkout-tests-pass.png)
 
+## 🛠️ Checkout Test Cases
 
-###  Fixing the Blue Highlight Around the Account Dropdown on Mobile (Heroku Deployment)
-The blue highlight appears because browsers apply a default outline on focusable elements, like your <a> tag inside the dropdown. This is especially noticeable on mobile devices, where tapping an element triggers the focus state.
+| **Test Name**                               | **Description**                                                      | **Expected Outcome**                                      |
+|---------------------------------------------|----------------------------------------------------------------------|-----------------------------------------------------------|
+| `test_cache_checkout_data`                  | Ensures checkout data is cached in Stripe's PaymentIntent.          | Stripe's API modifies the payment intent successfully.   |
+| `test_checkout_page_loads`                  | Checks if the checkout page loads correctly.                         | Page loads with status `200`, correct template is used.  |
+| `test_checkout_post_creates_order`          | Tests order creation after form submission.                          | Order and line items are saved in the database.          |
+| `test_checkout_redirects_when_bag_is_empty` | Ensures checkout redirects when the shopping bag is empty.           | Redirects to `products` with a message.                  |
+| `test_checkout_success_view`                | Verifies successful checkout page loads correctly.                   | Order confirmation page displays order details.          |
+| `test_checkout_fails_for_invalid_product`   | Tests checkout failure when a product in the bag does not exist.     | Redirects to `view_bag` with an error message.           |
 
-✅ Solution: Remove Focus Outline for Clicked Dropdown:
+✅ **All tests passed successfully, ensuring checkout functionality is working as expected.**
 
-Remove the blue focus outline from .user-icon when clicked.
-Ensure accessibility by keeping focus for keyboard navigation.
-Apply outline: none; but only when using a mouse/touch.
+This Django test suite ensures that the checkout process functions correctly, covering order creation, payment processing, and error handling. All tests have **passed successfully** ✅.
 
+## 📌 What was Tested
+The test suite includes various unit tests to validate the checkout functionality:
 
-### 🔍 Bug: Update Button Not Submitting the Form
+### 🔹 Checkout Page Loads Properly
+- Ensures the checkout page renders correctly with the correct template.
+- Uses `mock_stripe_create` to simulate Stripe PaymentIntent creation.
 
-Problem:
-When clicking the "Update" button, the shopping bag quantity did not update. Instead, it only visually changed the number inside the input field but did not submit the form to update the session data.
+### 🔹 Caching Checkout Data
+- Tests if checkout data is successfully cached in Stripe's PaymentIntent.
+- Uses `mock_stripe_modify` to mock the Stripe API.
 
-Root Causes:
-Incorrect .update-link Selector:
+### 🔹 Order Creation
+- Verifies that submitting the checkout form correctly creates an order.
+- Ensures the order contains the correct customer details and products.
 
-The jQuery selector was not correctly finding the form related to the specific product.
-The previous code targeted .product-details, .quantity-container, but in desktop view, these containers are not always present. The correct form might be inside a <td> (table cell) element.
-+ and - Buttons Were Working but Not Updating the Bag:
+### 🔹 Handling Empty Cart Checkout
+- Ensures users **cannot proceed to checkout** with an empty cart.
+- Confirms redirection back to the products page with an appropriate message.
 
-Clicking + or - correctly changed the quantity, but since the update-form was not automatically submitted, the actual cart in the session was not updated.
-Event Listeners Might Not Be Binding Correctly:
+### 🔹 Checkout Success Page
+- Verifies that the order success page displays correctly after a successful checkout.
 
-If .update-link could not find the correct form, .submit() was not being called properly.
-✅ Solution: Ensuring the Correct Form is Submitted
-Fix .update-link to Target the Correct Form:
+### 🔹 Handling Missing Products
+- Simulates a scenario where a product in the cart does not exist.
+- Ensures the user is redirected back to their shopping bag with an error message.
 
-Instead of just searching inside .product-details or .quantity-container, we added td (table cell) as another possible container.
-This makes sure that whether the view is mobile or desktop, the correct update-form is found and submitted.
-Prevent + and - from Auto-Updating the Cart:
+## 📊 Test Results
+✅ **All tests passed successfully**, confirming that the checkout process works as expected.
 
-Previously, clicking + or - changed the number but did not trigger a session update.
-We prevented automatic updates and ensured the session updates only when the user clicks "Update".
-Fixed Form Submission Logic:
+## 🐛 Bugs  
 
-Now, when "Update" is clicked, it finds the nearest <td> or .product-details container that contains .update-form and correctly submits it.
+### 🛠️ **Bug: Quantity Buttons Incrementing by 2 Instead of 1**  
+**Issue:**  
+- The quantity increment and decrement buttons were increasing/decreasing by **2 instead of 1**.  
 
+**Root Cause:**  
+- Duplicate event binding: Both inline JavaScript (`onclick`) and jQuery were handling the click event, causing it to fire twice.  
+
+**✅ Solution:**  
+1. **Remove the Duplicate Binding:**  
+   - Choose **either** inline JavaScript **or** jQuery to handle the event.  
+   - If using jQuery, remove the inline `onclick` attributes to prevent duplicate handlers.  
+
+2. **Ensure Unique Class Names:**  
+   - Avoid using multiple conflicting classes on the same element (e.g., `increase-btn` and `increment-qty` together).  
+   - This prevents multiple handlers from triggering on a single click.  
+
+---
+
+### 🎨 **Bug: Blue Highlight Around Account Dropdown on Mobile (Heroku Deployment)**  
+**Issue:**  
+- When tapping the account dropdown on **mobile devices**, a **blue highlight** appeared due to the browser’s default `outline` behavior for focusable elements (`<a>` tags).  
+
+**✅ Solution:**  
+1. **Remove Focus Outline on Click:**  
+   - Apply `outline: none;` but **only when using a mouse/touch**, ensuring accessibility for keyboard users.  
+   - Example CSS Fix:  
+     ```css
+     .user-icon:focus {
+         outline: none;
+     }
+     ```  
+2. **Maintain Accessibility:**  
+   - While removing the outline for mouse/touch users, keep it for keyboard navigation to comply with accessibility best practices.  
+
+---
+
+### 🔄 **Bug: Update Button Not Submitting the Form**  
+**Issue:**  
+- Clicking the **"Update"** button in the shopping bag visually changed the quantity but **did not submit the form**, meaning the session data was **not updated**.  
+
+**Root Causes:**  
+1. **Incorrect `.update-link` Selector:**  
+   - The jQuery selector was not correctly identifying the form associated with each product.  
+   - The previous code targeted `.product-details` and `.quantity-container`, which are **not always present** in **desktop view**.  
+
+2. **Quantity (`+` and `-`) Buttons Were Updating Visually, But Not Updating the Session:**  
+   - Clicking the buttons **changed the number in the input field** but **did not submit the form**, so the cart was not updated in the session.  
+
+3. **Event Listeners Not Binding Correctly:**  
+   - If `.update-link` could not find the correct form, `.submit()` was **not being triggered** properly.  
+
+**✅ Solution:**  
+1. **Fix `.update-link` to Target the Correct Form:**  
+   - Updated the selector to **look inside `<td>` (table cell)** as another possible container.  
+   - This ensures that, whether in **mobile** or **desktop** view, the correct `.update-form` is found and submitted.  
+
+2. **Prevent `+` and `-` Buttons from Automatically Updating the Cart:**  
+   - Previously, clicking `+` or `-` changed the value in the input field but **did not trigger a session update**.  
+   - Now, the session updates **only when the user clicks "Update"**.  
+
+3. **Fix Form Submission Logic:**  
+   - Ensured that clicking "Update" correctly **finds the nearest `<td>` or `.product-details` container** and submits the **correct form**.  
+
+---
+
+✅ **All these bugs have been identified and fixed, improving the checkout and shopping experience.** 🎉  
 ## Deployment
 
 This project was deployed on heroku - the steps to do so are number below:
