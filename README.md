@@ -191,10 +191,30 @@ HTML, CSS, JavaScript, Python+Django
 Relational database (recommending MySQL or Postgres)
 Stripe payment
 
-### Robots.txt
-### sitemap.xml
+## Robots.txt & Sitemap.xml
+This project features both a robots.txt and sitemap.xml files for reasons outlined below:
+
+### **robots.txt**
+The `robots.txt` file is used to guide search engine crawlers on which pages or sections of the site they are allowed to index. It helps manage the crawling process to prevent unnecessary indexing of admin pages, private areas, or duplicate content.
+
+- Allows search engines to crawl essential pages.
+- Blocks access to sensitive areas (e.g., admin panel).
+- Helps optimize crawl budget for better SEO.
+
+### **sitemap.xml**
+The `sitemap.xml` file is an essential component for SEO, as it provides search engines with a structured list of all important pages on the website. This ensures that pages are efficiently indexed and helps improve discoverability.
+
+- Lists URLs for search engines to crawl efficiently.
+- Includes metadata like last modified dates to prioritize updates.
+- Improves site visibility and indexing speed for search engines.
+
+Both files are crucial for **SEO optimisation** and ensuring that the **website structure is efficiently navigated by search engines**.
+
 
 ## Agile Methodology
+
+![alt text]( /static/images/completed-agile.png)
+
 KANBAN on github projects will be used and include 4 iterations:
 
 | Iteration | Focus Areas                     | Key Deliverables                                    |
@@ -206,8 +226,8 @@ KANBAN on github projects will be used and include 4 iterations:
 
 
 
-### User stories
-Will include won't have's with moscow 
+### User stories outlined
+In the initial planning these were the user stories to complete:
 
 | ID   | User Role       | Epic                    | User Story                                                                                               | MoSCoW Criteria |
 |------|-----------------|-------------------------|---------------------------------------------------------------------------------------------------------|-----------------|
@@ -229,7 +249,6 @@ Will include won't have's with moscow
 | ES8a | Customer        | Purchase Products       | As a customer, I want to purchase products online so that I can enjoy Jungle Peaks Brewing & Co. merchandise. | Must Have       |
 | ES8b | Customer        | Purchase Products       | As a customer, I want to apply discount codes during checkout so that I can save money.                  | Could Have      |
 | ES9a | Customer        | Order History           | As a customer, I want to see my order history so that I can track past purchases and reorder items.      | Should Have     |
-| ES9b | Customer        | Order History           | As a customer, I want to export my order history to a PDF so that I can keep it for my records.          | Could Have      |
 | ES10a| Customer        | Book Tours & Tastings   | As a customer, I want to book brewery tours and tastings so that I can experience the brand firsthand.   | Must Have       |
 | ES10b| Customer        | Book Tours & Tastings   | As a customer, I want to see my tour and tasting booking history so that I can keep track of my reservations. | Should Have     |
 | ES10c| Customer        | Book Tours & Tastings   | As a customer, I want to receive a QR code for my event bookings so that I can check in easily.          | Could Have      |
@@ -239,14 +258,70 @@ Will include won't have's with moscow
 | ES12b| Business Owner  | Newsletter Signup       | As a business owner, I want to segment subscribers by interests (e.g., deals, events) so that I can send targeted campaigns. | Should Have     |
 | ES12c| Customer        | Newsletter Signup       | As a customer, I want to receive exclusive discount codes as part of the newsletter signup so that I feel rewarded for subscribing. | Could Have      |
 
+### User stories "won't have's"
+
+All of the user stories were completed excluding these below: 
+
+### **Changes:**
+- **Marked as "Won't Have"**:
+  - ES3b: Downloadable guides/maps for taproom & brewery tours.
+  - ES8b: Apply discount codes during checkout.
+  - ES8c: Monthly beer care package subscription.
+  - ES10c: QR code for event bookings.
+  - ES11b: Upvote helpful reviews.
+  - ES12c: Exclusive discount codes for newsletter signup.
+
+## Custom-models 
+
+### ERD
+Using DBDIAGRAM 
+![alt text]( /static/images/ERD.png)
+
+
+### Key Relationship Summary
+The **Entity Relationship Diagram (ERD)** defines the core database structure for **Jungle Peaks Brewing & Co**. Below is a summary of key relationships between models:
+
+#### **User & UserProfile**
+- **One-to-One Relationship**
+- Each `User` has a corresponding `UserProfile`, which stores additional details such as default address and phone number.
+
+#### **User & Order**
+- **One-to-Many Relationship**
+- A `User` can place multiple `Orders`, but each `Order` belongs to one `UserProfile` (if logged in).
+
+#### **Order & OrderLineItem**
+- **One-to-Many Relationship**
+- Each `Order` consists of multiple `OrderLineItem` records, linking it to specific `Products` and their quantities.
+
+#### **Product & Category**
+- **Many-to-One Relationship**
+- A `Product` belongs to a single `Category`, but a `Category` can have multiple `Products`.
+
+#### **User & Review**
+- **One-to-Many Relationship**
+- A `User` can submit multiple `Reviews`, but each `Review` belongs to one `User` and one `Product`.
+
+#### **TourBooking & User**
+- **Many-to-One Relationship**
+- Each `TourBooking` is linked to a `User`, but a `User` can have multiple `TourBookings`.
+
+#### **NewsletterSubscriber**
+- **Standalone table** storing email subscriptions with interests and timestamps.
+
+#### **ContactMessage**
+- **Standalone table** storing messages submitted via the contact form.
+
+These relationships define how **customers interact with the platform**, enabling smooth purchasing, booking, and feedback processes.
 
 ## Site Flow 
 Using FIGMA
 
-![alt text]( /static/images/siteflow.jpeg)
+![alt text]( /static/images/siteflow.png)
 
 ## Wireframes
-Using UIZARD 
+Using UIZARD I designed a canvas for my lifelike wireframes: 
+
+![alt text]( /static/images/uizard-canvas.png)
 
 ### Desktop
 #### Home Page
@@ -273,20 +348,136 @@ Using UIZARD
 #### User Management
 ![alt text]( /static/images/user-management.jpeg)
 
-## Custom-models 
+## Features Overview
 
-### ERD
-Using DBDIAGRAM 
-![alt text]( /static/images/ERD.png)
+This section outlines the key features implemented in the Jungle Peaks Brewing & Co. website based on the **user stories**. Each feature is linked to the corresponding **user stories**, **database models** used, and includes relevant images showcasing the functionality.
 
+---
 
-#### Key Relationship Summary
+### **1. Product Management (Admin)**
+   - **Summary:** Business owners can fully manage products, including adding, editing, and deleting them to ensure inventory remains up to date. Products are categorized to enhance browsing, and seasonal collections or promotional bundles can be created.
+   - **User Stories:**  
+     - **ES1a:** Business owners can add, edit, and delete products to keep inventory up to date.  
+     - **ES1b:** Upload images for products to make them visually appealing.  
+     - **ES1c:** Categorize products (e.g., beers, merchandise) to improve browsing experience.  
+     - **ES1d:** Create seasonal collections or bundles for promotional campaigns.  
+   - **Models Used:** `Product`, `Category`
 
+![Add Product]( /static/images/add-product-feature.png)
+![Edit Product]( /static/images/edit-product-feature.png)
+![Admin Product Management]( /static/images/admin-products.png)
 
-### Modular Roadmap
+---
 
+### **2. Taproom & Brewery Pages**
+   - **Summary:** The site separates taproom events from brewery tours and tastings to provide a better booking experience for users. Customers can clearly distinguish between the two when making a reservation.
+   - **User Stories:**  
+     - **ES3a:** Separate taproom events from brewery tours and tastings to enhance user experience.  
+   - **Models Used:** `Booking`, `TourBooking`
 
-## Features 
+![Separate Bookings]( /static/images/separate-bookings.png)
+![Taproom Booking]( /static/images/taproom-booking.png)
+![Tour Bookings]( /static/images/tour-bookings.png)
+
+---
+
+### **3. Deals & Promotions**
+   - **Summary:** Promotions are highlighted in the header navigation, ensuring customers are always aware of ongoing deals. Additionally, a countdown timer for limited-time promotions creates urgency to encourage purchases.
+   - **User Stories:**  
+     - **ES4a:** Highlight deals in the header navigation for visibility.  
+     - **ES4b:** Add a countdown timer for limited-time promotions to create urgency.  
+
+![Promo Banner]( /static/images/promo-banner.png)
+
+---
+
+### **4. FAQs & Contact Information**
+   - **Summary:** An FAQ section provides quick answers to common customer queries, reducing the need for direct inquiries. The contact form allows customers to submit messages for further assistance.
+   - **User Stories:**  
+     - **ES5a:** Display FAQs to provide quick answers to common queries.  
+     - **ES6c:** Include a "Contact Us" link in the footer for customer inquiries.  
+   - **Models Used:** `ContactMessage`
+
+![Contact Feature]( /static/images/contact-feature.png)
+
+---
+
+### **5. Footer Links & Social Media**
+   - **Summary:** Social media links in the footer help increase brand engagement, while legal links (signup, privacy policy, and terms) ensure compliance with industry regulations.
+   - **User Stories:**  
+     - **ES6a:** Display social media links in the footer for better engagement.  
+     - **ES6b:** Include signup, privacy policy, and terms links in the footer to meet legal requirements.  
+
+![Footer Feature]( /static/images/footer-feature.png)
+
+---
+
+### **6. Product Browsing & Filtering**
+   - **Summary:** Customers can easily browse all products, view detailed information, and use filtering options to quickly find products based on price, type, or popularity.
+   - **User Stories:**  
+     - **ES7a:** Allow customers to view all products, including beers and merchandise.  
+     - **ES7b:** Display detailed product information, including images, prices, and descriptions.  
+     - **ES7c:** Enable filtering of products by price, type, or popularity for easy discovery.  
+   - **Models Used:** `Product`, `Category`
+
+![Search Bar]( /static/images/search-bar-feature.png)
+![Product Filtering]( /static/images/product-filtering-feature.png)
+![Product Detail]( /static/images/product-detail-feature.png)
+
+---
+
+### **7. Online Purchases & Checkout**
+   - **Summary:** Customers can purchase products directly from the website, ensuring a seamless and secure checkout process.
+   - **User Stories:**  
+     - **ES8a:** Customers can purchase products online.  
+   - **Models Used:** `Order`, `OrderLineItem`, `Product`
+   
+![Checkout Feature]( /static/images/checkout-feature.png)
+
+---
+
+### **8. Order History**
+   - **Summary:** Customers can view their order history within their accounts, making it easy to track past purchases and reorder items.
+   - **User Stories:**  
+     - **ES9a:** Customers can view their order history to track past purchases.  
+     - **ES9b:** Option to export order history as a PDF for record-keeping.  
+   - **Models Used:** `Order`, `OrderLineItem`, `UserProfile`
+
+![Order History]( /static/images/order-history-feature.png)
+
+---
+
+### **9. Tour & Tasting Bookings**
+   - **Summary:** Customers can book brewery tours and tastings online, providing a streamlined reservation process. They can also view past bookings in their account history.
+   - **User Stories:**  
+     - **ES10a:** Customers can book brewery tours and tastings online.  
+     - **ES10b:** View past tour and tasting bookings in their account.  
+   - **Models Used:** `TourBooking`, `UserProfile`
+
+![Tour Booking]( /static/images/tour-booking-feature.png)
+![View Tour Bookings]( /static/images/view-tour-bookings.png)
+
+---
+
+### **10. Customer Reviews**
+   - **Summary:** Customers can leave reviews for products and events, helping others make informed decisions and enhancing credibility.
+   - **User Stories:**  
+     - **ES11a:** Customers can leave reviews for products and events to share their experiences.  
+   - **Models Used:** `Review`, `User`, `Product`
+  
+![Leave a Review]( /static/images/leave-review-feature.png)
+
+---
+
+### **11. Newsletter Signup & Marketing**
+   - **Summary:** Customers can sign up for newsletters to receive updates, promotions, and event notifications. Business owners can segment subscribers based on interests for targeted campaigns.
+   - **User Stories:**  
+     - **ES12a:** Customers can sign up for newsletters to receive updates, deals, and event notifications.  
+     - **ES12b:** Business owners can segment subscribers by interests for targeted campaigns.  
+   - **Models Used:** `NewsletterSubscriber`
+
+![Newsletter Signup]( /static/images/newsletter-signup-feature.png)
+![Newsletter Admin]( /static/images/newsletter-admin-feature.png)
 
 ## Testing
 
@@ -347,7 +538,7 @@ Product page scroll up btn
 
 Tours views
 
-![alt text]( /static/images/tours-view-pass.png)
+![alt text]( /static/images/tours-views-pass.png)
 
 Taproom Views
 
