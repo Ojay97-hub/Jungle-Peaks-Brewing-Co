@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static imgix_tags %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'taproom/css/taproom.css' %}">
@@ -29,8 +29,13 @@
 
         <!-- Image Blocks -->
         <div class="taproom-image-wrapper">
-            <img src="{% static 'images/taproom.jpg' %}" alt="Taproom Interior" class="taproom-image img-fluid main-image">
-            <img src="{% static 'images/taproom-2.jpg' %}" alt="Taproom Bar" class="taproom-image img-fluid overlay-image">
+            <img class="taproom-image img-fluid main-image"
+            src="{% imgix_url 'images/taproom.jpg' params='w=800&h=600&fit=crop&auto=format,compress&q=75' %}" 
+            alt="Taproom Interior">
+
+            <img class="taproom-image img-fluid overlay-image"
+            src="{% imgix_url 'images/taproom-2.jpg' params='w=800&h=600&fit=crop&auto=format,compress&q=75' %}" 
+            alt="Taproom Bar">
         </div>
     </div>
 </section>
@@ -203,18 +208,18 @@
                     <div id="bookingGallery" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="{% static 'images/taproom-food.jpg' %}" 
-                                     class="d-block w-100 rounded carousel-img" 
+                                <img class="d-block w-100 rounded carousel-img"
+                                     src="{% imgix_url 'images/taproom-food.jpg' params='w=800&h=600&fit=crop&auto=format,compress&q=75' %}" 
                                      alt="Delicious food">
                             </div>
                             <div class="carousel-item">
-                                <img src="{% static 'images/taproom-calamari.jpg' %}" 
-                                     class="d-block w-100 rounded carousel-img" 
+                                <img class="d-block w-100 rounded carousel-img"
+                                     src="{% imgix_url 'images/taproom-calamari.jpg' params='w=800&h=600&fit=crop&auto=format,compress&q=75' %}" 
                                      alt="Gourmet dish">
                             </div>
                             <div class="carousel-item">
-                                <img src="{% static 'images/taproom-fruit-punch.jpg' %}" 
-                                     class="d-block w-100 rounded carousel-img" 
+                                <img class="d-block w-100 rounded carousel-img"
+                                     src="{% imgix_url 'images/taproom-fruit-punch.jpg' params='w=800&h=600&fit=crop&auto=format,compress&q=75' %}" 
                                      alt="Refreshing drinks">
                             </div>
                         </div>
