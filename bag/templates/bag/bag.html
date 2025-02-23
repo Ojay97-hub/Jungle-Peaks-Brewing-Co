@@ -147,27 +147,43 @@
 {% endblock %}
 {% block postloadjs %}
 {{ block.super }}
-{% include 'products/includes/quantity_input_script.html' %}
+<script>
+    $(document).ready(function () {
+        // ✅ Update quantity ONLY when clicking "Update"
+        $('.update-link').click(function (e) {
+            e.preventDefault();
+            var form = $(this).closest('td, .product-details, .quantity-container').find('.update-form'); 
+            form.submit(); // ✅ Ensure correct form submission
+        });
 
-<script type="text/javascript">
-    // Update quantity on click
-    $('.update-link').click(function(e) {
-        var form = $(this).prev('.update-form');
-        form.submit();
-    })
+        // ✅ Prevent auto-update when clicking + / - buttons
+        $('.increment-qty, .decrement-qty').click(function (e) {
+            e.preventDefault();
+            var input = $(this).closest('.input-group').find('.qty_input');
+            var currentValue = parseInt(input.val(), 10) || 1;
 
-    // Remove item and reload on click
-    $('.remove-item').click(function(e) {
-        var csrfToken = "{{ csrf_token }}";
-        var itemId = $(this).attr('id').split('remove_')[1];
-        var size = $(this).data('product_size');
-        var url = `/bag/remove/${itemId}/`;
-        var data = {'csrfmiddlewaretoken': csrfToken, 'product_size': size};
+            if ($(this).hasClass('increment-qty')) {
+                input.val(currentValue + 1);
+            } else if ($(this).hasClass('decrement-qty') && currentValue > 1) {
+                input.val(currentValue - 1);
+            }
+        });
 
-        $.post(url, data)
-         .done(function() {
-             location.reload();
-         });
-    })
+        // ✅ Remove item when clicking "Remove"
+        $('.remove-item').click(function (e) {
+            e.preventDefault();
+            var csrfToken = "{{ csrf_token }}";
+            var itemId = $(this).attr('id').split('remove_')[1];
+            var size = $(this).data('product_size');
+            var url = `/bag/remove/${itemId}/`;
+            var data = { 'csrfmiddlewaretoken': csrfToken, 'product_size': size };
+
+            $.post(url, data)
+                .done(function () {
+                    location.reload(); // ✅ Reload after removal
+                });
+        });
+    });
 </script>
+
 {% endblock %}

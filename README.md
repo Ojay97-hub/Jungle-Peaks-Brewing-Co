@@ -537,6 +537,36 @@ Remove the blue focus outline from .user-icon when clicked.
 Ensure accessibility by keeping focus for keyboard navigation.
 Apply outline: none; but only when using a mouse/touch.
 
+
+### 🔍 Bug: Update Button Not Submitting the Form
+
+Problem:
+When clicking the "Update" button, the shopping bag quantity did not update. Instead, it only visually changed the number inside the input field but did not submit the form to update the session data.
+
+Root Causes:
+Incorrect .update-link Selector:
+
+The jQuery selector was not correctly finding the form related to the specific product.
+The previous code targeted .product-details, .quantity-container, but in desktop view, these containers are not always present. The correct form might be inside a <td> (table cell) element.
++ and - Buttons Were Working but Not Updating the Bag:
+
+Clicking + or - correctly changed the quantity, but since the update-form was not automatically submitted, the actual cart in the session was not updated.
+Event Listeners Might Not Be Binding Correctly:
+
+If .update-link could not find the correct form, .submit() was not being called properly.
+✅ Solution: Ensuring the Correct Form is Submitted
+Fix .update-link to Target the Correct Form:
+
+Instead of just searching inside .product-details or .quantity-container, we added td (table cell) as another possible container.
+This makes sure that whether the view is mobile or desktop, the correct update-form is found and submitted.
+Prevent + and - from Auto-Updating the Cart:
+
+Previously, clicking + or - changed the number but did not trigger a session update.
+We prevented automatic updates and ensured the session updates only when the user clicks "Update".
+Fixed Form Submission Logic:
+
+Now, when "Update" is clicked, it finds the nearest <td> or .product-details container that contains .update-form and correctly submits it.
+
 ## Deployment
 
 ## Future Features 
