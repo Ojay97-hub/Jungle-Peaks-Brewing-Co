@@ -504,15 +504,15 @@ Edit a product
 #### Register for an account 
 Verification email
 
-![alt text](confirmation-email-sent.png)
+![alt text]( /static/images/confirmation-email-sent.png)
 
 Email received
 
-![alt text](email-received.png)
+![alt text]( /static/images/email-received.png)
 
 Confirmed email
 
-![alt text](confirm-email.png)
+![alt text]( /static/images/confirm-email.png)
 
 
 ### Automated 

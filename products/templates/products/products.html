@@ -140,19 +140,19 @@
                                         <div class="input-group">
                                             <!-- Visually Hidden Label for Accessibility -->
                                             <label for="quantity-{{ product.id }}" class="visually-hidden">Quantity</label>
-                                            
+                                        
                                             <!-- Decrease Button -->
-                                            <button type="button" class="btn btn-sm btn-outline-secondary decrease-btn" 
-                                                    aria-label="Decrease quantity" onclick="decreaseQuantity(this)">−</button>
-                                            
-                                            <!-- Quantity Input with Proper ID and ARIA Label -->
-                                            <input type="number" id="quantity-{{ product.id }}" name="quantity" value="1" min="1" 
-                                                class="form-control form-control-sm text-center"
-                                                aria-labelledby="quantity-{{ product.id }}">
-                                            
+                                            <button type="button" class="btn btn-sm btn-outline-secondary decrease-btn"
+                                                    aria-label="Decrease quantity" data-item_id="{{ product.id }}">−</button>
+                                        
+                                            <!-- Quantity Input -->
+                                            <input type="number" id="quantity-{{ product.id }}" name="quantity" value="1" min="1"
+                                                   class="form-control form-control-sm text-center qty_input"
+                                                   data-item_id="{{ product.id }}" aria-labelledby="quantity-{{ product.id }}">
+                                        
                                             <!-- Increase Button -->
-                                            <button type="button" class="btn btn-sm btn-outline-secondary increase-btn" 
-                                                    aria-label="Increase quantity" onclick="increaseQuantity(this)">+</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary increase-btn"
+                                                    aria-label="Increase quantity" data-item_id="{{ product.id }}">+</button>
                                         </div>
 
                                         <!-- Add to Cart Button -->

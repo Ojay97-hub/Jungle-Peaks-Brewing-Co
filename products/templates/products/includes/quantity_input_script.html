@@ -5,18 +5,18 @@
         "use strict";
 
         function handleEnableDisable(itemId) {
-            let currentValue = parseInt($(`#id_qty_${itemId}`).val(), 10);
+            let input = $(`#quantity-${itemId}`);
+            let currentValue = parseInt(input.val(), 10);
             if (isNaN(currentValue)) return;
 
-            let minusDisabled = currentValue < 2;
-            let plusDisabled = currentValue > 98;
+            let minusDisabled = currentValue <= 1;
+            let plusDisabled = currentValue >= 99;
 
-            $(`#decrement-qty_${itemId}`).prop("disabled", minusDisabled);
-            $(`#increment-qty_${itemId}`).prop("disabled", plusDisabled);
+            $(`[data-item_id='${itemId}'].decrease-btn`).prop("disabled", minusDisabled);
+            $(`[data-item_id='${itemId}'].increase-btn`).prop("disabled", plusDisabled);
         }
 
-        let allQtyInputs = $(".qty_input");
-        allQtyInputs.each(function () {
+        $(".qty_input").each(function () {
             let itemId = $(this).data("item_id");
             handleEnableDisable(itemId);
         });
@@ -26,29 +26,25 @@
             handleEnableDisable(itemId);
         });
 
-        $(".increment-qty").on("click", function (e) {
+        $(".increase-btn").on("click", function (e) {
             e.preventDefault();
-            let closestInput = $(this).closest(".input-group").find(".qty_input")[0];
-            let currentValue = parseInt($(closestInput).val(), 10);
-            if (isNaN(currentValue)) return;
-
-            $(closestInput).val(currentValue + 1);
+            let input = $(this).closest(".input-group").find(".qty_input");
+            let currentValue = parseInt(input.val(), 10) || 1;
+            input.val(currentValue + 1);
             let itemId = $(this).data("item_id");
             handleEnableDisable(itemId);
-            
             $(this).blur();
         });
 
-        $(".decrement-qty").on("click", function (e) {
+        $(".decrease-btn").on("click", function (e) {
             e.preventDefault();
-            let closestInput = $(this).closest(".input-group").find(".qty_input")[0];
-            let currentValue = parseInt($(closestInput).val(), 10);
-            if (isNaN(currentValue)) return;
-
-            $(closestInput).val(currentValue - 1);
+            let input = $(this).closest(".input-group").find(".qty_input");
+            let currentValue = parseInt(input.val(), 10) || 1;
+            if (currentValue > 1) {
+                input.val(currentValue - 1);
+            }
             let itemId = $(this).data("item_id");
             handleEnableDisable(itemId);
-
             $(this).blur();
         });
     });
