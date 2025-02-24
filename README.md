@@ -82,7 +82,7 @@
 
 Welcome to **Jungle Peaks Brewing & Co.** – where adventure meets craft beer! 🍻🏔️  
 
-Inspired by the untamed wilderness, **Jungle Peaks Brewing & Co.** is more than just a brewery—it’s a **bold expedition into flavoUr**. Every sip is crafted with locally sourced ingredients and a commitment to sustainability, delivering unique brews that capture the essence of adventure. Whether you’re a **seasoned craft beer enthusiast** or a newcomer looking for something wild, we’ve got the perfect pint for you!  
+Inspired by the untamed wilderness, **Jungle Peaks Brewing & Co.** is more than just a brewery—it’s a **bold expedition into flavour**. Every sip is crafted with locally sourced ingredients and a commitment to sustainability, delivering unique brews that capture the essence of adventure. Whether you’re a **seasoned craft beer enthusiast** or a newcomer looking for something wild, we’ve got the perfect pint for you!  
 
 ### **About the Project**  
 This is a **full-stack e-commerce web application** built to bring Jungle Peaks Brewing & Co. online. It provides customers with an **immersive shopping experience**, allowing them to **browse products, make secure purchases, and book brewery tours and taproom experiences**. The site seamlessly integrates **frontend and backend technologies**, ensuring smooth navigation and reliable performance.  
@@ -330,7 +330,7 @@ The **Jungle Peaks Brewing & Co.** website follows a **B2C (Business-to-Consumer
 - **B2C (Business to Consumer):** Directly selling to craft beer enthusiasts, adventurers, and social drinkers.  
 - **Physical Products:** Includes a wide range of **craft beers, merchandise, and curated gift sets**.  
 - **Services:** Customers can book **brewery tours, beer tastings, and table reservations** online.  
-- **Single Payment System:** Payments are made **per order or booking**, ensuring a straightforward checkout experience using **Stripe payment integration**.  
+- **Single Payment System:** Payments are made **per order**, ensuring a straightforward checkout experience using **Stripe payment integration**.  
 
 This model is **ideal for breweries** looking to expand their **customer base, increase brand awareness, and drive sales through digital channels**.  
 
@@ -362,6 +362,25 @@ A **newsletter subscription** system is implemented to keep customers **informed
 - **Event Reminders:** Automated emails notify users about their **upcoming brewery tours or taproom bookings**.  
 - **Content Marketing:** Newsletters feature **brewing tips, beer pairings, and behind-the-scenes stories**, increasing brand engagement.  
 
+### Custom Newsletter Signup  
+
+The custom newsletter signup feature allows users to select their areas of interest, enabling more personalised content delivery. Users can choose one, two, or all three categories based on their preferences:
+
+- **Food**  
+- **Beer**  
+- **Merch**  
+
+#### Benefits for Business Admin  
+- **Targeted Marketing** – Helps send more relevant content to subscribers, improving engagement rates.  
+- **Higher Conversion Rates** – Personalized newsletters increase the likelihood of purchases and interactions.  
+- **Better Data Insights** – Provides valuable information on customer interests, helping refine marketing strategies.  
+- **Reduced Unsubscribes** – By ensuring users receive content they care about, it minimizes the chance of opt-outs.  
+
+
+![Newsletter Signup]( /static/images/newsletter-signup-feature.png) 
+
+
+
 #### 🔹 **Technology Used:**  
 - **Django Email Backend** – Sends automated emails.  
 - **Mailchimp API (Future Feature)** – For advanced email automation and segmentation.  
@@ -372,17 +391,17 @@ A **well-crafted email marketing strategy** helps retain customers and **boosts 
 
 ## **SEO Content Strategy**  
 
-A **well-optimized SEO strategy** ensures **Jungle Peaks Brewing & Co.** ranks highly in **search engines**, driving **organic traffic** to the website.  
+A **well-optimised SEO strategy** ensures **Jungle Peaks Brewing & Co.** ranks highly in **search engines**, driving **organic traffic** to the website.  
 
 ### ✅ **SEO Tactics Implemented:**  
 - **Keyword Optimisation:** Targeting key search terms related to **craft beer, brewery tours, and beer delivery services**.  
 - **Meta Tags & Open Graph Data:** Implementing **structured meta descriptions and social media preview tags** for improved visibility.  
-- **High-Quality Content:** Blog posts and product descriptions are written **with SEO best practices** to rank for relevant queries.  
+- **High-Quality Content:** Product descriptions are written **with SEO best practices** to rank for relevant queries.  
 - **Image Optimisation:** Using **Imgix** for **fast-loading and SEO-friendly images**.  
 
 ### SEO Keywords
 
-![alt text]( /static/images/meta-seo-tags.png)
+![META SEO]( /static/images/meta-seo.png)
 
 ### Keyword Strategy for Jungle Peaks Brewing & Co.
 
@@ -423,7 +442,7 @@ The `robots.txt` file is used to guide search engine crawlers on which pages or 
 
 - Allows search engines to crawl essential pages.
 - Blocks access to sensitive areas (e.g., admin panel).
-- Helps optimize crawl budget for better SEO.
+- Helps optimise crawl budget for better SEO.
 
 ### **sitemap.xml**
 The `sitemap.xml` file is an essential component for SEO, as it provides search engines with a structured list of all important pages on the website. This ensures that pages are efficiently indexed and helps improve discoverability.
@@ -438,22 +457,66 @@ Both files are crucial for **SEO optimisation** and ensuring that the **website 
 
 ## Agile Methodology
 
+Agile methodology was used throughout the development process to ensure flexibility, adaptability, and continuous improvement. By following an iterative approach, tasks were broken down into manageable sprints, allowing for regular feedback and refinements.  
+
+### Why Agile Was Effective  
+- **Enhanced Flexibility** – Allowed for adjustments based on testing, feedback, and evolving requirements.  
+- **Continuous Improvement** – Regular iterations enabled incremental enhancements, reducing the risk of major issues later.  
+- **Improved Collaboration** – Frequent reviews encouraged communication between stakeholders, ensuring alignment with project goals.  
+- **Faster Delivery** – Breaking down tasks into sprints kept development focused and efficient, leading to steady progress.  
+
+This approach ensured a structured yet adaptable workflow, helping deliver a high-quality product while responding effectively to challenges.
+
 ![alt text]( /static/images/completed-agile.png)
 
-KANBAN on github projects will be used and include 4 iterations:
+KANBAN on github projects will be used and include 4 iterations - these were set out as a general guide:
 
 | Iteration | Focus Areas                     | Key Deliverables                                    |
 |-----------|----------------------------------|----------------------------------------------------|
 | 1         | Foundational Features           | Product management, browsing, basic checkout.      |
-| 2         | Enhanced Browsing and Deals     | Filtering, categorization, and deals functionality.|
+| 2         | Enhanced Browsing and Deals     | Filtering, categorisation, and deals functionality.|
 | 3         | Events and Bookings             | Event booking, reviews, and taproom pages.         |
-| 4         | Final Enhancements and Testing  | Newsletter, QR codes, order history, polish.       |
-
+| 4         | Final Enhancements and Testing  | Newsletter, order history, polish.       |
 
 --- 
 
 ### User stories outlined
-In the initial planning these were the user stories to complete:
+
+#### Understanding the User Story ID System  
+Each user story is assigned a unique **ID** following a structured format:  
+
+**Format:**  
+`ES[Number][Letter]`  
+
+- `ES` stands for **Epic Story**, indicating the broader category or feature grouping.  
+- The **Number** represents the **epic category**, grouping related user stories together.  
+- The **Letter** differentiates individual user stories within the same epic.  
+
+### Example Breakdown  
+
+Take the user story **ES1a**:  
+
+| ID   | User Role       | Epic            | User Story Description |
+|------|---------------|----------------|-------------------------|
+| ES1a | Business Owner | Manage Products | Add, edit, and delete products |
+
+- **ES1** → Belongs to the **"Manage Products"** epic.  
+- **a** → First user story within this epic.  
+
+Similarly, **ES10c** follows the same logic:  
+
+| ID    | User Role  | Epic                  | User Story Description |
+|-------|-----------|----------------------|-------------------------|
+| ES10c | Customer  | Book Tours & Tastings | Receive a QR code for event bookings |
+
+- **ES10** → Part of the **"Book Tours & Tastings"** epic.  
+- **c** → Third user story in this epic.  
+
+### Why This ID System is Useful  
+
+- **Organized Structure** – Groups related user stories for better tracking.  
+- **Easy Reference** – Allows quick identification of user stories during development.  
+- **Scalability** – New user stories can be easily added while keeping the numbering consistent.  
 
 | ID   | User Role       | Epic                    | User Story                                                                                               | MoSCoW Criteria |
 |------|-----------------|-------------------------|---------------------------------------------------------------------------------------------------------|-----------------|
@@ -506,7 +569,7 @@ The database models in **Jungle Peaks Brewing & Co.** have been designed to prov
 The **custom models** developed for this project include:  
 
 ### **1. Review Model**  
-- Allows customers to **leave reviews** on products they have purchased or brewery events they have attended.  
+- Allows customers to **leave reviews** on products they have purchased.  
 - Stores **user feedback, ratings (1-5 scale), and timestamps** for submitted reviews.  
 - Helps enhance credibility and transparency by enabling future customers to see authentic product/event feedback.  
 
@@ -629,6 +692,23 @@ The **Entity Relationship Diagram (ERD)** defines the core database structure fo
 - **Standalone table** storing messages submitted via the contact form.
 
 These relationships define how **customers interact with the platform**, enabling smooth purchasing, booking, and feedback processes.
+
+--- 
+
+## App Structure & Components  
+
+This project follows Django’s **Model-View-Template (MVT)** architecture, with each app containing the necessary components to handle specific features.
+
+| App Name   | Forms                  | Views                                       | Templates                                      | Models                 |
+|------------|------------------------|---------------------------------------------|------------------------------------------------|-------------------------|
+| **home**   | `NewsletterForm`       | `index`, `newsletter_signup`, `set_interests` | `home.html`                                    | `NewsletterSubscriber`  |
+| **products** | `ProductForm`, `ReviewForm` | `all_products`, `product_detail`, `add_product`, `edit_product`, `delete_product`, `add_review`, `edit_review`, `delete_review` | `products.html`, `product_detail.html`, `edit_review.html` | `Product`, `Review` |
+| **bag**    | -                        | `view_bag`, `add_to_bag`, `adjust_bag`, `remove_from_bag` | `bag.html` | - |
+| **checkout** | `OrderForm`          | `cache_checkout_data`, `checkout`, `checkout_success` | `checkout.html`, `checkout_success.html` | `Order`, `OrderLineItem` |
+| **profiles** | `UserProfileForm`     | `profile`, `order_history`, `reorder` | `profile.html` | `UserProfile` |
+| **taproom** | `BookingForm`         | `taproom`, `booking`, `booking_success`, `edit_booking`, `cancel_booking` | `taproom.html`, `taproom_booking.html`, `edit_booking.html` | `Booking` |
+| **tours**  | `TourBookingForm`      | `tours`, `book_tour`, `tour_booking_success`, `check_availability`, `edit_booking`, `cancel_booking` | `tours.html`, `book_tour.html`, `edit_booking.html` | `TourBooking` |
+| **contact** | `ContactForm`         | `contact_view` | `contact.html` | `ContactMessage` |
 
 --- 
 
