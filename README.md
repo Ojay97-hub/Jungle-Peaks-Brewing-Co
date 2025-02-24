@@ -1518,7 +1518,7 @@ This project was made possible through the use of various technologies, resource
 
 ### Code Institute
 - Thanks to code institute for providing amazing learning content including the boutique ado walkthrough that was brilliant at breaking down the approach to developing an e-commerce website. Bits of this project stemmed from this. 
-- I would like thank the code institute tutoring staff for giving me a hand when I came across some technical issues - always quick to assist.
+- I would also like to thank the code institute tutoring staff for giving me a hand when I came across some technical issues - always quick to assist.
 - Finally, I would like to strongly thank my student mentor Rory Patrick for being an awesome help guiding me through all of my projects - I wouldn't have done this diploma without his care and attention. 
 --- 
 Final note - I have really enjoyed being a part of code institute and being on their 12 month full stack developer course - its been really fun!
