@@ -48,6 +48,12 @@
     box-shadow: var(--shadow-xs);
 }
 
+.payment-card.is-processing {
+    opacity: 0.6;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
 .summary-card {
     position: sticky;
     top: calc(var(--space-lg) + 80px);

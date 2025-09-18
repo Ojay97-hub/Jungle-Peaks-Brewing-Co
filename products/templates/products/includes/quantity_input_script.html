@@ -1,51 +1,85 @@
-<!-- Load this script AFTER jQuery is loaded -->
 <script>
-    /* global $ */
-    $(document).ready(function () {
-        "use strict";
-
-        function handleEnableDisable(itemId) {
-            let input = $(`#quantity-${itemId}`);
-            let currentValue = parseInt(input.val(), 10);
-            if (isNaN(currentValue)) return;
-
-            let minusDisabled = currentValue <= 1;
-            let plusDisabled = currentValue >= 99;
-
-            $(`[data-item_id='${itemId}'].decrease-btn`).prop("disabled", minusDisabled);
-            $(`[data-item_id='${itemId}'].increase-btn`).prop("disabled", plusDisabled);
-        }
-
-        $(".qty_input").each(function () {
-            let itemId = $(this).data("item_id");
-            handleEnableDisable(itemId);
-        });
-
-        $(".qty_input").on("change", function () {
-            let itemId = $(this).data("item_id");
-            handleEnableDisable(itemId);
-        });
-
-        $(".increase-btn").on("click", function (e) {
-            e.preventDefault();
-            let input = $(this).closest(".input-group").find(".qty_input");
-            let currentValue = parseInt(input.val(), 10) || 1;
-            input.val(currentValue + 1);
-            let itemId = $(this).data("item_id");
-            handleEnableDisable(itemId);
-            $(this).blur();
-        });
-
-        $(".decrease-btn").on("click", function (e) {
-            e.preventDefault();
-            let input = $(this).closest(".input-group").find(".qty_input");
-            let currentValue = parseInt(input.val(), 10) || 1;
-            if (currentValue > 1) {
-                input.val(currentValue - 1);
+    document.addEventListener('DOMContentLoaded', () => {
+        const updateStepperButtons = (itemId) => {
+            const input = document.getElementById(`quantity-${itemId}`);
+            if (!input) {
+                return;
             }
-            let itemId = $(this).data("item_id");
-            handleEnableDisable(itemId);
-            $(this).blur();
+
+            const min = parseInt(input.getAttribute('min') || '1', 10);
+            const max = parseInt(input.getAttribute('max') || '99', 10);
+            const currentValue = parseInt(input.value, 10);
+
+            if (Number.isNaN(currentValue)) {
+                return;
+            }
+
+            const disableDecrease = currentValue <= min;
+            const disableIncrease = currentValue >= max;
+
+            document
+                .querySelectorAll(`[data-item_id='${itemId}'].decrease-btn`)
+                .forEach((button) => {
+                    button.disabled = disableDecrease;
+                });
+
+            document
+                .querySelectorAll(`[data-item_id='${itemId}'].increase-btn`)
+                .forEach((button) => {
+                    button.disabled = disableIncrease;
+                });
+        };
+
+        document.querySelectorAll('.qty_input').forEach((input) => {
+            const itemId = input.dataset.item_id;
+            if (!itemId) {
+                return;
+            }
+
+            const handleChange = () => updateStepperButtons(itemId);
+            updateStepperButtons(itemId);
+            input.addEventListener('change', handleChange);
+            input.addEventListener('input', handleChange);
+        });
+
+        const adjustQuantity = (button, direction) => {
+            const inputGroup = button.closest('.input-group');
+            if (!inputGroup) {
+                return;
+            }
+
+            const input = inputGroup.querySelector('.qty_input');
+            if (!input) {
+                return;
+            }
+
+            const min = parseInt(input.getAttribute('min') || '1', 10);
+            const max = parseInt(input.getAttribute('max') || '99', 10);
+            const currentValue = parseInt(input.value, 10) || min;
+            const nextValue = Math.min(Math.max(currentValue + direction, min), max);
+
+            input.value = nextValue;
+
+            const itemId = button.dataset.item_id;
+            if (itemId) {
+                updateStepperButtons(itemId);
+            }
+
+            button.blur();
+        };
+
+        document.querySelectorAll('.increase-btn').forEach((button) => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+                adjustQuantity(button, 1);
+            });
+        });
+
+        document.querySelectorAll('.decrease-btn').forEach((button) => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+                adjustQuantity(button, -1);
+            });
         });
     });
 </script>

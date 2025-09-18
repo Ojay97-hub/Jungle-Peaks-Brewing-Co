@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
 
 # Load environment variables if env.py exists
 if os.path.isfile('env.py'):
@@ -19,7 +20,21 @@ if os.path.isfile('env.py'):
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security settings
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-test-key')
+
+
+def get_env_setting(setting_name: str) -> str:
+    """Return the required environment variable or raise an error."""
+
+    value = os.getenv(setting_name)
+    if value:
+        return value
+
+    raise ImproperlyConfigured(
+        f"Set the {setting_name} environment variable."
+    )
+
+
+SECRET_KEY = get_env_setting('SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = [
