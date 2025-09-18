@@ -5,242 +5,198 @@
     <link rel="stylesheet" href="{% static 'products/css/products.css' %}">
 {% endblock %}
 
-{% block page_header %}
-    <div class="container header-container-2">
-        <div class="row">
-            <div class="col"></div>
-        </div>
+{% block breadcrumbs %}
+    <div class="container mt-3">
+        <nav aria-label="Breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Shop</li>
+            </ol>
+        </nav>
     </div>
 {% endblock %}
 
 {% block content %}
-    <div class="hero-section">
-        <img
-            src="{% imgix_url 'images/jungle-hero-image.jpg' %}"
-            alt="Jungle Peaks Brewing Shop Hero"
-            class="hero-image" style="max-height: 800px;">
-        <div class="hero-overlay">
-            <div class="hero-content">
-                <h1 class="hero-title">Jungle Peaks Brewing Shop</h1>
-                <p class="hero-tagline">Order now for a unique beer experience</p>
-                <p class="hero-description">
-                    <i class="fas fa-truck"></i> Discover our full range of craft beers and merchandise.
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="overlay"></div>
-    <div class="container-fluid pt-5">
-        <div class="row">
-            <div class="col text-center mt-1">
-                <h2 class="logo-font products-heading">Products</h2>
-            </div>
-        </div>
-        <!-- Filter Buttons -->
-        <div class="row mb-4">
-            <div class="col-12 filter-buttons d-flex justify-content-center align-items-center gap-3 flex-wrap">
-                <!-- Core Categories as Badges -->
-                <div>
-                    <a href="{% url 'products' %}" class="badge custom-badge">All Products</a>
-                    <a href="{% url 'products' %}?category=Merchandise" class="badge custom-badge">Merchandise</a>
-                    <a href="{% url 'products' %}?category=Gift%20Sets" class="badge custom-badge">Gift Sets</a>
+    <section class="container my-4">
+        <div class="shop-hero">
+            <div class="shop-hero__content">
+                <h1 class="mb-2">Jungle Peaks Brewing Shop</h1>
+                <p class="lead mb-2">Explore freshly canned releases, taproom favourites and sustainable merchandise from the heart of the rainforest.</p>
+                <div class="shop-hero__meta">
+                    <span class="badge">New small-batch drops weekly</span>
+                    <span class="badge">Free delivery over £{{ free_delivery_threshold }}</span>
                 </div>
+            </div>
+        </div>
+    </section>
 
-                <!-- Vertical Divider (Hidden on Mobile) -->
-                <div class="custom-vr divider-2 mx-3 d-none d-md-block"></div> 
-
-                <!-- Dropdown for Beer Categories -->
-                <div class="dropdown beer-category-dropdown"> <!-- Added class here -->
-                    <button class="btn custom-dropdown-btn dropdown-toggle-2" type="button" id="beerCategoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        Beer Categories
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="beerCategoryDropdown">
+    <section class="container my-4">
+        <div class="filter-card">
+            <form id="product-filters" method="get" class="row g-3 align-items-end">
+                {% if search_term %}
+                    <input type="hidden" name="q" value="{{ search_term }}">
+                {% endif %}
+                <div class="col-12 col-md-4">
+                    <label for="filter-category" class="form-label">Category</label>
+                    <select id="filter-category" name="category" class="form-select">
+                        <option value="">All categories</option>
                         {% for category in all_categories %}
-                            {% if category.name != "Merchandise" and category.name != "Gift Sets" %}
-                                <li>
-                                    <a href="{% url 'products' %}?category={{ category.name|urlencode }}" class="dropdown-item">
-                                        {{ category.name }}
-                                    </a>
-                                </li>
-                            {% endif %}
+                            <option value="{{ category.name }}" {% if current_categories and category.name in current_categories %}selected{% endif %}>{{ category.name }}</option>
                         {% endfor %}
-                    </ul>
+                    </select>
                 </div>
-
-                <!-- Sort Dropdown -->
-                <div class="dropdown product-sort-dropdown">
-                    <button class="btn product-sort-btn dropdown-toggle-2" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        Sort
-                    </button>
-                    <ul class="dropdown-menu product-sort-menu" aria-labelledby="sortDropdown">
-                        <li><a href="{% url 'products' %}?sort=price_asc" class="dropdown-item product-sort-item">Price: Low to High</a></li>
-                        <li><a href="{% url 'products' %}?sort=price_desc" class="dropdown-item product-sort-item">Price: High to Low</a></li>
-                        <li><a href="{% url 'products' %}?sort=rating_asc" class="dropdown-item product-sort-item">Rating: Low to High</a></li>
-                        <li><a href="{% url 'products' %}?sort=rating_desc" class="dropdown-item product-sort-item">Rating: High to Low</a></li>
-                    </ul>
+                <div class="col-12 col-md-4">
+                    <label for="filter-sort" class="form-label">Sort by</label>
+                    <select id="filter-sort" name="sort" class="form-select">
+                        <option value="" {% if not current_sorting %}selected{% endif %}>Recommended</option>
+                        <option value="price_asc" {% if current_sorting == 'price_asc' %}selected{% endif %}>Price (low to high)</option>
+                        <option value="price_desc" {% if current_sorting == 'price_desc' %}selected{% endif %}>Price (high to low)</option>
+                        <option value="rating_desc" {% if current_sorting == 'rating_desc' %}selected{% endif %}>Rating (high to low)</option>
+                        <option value="rating_asc" {% if current_sorting == 'rating_asc' %}selected{% endif %}>Rating (low to high)</option>
+                        <option value="name" {% if current_sorting == 'name' %}selected{% endif %}>Name A–Z</option>
+                        <option value="category" {% if current_sorting == 'category' %}selected{% endif %}>Category</option>
+                    </select>
                 </div>
-            </div>
+                <div class="col-12 col-md-4">
+                    <div class="filter-actions">
+                        <button type="submit" class="btn btn-primary">Apply filters</button>
+                        {% if request.GET %}
+                            <a href="{% url 'products' %}" class="btn btn-light">Clear</a>
+                        {% endif %}
+                        <span class="text-muted" aria-live="polite">
+                            {{ products|length }} product{% if products|length != 1 %}s{% endif %} found
+                        </span>
+                    </div>
+                </div>
+            </form>
         </div>
+    </section>
 
-        <!-- Product Cards -->
-        <div class="row">
-            <div class="product-container col-10 offset-1">
-                <div class="row">
-                    {% for product in products %}
-                    <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
-                            <div class="card h-100 border-0 shadow">
-                                <a href="{% url 'product_detail' product.id %}" class="text-decoration-none">
-                                    {% if product.image_url %}
-                                    {% if "http" in product.image_url %}
-                                        <!-- If image is an absolute URL (external), use it directly -->
-                                        <img class="card-img-top img-fluid" 
-                                             src="{{ product.image_url }}" 
-                                             alt="{{ product.name }}">
-                                    {% else %}
-                                        <!-- If it's a relative URL, use imgix -->
-                                        <img class="card-img-top img-fluid" 
-                                             src="{% imgix_url product.image_url params='w=800&h=600&fit=crop&auto=format,compress&q=75' %}" 
-                                             alt="{{ product.name }}">
-                                    {% endif %}
-                                
-                                {% elif product.image %}
-                                    <!-- Ensure `product.image.name` gets properly processed -->
-                                    <img class="card-img-top img-fluid" 
-                                         src="{% imgix_url product.image.name params='w=800&h=600&fit=crop&auto=format,compress&q=75' %}" 
-                                         alt="{{ product.name }}">
-                                
-                                {% else %}
-                                    <!-- Default image -->
-                                    <img class="card-img-top img-fluid" 
-                                         src="{% imgix_url 'noimage.png' params='w=800&h=600&fit=crop&auto=format,compress&q=75' %}" 
-                                         alt="{{ product.name }}">
-                                {% endif %}
-                                </a>
-                                <div class="card-body">
-                                    <h3 class="card-title text-dark">{{ product.name }}</h3>
-                                    <p class="card-text text-muted"><small>{{ product.category.name }}</small></p>
-                                     <!-- ADDING DESCRIPTION HERE -->
-                                    <p class="card-text">{{ product.description|truncatewords:20 }}</p>
-                                    <p class="text-muted">
-                                        {% if product.rating %}
-                                            <i class="fas fa-star text-warning"></i> {{ product.rating }} / 5
-                                        {% else %}
-                                            No Rating
-                                        {% endif %}
-                                    </p>
-                                </div>
-                                <div class="card-footer d-flex justify-content-between align-items-center bg-white border-0">
-                                    <span class="font-weight-bold">£{{ product.price }}</span>
-                                
-                                    <!-- Quantity Input with + and - Buttons -->
-                                    <form method="POST" action="{% url 'add_to_bag' product.id %}" class="d-flex align-items-center">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="redirect_url" value="{{ request.path }}">
-
-                                        <div class="input-group">
-                                            <!-- Visually Hidden Label for Accessibility -->
-                                            <label for="quantity-{{ product.id }}" class="visually-hidden">Quantity</label>
-                                        
-                                            <!-- Decrease Button -->
-                                            <button type="button" class="btn btn-sm btn-outline-secondary decrease-btn"
-                                                    aria-label="Decrease quantity" data-item_id="{{ product.id }}">−</button>
-                                        
-                                            <!-- Quantity Input -->
-                                            <input type="number" id="quantity-{{ product.id }}" name="quantity" value="1" min="1"
-                                                   class="form-control form-control-sm text-center qty_input"
-                                                   data-item_id="{{ product.id }}" aria-labelledby="quantity-{{ product.id }}">
-                                        
-                                            <!-- Increase Button -->
-                                            <button type="button" class="btn btn-sm btn-outline-secondary increase-btn"
-                                                    aria-label="Increase quantity" data-item_id="{{ product.id }}">+</button>
-                                        </div>
-
-                                        <!-- Add to Cart Button -->
-                                        <button type="submit" class="btn product-page-btn btn-sm ms-2">Add to Cart</button>
-                                    </form>
-                                </div>
-                            </div>
+    <section class="container my-5" aria-live="polite">
+        {% if products %}
+            <div id="product-skeletons" class="skeleton-grid" aria-hidden="true">
+                {% for _ in "123" %}
+                    <div class="skeleton-card">
+                        <div class="image-placeholder loading-skeleton"></div>
+                        <div class="content-placeholder">
+                            <div class="loading-skeleton" style="height: 1.1rem;"></div>
+                            <div class="loading-skeleton" style="height: 0.9rem;"></div>
+                            <div class="loading-skeleton" style="height: 0.9rem; width: 60%;"></div>
                         </div>
-                    {% endfor %}
-                </div>
+                    </div>
+                {% endfor %}
             </div>
-        </div>
 
-        <!-- Back to top button -->
-        <button
-                type="button"
-                class="btn btn-danger btn-floating btn-lg"
-                id="btn-back-to-top"
-                >
+            <div id="product-grid" class="product-grid" data-loaded="false">
+                {% for product in products %}
+                    <div class="card product-card h-100">
+                        <div class="ratio ratio-4x3">
+                            {% if product.image_url %}
+                                {% if "http" in product.image_url %}
+                                    <img src="{{ product.image_url }}" alt="{{ product.name }}" class="card-img-top" loading="lazy">
+                                {% else %}
+                                    <img src="{% imgix_url product.image_url params='w=600&h=450&fit=crop&auto=format,compress&q=75' %}" alt="{{ product.name }}" class="card-img-top" loading="lazy">
+                                {% endif %}
+                            {% elif product.image %}
+                                <img src="{% imgix_url product.image.name params='w=600&h=450&fit=crop&auto=format,compress&q=75' %}" alt="{{ product.name }}" class="card-img-top" loading="lazy">
+                            {% else %}
+                                <img src="{% imgix_url 'noimage.png' params='w=600&h=450&fit=crop&auto=format,compress&q=75' %}" alt="{{ product.name }}" class="card-img-top" loading="lazy">
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <span class="category-badge">{{ product.category.name }}</span>
+                            <h3 class="h5"><a href="{% url 'product_detail' product.id %}" class="text-decoration-none">{{ product.name }}</a></h3>
+                            <div class="product-meta">
+                                <span class="product-price">£{{ product.price }}</span>
+                                {% if product.rating %}
+                                    <span class="text-muted"><i class="fas fa-star text-warning"></i> {{ product.rating }} / 5</span>
+                                {% else %}
+                                    <span class="text-muted">Not yet rated</span>
+                                {% endif %}
+                            </div>
+                            {% if product.abv %}
+                                <p class="text-small">ABV {{ product.abv }}%</p>
+                            {% endif %}
+                            <p class="text-small">{{ product.description|truncatewords:18 }}</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0">
+                            <form method="post" action="{% url 'add_to_bag' product.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
+                                <div class="product-actions">
+                                    <div class="quantity-stepper" role="group" aria-label="Select quantity for {{ product.name }}">
+                                        <button type="button" class="btn btn-light btn-sm stepper" data-step="-1" data-target="qty-{{ product.id }}" aria-label="Decrease quantity for {{ product.name }}">
+                                            <span aria-hidden="true">−</span>
+                                        </button>
+                                        <input id="qty-{{ product.id }}" class="form-control" type="number" name="quantity" value="1" min="1" max="99" aria-describedby="qty-help-{{ product.id }}">
+                                        <button type="button" class="btn btn-light btn-sm stepper" data-step="1" data-target="qty-{{ product.id }}" aria-label="Increase quantity for {{ product.name }}">
+                                            <span aria-hidden="true">+</span>
+                                        </button>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary flex-grow-1">Add to bag</button>
+                                </div>
+                                <p id="qty-help-{{ product.id }}" class="form-text">Maximum 99 items per order.</p>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <h3>Nothing matches those filters</h3>
+                <p>Try adjusting your filters or browse our full collection of small batch brews and taproom gear.</p>
+                <a href="{% url 'products' %}" class="btn btn-primary">Browse all products</a>
+            </div>
+        {% endif %}
+    </section>
+
+    <button type="button" class="btn btn-primary back-to-top d-none" id="btn-back-to-top" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
-        </button>
-    </div>
+    </button>
 {% endblock %}
 
 {% block postloadjs %}
     {{ block.super }}
-<script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const skeletons = document.getElementById('product-skeletons');
+            const grid = document.getElementById('product-grid');
+            if (skeletons && grid) {
+                requestAnimationFrame(() => {
+                    skeletons.setAttribute('hidden', 'hidden');
+                    grid.dataset.loaded = 'true';
+                });
+            }
 
-    // Get the button
-let mybutton = document.getElementById("btn-back-to-top");
+            document.querySelectorAll('.stepper').forEach(button => {
+                button.addEventListener('click', () => {
+                    const target = document.getElementById(button.dataset.target);
+                    if (!target) {
+                        return;
+                    }
+                    const step = parseInt(button.dataset.step, 10);
+                    const current = parseInt(target.value || '0', 10);
+                    const min = parseInt(target.getAttribute('min') || '1', 10);
+                    const max = parseInt(target.getAttribute('max') || '99', 10);
+                    const next = Math.min(Math.max(current + step, min), max);
+                    target.value = next;
+                    target.dispatchEvent(new Event('change'));
+                });
+            });
 
-// When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function () {
-    scrollFunction();
-};
-
-function scrollFunction() {
-    if (
-        document.body.scrollTop > 20 ||
-        document.documentElement.scrollTop > 20
-    ) {
-        mybutton.style.display = "block";
-    } else {
-        mybutton.style.display = "none";
-    }
-}
-
-// When the user clicks on the button, scroll to the top of the document
-mybutton.addEventListener("click", backToTop);
-
-function backToTop() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-}
-
-// Function to decrease quantity
-function decreaseQuantity(button) {
-    let input = button.nextElementSibling;
-    if (input.value > 1) {
-        input.value = parseInt(input.value, 10) - 1;
-    }
-    button.blur(); // ✅ Remove focus after clicking
-}
-
-// Function to increase quantity
-function increaseQuantity(button) {
-    let input = button.previousElementSibling;
-    input.value = parseInt(input.value, 10) + 1;
-    button.blur(); // ✅ Remove focus after clicking
-}
-
-// Attach event listeners to quantity buttons
-document.addEventListener("DOMContentLoaded", function () {
-    let decreaseButtons = document.querySelectorAll(".decrease-btn");
-    let increaseButtons = document.querySelectorAll(".increase-btn");
-
-    decreaseButtons.forEach(function (button) {
-        button.addEventListener("click", function () {
-            decreaseQuantity(this);
+            const backToTop = document.getElementById('btn-back-to-top');
+            const toggleBackToTop = () => {
+                if (window.scrollY > 200) {
+                    backToTop.classList.remove('d-none');
+                } else {
+                    backToTop.classList.add('d-none');
+                }
+            };
+            toggleBackToTop();
+            window.addEventListener('scroll', toggleBackToTop);
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
         });
-    });
-
-    increaseButtons.forEach(function (button) {
-        button.addEventListener("click", function () {
-            increaseQuantity(this);
-        });
-    });
-});
-
-</script>
+    </script>
 {% endblock %}

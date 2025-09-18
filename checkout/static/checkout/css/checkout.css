@@ -1,226 +1,214 @@
-.StripeElement,
-.stripe-style-input {
-  box-sizing: border-box;
-  height: 40px;
-  padding: 10px 12px;
-  border: 1px solid transparent;
-  border-radius: 0px;
-  background-color: white;
-  box-shadow: 0 1px 3px 0 #e6ebf1;
-  -webkit-transition: box-shadow 150ms ease;
-  transition: box-shadow 150ms ease;
+.checkout-shell {
+    margin: var(--space-2xl) auto;
 }
 
-.StripeElement--focus,
-.stripe-style-input:focus,
-.stripe-style-input:active {
-  box-shadow: 0 1px 3px 0 #cfd7df;
+.checkout-steps {
+    display: flex;
+    gap: var(--space-sm);
+    justify-content: center;
+    margin-bottom: var(--space-xl);
+    padding: 0;
+    list-style: none;
 }
 
-.StripeElement--webkit-autofill {
-  background-color: #fefde5 !important;
+.checkout-steps li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xxs);
+    font-weight: 600;
+    color: var(--color-text-muted);
 }
 
-.stripe-style-input::placeholder {
-    color: #aab7c4;
+.checkout-steps li.active {
+    color: var(--color-primary);
 }
 
-/* General Form Styling */
-.form-control {
-    padding: 12px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    transition: all 0.3s ease;
+.checkout-steps .step-index {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
 }
 
-.form-control:focus, #card-element:focus {
-    border-color: #17a2b8;
-    box-shadow: 0 0 5px rgba(23, 162, 184, 0.5);
+.checkout-steps li.active .step-index {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
 }
 
-/* Fieldset and Section Styling */
-fieldset {
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    background: #fff;
-    margin-bottom: 20px;
+.summary-card,
+.payment-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-xs);
 }
 
-.fieldset-label {
-    font-weight: bold;
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 10px;
+.summary-card {
+    position: sticky;
+    top: calc(var(--space-lg) + 80px);
 }
 
-/* Order Summary Styling */
-/* 📌 General Order Summary Styling */
-.order-summary {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* 📌 Desktop Table Styling */
 .order-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    margin-bottom: var(--space-md);
+}
+
+.order-table th,
+.order-table td {
+    padding: var(--space-sm);
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+    vertical-align: top;
 }
 
 .order-table th {
-    text-align: left;
-    padding: 10px;
-    font-weight: bold;
-    border-bottom: 2px solid #ddd;
+    font-weight: 700;
+    background: var(--color-surface-alt);
 }
 
-.order-table td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-/* 📌 Desktop Product Info Layout */
-.product-info {
+.order-item-info {
     display: flex;
-    align-items: center;
-    gap: 15px;
+    gap: var(--space-sm);
 }
 
-/* 📌 Ensure product images resize correctly */
-.product-image {
-    width: 100px;
-    height: 125px;
-    border-radius: 5px;
+.order-item-info img {
+    width: 5rem;
+    height: 5rem;
+    border-radius: var(--radius-sm);
     object-fit: cover;
+    flex-shrink: 0;
 }
 
-/* 📌 Reduce text size for descriptions */
-.product-subtext {
-    color: gray;
-    font-size: 12px;
-}
-
-/* 📌 Mobile Order Summary Layout */
-.order-summary-mobile .order-item {
-    background: #fff;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-}
-
-/* 📌 Ensure text aligns correctly in mobile view */
-.order-details {
-    padding-left: 10px;
-}
-
-/* 📌 Mobile Product Image Styling */
-.order-img {
-    width: 80px;
-    height: auto;
-    object-fit: cover;
-    border-radius: 5px;
-}
-
-/* 📌 Order Totals Styling (for both Desktop & Mobile) */
 .order-totals {
-    text-align: right;
-    font-size: 16px;
-}
-
-.order-totals p {
-    margin: 5px 0;
-}
-
-.grand-total {
-    font-size: 18px;
-    font-weight: bold;
-}
-
-/* 📌 Quantity Input Styling */
-.quantity-input {
-    width: 50px;
-    padding: 5px;
-    text-align: center;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-/* Button Styling */
-.btn-black {
-    background: linear-gradient(45deg, #000, #333);
-    color: white;
-    padding: 12px 18px;
-    border-radius: 20px; /* More rounded corners */
-    font-size: 16px;
-    transition: all 0.3s ease;
-    border: none;
-}
-
-.btn-black:hover {
-    background: green;
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-sm);
+    display: grid;
+    gap: var(--space-xs);
     font-weight: 600;
-    color: white;
 }
 
-/* Save Info Checkbox Styling */
-.form-check-label {
+.order-totals span {
+    float: right;
+}
+
+.payment-card fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-sm);
+}
+
+.payment-card legend {
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+}
+
+.payment-card .form-control,
+.payment-card .stripe-style-input {
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    padding: var(--space-sm);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.payment-card .form-control:focus,
+.payment-card .stripe-style-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: var(--focus-ring);
+}
+
+.checkout-alert {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-sm);
+    background: rgba(180, 112, 0, 0.08);
+    color: var(--color-warning);
     display: flex;
     align-items: center;
-    font-size: 14px;
+    gap: var(--space-xs);
 }
 
-/* Background Styling */
-body {
-    background: #f9f9f9;
+.payment-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    align-items: center;
+    justify-content: space-between;
 }
 
-/* Input Placeholder Styling */
-.stripe-style-input::placeholder {
-    color: #aab7c4;
+#card-element {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-sm);
+    background: var(--color-surface);
 }
 
-/* Select Styling */
-.form-select,
-.form-select option {
-    color: #000;
-    font-size: 16px;
-    padding: 0px 12px;
-    border: 2px solid #000;
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+#card-errors {
+    color: var(--color-danger);
+    font-size: 0.9rem;
 }
 
-.form-select:focus {
-    border-color: #17a2b8;
-    box-shadow: 0 0 5px rgba(23, 162, 184, 0.5);
-}
-
-.form-select:invalid,
-.form-select option[value=""] {
-    color: #aab7c4 !important;
-}
-
-/* Loading Overlay */
 #loading-overlay {
-    display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(23, 162, 184, .85);
-    z-index: 9999;
+    inset: 0;
+    background: rgba(16, 24, 40, 0.75);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+#loading-overlay.active {
+    display: flex;
 }
 
 .loading-spinner {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    height: 100%;
+    gap: var(--space-sm);
+    font-size: 1.25rem;
+    color: var(--color-surface);
+}
+
+.checkout-summary-mobile {
+    display: none;
+}
+
+@media (max-width: 991.98px) {
+    .summary-card {
+        position: static;
+        top: auto;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .checkout-steps {
+        flex-wrap: wrap;
+        gap: var(--space-xs);
+    }
+
+    .checkout-summary-desktop {
+        display: none;
+    }
+
+    .checkout-summary-mobile {
+        display: grid;
+        gap: var(--space-sm);
+    }
+
+    .checkout-summary-mobile .order-item-info {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: var(--space-sm);
+    }
 }

@@ -42,29 +42,32 @@
 - [Site Flow](#site-flow)  
 - [Wireframes](#wireframes)  
   - [Desktop Wireframes](#desktop-wireframes)  
-- [Features Overview](#features-overview)  
-  - [Product Management](#product-management-admin)  
-  - [Taproom & Brewery Pages](#taproom--brewery-pages)  
-  - [Deals & Promotions](#deals--promotions)  
-  - [FAQs & Contact Information](#faqs--contact-information)  
-  - [Footer Links & Social Media](#footer-links--social-media)  
-  - [Product Browsing & Filtering](#product-browsing--filtering)  
-  - [Online Purchases & Checkout](#online-purchases--checkout)  
-  - [Order History](#order-history)  
-  - [Tour & Tasting Bookings](#tour--tasting-bookings)  
-  - [Customer Reviews](#customer-reviews)  
-  - [Newsletter Signup & Marketing](#newsletter-signup--marketing)  
-- [Testing](#testing)  
-  - [Validation](#validation)  
-    - [HTML](#html)  
-    - [CSS](#css)  
-    - [JavaScript](#javascript)  
-    - [Python](#python)  
-  - [Lighthouse & Accessibility](#lighthouse--accessibility)  
-  - [Manual Testing](#manual-testing)  
-  - [Automated Testing](#automated-testing)  
-- [Bugs](#bugs)  
-- [Deployment](#deployment)  
+- [Features Overview](#features-overview)
+  - [Product Management](#product-management-admin)
+  - [Taproom & Brewery Pages](#taproom--brewery-pages)
+  - [Deals & Promotions](#deals--promotions)
+  - [FAQs & Contact Information](#faqs--contact-information)
+  - [Footer Links & Social Media](#footer-links--social-media)
+  - [Product Browsing & Filtering](#product-browsing--filtering)
+  - [Online Purchases & Checkout](#online-purchases--checkout)
+  - [Order History](#order-history)
+  - [Tour & Tasting Bookings](#tour--tasting-bookings)
+  - [Customer Reviews](#customer-reviews)
+  - [Newsletter Signup & Marketing](#newsletter-signup--marketing)
+- [UI System & Accessibility](#ui-system--accessibility)
+- [Testing](#testing)
+  - [Validation](#validation)
+    - [HTML](#html)
+    - [CSS](#css)
+    - [JavaScript](#javascript)
+    - [Python](#python)
+  - [Lighthouse & Accessibility](#lighthouse--accessibility)
+  - [Manual Testing](#manual-testing)
+  - [Automated Testing](#automated-testing)
+  - [CRUD & Email](#crud--email)
+- [Bugs](#bugs)
+- [Resolved Issues](#resolved-issues)
+- [Deployment](#deployment)
   - [Heroku Deployment](#heroku-deployment)  
   - [Heroku Config Vars](#heroku-config-vars)  
 - [Future Features](#future-features)  
@@ -884,6 +887,24 @@ This section outlines the key features implemented in the Jungle Peaks Brewing &
 ![Newsletter Signup]( /static/images/newsletter-signup-feature.png)
 ![Newsletter Admin]( /static/images/newsletter-admin-feature.png)
 
+## UI System & Accessibility
+
+To elevate the storefront from a functional prototype to a polished retail experience, the UI was rebuilt around a reusable design system. Key improvements include:
+
+- **Design tokens & spacing scale** – Defined CSS custom properties for colour, spacing, radii, and elevation (`static/css/base.css`) to keep components consistent and on-brand. Utility-driven spacing replaces ad-hoc margins to maintain rhythm across breakpoints.
+- **Typography hierarchy** – Harmonised heading and body sizes, ensuring line-height and contrast meet WCAG AA requirements. Headings use consistent clamp ranges to scale gracefully from mobile to desktop.
+- **Component refresh** – Navigation, cards, forms, and alerts were rebuilt with clearer affordances, hover/focus states, and improved density. Cards share consistent padding, object-fit ratios, and action placement.
+- **Feedback patterns** – Bootstrap toasts were redesigned as contextual notifications with iconography, live region support, and optional action buttons for follow-up tasks.
+- **Accessibility focus** – Keyboard traversal was tested end-to-end (browse → cart → checkout). All new controls expose `aria-describedby` help text, visible focus styles, and descriptive button labels. Async areas, such as order receipts and empty states, use `aria-live="polite"` to announce updates without jarring interruptions.
+- **Performance & stability** – Product and bag imagery use fixed aspect ratios to prevent layout shift. Skeleton loaders, loading states on primary buttons, and disabled states communicate progress clearly.
+
+### Before & After Highlights
+
+- **Product grid** – Legacy cards used mismatched spacing and action placement, making it hard to compare products quickly. The refresh applies the global spacing scale, consistent object-fit ratios, and bolder pricing to reduce scan time and highlight key calls-to-action.
+- **Checkout receipt** – Previously, order details were buried below generic success copy. The new layout surfaces confirmation messaging, payment summary, and fulfilment actions in a bordered card with responsive stacking so shoppers immediately know what happens next.
+
+<sup>The refreshed layouts showcase the unified spacing scale, elevated typography, and inline validation states introduced in this release without requiring additional binary assets.</sup>
+
 ## Testing
 
 ### Validation
@@ -1189,7 +1210,21 @@ The test suite includes various unit tests to validate the checkout functionalit
 ## 📊 Test Results
 ✅ **All tests passed successfully**, confirming that the checkout process works as expected.
 
-## 🐛 Bugs  
+### CRUD & Email
+
+New regression suites were introduced to cover the critical flows remediated in this release:
+
+- **Tour bookings** (`tours/tests.py`) – Validates that attendee counts can increase or decrease without bypassing tour capacity, blocks zero-guest submissions, and guards model-level saves against manual overbooking.
+- **Product image management** (`products/tests.py`) – Confirms uploaded media is persisted to storage, placeholders render when no image is provided, and validation errors surface inline on the form.
+- **Checkout confirmation emails** (`checkout/tests.py`) – Mocks the email backend to assert success messaging, warning handling when delivery fails, and the resend endpoint permissions for recent orders versus unauthorised users.
+
+Run the full suite locally with:
+
+```bash
+python manage.py test
+```
+
+## 🐛 Bugs
 
 ### 🛠️ **Bug: Quantity Buttons Incrementing by 2 Instead of 1**  
 **Issue:**  
@@ -1256,7 +1291,18 @@ The test suite includes various unit tests to validate the checkout functionalit
 
 ---
 
-✅ **All these bugs have been identified and fixed, improving the checkout and shopping experience.** 🎉  
+✅ **All these bugs have been identified and fixed, improving the checkout and shopping experience.** 🎉
+
+## Resolved Issues
+
+The Merit upgrade focused on hardening core commerce flows and polishing the UI. Key fixes delivered in this release:
+
+- **Tour booking updates** – Adjusted form validation and model logic to allow reducing attendee counts, prevent overbooking when increasing guests, and reject zero-guest submissions. Regression coverage lives in `tours/tests.py`.
+- **Product image persistence** – File uploads now use the correct widget and storage configuration so new products retain their images. Template fallbacks ensure placeholder imagery renders when no file is provided. See `products/tests.py` for automated checks.
+- **Checkout confirmations** – Successful orders trigger confirmation emails and expose a resend action with permission checks. Warning states inform the user when mail delivery fails. The scenarios are exercised in `checkout/tests.py`.
+
+Together these fixes unblock store managers from maintaining inventory, give customers reliable receipts, and restore confidence in booking limits. All new behaviours are covered by the Django test suite (`python manage.py test`).
+
 ## Deployment
 
 ### 🚀 Cloning this GitHub Repository to VS Code  

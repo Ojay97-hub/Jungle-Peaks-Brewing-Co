@@ -1,38 +1,58 @@
 {% extends "allauth/layouts/base.html" %}
 {% load i18n %}
-{% load account crispy_forms_tags %}
+{% load account %}
 
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
 {% block inner_content %}
-<div class="login-page-wrapper">
-    <div class="signin-container">
-        <h2 class="logo-font">{% trans "Sign In" %}</h2>
+<header>
+    <h1>{% trans "Welcome back" %}</h1>
+    <p class="text-muted">{% trans "Sign in to manage your orders, reviews, and tour bookings." %}</p>
+</header>
 
-        <p>{% blocktrans %}If you have not created an account yet, please
-        <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-
-        <form class="login" method="POST" action="{% url 'account_login' %}">
-            {% csrf_token %}
-            
-            <!-- Render all fields EXCEPT Remember Me -->
-            {% for field in form %}
-                {% if field.name != "remember" %}
-                    {{ field|as_crispy_field }}
-                {% endif %}
+<form method="post" action="{% url 'account_login' %}" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for error in form.non_field_errors %}
+                <p class="mb-0">{{ error }}</p>
             {% endfor %}
+        </div>
+    {% endif %}
 
-            <!-- ✅ Manually styled "Remember Me" to prevent duplication -->
-            <div class="remember-me-container">
-                <input type="checkbox" id="remember-me" name="remember">
-                <label for="remember-me">{% trans "Remember Me" %}</label>
+    {% for field in form %}
+        {% if field.name != "remember" %}
+            <div>
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                    <p class="form-text">{{ field.help_text }}</p>
+                {% endif %}
+                {% for error in field.errors %}
+                    <p class="invalid-feedback d-block">{{ error }}</p>
+                {% endfor %}
             </div>
+        {% endif %}
+    {% endfor %}
 
-            <div class="button-container">
-                <a class="btn-outline-black" href="{% url 'home' %}">{% trans "Home" %}</a>
-                <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
-            </div>
-        </form>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="remember-me" name="remember" {% if form.remember.value %}checked{% endif %}>
+        <label class="form-check-label" for="remember-me">{% trans "Remember me" %}</label>
     </div>
+
+    {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+    {% endif %}
+
+    <div class="auth-actions">
+        <a href="{% url 'home' %}" class="btn btn-light">{% trans "Cancel" %}</a>
+        <button type="submit" class="btn btn-primary">{% trans "Sign In" %}</button>
+    </div>
+</form>
+
+<div class="auth-links">
+    <a href="{% url 'account_reset_password' %}">{% trans "Forgot password?" %}</a>
+    <span>•</span>
+    <a href="{{ signup_url }}">{% trans "Create an account" %}</a>
 </div>
 {% endblock %}

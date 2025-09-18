@@ -158,11 +158,15 @@ def remove_from_bag(request, item_id):
             )
 
         request.session["bag"] = bag
-        return HttpResponse(status=200)
+        if request.headers.get("x-requested-with") == "XMLHttpRequest":
+            return HttpResponse(status=200)
+        return redirect(reverse("view_bag"))
 
     except Exception as e:
         messages.error(
             request,
             f"Error removing item: {e}",
         )
-        return HttpResponse(status=500)
+        if request.headers.get("x-requested-with") == "XMLHttpRequest":
+            return HttpResponse(status=500)
+        return redirect(reverse("view_bag"))

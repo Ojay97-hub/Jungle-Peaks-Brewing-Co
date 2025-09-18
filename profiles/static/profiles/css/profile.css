@@ -1,324 +1,135 @@
-.order-history {
-    max-height: 416px;
-    overflow-y: auto;
+.profile-shell {
+    margin: var(--space-2xl) auto;
 }
 
-#profile-update-form .form-control {
-    color: #000;
-}
-
-#profile-update-form input::placeholder {
-    color: #aab7c4;
-}
-
-#id_default_country,
-#id_default_country option:not(:first-child) {
-    color: #000;
-}
-
-#id_default_country option:first-child {
-    color: #aab7c4;
-}
-
-.card {
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
-}
-.card:hover {
-    transform: scale(1.02);
-}
-
-.btn-primary {
-    border-radius: 8px;
-    background-color: #FFC107; /* Bright Gold */
-    color: #000000; /* Black text */
-    border: 2px solid #DAA520; /* Darker Gold */
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: 600;
-    transition: all 0.3s ease-in-out;
-    max-width: 175px;
-}
-.btn-primary:hover {
-    background-color: #DAA520; /* Darker Gold */
-    color: #FFFFFF; /* White text */
-}
-.collapse-content {
-    display: none;
-}
-/* 🎯 Order History Container */
-.order-history-container {
-    width: 100%;
-    overflow-x: auto;
-    padding: 10px;
-    border-radius: 10px;
-    background: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* 🎯 Order History Table */
-.order-history-table {
-    color: #FFFFFF; /* White Text */
-    width: 100%;
-    border-collapse: collapse; /* Removes default spacing */
-    font-size: 16px;
-}
-
-/* 🎯 Table Headers */
-.order-history-table thead {
-    background: #f8f9fa;
-    font-weight: bold;
-}
-
-/* 🎯 Table Header & Cell Styling */
-.order-history-table th, 
-.order-history-table td {
-    text-align: left;
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    color: #111111; /* Dark Gray for better contrast */
-}
-
-/* 🎯 Text Links */
-.order-history-table a {
-    color: black;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.order-history-table a:hover {
-    text-decoration: underline;
-}
-
-/* 🎯 Reorder Button */
-.reorder-btn {
-    display: inline-block;
-    background: #FFC107; /* Bright Gold */
-    color: #000000; /* Black */
-    border: 2px solid #DAA520; /* Dark Gold */
-    padding: 6px 12px;
-    border-radius: 5px;
+.profile-shell h1 {
     text-align: center;
-    font-weight: bold;
-    transition: all 0.3s ease-in-out;
+    margin-bottom: var(--space-xl);
 }
 
-.reorder-btn:hover {
-    background: #DAA520; /* Darker Gold */
-    color: #FFFFFF; /* White */
+.panel-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-xs);
+    padding: var(--space-lg);
+    display: grid;
+    gap: var(--space-md);
 }
 
-/* Review Card */
-.review-item {
-    background: #f9f9f9; /* Soft background */
-    border: 1px solid #ddd; /* Light border */
-    border-radius: 10px; /* Rounded corners */
-    padding: 15px; /* Comfortable spacing */
-    margin-bottom: 15px; /* Space between reviews */
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05); /* Light shadow for depth */
+.filter-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    align-items: center;
+    justify-content: space-between;
 }
 
-/* Product Name Link */
-.review-item a {
-    font-weight: bold;
-    text-decoration: none;
-    color: black; /* Darker blue for better contrast */
-    font-weight: bold;
+.filter-toolbar .form-control {
+    max-width: 16rem;
 }
 
-.review-item a:hover {
-    color: #001a66; /* Even darker blue */
+.profile-table {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
 }
 
-/* Rating Styling */
-.review-item .rating {
-    font-size: 1rem;
-    font-weight: bold;
-    color: black; /* Bright Gold */
+.profile-table table {
+    width: 100%;
+    margin-bottom: 0;
 }
 
-/* Review Text */
-.review-comment {
-    font-style: italic;
-    font-size: 0.9rem;
-    color: #333; /* Darker Gray */
-    margin-top: 5px;
+.profile-table tbody tr {
+    transition: background-color 0.2s ease;
 }
 
-/* Action Links (Edit & Delete) */
-.review-actions {
+.profile-table tbody tr:hover {
+    background: rgba(21, 94, 99, 0.05);
+}
+
+.profile-actions {
+    display: inline-flex;
+    gap: var(--space-xs);
+}
+
+.profile-actions .btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+.empty-note {
+    text-align: center;
+    padding: var(--space-xl) var(--space-md);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-alt);
+}
+
+.booking-list {
+    display: grid;
+    gap: var(--space-sm);
+}
+
+.booking-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-xs);
+    display: grid;
+    gap: var(--space-xs);
+}
+
+.booking-card .booking-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+}
+
+.review-list {
+    display: grid;
+    gap: var(--space-sm);
+}
+
+.review-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    background: var(--color-surface-alt);
+    display: grid;
+    gap: var(--space-xs);
+}
+
+.review-card strong {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
+    align-items: baseline;
 }
 
-.review-actions a {
-    text-decoration: none;
-    font-weight: 600;
-    padding: 5px 12px;
-    border-radius: 5px;
-    transition: all 0.3s ease-in-out;
+.review-card .badge {
+    background: rgba(21, 94, 99, 0.12);
+    color: var(--color-primary-dark);
 }
 
-/* Edit Button */
-.review-actions .edit-link {
-    color: #ffffff; /* White text */
-    border: 2px solid black; /* Bright blue border */
-    background: black; /* Bright blue */
-}
-
-.review-actions .edit-link:hover {
-    background: white; /* Darker blue */
-    border-color: white;
-    color: black;
-}
-
-/* Delete Button */
-.review-actions .delete-link {
-    color: #ffffff; /* White text */
-    border: 2px solid #DC3545; /* Red border */
-    background: #DC3545; /* Red */
-}
-
-.review-actions .delete-link:hover {
-    background: #a71d2a; /* Darker red */
-    border-color: #a71d2a;
-}
-/* Delete pop up */
-.modal-content {
-    border-radius: 10px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.modal-header {
-    background-color: #dc3545;
-    color: white;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-.btn-danger {
-    background-color: #dc3545;
-    border: none;
-}
-
-.btn-danger:hover {
-    background-color: #c82333;
-}
-
-.btn-secondary {
-    border: none;
-}
-
-/* Booking Card */
-.booking-item {
-    background: #f9f9f9; /* Softer background */
-    border: 1px solid #ddd; /* Light border */
-    border-radius: 10px; /* Rounded corners */
-    padding: 15px; /* Comfortable spacing */
-    margin-bottom: 15px; /* Space between bookings */
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05); /* Light shadow for depth */
-}
-
-/* Booking Headers */
-.booking-item strong {
-    font-size: 1.1rem;
-    color: #333;
-}
-
-/* Status Badge */
-.badge {
-    font-size: 0.85rem;
-    padding: 5px 8px;
-    border-radius: 5px;
-    font-weight: 500;
-}
-
-.badge-confirmed {
-    background-color: #28A745; /* Dark Green */
-    color: #FFFFFF; /* White */
-    font-weight: bold;
-}
-
-/* 🟡 Booking Edit Button */
-.booking-actions .edit-link {
-    background-color: #000000; /* Black */
-    color: #FFFFFF; /* White */
-    border: 2px solid #000000; /* Black Border */
-}
-
-.booking-actions .edit-link:hover {
-    background-color: #FFFFFF; /* White */
-    color: #000000; /* Black */
-    border-color: #000000;
-}
-
-/* 🔴 Booking Cancel Button */
-.booking-actions .cancel-link {
-    background-color: #DC3545; /* Red */
-    color: #FFFFFF; /* White */
-    border: 2px solid #DC3545; /* Red Border */
-}
-
-.booking-actions .cancel-link:hover {
-    background-color: #B22222; /* Darker Red */
-    border-color: #B22222;
-    color: #FFFFFF;
-}
-
-/* Action Links Instead of Buttons */
-.booking-actions {
+.review-card .review-actions {
     display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
+    gap: var(--space-xs);
 }
 
-.booking-actions a {
-    text-decoration: none;
-    font-weight: 600;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: all 0.3s ease-in-out;
+.delivery-form .btn {
+    width: 100%;
 }
 
-/* Special Requests */
-.special-requests {
-    font-style: italic;
-    font-size: 0.9rem;
-    color: #555;
-    margin-top: 5px;
-}
-
-/* 📌 Responsive Design */
-@media (max-width: 768px) {
-    /* 🎯 Keep table format for better readability */
-    .order-history-table {
-        display: table;
-        width: 100%;
+@media (max-width: 767.98px) {
+    .filter-toolbar {
+        flex-direction: column;
+        align-items: stretch;
     }
 
-    .order-history-table thead {
-        display: table-header-group !important; /* Ensure headers are visible */
-    }
-
-    .order-history-table tbody tr {
-        display: table-row; /* Keep normal row format */
-    }
-
-    .order-history-table td {
-        display: table-cell; /* Prevent stacking */
-        text-align: center;
-    }
-
-    /* 🎯 Ensure the reorder button is properly aligned */
-    .order-history-table td:last-child {
-        text-align: right;
-    }
-
-    .reorder-btn {
-        display: inline-block;
-        padding: 5px 10px;
-        font-size: 14px;
+    .filter-toolbar .form-control {
+        max-width: none;
     }
 }

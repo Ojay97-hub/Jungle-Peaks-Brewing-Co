@@ -1,728 +1,152 @@
-.header-container-2 {
-    padding: 0px;
-}
-
-/* Icon Styling */
-.hero-description i {
-    font-size: 1.2rem;
-    color: #ff6600; /* Accent color for the icon */
-}
-
-/* General Styles */
-.container-fluid {
-    padding: 20px;
-}
-
-h2.logo-font {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-
-/* Hero Section Styling */
-.hero-section {
+.shop-hero {
     position: relative;
-    width: 100%;
-    height: 70vh; /* Adjust the height of the section */
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
-}
-
-/* Hero Image */
-.hero-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures the image covers the entire section */
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1; /* Ensures the image stays below the overlay */
-}
-
-/* Hero Overlay */
-.hero-overlay {
-    position: relative;
-    z-index: 2; /* Brings the overlay above the image */
-    background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
-    border-radius: 20px;
-    padding: 30px 40px;
-    max-width: 400px;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Hero Title */
-.hero-title {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #000;
-}
-
-/* Hero Tagline */
-.hero-tagline {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 15px;
-}
-
-/* Hero Description */
-.hero-description {
-    font-size: 1rem;
-    color: #555;
-    line-height: 1.5;
-    display: flex;
+    border-radius: var(--radius-lg);
+    background: radial-gradient(circle at top left, rgba(21, 94, 99, 0.12), transparent 55%),
+        url('../../images/jungle-hero-image.jpg') center/cover no-repeat;
+    color: var(--color-surface);
+    min-height: 18rem;
+    display: grid;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
+    padding: clamp(var(--space-lg), 5vw, var(--space-2xl));
 }
 
-/* Products header */
-.products-heading {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #333;
-    text-transform: uppercase;
-    position: relative;
-    display: inline-block;
-}
-
-.products-heading::after {
+.shop-hero::after {
     content: "";
-    display: block;
-    width: 80px;
-    height: 4px;
-    background: #FFD700;  /* Gold underline */
-    margin: 8px auto 0;
-    transition: width 0.3s ease-in-out;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(16, 24, 40, 0.85), rgba(16, 24, 40, 0.55));
 }
 
-.products-heading:hover::after {
-    width: 120px;  /* Expands when hovered */
-}
-
-
-/* Custom Sort Dropdown Styles */
-.product-sort-dropdown {
+.shop-hero__content {
     position: relative;
+    z-index: 1;
+    max-width: 28rem;
+    display: grid;
+    gap: var(--space-sm);
 }
 
-.product-sort-btn {
-    background-color: #000; /* Black button */
-    color: #ffcc00; /* Yellow text */
-    border: 2px solid #000; /* Border to emphasize the button */
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    border-radius: 5px;
-    transition: all 0.3s ease-in-out;
-}
-
-.product-sort-btn:hover {
-    background-color: #ffcc00; /* Yellow background */
-    color: #000; /* Black text */
-    transform: scale(1.05); /* Slight scaling effect */
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-}
-
-.product-sort-menu {
-    background-color: #000; /* Black background */
-    border-radius: 10px;
-    padding: 10px 0;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.product-sort-item {
-    color: #ffcc00; /* Yellow text */
-    font-size: 0.9rem;
-    padding: 10px 20px;
-    text-decoration: none;
-    transition: all 0.3s ease-in-out;
-}
-
-.product-sort-item:hover {
-    background-color: #ffcc00; /* Yellow background */
-    color: #000; /* Black text */
-    border-radius: 5px;
-}
-
-
-/* Badge Styling */
-.custom-badge {
-    padding: 10px 15px;
-    font-size: 0.9rem;
-    border-radius: 20px;
-    background-color: #000; /* Black background */
-    color: #ffcc00; /* Yellow text */
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.3s ease-in-out;
-    margin: 5px 10px; /* Add spacing */
-}
-
-.custom-badge:hover {
-    background-color: #ffcc00; /* Yellow background */
-    color: #000; /* Black text */
-    transform: scale(1.1); /* Slight hover effect */
-}
-
-/* Dropdown Button for Beer Categories */
-.custom-dropdown-btn {
-    background-color: #000; /* Black background */
-    color: #ffcc00; /* Yellow text */
-    border: 2px solid #000;
-    padding: 10px 15px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    border-radius: 20px;
-    text-transform: uppercase;
-    transition: all 0.3s ease-in-out;
-}
-
-.custom-dropdown-btn:hover {
-    background-color: #ffcc00; /* Yellow background */
-    color: #000; /* Black text */
-    transform: scale(1.1);
-}
-
-/* 🍺 Apply custom styles to both Sort and Beer Categories dropdowns */
-.product-sort-dropdown .dropdown-menu,
-.beer-category-dropdown .dropdown-menu {
-    border-radius: 10px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    background-color: #000; /* Black background */
-    color: #ffcc00; /* Yellow text */
-}
-
-.product-sort-dropdown .dropdown-item,
-.beer-category-dropdown .dropdown-item {
-    color: #ffcc00; /* Yellow text */
-    padding: 10px 15px;
-    transition: all 0.3s ease-in-out;
-}
-
-.product-sort-dropdown .dropdown-item:hover,
-.beer-category-dropdown .dropdown-item:hover {
-    background-color: #ffcc00; /* Yellow background */
-    color: #000; /* Black text */
-}
-
-/* Keep badges, dropdowns, and sort button in a compact row */
-.filter-buttons {
+.shop-hero__meta {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    gap: var(--space-xs);
+    font-size: 0.95rem;
+}
+
+.filter-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    box-shadow: var(--shadow-xs);
+    background: var(--color-surface);
+}
+
+.filter-card form {
+    display: grid;
+    gap: var(--space-md);
+}
+
+.filter-actions {
+    display: flex;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
     align-items: center;
-    gap: 15px;
-    max-width: 900px; /* Prevents elements from spreading too wide */
-    margin: 0 auto; /* Center it on bigger screens */
 }
 
-/* Ensure each element doesn't shrink too much */
-.filter-buttons > div,
-.filter-buttons > a,
-.filter-buttons > button {
-    flex: 1 1 auto; 
-    text-align: center;
+.product-grid {
+    display: grid;
+    gap: var(--space-lg);
 }
 
-/* Ensure dropdowns stay close */
-.filter-buttons .dropdown {
-    min-width: 160px;
+@media (min-width: 576px) {
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    }
 }
 
-.custom-vr.divider-2 { /* No space between classes */
-    max-width: 5px;
-    height: 30px; /* Adjust height to match button sizes */
-    background-color: #ffd700;
-    opacity: 0.7; /* Slightly transparent */
+.product-card .card-body {
+    gap: var(--space-xs);
 }
 
-/* products container */
-.product-container {
-    max-width: 1440px;
-    margin: 0 auto;
+.product-card .category-badge {
+    background-color: rgba(21, 94, 99, 0.12);
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
 }
 
-.product-container .row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    gap: 20px;
+.product-card p {
+    margin-bottom: 0;
 }
 
-/* Bootstrap Grid Fix */
-.product-container .col-md-12 {
-    display: flex;
-    justify-content: center;
+.product-card .product-meta {
+    gap: var(--space-xs);
 }
 
-/* Ensuring consistent spacing */
-.product-container .col-lg-4 {
-    flex: 1 1 30%; /* Flexible width for large screens */
-    max-width: 33.333%; /* Ensures 3 items per row */
-    min-width: 400px; /* Prevents squishing on smaller screens */
-}
-
-/* Product Card */
-.card {
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    min-width: 320px; /* Ensures the card doesn’t get too small */
-    max-width: 450px; /* Ensures it doesn’t stretch too much */
-    flex: 1 1 32%; /* Allows responsiveness */
-    width: 100%; 
-    display: flex;
-    flex-direction: column;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-}
-
-.card-img-top {
-    border-bottom: 1px solid #ddd;
-    height: 300px;
-    object-fit: contain;
-}
-
-.card-title {
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.card-text {
-    font-size: 0.9rem;
-    color: #6c757d;
-}
-
-/* Card Footer */
-.card-footer {
-    padding: 10px 15px;
-    min-height: 65px;
-    display: flex;
+.product-card .product-actions {
     justify-content: space-between;
-    align-items: center;
-    flex-wrap: nowrap;
-    gap: 10px;
+    flex-wrap: wrap;
 }
 
-/* Custom Button for Product Page */
-.product-page-btn {
-    font-size: 1rem;
-    background-color: #000;
-    color: #ffcc00;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    font-weight: bold;
-    text-transform: uppercase;
-    transition: all 0.3s ease-in-out;
+.product-card form {
+    display: grid;
+    gap: var(--space-xs);
     width: 100%;
-    min-width: 140px;
-    max-width: 160px;
-    height: 42px;
-    display: flex;
-    align-items: center;
+}
+
+.product-card .quantity-stepper {
+    width: max-content;
+}
+
+.product-card .btn {
     justify-content: center;
-    white-space: nowrap;
-    text-align: center;
 }
 
-.product-page-btn:hover {
-    background-color: #ffcc00; /* Yellow background */
-    color: #000; /* Black text */
-    transform: scale(1.05); /* Slight scaling effect */
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+.skeleton-grid {
+    display: grid;
+    gap: var(--space-lg);
 }
 
-/* quantity buttons */
-.input-group {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap; /* Prevents wrapping */
-    justify-content: center;
-    min-width: 140px; /* Prevents squishing */
-    max-width: 200px; /* Ensures it doesn't get too wide */
+@media (min-width: 576px) {
+    .skeleton-grid {
+        grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    }
 }
 
-/* Number input field */
-.input-group input {
-    text-align: center;
-    max-width: 50px; /* Increases width */
-    height: 36px;
-    padding: 5px;
-    font-size: 1rem; /* Makes numbers more readable */
+.skeleton-card {
+    border-radius: var(--radius-lg);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-xs);
+    display: grid;
+    grid-template-rows: 10rem 1fr;
 }
 
-/* Decrease (-) and Increase (+) Buttons */
-.input-group button {
-    width: 40px; /* Matches input height */
-    height: 36px;
-    padding: 0;
-    text-align: center;
-    font-size: 1rem;
+.skeleton-card .image-placeholder {
+    border-bottom: 1px solid var(--color-border);
 }
 
-/* Back to Top Button */
-#btn-back-to-top {
+.skeleton-card .content-placeholder {
+    padding: var(--space-md);
+    display: grid;
+    gap: var(--space-sm);
+}
+
+.back-to-top {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display: none;
-    z-index: 1000;
-    border-radius: 50%;
-    max-width: 50px;
-    max-height: 50px;
-    width: 100%;
-    height: 100%;
-  }
-
-  /* add product template btns */
-/* Select Image Button */
-input[type="file"] {
-    display: none;
+    bottom: var(--space-lg);
+    right: var(--space-lg);
+    z-index: 1020;
 }
 
-/* Ensure buttons have proper spacing */
-.text-right {
-    display: flex;
-    flex-wrap: wrap; /* Ensures buttons wrap on smaller screens */
-    justify-content: flex-end;
-    gap: 15px; /* Space between buttons */
-    margin-top: 15px; /* Adds space above buttons */
-}
-
-/* Ensure the Select Image button has proper spacing */
-.btn-select-image {
-    display: inline-block;
-    padding: 10px 15px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #fff;
-    background-color: #000; /* Black background */
-    border: 2px solid #000;
-    border-radius: 5px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    margin-bottom: 15px; /* Adds space below Select Image */
-}
-
-.btn-select-image:hover {
-    background-color: #ffcc00;
-    color: #000;
-    transform: scale(1.05);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* Cancel Button */
-.btn-cancel {
-    padding: 10px 15px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #000;
-    background-color: transparent;
-    border: 2px solid #000;
-    border-radius: 5px;
-    text-transform: uppercase;
-    transition: all 0.3s ease-in-out;
-}
-
-.btn-cancel:hover {
-    background-color: #ff4d4d; /* Red background for warning effect */
-    color: #fff;
-    border-color: #ff4d4d;
-    transform: scale(1.05);
-    box-shadow: 0 5px 10px rgba(255, 77, 77, 0.2);
-}
-
-/* Add Product Button */
-.btn-add-product {
-    padding: 10px 15px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #fff;
-    background-color: #000; /* Black background */
-    border: 2px solid #000;
-    border-radius: 5px;
-    text-transform: uppercase;
-    transition: all 0.3s ease-in-out;
-}
-
-.btn-add-product:hover {
-    background-color: #28a745; /* Green for success */
-    color: #fff;
-    border-color: #28a745;
-    transform: scale(1.05);
-    box-shadow: 0 5px 10px rgba(40, 167, 69, 0.2);
-}
-
-/* ------------------------ MEDIA QUERIES */
-
-/* Fix layout for bigger screens */
-@media (min-width: 1200px) {
-    .filter-buttons {
-        justify-content: space-evenly; /* Space out evenly */
-        max-width: 1100px;
+@media (max-width: 575.98px) {
+    .filter-card form {
+        grid-template-columns: 1fr;
     }
 
-}
-
-@media (max-width: 1200px) {
-    .product-container .row {
-        justify-content: space-around;
-    }
-    
-    .card {
-        min-width: 200px;
-        flex: 1 1 45%;
-    }
-}
-
-
-/* Mobile Responsiveness */
-@media screen and (max-width: 768px) {
-    .card-img-top {
-        height: 200px; /* Adjust image size for smaller screens */
-    }
-
-    h2.logo-font {
-        font-size: 2rem;
-    }
-
-    .hero-section {
-        height: 50vh; /* Adjust height for smaller screens */
-    }
-
-    .hero-overlay {
-        padding: 20px 25px;
-        max-width: 90%; /* Reduce card width for mobile devices */
-    }
-
-    .hero-title {
-        font-size: 2rem;
-    }
-
-    .hero-tagline {
-        font-size: 1rem;
-    }
-
-    .hero-description {
-        font-size: 0.9rem;
-    }
-
-    .filter-buttons {
-        flex-direction: column; /* Stack them vertically */
-        align-items: center; /* Keep them centered */
-    }
-
-    /* Make sure dropdowns & buttons are centered */
-    .filter-buttons .dropdown,
-    .filter-buttons .product-sort-dropdown {
-        width: 100%;
-        text-align: center;
-    }
-
-    /* Remove margin from individual badges */
-    .custom-badge {
-        margin: 5px 0;
-        width: 100%;
-        max-width: 200px;
-    }
-
-    .product-container .col-md-12 {
-        flex: 1 1 100%;
-        max-width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-
-    .card {
-        flex: 1 1 auto;
-        width: 90%;  /* Prevents it from being too wide */
-        max-width: 350px;  /* Ensures a reasonable max width */
-        margin: 0 auto; /* Centers the card */
-    }
-
-    .card-footer {
-        display: flex;
-        flex-direction: column; /* Stack elements in a column */
-        align-items: center; /* Center align */
-        justify-content: center;
-        width: 100%;
-    }
-
-    .card-footer form {
-        display: flex;
-        flex-direction: column; /* Stack the quantity selector & Add to Cart button */
-        align-items: center;
-        width: 100%;
-    }
-
-    .input-group {
-        order: -1; /* Move the quantity selector above Add to Cart */
-        width: 100%; /* Make it full width */
-        max-width: 200px;
-        margin-bottom: 10px; /* Space between quantity selector and Add to Cart */
-        justify-content: center; /* Center align inside */
-    }
-
-    .product-page-btn {
-        width: 100%; /* Make the Add to Cart button full width */
-        max-width: 250px;
-        text-align: center;
-    }
-
-    .input-group input {
-        max-width: 60px; /* Allows more room for numbers */
-    }
-
-    .input-group button {
-        width: 45px; /* Slightly bigger for easier clicking */
-    }
-
-    .text-right {
-        flex-direction: column; /* Stack buttons vertically */
-        align-items: center; /* Center align buttons */
-        gap: 10px; /* Reduce space between buttons */
-    }
-
-    .btn-select-image {
-        width: 100%; /* Make the Select Image button full-width */
-        max-width: 250px; /* Prevent it from being too large */
-        text-align: center;
-    }
-
-    .btn-cancel, .btn-add-product {
-        width: 100%;
-        max-width: 250px;
-        text-align: center;
-    }
-}
-
-@media screen and (max-width: 450px) {
-    .product-container {
-        max-width: 100%;
-        padding: 0 10px; /* Prevents excessive spacing */
-        overflow-x: hidden;
-    }
-
-    .product-container .row {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .product-container .col-lg-4 {
-        flex: 1 1 80%; /* Allow cards to be wider on small screens */
-        max-width: 80%;
-    }
-
-    /* 🎯 Ensure product cards don’t get too tiny */
-    .card {
-        width: 100%;
-        max-width: 280px; /* Ensures a good minimum size */
-        min-width: 250px; /* Prevents them from getting too small */
-        margin: 10px auto; /* Centers the card */
-        padding: 15px;
-    }
-
-    /* 🎯 Adjust text and button sizes */
-    .card-title {
-        font-size: 16px; /* Slightly larger title */
-    }
-
-    .card-text {
-        font-size: 14px; /* Keep descriptions readable */
-    }
-
-    /* 🎯 Adjust buttons */
-    .product-page-btn {
-        font-size: 14px;
-        padding: 8px 12px;
-        max-width: 140px;
-        height: 40px;
-    }
-
-    /* 🎯 Ensure quantity selector is usable */
-    .input-group {
-        min-width: 130px;
-        max-width: 160px;
-    }
-
-    .input-group button {
-        width: 35px;
-        height: 32px;
-        font-size: 14px;
-    }
-
-    .input-group input {
-        max-width: 45px;
-        height: 32px;
-        font-size: 14px;
-    }
-
-}
-
-
-/* 📌 Adjust product cards for screens below 350px */
-@media screen and (max-width: 350px) {
-    .product-container .col-lg-4 {
-        flex: 1 1 100%; /* Forces each product card to take full width */
-        max-width: 100%;
-    }
-
-    /* Reduce product card size */
-    .card {
-        width: 90%;
-        max-width: 200px; /* Adjust this as needed */
-        margin: 0 auto;
-        padding: 10px;
-    }
-
-    /* Hide non-essential details */
-    .card-text,  /* Hide product description */
-    .star-rating,  /* Hide star rating */
-    .product-category { /* Hide category text */
-        display: none;
-    }
-
-    /* Reduce the size of the product title */
-    .card-title {
-        font-size: 14px;
-    }
-
-    /* Resize buttons */
-    .product-page-btn {
-        font-size: 12px;
-        padding: 6px 8px;
-        max-width: 100px;
-        height: 35px;
-    }
-
-    /* Adjust quantity selector */
-    .input-group {
-        min-width: 100px;
-    }
-
-    .input-group button {
-        width: 30px;
-        height: 28px;
-        font-size: 12px;
-    }
-
-    .input-group input {
-        max-width: 40px;
-        height: 28px;
-        font-size: 12px;
+    .product-card .product-actions {
+        flex-direction: column;
+        align-items: stretch;
     }
 }
