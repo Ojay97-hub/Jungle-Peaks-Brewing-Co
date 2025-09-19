@@ -173,7 +173,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-USE_AWS = True
+USE_AWS = os.getenv('USE_AWS') == 'True'
 
 # Imgix Configuration
 IMGIX_DOMAIN = "junglepeaksbrewing.imgix.net"
@@ -190,12 +190,12 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # AWS S3 Storage for static and media files
-if os.getenv('USE_AWS'):
+if USE_AWS:
     AWS_S3_OBJECT_PARAMETERS = {
         'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
         'CacheControl': 'max-age=94608000',
     }
-    
+
     AWS_STORAGE_BUCKET_NAME = 'jungle-peaks-brewing'
     AWS_S3_REGION_NAME = 'eu-west-2'
     AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
