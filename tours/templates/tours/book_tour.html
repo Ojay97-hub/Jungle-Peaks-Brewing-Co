@@ -3,30 +3,139 @@
 {% load crispy_forms_tags %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'tours/css/booking.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="container-2">
-    <div class="card booking-experience shadow-lg border-0 rounded-4 p-4">
-        <div class="card-body">
-            <h2 class="text-center fw-bold mb-4">📅 Book an Experience</h2>
-            <p class="text-center text-muted mb-4">
-                Select a tour and fill in your details to confirm your booking.
-            </p>
-            <!-- ✅ Tour Availability Notice -->
-            <div class="alert alert-info text-center" id="availability-alert">
+<div class="tours-booking-modern">
+    <div class="tours-booking-container">
+        <!-- Header -->
+        <div class="tours-booking-header">
+            <h1 class="tours-booking-title">
+                <i data-lucide="map-pin" style="width: 2rem; height: 2rem; color: #d4a574;"></i>
+                Book Your Experience
+            </h1>
+            <p class="tours-booking-subtitle">Discover the craft brewing heritage of Jungle Peaks</p>
+        </div>
+
+        <!-- Booking Form -->
+        <div class="tours-booking-card">
+            <!-- Availability Notice -->
+            <div class="availability-alert" id="availability-alert">
                 <strong>Availability:</strong> <span id="availability-text"></span>
             </div>
 
             <form method="post" class="booking-form needs-validation" id="booking-form">
                 {% csrf_token %}
-                {{ form|crispy }}
 
-                <div class="d-grid mt-4">
-                    <button type="submit" class="btn btn-primary btn-lg shadow-sm">
-                        <i class="fas fa-check-circle"></i> Confirm Booking
-                    </button>
+                <!-- Tour Selection -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i data-lucide="compass" class="section-icon"></i>
+                        Select Your Experience
+                    </h3>
+
+                    <div class="mb-3">
+                        <label for="{{ form.tour.id_for_label }}" class="form-label fw-semibold">
+                            <i data-lucide="map" style="width: 16px; height: 16px; color: #d4a574;"></i>
+                            Tour Type *
+                        </label>
+                        {{ form.tour }}
+                    </div>
+                </div>
+
+                <!-- Booking Details -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i data-lucide="calendar" class="section-icon"></i>
+                        When & How Many
+                    </h3>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="{{ form.date.id_for_label }}" class="form-label fw-semibold">
+                                <i data-lucide="calendar-days" style="width: 16px; height: 16px; color: #d4a574;"></i>
+                                Date *
+                            </label>
+                            {{ form.date }}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.guests.id_for_label }}" class="form-label fw-semibold">
+                                <i data-lucide="users" style="width: 16px; height: 16px; color: #d4a574;"></i>
+                                Number of Guests *
+                            </label>
+                            {{ form.guests }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i data-lucide="user" class="section-icon"></i>
+                        Your Details
+                    </h3>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                {{ form.name }}
+                                <label for="{{ form.name.id_for_label }}">Full Name *</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                {{ form.email }}
+                                <label for="{{ form.email.id_for_label }}">Email Address *</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                {{ form.phone }}
+                                <label for="{{ form.phone.id_for_label }}">Phone Number *</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Special Requirements -->
+                {% if form.special_requirements %}
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i data-lucide="message-square" class="section-icon"></i>
+                        Special Requirements
+                    </h3>
+
+                    <div class="form-floating">
+                        {{ form.special_requirements }}
+                        <label for="{{ form.special_requirements.id_for_label }}">Any special requirements or dietary restrictions?</label>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-tours-booking" id="submit-btn">
+                    <i data-lucide="check-circle" style="width: 20px; height: 20px;"></i>
+                    Confirm Booking
+                </button>
+
+                <!-- Features -->
+                <div class="tours-features">
+                    <div class="feature-item">
+                        <i data-lucide="clock" class="feature-icon"></i>
+                        <span>Real-time availability</span>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="shield-check" class="feature-icon"></i>
+                        <span>Secure booking</span>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="phone" class="feature-icon"></i>
+                        <span>Expert guides</span>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="calendar-x" class="feature-icon"></i>
+                        <span>Free cancellation</span>
+                    </div>
                 </div>
             </form>
         </div>
@@ -37,51 +146,94 @@
 
 {% block extra_js %}
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        console.log("✅ Availability Script Loaded!");  
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Lucide icons
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
 
-        const tourDropdown = document.getElementById("id_tour");
-        const datePicker = document.getElementById("id_date");
-        const guestsInput = document.getElementById("id_guests");
-        const availabilityAlert = document.getElementById("availability-alert");
-        const availabilityText = document.getElementById("availability-text");
-        const submitButton = document.querySelector("button[type='submit']");
+    // Add form validation classes
+    const form = document.querySelector('form');
+    const inputs = form.querySelectorAll('input, select, textarea');
 
-        function checkAvailability() {
-            const selectedTour = tourDropdown.value;
-            const selectedDate = datePicker.value;
-            if (!selectedTour || !selectedDate) return;
-
-            console.log(`🔄 Checking availability for ${selectedTour} on ${selectedDate}`);
-
-            fetch(`/tours/check-availability/?tour=${selectedTour}&date=${selectedDate}`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log("📊 API Response:", data);
-
-                    if (data.available_slots > 0) {
-                        // ✅ Show available spots
-                        availabilityAlert.style.display = "block";
-                        availabilityText.innerHTML = `✅ ${data.available_slots} spots left!`;
-                        availabilityAlert.classList.remove("alert-danger");
-                        availabilityAlert.classList.add("alert-info");
-                        guestsInput.max = data.available_slots;
-                        submitButton.disabled = false;  // Enable submission
-                    } else {
-                        // ❌ Show fully booked message
-                        availabilityAlert.style.display = "block";
-                        availabilityText.innerHTML = "⚠️ This tour is fully booked!";
-                        availabilityAlert.classList.remove("alert-info");
-                        availabilityAlert.classList.add("alert-danger");
-                        submitButton.disabled = true;  // Disable submission
-                    }
-                })
-                .catch(error => console.error("🚨 Error fetching availability:", error));
+    inputs.forEach(input => {
+        // Add Bootstrap classes for better styling
+        if (input.type === 'text' || input.type === 'email' || input.type === 'tel' || input.tagName === 'TEXTAREA') {
+            input.classList.add('form-control');
+        } else if (input.tagName === 'SELECT') {
+            input.classList.add('form-select');
         }
 
-        // Listen for changes
-        tourDropdown.addEventListener("change", checkAvailability);
-        datePicker.addEventListener("change", checkAvailability);
+        // Add date input styling
+        if (input.type === 'date') {
+            input.classList.add('form-control');
+        }
     });
+
+    // Availability checking functionality
+    const tourDropdown = document.getElementById("id_tour");
+    const datePicker = document.getElementById("id_date");
+    const guestsInput = document.getElementById("id_guests");
+    const availabilityAlert = document.getElementById("availability-alert");
+    const availabilityText = document.getElementById("availability-text");
+    const submitButton = document.getElementById("submit-btn");
+
+    function checkAvailability() {
+        const selectedTour = tourDropdown.value;
+        const selectedDate = datePicker.value;
+        if (!selectedTour || !selectedDate) {
+            availabilityAlert.style.display = "none";
+            return;
+        }
+
+        console.log(`🔄 Checking availability for ${selectedTour} on ${selectedDate}`);
+
+        fetch(`/tours/check-availability/?tour=${selectedTour}&date=${selectedDate}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("📊 API Response:", data);
+
+                if (data.available_slots > 0) {
+                    // ✅ Show available spots
+                    availabilityAlert.style.display = "block";
+                    availabilityText.innerHTML = `✅ ${data.available_slots} spots available!`;
+                    availabilityAlert.classList.remove("alert-danger");
+                    availabilityAlert.classList.add("alert-info");
+                    if (guestsInput) {
+                        guestsInput.max = data.available_slots;
+                    }
+                    submitButton.disabled = false;
+                } else {
+                    // ❌ Show fully booked message
+                    availabilityAlert.style.display = "block";
+                    availabilityText.innerHTML = "⚠️ This tour is fully booked for this date!";
+                    availabilityAlert.classList.remove("alert-info");
+                    availabilityAlert.classList.add("alert-danger");
+                    submitButton.disabled = true;
+                }
+            })
+            .catch(error => {
+                console.error("🚨 Error fetching availability:", error);
+                availabilityAlert.style.display = "none";
+            });
+    }
+
+    // Listen for changes
+    if (tourDropdown) tourDropdown.addEventListener("change", checkAvailability);
+    if (datePicker) datePicker.addEventListener("change", checkAvailability);
+
+    // Form submission feedback
+    form.addEventListener('submit', function(e) {
+        if (!submitButton.disabled) {
+            submitButton.innerHTML = '<i data-lucide="loader-2" style="width: 20px; height: 20px; animation: spin 1s linear infinite;"></i> Processing...';
+            submitButton.disabled = true;
+
+            // Re-initialize icons for the loading spinner
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+    });
+});
 </script>
 {% endblock %}
