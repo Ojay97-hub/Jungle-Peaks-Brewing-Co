@@ -10,10 +10,9 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 from pathlib import Path
 import os
 import dj_database_url
-from django.core.exceptions import ImproperlyConfigured
 
-# Load environment variables if env.py exists
-if os.path.isfile('env.py'):
+# Import environment variables
+if os.path.exists('env.py'):
     import env
 
 # Base directory of the project
@@ -35,7 +34,7 @@ def get_env_setting(setting_name: str) -> str:
 
 
 SECRET_KEY = get_env_setting('SECRET_KEY')
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = [
     'jungle-peaks-brewing-29d2cf7236c2.herokuapp.com',

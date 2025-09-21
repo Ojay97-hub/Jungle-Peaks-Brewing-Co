@@ -26,6 +26,15 @@
     gap: var(--space-sm);
 }
 
+.shop-hero h1 {
+    color: #ffffff !important;
+    font-family: "Manrope", sans-serif;
+}
+
+.shop-hero p {
+    color: #ffffff !important;
+}
+
 .shop-hero__meta {
     display: flex;
     flex-wrap: wrap;
