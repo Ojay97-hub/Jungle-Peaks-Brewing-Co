@@ -56,156 +56,240 @@
     </head>
 
   <body>
-<!-- Header --> 
-<header class="site-header">
-    <div id="delivery-banner" class="top-banner text-center" aria-live="polite">
-        <p class="m-0">
-            🚛 <a href="{% url 'products' %}" class="promo-link">Free delivery on orders over £{{ free_delivery_threshold }}! Order now!</a>
-            <span id="countdown-desktop"></span>
-        </p>
-    </div>
-
-    <div class="brand-area container">
-        <a href="{% url 'home' %}" class="text-decoration-none" aria-label="Go to Jungle Peaks Brewing homepage">
-            <span class="jungle-peaks-logo">
-                <i data-lucide="mountain"></i> 
-                <span class="logo-text">Jungle Peaks</span>
-            </span>
-        </a>
-
-        {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}
-            <div class="main-search-bar d-none d-md-flex" role="search">
-                <form method="GET" action="{% url 'products' %}">
-                    <input
-                        type="search"
-                        name="q"
-                        value="{{ request.GET.q }}"
-                        placeholder="Search for products"
-                        aria-label="Search for products"
-                    >
-                    <button type="submit" class="btn btn-link" aria-label="Search">
-                        <i data-lucide="search"></i>
-                    </button>
-                </form>
-            </div>
-        {% endif %}
-
-        <div class="header-actions ms-auto">
-            <button
-                class="navbar-toggler d-lg-none"
-                id="main-nav-toggle"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#secondary-nav"
-                aria-controls="secondary-nav"
-                aria-expanded="false"
-                aria-label="Toggle navigation menu"
-            >
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
-
-            <a class="header-action bag-action" href="{% url 'view_bag' %}" aria-label="View shopping bag">
-                <div class="bag-icon">
-                    <i data-lucide="shopping-bag"></i>
-                    {% if bag_items %}
-                        <span class="bag-count">{{ bag_items|length }}</span>
-                    {% endif %}
-                </div>
-                <div class="bag-info">
-                    <span class="bag-label">Bag</span>
-                    <span class="bag-value">
-                        {% if grand_total %}
-                            £{{ grand_total|floatformat:2 }}
-                        {% else %}
-                            £0.00
-                        {% endif %}
-                    </span>
-                </div>
-            </a>
-
-            <div class="dropdown">
-                <a
-                    class="header-action user-action"
-                    href="#"
-                    id="user-options"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    aria-label="User account options"
-                >
-                    <div class="user-icon">
-                        <i data-lucide="user"></i>
-                    </div>
-                    <div class="user-info">
-                        <span class="user-label">Account</span>
-                        {% if request.user.is_authenticated %}
-                            <span class="user-name">{{ request.user.username }}</span>
-                        {% endif %}
-                    </div>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-options">
-                    {% if request.user.is_authenticated %}
-                        {% if request.user.is_superuser %}
-                            <li><a href="{% url 'add_product' %}" class="dropdown-item">
-                                <i data-lucide="settings"></i> Product Management
-                            </a></li>
-                        {% endif %}
-                        <li><a href="{% url 'profile' %}" class="dropdown-item">
-                            <i data-lucide="user-circle"></i> My Profile
-                        </a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a href="{% url 'account_logout' %}" class="dropdown-item">
-                            <i data-lucide="log-out"></i> Logout
-                        </a></li>
-                    {% else %}
-                        <li><a href="{% url 'account_signup' %}" class="dropdown-item">
-                            <i data-lucide="user-plus"></i> Register
-                        </a></li>
-                        <li><a href="{% url 'account_login' %}" class="dropdown-item">
-                            <i data-lucide="log-in"></i> Login
-                        </a></li>
-                    {% endif %}
-                </ul>
+<!-- Header -->
+<header class="modern-header">
+    <!-- Top promotional banner -->
+    <div class="promo-banner">
+        <div class="container">
+            <div class="promo-content">
+                <span class="promo-text">
+                    <i data-lucide="truck" class="promo-icon"></i>
+                    Free delivery on orders over £{{ free_delivery_threshold }}!
+                    <span class="countdown-timer" id="countdown-desktop"></span>
+                </span>
+                <button class="promo-close" aria-label="Close banner">
+                    <i data-lucide="x"></i>
+                </button>
             </div>
         </div>
     </div>
 
-    <nav class="navbar navbar-secondary navbar-expand-lg" aria-label="Primary navigation">
+    <!-- Main navigation -->
+    <nav class="main-navbar">
         <div class="container">
-            <div class="collapse navbar-collapse" id="secondary-nav">
-                <ul class="nav flex-lg-row flex-column align-items-lg-center">
-                    <li class="nav-item">
-                        <a href="{% url 'home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+            <div class="navbar-content">
+                <!-- Logo -->
+                <a href="{% url 'home' %}" class="brand-logo" aria-label="Go to Jungle Peaks Brewing homepage">
+                    <div class="logo-icon">
+                        <i data-lucide="mountain"></i>
+                    </div>
+                    <span class="logo-text">Jungle Peaks</span>
+                </a>
+
+                <!-- Search Bar (Desktop) -->
+                {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}
+                <div class="search-container d-none d-lg-flex">
+                    <form method="GET" action="{% url 'products' %}" class="search-form">
+                        <div class="search-input-group">
+                            <i data-lucide="search" class="search-icon"></i>
+                            <input
+                                type="search"
+                                name="q"
+                                value="{{ request.GET.q }}"
+                                placeholder="Search for craft beers, merchandise..."
+                                aria-label="Search for products"
+                                class="search-input"
+                            >
+                            <button type="submit" class="search-btn" aria-label="Search">
+                                <i data-lucide="arrow-right"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+
+                <!-- Navigation Links (Desktop) -->
+                <div class="nav-links d-none d-lg-flex">
+                    <a href="{% url 'home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                        <i data-lucide="home"></i>
+                        Home
+                    </a>
+                    <a href="{% url 'products' %}" class="nav-link {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}active{% endif %}">
+                        <i data-lucide="shopping-bag"></i>
+                        Shop
+                    </a>
+                    <a href="{% url 'taproom' %}" class="nav-link {% if request.resolver_match.url_name == 'taproom' %}active{% endif %}">
+                        <i data-lucide="coffee"></i>
+                        Taproom
+                    </a>
+                    <a href="{% url 'tours' %}" class="nav-link {% if request.resolver_match.url_name == 'tours' %}active{% endif %}">
+                        <i data-lucide="map-pin"></i>
+                        Tours
+                    </a>
+                    <a href="{% url 'contact:contact' %}" class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                        <i data-lucide="mail"></i>
+                        Contact
+                    </a>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="navbar-actions">
+                    <!-- Cart -->
+                    <a href="{% url 'view_bag' %}" class="action-btn cart-btn" aria-label="View shopping cart">
+                        <div class="btn-icon">
+                            <i data-lucide="shopping-cart"></i>
+                            {% if bag_items %}
+                                <span class="cart-badge">{{ bag_items|length }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="btn-content d-none d-md-block">
+                            <span class="btn-label">Cart</span>
+                            <span class="btn-value">
+                                {% if grand_total %}
+                                    £{{ grand_total|floatformat:2 }}
+                                {% else %}
+                                    £0.00
+                                {% endif %}
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- User Account -->
+                    <div class="dropdown">
+                        <button
+                            class="action-btn user-btn"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            aria-label="User account menu"
+                        >
+                            <div class="btn-icon">
+                                <i data-lucide="user"></i>
+                            </div>
+                            <div class="btn-content d-none d-md-block">
+                                <span class="btn-label">
+                                    {% if request.user.is_authenticated %}
+                                        {{ request.user.username|title }}
+                                    {% else %}
+                                        Account
+                                    {% endif %}
+                                </span>
+                                <span class="btn-value">
+                                    {% if request.user.is_authenticated %}
+                                        My Profile
+                                    {% else %}
+                                        Sign In
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <i data-lucide="chevron-down" class="dropdown-arrow d-none d-md-block"></i>
+                        </button>
+
+                        <ul class="dropdown-menu">
+                            {% if request.user.is_authenticated %}
+                                {% if request.user.is_superuser %}
+                                    <li>
+                                        <a href="{% url 'add_product' %}" class="dropdown-item">
+                                            <i data-lucide="settings"></i>
+                                            Product Management
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li>
+                                    <a href="{% url 'profile' %}" class="dropdown-item">
+                                        <i data-lucide="user-circle"></i>
+                                        My Profile
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a href="{% url 'account_logout' %}" class="dropdown-item">
+                                        <i data-lucide="log-out"></i>
+                                        Sign Out
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{% url 'account_login' %}" class="dropdown-item">
+                                        <i data-lucide="log-in"></i>
+                                        Sign In
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'account_signup' %}" class="dropdown-item">
+                                        <i data-lucide="user-plus"></i>
+                                        Create Account
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                    <!-- Mobile menu toggle -->
+                    <button
+                        class="mobile-menu-btn d-lg-none"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#mobile-nav"
+                        aria-controls="mobile-nav"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation menu"
+                    >
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div class="collapse mobile-nav-collapse" id="mobile-nav">
+                <div class="mobile-nav-content">
+                    <!-- Mobile Search (if on products page) -->
+                    {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}
+                    <div class="mobile-search">
+                        <form method="GET" action="{% url 'products' %}">
+                            <div class="search-input-group">
+                                <i data-lucide="search" class="search-icon"></i>
+                                <input
+                                    type="search"
+                                    name="q"
+                                    value="{{ request.GET.q }}"
+                                    placeholder="Search products..."
+                                    aria-label="Search for products"
+                                    class="search-input"
+                                >
+                                <button type="submit" class="search-btn">
+                                    <i data-lucide="arrow-right"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    {% endif %}
+
+                    <!-- Mobile Navigation Links -->
+                    <div class="mobile-nav-links">
+                        <a href="{% url 'home' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
                             <i data-lucide="home"></i>
                             <span>Home</span>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'products' %}" class="nav-link {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}active{% endif %}">
-                            <i data-lucide="shopping-cart"></i>
+                        <a href="{% url 'products' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}active{% endif %}">
+                            <i data-lucide="shopping-bag"></i>
                             <span>Shop</span>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'taproom' %}" class="nav-link {% if request.resolver_match.url_name == 'taproom' %}active{% endif %}">
-                            <i data-lucide="beer"></i>
+                        <a href="{% url 'taproom' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'taproom' %}active{% endif %}">
+                            <i data-lucide="coffee"></i>
                             <span>Taproom</span>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'tours' %}" class="nav-link {% if request.resolver_match.url_name == 'tours' %}active{% endif %}">
+                        <a href="{% url 'tours' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'tours' %}active{% endif %}">
                             <i data-lucide="map-pin"></i>
                             <span>Tours</span>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'contact:contact' %}" class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                        <a href="{% url 'contact:contact' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
                             <i data-lucide="mail"></i>
                             <span>Contact</span>
                         </a>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -415,22 +499,125 @@ function startCountdown(hours, elementId){
 
 document.addEventListener("DOMContentLoaded", function () {
     let lastScrollTop = 0;
-    const header = document.querySelector(".site-header");
+    let scrollThrottle = false;
+    let scrollDirection = 'up';
+    let debounceTimer = null;
+    const header = document.querySelector(".modern-header");
 
-    window.addEventListener("scroll", function () {
-        let scrollTop = window.pageYOffset ||
-        document.documentElement.scrollTop;
+    // Much larger threshold gaps to create stable scroll zones
+    const PROMO_HIDE_THRESHOLD = 120;
+    const PROMO_SHOW_THRESHOLD = 60;  // Show promo when scrolling back up
+    const SCROLLED_THRESHOLD = 50;
+    const HEADER_HIDE_THRESHOLD = 300;
+    const HEADER_SHOW_THRESHOLD = 200;
+    const SCROLL_DELTA_THRESHOLD = 8; // Larger minimum scroll distance
 
-        if (scrollTop > lastScrollTop) {
-            // Scrolling down → Hide header
-            header.classList.add("hidden-header");
-        } else {
-            // Scrolling up → Show header
-            header.classList.remove("hidden-header");
-        }
+    // Track current states to prevent unnecessary changes
+    let isPromoHidden = false;
+    let isScrolled = false;
+    let isHeaderHidden = false;
 
-        lastScrollTop = scrollTop;
-    });
+    function handleScroll() {
+        if (scrollThrottle) return;
+
+        scrollThrottle = true;
+        requestAnimationFrame(() => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollDelta = Math.abs(scrollTop - lastScrollTop);
+
+            // Only process scroll if there's meaningful movement
+            if (scrollDelta < SCROLL_DELTA_THRESHOLD) {
+                scrollThrottle = false;
+                return;
+            }
+
+            // Determine scroll direction
+            scrollDirection = scrollTop > lastScrollTop ? 'down' : 'up';
+
+            // Handle promo banner with larger hysteresis gap (only if not permanently closed)
+            if (!header.classList.contains("promo-closed")) {
+                if (!isPromoHidden && scrollTop > PROMO_HIDE_THRESHOLD) {
+                    header.classList.add("hide-promo");
+                    isPromoHidden = true;
+                } else if (isPromoHidden && scrollTop < PROMO_SHOW_THRESHOLD) {
+                    header.classList.remove("hide-promo");
+                    isPromoHidden = false;
+                }
+            }
+
+            // Add scrolled class with hysteresis
+            if (!isScrolled && scrollTop > SCROLLED_THRESHOLD) {
+                header.classList.add("scrolled");
+                isScrolled = true;
+            } else if (isScrolled && scrollTop < SCROLLED_THRESHOLD - 20) {
+                header.classList.remove("scrolled");
+                isScrolled = false;
+            }
+
+            // Hide/show header with much larger gaps
+            if (!isHeaderHidden && scrollDirection === 'down' && scrollTop > HEADER_HIDE_THRESHOLD) {
+                header.classList.add("hidden-header");
+                isHeaderHidden = true;
+            } else if (isHeaderHidden && (scrollDirection === 'up' || scrollTop < HEADER_SHOW_THRESHOLD)) {
+                header.classList.remove("hidden-header");
+                isHeaderHidden = false;
+            }
+
+            lastScrollTop = scrollTop;
+            scrollThrottle = false;
+        });
+    }
+
+    // Debounced scroll handler for even smoother performance
+    function debouncedScroll() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(handleScroll, 8);
+    }
+
+    window.addEventListener("scroll", debouncedScroll, { passive: true });
+
+    // Promo banner close functionality
+    const promoCloseBtn = document.querySelector(".promo-close");
+
+    // Check if promo was previously closed
+    if (localStorage.getItem("promoBannerClosed") === "true") {
+        header.classList.add("promo-closed");
+    }
+
+    if (promoCloseBtn) {
+        promoCloseBtn.addEventListener("click", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Add closed class with animation
+            header.classList.add("promo-closed");
+
+            // Store the closed state
+            localStorage.setItem("promoBannerClosed", "true");
+
+            // Update scroll thresholds since promo is now permanently hidden
+            isPromoHidden = true;
+        });
+    }
+
+    // Enhanced mobile menu toggle with smooth animations
+    const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
+    const mobileNavCollapse = document.querySelector(".mobile-nav-collapse");
+
+    if (mobileMenuBtn && mobileNavCollapse) {
+        mobileMenuBtn.addEventListener("click", function() {
+            const isExpanded = this.getAttribute("aria-expanded") === "true";
+
+            // Add slight delay for smooth hamburger animation
+            if (!isExpanded) {
+                setTimeout(() => {
+                    mobileNavCollapse.classList.add("show");
+                }, 50);
+            } else {
+                mobileNavCollapse.classList.remove("show");
+            }
+        });
+    }
 });
 </script>
 {% endblock %}

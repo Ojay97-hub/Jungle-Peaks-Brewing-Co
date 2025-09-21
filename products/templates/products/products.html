@@ -17,137 +17,281 @@
 {% endblock %}
 
 {% block content %}
-    <section class="container my-4">
-        <div class="shop-hero">
-            <div class="shop-hero__content">
-                <h1 class="mb-2" style="color: #ffffff !important;">Jungle Peaks Brewing Shop</h1>
-                <p class="lead mb-2">Explore freshly canned releases, taproom favourites and sustainable merchandise from the heart of the rainforest.</p>
-                <div class="shop-hero__meta">
-                    <span class="badge">New small-batch drops weekly</span>
-                    <span class="badge">Free delivery over £{{ free_delivery_threshold }}</span>
+    <!-- Modern Shop Header -->
+    <section class="shop-header">
+        <div class="container">
+            <div class="shop-header__content">
+                <div class="shop-header__text">
+                    <h1>Craft Beer Collection</h1>
+                    <p>Discover our handcrafted brews, from hoppy IPAs to rich stouts, all brewed with passion in the heart of the rainforest.</p>
+                    <div class="shop-header__stats">
+                        <div class="stat-item">
+                            <span class="stat-number">{{ products|length }}</span>
+                            <span class="stat-label">Products</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">{{ all_categories|length }}</span>
+                            <span class="stat-label">Categories</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-highlight">
+                            <i data-lucide="truck"></i>
+                            <span>Free delivery over £{{ free_delivery_threshold }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="shop-header__image">
+                    <div class="header-image-container">
+                        <img src="{% static 'images/jungle-hero-image.jpg' %}" alt="Craft Beer Collection" loading="eager">
+                        <div class="image-overlay"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="container my-4">
-        <div class="filter-card">
-            <form id="product-filters" method="get" class="row g-3 align-items-end">
-                {% if search_term %}
-                    <input type="hidden" name="q" value="{{ search_term }}">
-                {% endif %}
-                <div class="col-12 col-md-4">
-                    <label for="filter-category" class="form-label">Category</label>
-                    <select id="filter-category" name="category" class="form-select">
-                        <option value="">All categories</option>
+    <!-- Advanced Filtering Interface -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters-container">
+                <!-- Quick Filters -->
+                <div class="quick-filters">
+                    <div class="quick-filters__header">
+                        <h3>Shop by Category</h3>
+                        <button class="filter-toggle d-lg-none" data-bs-toggle="collapse" data-bs-target="#advanced-filters">
+                            <i data-lucide="sliders-horizontal"></i>
+                            <span>Filters</span>
+                        </button>
+                    </div>
+                    <div class="category-pills">
+                        <a href="{% url 'products' %}" class="category-pill {% if not current_categories %}active{% endif %}">
+                            <span>All Products</span>
+                            <span class="pill-count">{{ products|length }}</span>
+                        </a>
                         {% for category in all_categories %}
-                            <option value="{{ category.name }}" {% if current_categories and category.name in current_categories %}selected{% endif %}>{{ category.name }}</option>
+                            <a href="?category={{ category.name }}" class="category-pill {% if current_categories and category.name in current_categories %}active{% endif %}">
+                                <span>{{ category.name }}</span>
+                                <span class="pill-count">{{ category.product_set.count }}</span>
+                            </a>
                         {% endfor %}
-                    </select>
-                </div>
-                <div class="col-12 col-md-4">
-                    <label for="filter-sort" class="form-label">Sort by</label>
-                    <select id="filter-sort" name="sort" class="form-select">
-                        <option value="" {% if not current_sorting %}selected{% endif %}>Recommended</option>
-                        <option value="price_asc" {% if current_sorting == 'price_asc' %}selected{% endif %}>Price (low to high)</option>
-                        <option value="price_desc" {% if current_sorting == 'price_desc' %}selected{% endif %}>Price (high to low)</option>
-                        <option value="rating_desc" {% if current_sorting == 'rating_desc' %}selected{% endif %}>Rating (high to low)</option>
-                        <option value="rating_asc" {% if current_sorting == 'rating_asc' %}selected{% endif %}>Rating (low to high)</option>
-                        <option value="name" {% if current_sorting == 'name' %}selected{% endif %}>Name A–Z</option>
-                        <option value="category" {% if current_sorting == 'category' %}selected{% endif %}>Category</option>
-                    </select>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="filter-actions">
-                        <button type="submit" class="btn btn-primary">Apply filters</button>
-                        {% if request.GET %}
-                            <a href="{% url 'products' %}" class="btn btn-light">Clear</a>
-                        {% endif %}
-                        <span class="text-muted" aria-live="polite">
-                            {{ products|length }} product{% if products|length != 1 %}s{% endif %} found
-                        </span>
                     </div>
                 </div>
-            </form>
+
+                <!-- Advanced Filters -->
+                <div class="advanced-filters collapse d-lg-block" id="advanced-filters">
+                    <form id="product-filters" method="get" class="filters-form">
+                        {% if search_term %}
+                            <input type="hidden" name="q" value="{{ search_term }}">
+                        {% endif %}
+
+                        <div class="filter-group">
+                            <label for="filter-sort" class="filter-label">
+                                <i data-lucide="arrow-up-down"></i>
+                                Sort by
+                            </label>
+                            <div class="custom-select">
+                                <select id="filter-sort" name="sort" class="form-select">
+                                    <option value="" {% if not current_sorting %}selected{% endif %}>Recommended</option>
+                                    <option value="price_asc" {% if current_sorting == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+                                    <option value="price_desc" {% if current_sorting == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+                                    <option value="rating_desc" {% if current_sorting == 'rating_desc' %}selected{% endif %}>Highest Rated</option>
+                                    <option value="name" {% if current_sorting == 'name' %}selected{% endif %}>A-Z</option>
+                                </select>
+                                <i data-lucide="chevron-down" class="select-arrow"></i>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="filter-category" class="filter-label">
+                                <i data-lucide="tag"></i>
+                                Category
+                            </label>
+                            <div class="custom-select">
+                                <select id="filter-category" name="category" class="form-select">
+                                    <option value="">All Categories</option>
+                                    {% for category in all_categories %}
+                                        <option value="{{ category.name }}" {% if current_categories and category.name in current_categories %}selected{% endif %}>{{ category.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <i data-lucide="chevron-down" class="select-arrow"></i>
+                            </div>
+                        </div>
+
+                        <div class="filter-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i data-lucide="search"></i>
+                                Apply Filters
+                            </button>
+                            {% if request.GET %}
+                                <a href="{% url 'products' %}" class="btn btn-outline-secondary">
+                                    <i data-lucide="x"></i>
+                                    Clear All
+                                </a>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Results Summary -->
+                <div class="results-summary">
+                    <div class="results-text">
+                        <span class="results-count">{{ products|length }}</span>
+                        <span class="results-label">product{% if products|length != 1 %}s{% endif %} found</span>
+                        {% if search_term %}
+                            <span class="search-term">for "{{ search_term }}"</span>
+                        {% endif %}
+                    </div>
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid" aria-label="Grid view">
+                            <i data-lucide="grid-3x3"></i>
+                        </button>
+                        <button class="view-btn" data-view="list" aria-label="List view">
+                            <i data-lucide="list"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section class="container my-5" aria-live="polite">
-        {% if products %}
-            <div id="product-skeletons" class="skeleton-grid" aria-hidden="true">
-                {% for _ in "123" %}
-                    <div class="skeleton-card">
-                        <div class="image-placeholder loading-skeleton"></div>
-                        <div class="content-placeholder">
-                            <div class="loading-skeleton" style="height: 1.1rem;"></div>
-                            <div class="loading-skeleton" style="height: 0.9rem;"></div>
-                            <div class="loading-skeleton" style="height: 0.9rem; width: 60%;"></div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-
-            <div id="product-grid" class="product-grid" data-loaded="false">
-                {% for product in products %}
-                    <div class="card product-card h-100">
-                        <div class="ratio ratio-4x3">
-                            {% if product.image_url %}
-                                {% if "http" in product.image_url %}
-                                    <img src="{{ product.image_url }}" alt="{{ product.name }}" class="card-img-top" loading="lazy">
-                                {% else %}
-                                    <img src="{% imgix_url product.image_url params='w=600&h=450&fit=crop&auto=format,compress&q=75' %}" alt="{{ product.name }}" class="card-img-top" loading="lazy">
-                                {% endif %}
-                            {% elif product.image %}
-                                <img src="{% imgix_url product.image.name params='w=600&h=450&fit=crop&auto=format,compress&q=75' %}" alt="{{ product.name }}" class="card-img-top" loading="lazy">
-                            {% else %}
-                                <img src="{% imgix_url 'noimage.png' params='w=600&h=450&fit=crop&auto=format,compress&q=75' %}" alt="{{ product.name }}" class="card-img-top" loading="lazy">
-                            {% endif %}
-                        </div>
-                        <div class="card-body">
-                            <span class="category-badge">{{ product.category.name }}</span>
-                            <h3 class="h5"><a href="{% url 'product_detail' product.id %}" class="text-decoration-none">{{ product.name }}</a></h3>
-                            <div class="product-meta">
-                                <span class="product-price">£{{ product.price }}</span>
-                                {% if product.rating %}
-                                    <span class="text-muted"><i class="fas fa-star text-warning"></i> {{ product.rating }} / 5</span>
-                                {% else %}
-                                    <span class="text-muted">Not yet rated</span>
-                                {% endif %}
+    <!-- Products Grid Section -->
+    <section class="products-section">
+        <div class="container">
+            {% if products %}
+                <!-- Loading Skeletons -->
+                <div id="product-skeletons" class="products-grid skeleton-loading" aria-hidden="true">
+                    {% for _ in "123456" %}
+                        <div class="product-skeleton">
+                            <div class="skeleton-image loading-skeleton"></div>
+                            <div class="skeleton-content">
+                                <div class="skeleton-badge loading-skeleton"></div>
+                                <div class="skeleton-title loading-skeleton"></div>
+                                <div class="skeleton-price loading-skeleton"></div>
+                                <div class="skeleton-rating loading-skeleton"></div>
+                                <div class="skeleton-text loading-skeleton"></div>
+                                <div class="skeleton-text loading-skeleton"></div>
                             </div>
-                            {% if product.abv %}
-                                <p class="text-small">ABV {{ product.abv }}%</p>
-                            {% endif %}
-                            <p class="text-small">{{ product.description|truncatewords:18 }}</p>
                         </div>
-                        <div class="card-footer bg-transparent border-0">
-                            <form method="post" action="{% url 'add_to_bag' product.id %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
-                                <div class="product-actions">
-                                    <div class="quantity-stepper" role="group" aria-label="Select quantity for {{ product.name }}">
-                                        <button type="button" class="btn btn-light btn-sm stepper" data-step="-1" data-target="qty-{{ product.id }}" aria-label="Decrease quantity for {{ product.name }}">
-                                            <span aria-hidden="true">−</span>
+                    {% endfor %}
+                </div>
+
+                <!-- Products Grid -->
+                <div id="product-grid" class="products-grid" data-view="grid" data-loaded="false">
+                    {% for product in products %}
+                        <article class="product-card">
+                            <div class="product-card__header">
+                                <div class="product-image">
+                                    {% if product.image_url %}
+                                        {% if "http" in product.image_url %}
+                                            <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy">
+                                        {% else %}
+                                            <img src="{% imgix_url product.image_url params='w=400&h=300&fit=crop&auto=format,compress&q=85' %}" alt="{{ product.name }}" loading="lazy">
+                                        {% endif %}
+                                    {% elif product.image %}
+                                        <img src="{% imgix_url product.image.name params='w=400&h=300&fit=crop&auto=format,compress&q=85' %}" alt="{{ product.name }}" loading="lazy">
+                                    {% else %}
+                                        <img src="{% imgix_url 'noimage.png' params='w=400&h=300&fit=crop&auto=format,compress&q=85' %}" alt="{{ product.name }}" loading="lazy">
+                                    {% endif %}
+                                    <div class="product-overlay">
+                                        <a href="{% url 'product_detail' product.id %}" class="btn btn-light btn-sm">
+                                            <i data-lucide="eye"></i>
+                                            View Details
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="product-badges">
+                                    <span class="category-badge">{{ product.category.name }}</span>
+                                    {% if product.abv %}
+                                        <span class="abv-badge">{{ product.abv }}% ABV</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="product-card__body">
+                                <h3 class="product-title">
+                                    <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
+                                </h3>
+
+                                <div class="product-rating">
+                                    {% if product.rating %}
+                                        <div class="rating-stars">
+                                            {% for i in "12345" %}
+                                                <i data-lucide="star" class="star {% if forloop.counter <= product.rating|floatformat:0 %}filled{% endif %}"></i>
+                                            {% endfor %}
+                                        </div>
+                                        <span class="rating-text">{{ product.rating|floatformat:1 }} ({{ product.rating_count|default:"0" }})</span>
+                                    {% else %}
+                                        <span class="no-rating">Not yet rated</span>
+                                    {% endif %}
+                                </div>
+
+                                <p class="product-description">{{ product.description|truncatewords:20 }}</p>
+
+                                <div class="product-price">
+                                    <span class="price-current">£{{ product.price }}</span>
+                                    {% if product.original_price and product.original_price != product.price %}
+                                        <span class="price-original">£{{ product.original_price }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="product-card__footer">
+                                <form method="post" action="{% url 'add_to_bag' product.id %}" class="add-to-cart-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
+
+                                    <div class="quantity-controls">
+                                        <label for="qty-{{ product.id }}" class="visually-hidden">Quantity for {{ product.name }}</label>
+                                        <button type="button" class="qty-btn minus" data-target="qty-{{ product.id }}">
+                                            <i data-lucide="minus"></i>
                                         </button>
-                                        <input id="qty-{{ product.id }}" class="form-control" type="number" name="quantity" value="1" min="1" max="99" aria-describedby="qty-help-{{ product.id }}">
-                                        <button type="button" class="btn btn-light btn-sm stepper" data-step="1" data-target="qty-{{ product.id }}" aria-label="Increase quantity for {{ product.name }}">
-                                            <span aria-hidden="true">+</span>
+                                        <input id="qty-{{ product.id }}"
+                                               type="number"
+                                               name="quantity"
+                                               value="1"
+                                               min="1"
+                                               max="99"
+                                               class="qty-input">
+                                        <button type="button" class="qty-btn plus" data-target="qty-{{ product.id }}">
+                                            <i data-lucide="plus"></i>
                                         </button>
                                     </div>
-                                    <button type="submit" class="btn btn-primary flex-grow-1">Add to bag</button>
-                                </div>
-                                <p id="qty-help-{{ product.id }}" class="form-text">Maximum 99 items per order.</p>
-                            </form>
+
+                                    <button type="submit" class="btn-add-to-cart">
+                                        <i data-lucide="shopping-cart"></i>
+                                        <span>Add to Cart</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+
+            {% else %}
+                <!-- Empty State -->
+                <div class="empty-state">
+                    <div class="empty-state__content">
+                        <div class="empty-state__icon">
+                            <i data-lucide="search-x"></i>
+                        </div>
+                        <h3>No products found</h3>
+                        <p>We couldn't find any products matching your filters. Try adjusting your search criteria or browse our full collection.</p>
+                        <div class="empty-state__actions">
+                            <a href="{% url 'products' %}" class="btn btn-primary">
+                                <i data-lucide="grid-3x3"></i>
+                                Browse All Products
+                            </a>
+                            {% if current_categories or current_sorting %}
+                                <a href="{% url 'products' %}" class="btn btn-outline-secondary">
+                                    <i data-lucide="x"></i>
+                                    Clear Filters
+                                </a>
+                            {% endif %}
                         </div>
                     </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <div class="empty-state">
-                <h3>Nothing matches those filters</h3>
-                <p>Try adjusting your filters or browse our full collection of small batch brews and taproom gear.</p>
-                <a href="{% url 'products' %}" class="btn btn-primary">Browse all products</a>
-            </div>
-        {% endif %}
+                </div>
+            {% endif %}
+        </div>
     </section>
 
     <button type="button" class="btn btn-primary back-to-top d-none" id="btn-back-to-top" aria-label="Back to top">
@@ -159,44 +303,329 @@
     {{ block.super }}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Initialize page
+            initializeProductsPage();
+
+            // Enhanced quantity controls
+            initializeQuantityControls();
+
+            // Filter functionality
+            initializeFilters();
+
+            // View toggle functionality
+            initializeViewToggle();
+
+            // Back to top functionality
+            initializeBackToTop();
+        });
+
+        function initializeProductsPage() {
             const skeletons = document.getElementById('product-skeletons');
             const grid = document.getElementById('product-grid');
+
             if (skeletons && grid) {
-                requestAnimationFrame(() => {
-                    skeletons.setAttribute('hidden', 'hidden');
-                    grid.dataset.loaded = 'true';
+                // Show loading for realistic duration with smooth transition
+                setTimeout(() => {
+                    skeletons.style.opacity = '0';
+                    skeletons.style.transform = 'translateY(-20px)';
+
+                    setTimeout(() => {
+                        skeletons.style.display = 'none';
+                        grid.dataset.loaded = 'true';
+
+                        // Trigger staggered entrance animations
+                        triggerStaggeredEntrance();
+                    }, 300);
+                }, 800);
+            }
+
+            // Initialize Lucide icons
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+
+        function triggerStaggeredEntrance() {
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px) scale(0.95)';
+                card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0) scale(1)';
+                }, index * 100 + 200);
+            });
+        }
+
+        function initializeQuantityControls() {
+            // Modern quantity controls
+            document.querySelectorAll('.qty-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.dataset.target;
+                    const input = document.getElementById(targetId);
+
+                    if (!input) return;
+
+                    const isPlus = this.classList.contains('plus');
+                    const current = parseInt(input.value) || 1;
+                    const min = parseInt(input.getAttribute('min')) || 1;
+                    const max = parseInt(input.getAttribute('max')) || 99;
+
+                    let newValue;
+                    if (isPlus) {
+                        newValue = Math.min(current + 1, max);
+                    } else {
+                        newValue = Math.max(current - 1, min);
+                    }
+
+                    input.value = newValue;
+
+                    // Add visual feedback with enhanced animation
+                    input.classList.add('updating');
+                    input.style.transform = 'scale(1.1)';
+
+                    // Create success ripple effect
+                    const button = this;
+                    const ripple = document.createElement('div');
+                    ripple.style.cssText = `
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(92, 111, 83, 0.6);
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        pointer-events: none;
+                    `;
+
+                    const rect = button.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = (rect.width / 2 - size / 2) + 'px';
+                    ripple.style.top = (rect.height / 2 - size / 2) + 'px';
+
+                    button.appendChild(ripple);
+
+                    setTimeout(() => {
+                        input.style.transform = 'scale(1)';
+                        input.classList.remove('updating');
+                        button.removeChild(ripple);
+                    }, 600);
+                });
+            });
+
+            // Handle direct input changes
+            document.querySelectorAll('.qty-input').forEach(input => {
+                input.addEventListener('change', function() {
+                    const min = parseInt(this.getAttribute('min')) || 1;
+                    const max = parseInt(this.getAttribute('max')) || 99;
+                    let value = parseInt(this.value) || min;
+
+                    value = Math.max(min, Math.min(max, value));
+                    this.value = value;
+                });
+
+                input.addEventListener('blur', function() {
+                    if (!this.value || this.value < 1) {
+                        this.value = 1;
+                    }
+                });
+            });
+        }
+
+        function initializeFilters() {
+            const form = document.getElementById('product-filters');
+            const categoryPills = document.querySelectorAll('.category-pill');
+
+            // Auto-submit on select change
+            if (form) {
+                const selects = form.querySelectorAll('select');
+                selects.forEach(select => {
+                    select.addEventListener('change', function() {
+                        // Add loading state
+                        const submitBtn = form.querySelector('button[type="submit"]');
+                        if (submitBtn) {
+                            submitBtn.innerHTML = '<i data-lucide="loader-2"></i> Applying...';
+                            submitBtn.disabled = true;
+                        }
+
+                        // Submit form
+                        setTimeout(() => {
+                            form.submit();
+                        }, 300);
+                    });
                 });
             }
 
-            document.querySelectorAll('.stepper').forEach(button => {
-                button.addEventListener('click', () => {
-                    const target = document.getElementById(button.dataset.target);
-                    if (!target) {
-                        return;
-                    }
-                    const step = parseInt(button.dataset.step, 10);
-                    const current = parseInt(target.value || '0', 10);
-                    const min = parseInt(target.getAttribute('min') || '1', 10);
-                    const max = parseInt(target.getAttribute('max') || '99', 10);
-                    const next = Math.min(Math.max(current + step, min), max);
-                    target.value = next;
-                    target.dispatchEvent(new Event('change'));
+            // Category pill interactions
+            categoryPills.forEach(pill => {
+                pill.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Add loading state
+                    this.style.opacity = '0.7';
+                    this.style.pointerEvents = 'none';
+
+                    // Navigate to URL
+                    setTimeout(() => {
+                        window.location.href = this.href;
+                    }, 200);
                 });
             });
 
+            // Filter toggle for mobile
+            const filterToggle = document.querySelector('.filter-toggle');
+            if (filterToggle) {
+                filterToggle.addEventListener('click', function() {
+                    const icon = this.querySelector('[data-lucide]');
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+                    if (icon) {
+                        icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+                    }
+                });
+            }
+        }
+
+        function initializeViewToggle() {
+            const viewButtons = document.querySelectorAll('.view-btn');
+            const grid = document.getElementById('product-grid');
+
+            if (!grid) return;
+
+            viewButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const view = this.dataset.view;
+
+                    // Update active state
+                    viewButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Update grid view
+                    grid.dataset.view = view;
+
+                    // Add transition effect
+                    grid.style.opacity = '0.7';
+                    setTimeout(() => {
+                        grid.style.opacity = '1';
+                    }, 150);
+
+                    // Store preference
+                    localStorage.setItem('productsView', view);
+                });
+            });
+
+            // Restore saved view preference
+            const savedView = localStorage.getItem('productsView');
+            if (savedView) {
+                const targetBtn = document.querySelector(`[data-view="${savedView}"]`);
+                if (targetBtn) {
+                    targetBtn.click();
+                }
+            }
+        }
+
+        function initializeBackToTop() {
             const backToTop = document.getElementById('btn-back-to-top');
+            if (!backToTop) return;
+
+            let isVisible = false;
+
             const toggleBackToTop = () => {
-                if (window.scrollY > 200) {
+                const shouldShow = window.scrollY > 400;
+
+                if (shouldShow && !isVisible) {
                     backToTop.classList.remove('d-none');
-                } else {
+                    isVisible = true;
+                } else if (!shouldShow && isVisible) {
                     backToTop.classList.add('d-none');
+                    isVisible = false;
                 }
             };
-            toggleBackToTop();
-            window.addEventListener('scroll', toggleBackToTop);
+
+            // Throttled scroll listener
+            let scrollTimeout;
+            window.addEventListener('scroll', () => {
+                if (scrollTimeout) {
+                    clearTimeout(scrollTimeout);
+                }
+                scrollTimeout = setTimeout(toggleBackToTop, 100);
+            }, { passive: true });
+
             backToTop.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+
+                // Add click feedback
+                backToTop.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    backToTop.style.transform = 'scale(1)';
+                }, 150);
             });
+
+            // Initial check
+            toggleBackToTop();
+        }
+
+        // Enhanced form submission with loading states and success animation
+        document.addEventListener('submit', function(e) {
+            if (e.target.classList.contains('add-to-cart-form')) {
+                const button = e.target.querySelector('.btn-add-to-cart');
+                if (button) {
+                    // Prevent double submission
+                    if (button.classList.contains('loading')) {
+                        e.preventDefault();
+                        return;
+                    }
+
+                    const originalContent = button.innerHTML;
+                    button.classList.add('loading');
+                    button.innerHTML = '<i data-lucide="loader-2"></i> <span>Adding...</span>';
+                    button.disabled = true;
+
+                    // Add success pulse animation
+                    setTimeout(() => {
+                        button.style.animation = 'successPulse 0.5s';
+                        button.innerHTML = '<i data-lucide="check"></i> <span>Added!</span>';
+
+                        setTimeout(() => {
+                            button.innerHTML = originalContent;
+                            button.disabled = false;
+                            button.classList.remove('loading');
+                            button.style.animation = '';
+
+                            if (typeof lucide !== 'undefined') {
+                                lucide.createIcons();
+                            }
+                        }, 1000);
+                    }, 500);
+                }
+            }
         });
+
+        // Add smooth animations for dynamic content
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        // Observe product cards for scroll animations
+        setTimeout(() => {
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        }, 900);
     </script>
 {% endblock %}
