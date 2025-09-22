@@ -386,12 +386,40 @@
     margin: 0;
 }
 
-/* Button Overrides */
+/* Button Styles */
+.btn {
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    padding: var(--space-sm) var(--space-lg);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-surface);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    color: var(--color-surface);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
 .btn-accent {
     background-color: var(--color-accent);
     border-color: var(--color-accent);
     color: var(--color-heading);
-    font-weight: 600;
 }
 
 .btn-accent:hover,
@@ -399,6 +427,14 @@
     background-color: var(--color-coral);
     border-color: var(--color-coral);
     color: var(--color-surface);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Ensure Lucide icons work in buttons */
+.btn i {
+    width: 1.1rem;
+    height: 1.1rem;
 }
 
 /* Responsive Design */
