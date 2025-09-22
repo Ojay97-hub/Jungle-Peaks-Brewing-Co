@@ -3,6 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'taproom/css/taproom_booking.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -148,6 +149,22 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add date/time input styling
         if (input.type === 'date' || input.type === 'time') {
             input.classList.add('form-control');
+        }
+
+        // Handle floating labels for pre-filled or autofilled fields
+        const floatingLabel = input.closest('.form-floating');
+        if (floatingLabel) {
+            const label = floatingLabel.querySelector('label');
+            if (input.value && input.value.trim() !== '') {
+                label.classList.add('floating-active');
+            }
+            
+            // Handle autofill
+            input.addEventListener('animationstart', function(e) {
+                if (e.animationName === 'onAutoFillStart') {
+                    label.classList.add('floating-active');
+                }
+            });
         }
     });
 

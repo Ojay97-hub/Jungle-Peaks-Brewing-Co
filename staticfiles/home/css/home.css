@@ -60,7 +60,7 @@
 /* About Us Section */
 .about-section {
     display: flex;
-    align-items: center;
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
     gap: 20px; /* Adjust spacing between text and image */
     background-color: #ffffff; /* White background */
     border-radius: 10px; /* Rounded corners */
@@ -68,20 +68,14 @@
     padding: 3rem 2rem; /* Add padding for spacing */
 }
 
-.about-section h2 {
-    font-size: 2rem; /* Heading size */
-    font-weight: bold;
-    margin-bottom: 1rem;
+/* Ensuring side-by-side layout on large screens */
+.about-section .text-content, .about-section .image-content {
+    flex: 1 1 50%; /* Each takes half the width */
 }
 
-.about-section p {
-    font-size: 1rem; /* Paragraph text size */
-    color: #555; /* Slightly muted text color */
-    line-height: 1.6; /* Improved readability */
-}
-
+/* Image Styling */
 .about-img {
-    flex: 1;
+    width: 100%;
     max-width: 100%; /* Adjust image width */ 
     height: auto; /* Maintains aspect ratio */
     max-height: 645px;
@@ -105,7 +99,7 @@
 }
 
 .cta-section {
-    background-color: #003566; /* Blue background for the section */
+    background-color: #1F6C62; /* Dark teal background */
     padding: 5rem 0; /* Vertical padding */
 }
 
@@ -129,8 +123,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center; /* Centers text vertically */
-    align-items: center; /* Centers text horizontally */
-    text-align: center; /* Ensures text stays centered */
+    align-items: flex-start; /* Left-align text horizontally */
+    text-align: left; /* Ensures text stays left-aligned */
     padding: 20px; /* Padding inside the card body */
 }
 
@@ -138,29 +132,34 @@
     font-size: 1.5rem; /* Title size */
     font-weight: bold; /* Bold title */
     margin-bottom: 1rem; /* Space below the title */
-    color: #000; /* Black title color */
+    color: var(--color-heading); /* Dark title color */
 }
 
 .card-text {
     font-size: 1rem; /* Text size */
-    color: #555; /* Slightly muted text color */
+    color: var(--color-text-muted); /* Muted text color using CSS variable */
     margin-bottom: 1.5rem; /* Space below the text */
 }
 
 /* Button Styling */
 .custom-btn-2 {
-    background-color: #00509e; /* Primary button color */
-    color: #fff; /* White text for contrast */
+    background-color: var(--color-golden); /* Golden button color */
+    color: var(--color-heading); /* Dark text for contrast */
     border-radius: 5px; /* Slightly rounded corners */
     padding: 10px 20px; /* Button padding */
     font-weight: bold; /* Bold font for button text */
     text-align: center;
     display: inline-block; /* Ensures proper button dimensions */
+    border: none;
+    transition: all 0.3s ease;
 }
 
 .custom-btn-2:hover {
-    background-color: #003566; /* Darker blue on hover */
+    background-color: var(--color-coral); /* Coral on hover */
+    color: var(--color-surface); /* White text on hover */
     text-decoration: none; /* Ensures no underline on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 122, 89, 0.3);
 }
 
 /* Left Align Button */
@@ -177,8 +176,8 @@
 
 /* Testimonials Section */
 .reviews-section {
-    background-color: #ffd60a; /* Bright yellow background */
-    color: #000; /* Black text color */
+    background-color: #ffc107; /* Golden yellow background */
+    color: var(--color-heading); /* Dark text color */
 }
 
 .reviews-section .card {
@@ -198,9 +197,17 @@
     font-weight: bold;
 }
 
-.reviews-section .text-primary {
-    font-size: 1rem; /* Font size for stars */
-    color: #007bff; /* Blue stars for reviews */
+.reviews-section .row {
+    justify-content: flex-start; /* Left-align the review cards */
+}
+
+.reviews-section .col-md-4 {
+    text-align: left; /* Left-align content within each card */
+}
+
+.reviews-section .card-body {
+    align-items: flex-start; /* Left-align content in review cards */
+    text-align: left;
 }
 
 /* Ethos Section */
@@ -230,26 +237,35 @@
     font-weight: bold;
 }
 
+.ethos-section .row {
+    justify-content: flex-start; /* Left-align the ethos items */
+}
+
+.ethos-section .col-md-4 {
+    text-align: left; /* Left-align content within each ethos item */
+}
+
 .ethos-section p {
-    color: #555; /* Muted text color */
+    color: var(--color-text-muted); /* Muted text color using CSS variable */
     font-size: 0.95rem;
 }
 
 
 /* Responsive Adjustments */
-@media (max-width: 1024px) {
-    .about-section .row {
-        flex-direction: column;
+@media (max-width: 1200px) {
+    .about-section {
+        flex-direction: column; /* Stack text above image */
+        text-align: center; /* Center align text */
     }
 
-    .about-section {
-        flex-direction: column;
-        text-align: center; /* Centers text for better appearance */
+    .about-section .text-content,
+    .about-section .image-content {
+        flex: 1 1 100%; /* Take full width */
     }
 
     .about-img {
-        max-width: 100%;
         margin-top: 20px; /* Adds space between text and image */
+        max-width: 90%; /* Prevents the image from being too wide */
     }
 
     .cta-section .col-md-4 {
@@ -274,7 +290,8 @@
     }
 
     .about-img {
-        margin: 1.5rem 0; /* Add space below the image */
+        margin-top: 30px; /* More space on mobile */
+        max-width: 100%; /* Adjusts width for better fit */
     }
 
     .hero-title {

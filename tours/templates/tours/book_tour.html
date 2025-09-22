@@ -3,6 +3,18 @@
 {% load crispy_forms_tags %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'tours/css/booking.css' %}">
+<style>
+    .tours-selection-section {
+        margin-bottom: 2rem;
+    }
+    
+    /* Make Master Brewer's Session full width */
+    .tour-card[data-tour="master-brewer-session"] {
+        grid-column: 1 / -1;
+        max-width: none;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -17,6 +29,161 @@
             <p class="tours-booking-subtitle">Discover the craft brewing heritage of Jungle Peaks</p>
         </div>
 
+        <!-- Tour Selection Section (Outside Form) -->
+        <div class="tours-selection-section">
+            <h3 class="section-title">
+                <i data-lucide="compass" class="section-icon"></i>
+                Select Your Experience
+            </h3>
+
+            <div class="tour-cards-grid">
+                <!-- Guided Brewery Tour -->
+                <div class="tour-card" data-tour="guided-brewery-tour">
+                    <input type="radio" name="tour" value="guided" class="tour-card-radio" id="tour-guided" form="booking-form">
+                    <div class="tour-card-header">
+                        <div class="tour-card-icon">
+                            <i data-lucide="users" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="tour-card-price">£25</div>
+                    </div>
+                    <h4 class="tour-card-title">Guided Brewery Tour</h4>
+                    <p class="tour-card-description">
+                        Join our expert guides for an in-depth look at our brewing process, from grain to glass.
+                    </p>
+                    <div class="tour-card-features">
+                        <span class="tour-feature">
+                            <i data-lucide="clock" style="width: 12px; height: 12px;"></i>
+                            2 hours
+                        </span>
+                        <span class="tour-feature">
+                            <i data-lucide="glass-water" style="width: 12px; height: 12px;"></i>
+                            Includes tastings
+                        </span>
+                        <span class="tour-feature">
+                            <i data-lucide="award" style="width: 12px; height: 12px;"></i>
+                            Expert guide
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Sunset Tour -->
+                <div class="tour-card" data-tour="sunset-tour">
+                    <input type="radio" name="tour" value="sunset" class="tour-card-radio" id="tour-sunset" form="booking-form">
+                    <div class="tour-card-header">
+                        <div class="tour-card-icon">
+                            <i data-lucide="sunset" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="tour-card-price">£35</div>
+                    </div>
+                    <h4 class="tour-card-title">Sunset Tour</h4>
+                    <p class="tour-card-description">
+                        Experience the beauty of our brewery at sunset, complete with a tasting session on our terrace.
+                    </p>
+                    <div class="tour-card-features">
+                        <span class="tour-feature">
+                            <i data-lucide="clock" style="width: 12px; height: 12px;"></i>
+                            2.5 hours
+                        </span>
+                        <span class="tour-feature">
+                            <i data-lucide="mountain" style="width: 12px; height: 12px;"></i>
+                            Terrace views
+                        </span>
+                        <span class="tour-feature">
+                            <i data-lucide="glass-water" style="width: 12px; height: 12px;"></i>
+                            Premium tastings
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Craft Beer Tasting -->
+                <div class="tour-card" data-tour="craft-beer-tasting">
+                    <input type="radio" name="tour" value="craft_tasting" class="tour-card-radio" id="tour-craft_tasting" form="booking-form">
+                    <div class="tour-card-header">
+                        <div class="tour-card-icon">
+                            <i data-lucide="beer" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="tour-card-price">£20</div>
+                    </div>
+                    <h4 class="tour-card-title">Craft Beer Tasting</h4>
+                    <p class="tour-card-description">
+                        Sample a variety of our finest craft beers, each brewed with locally sourced ingredients.
+                    </p>
+                    <div class="tour-card-features">
+                        <span class="tour-feature">
+                            <i data-lucide="clock" style="width: 12px; height: 12px;"></i>
+                            1.5 hours
+                        </span>
+                        <span class="tour-feature">
+                            <i data-lucide="glass-water" style="width: 12px; height: 12px;"></i>
+                            6 beer samples
+                        </span>
+                        <span class="tour-feature">
+                            <i data-lucide="leaf" style="width: 12px; height: 12px;"></i>
+                            Local ingredients
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Seasonal Selection -->
+                <div class="tour-card" data-tour="seasonal-selection">
+                    <input type="radio" name="tour" value="seasonal" class="tour-card-radio" id="tour-seasonal" form="booking-form">
+                    <div class="tour-card-header">
+                        <div class="tour-card-icon">
+                            <i data-lucide="calendar" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="tour-card-price">£28</div>
+                    </div>
+                    <h4 class="tour-card-title">Seasonal Selection</h4>
+                    <p class="tour-card-description">
+                        Enjoy a tasting session featuring our seasonal beers, crafted with unique and exciting flavors.
+                    </p>
+                    <div class="tour-card-features">
+                        <span class="tour-feature">
+                            <i data-lucide="clock" style="width: 12px; height: 12px;"></i>
+                            1.5 hours
+                        </span>
+                        <span class="tour-feature">
+                            <i data-lucide="sparkles" style="width: 12px; height: 12px;"></i>
+                            Unique flavors
+                        </span>
+                        <span class="tour-feature">
+                            <i data-lucide="glass-water" style="width: 12px; height: 12px;"></i>
+                            5 seasonal beers
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Master Brewer's Session (Full Width) -->
+                <div class="tour-card" data-tour="master-brewer-session">
+                    <input type="radio" name="tour" value="brewer_session" class="tour-card-radio" id="tour-brewer_session" form="booking-form">
+                    <div class="tour-card-header">
+                        <div class="tour-card-icon">
+                            <i data-lucide="graduation-cap" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div class="tour-card-price">£45</div>
+                    </div>
+                    <h4 class="tour-card-title">Master Brewer's Session</h4>
+                    <p class="tour-card-description">
+                        Participate in an educational tasting session led by our master brewer, exploring a range of beer styles and flavors.
+                    </p>
+                    <div class="tour-card-features">
+                        <span class="tour-feature">
+                            <i data-lucide="clock" style="width: 12px; height: 12px;"></i>
+                            3 hours
+                        </span>
+                        <span class="tour-feature">
+                            <i data-lucide="book-open" style="width: 12px; height: 12px;"></i>
+                            Educational
+                        </span>
+                        <span class="tour-feature">
+                            <i data-lucide="glass-water" style="width: 12px; height: 12px;"></i>
+                            8 beer styles
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Booking Form -->
         <div class="tours-booking-card">
             <!-- Availability Notice -->
@@ -26,22 +193,6 @@
 
             <form method="post" class="booking-form needs-validation" id="booking-form">
                 {% csrf_token %}
-
-                <!-- Tour Selection -->
-                <div class="form-section">
-                    <h3 class="section-title">
-                        <i data-lucide="compass" class="section-icon"></i>
-                        Select Your Experience
-                    </h3>
-
-                    <div class="mb-3">
-                        <label for="{{ form.tour.id_for_label }}" class="form-label fw-semibold">
-                            <i data-lucide="map" style="width: 16px; height: 16px; color: #d4a574;"></i>
-                            Tour Type *
-                        </label>
-                        {{ form.tour }}
-                    </div>
-                </div>
 
                 <!-- Booking Details -->
                 <div class="form-section">
@@ -146,94 +297,130 @@
 
 {% block extra_js %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Lucide icons
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
-
-    // Add form validation classes
-    const form = document.querySelector('form');
-    const inputs = form.querySelectorAll('input, select, textarea');
-
-    inputs.forEach(input => {
-        // Add Bootstrap classes for better styling
-        if (input.type === 'text' || input.type === 'email' || input.type === 'tel' || input.tagName === 'TEXTAREA') {
-            input.classList.add('form-control');
-        } else if (input.tagName === 'SELECT') {
-            input.classList.add('form-select');
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
         }
-
-        // Add date input styling
-        if (input.type === 'date') {
-            input.classList.add('form-control');
-        }
-    });
-
-    // Availability checking functionality
-    const tourDropdown = document.getElementById("id_tour");
-    const datePicker = document.getElementById("id_date");
-    const guestsInput = document.getElementById("id_guests");
-    const availabilityAlert = document.getElementById("availability-alert");
-    const availabilityText = document.getElementById("availability-text");
-    const submitButton = document.getElementById("submit-btn");
-
-    function checkAvailability() {
-        const selectedTour = tourDropdown.value;
-        const selectedDate = datePicker.value;
-        if (!selectedTour || !selectedDate) {
-            availabilityAlert.style.display = "none";
-            return;
-        }
-
-        console.log(`🔄 Checking availability for ${selectedTour} on ${selectedDate}`);
-
-        fetch(`/tours/check-availability/?tour=${selectedTour}&date=${selectedDate}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log("📊 API Response:", data);
-
-                if (data.available_slots > 0) {
-                    // ✅ Show available spots
-                    availabilityAlert.style.display = "block";
-                    availabilityText.innerHTML = `✅ ${data.available_slots} spots available!`;
-                    availabilityAlert.classList.remove("alert-danger");
-                    availabilityAlert.classList.add("alert-info");
-                    if (guestsInput) {
-                        guestsInput.max = data.available_slots;
-                    }
-                    submitButton.disabled = false;
-                } else {
-                    // ❌ Show fully booked message
-                    availabilityAlert.style.display = "block";
-                    availabilityText.innerHTML = "⚠️ This tour is fully booked for this date!";
-                    availabilityAlert.classList.remove("alert-info");
-                    availabilityAlert.classList.add("alert-danger");
-                    submitButton.disabled = true;
-                }
-            })
-            .catch(error => {
-                console.error("🚨 Error fetching availability:", error);
-                availabilityAlert.style.display = "none";
-            });
-    }
-
-    // Listen for changes
-    if (tourDropdown) tourDropdown.addEventListener("change", checkAvailability);
-    if (datePicker) datePicker.addEventListener("change", checkAvailability);
-
-    // Form submission feedback
-    form.addEventListener('submit', function(e) {
-        if (!submitButton.disabled) {
-            submitButton.innerHTML = '<i data-lucide="loader-2" style="width: 20px; height: 20px; animation: spin 1s linear infinite;"></i> Processing...';
-            submitButton.disabled = true;
-
-            // Re-initialize icons for the loading spinner
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
+    
+        // Add form validation classes
+        const form = document.querySelector('form');
+        const inputs = form.querySelectorAll('input, select, textarea');
+    
+        inputs.forEach(input => {
+            // Add Bootstrap classes for better styling
+            if (input.type === 'text' || input.type === 'email' || input.type === 'tel' || input.tagName === 'TEXTAREA') {
+                input.classList.add('form-control');
+            } else if (input.tagName === 'SELECT') {
+                input.classList.add('form-select');
             }
+    
+            // Add date input styling
+            if (input.type === 'date') {
+                input.classList.add('form-control');
+            }
+        });
+    
+        // Tour card selection functionality
+        const tourCards = document.querySelectorAll('.tour-card');
+        const tourRadios = document.querySelectorAll('.tour-card-radio');
+    
+        function selectTourCard(selectedCard) {
+            // Remove selected class from all cards
+            tourCards.forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked card
+            selectedCard.classList.add('selected');
+            
+            // Check the corresponding radio button
+            const radio = selectedCard.querySelector('.tour-card-radio');
+            radio.checked = true;
+    
+            // Trigger availability check
+            checkAvailability();
         }
+    
+        // Add click handlers to tour cards
+        tourCards.forEach(card => {
+            card.addEventListener('click', () => selectTourCard(card));
+        });
+    
+        // Handle radio button changes (for keyboard navigation)
+        tourRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    const card = this.closest('.tour-card');
+                    selectTourCard(card);
+                }
+            });
+        });
+    
+        // Availability checking functionality
+        const datePicker = document.getElementById("id_date");
+        const guestsInput = document.getElementById("id_guests");
+        const availabilityAlert = document.getElementById("availability-alert");
+        const availabilityText = document.getElementById("availability-text");
+        const submitButton = document.getElementById("submit-btn");
+    
+        function checkAvailability() {
+            const selectedTourRadio = document.querySelector('input[name="tour"]:checked');
+            const selectedDate = datePicker ? datePicker.value : '';
+            
+            if (!selectedTourRadio || !selectedDate) {
+                availabilityAlert.style.display = "none";
+                return;
+            }
+    
+            const selectedTour = selectedTourRadio.value;
+            console.log(`🔄 Checking availability for ${selectedTour} on ${selectedDate}`);
+    
+            fetch(`/tours/check-availability/?tour=${selectedTour}&date=${selectedDate}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("📊 API Response:", data);
+    
+                    if (data.available_slots > 0) {
+                        // ✅ Show available spots
+                        availabilityAlert.style.display = "block";
+                        availabilityText.innerHTML = `✅ ${data.available_slots} spots available!`;
+                        availabilityAlert.classList.remove("alert-danger");
+                        availabilityAlert.classList.add("alert-info");
+                        if (guestsInput) {
+                            guestsInput.max = data.available_slots;
+                        }
+                        submitButton.disabled = false;
+                    } else {
+                        // ❌ Show fully booked message
+                        availabilityAlert.style.display = "block";
+                        availabilityText.innerHTML = "⚠️ This tour is fully booked for this date!";
+                        availabilityAlert.classList.remove("alert-info");
+                        availabilityAlert.classList.add("alert-danger");
+                        submitButton.disabled = true;
+                    }
+                })
+                .catch(error => {
+                    console.error("🚨 Error fetching availability:", error);
+                    availabilityAlert.style.display = "none";
+                });
+        }
+    
+        // Listen for changes
+        if (datePicker) datePicker.addEventListener("change", checkAvailability);
+    
+        // Form submission feedback
+        form.addEventListener('submit', function(e) {
+            if (!submitButton.disabled) {
+                submitButton.innerHTML = '<i data-lucide="loader-2" style="width: 20px; height: 20px; animation: spin 1s linear infinite;"></i> Processing...';
+                submitButton.disabled = true;
+    
+                // Re-initialize icons for the loading spinner
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }
+        });
     });
-});
 </script>
 {% endblock %}

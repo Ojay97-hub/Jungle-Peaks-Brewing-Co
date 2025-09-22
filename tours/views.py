@@ -13,6 +13,15 @@ from .forms import TourBookingForm
 from .models import TourBooking, TOUR_CAPACITY, TOUR_CHOICES
 
 
+SLUG_TO_KEY = {
+    "guided-brewery-tour": "guided",
+    "sunset-tour": "sunset",
+    "craft-beer-tasting": "craft_tasting",
+    "seasonal-selection": "seasonal",
+    "master-brewer-session": "brewer_session",
+}
+KEY_TO_SLUG = {v: k for k, v in SLUG_TO_KEY.items()}
+
 def tours(request):
     """
     View to display the available tours.
@@ -25,64 +34,50 @@ def book_tour(request, tour_slug=None):
     """
     Handles the tour booking process.
     """
-    initial_data = {"tour": tour_slug} if tour_slug else {}
+    # If the route passes a pretty slug, convert it to the backend key for the form
+    initial_data = {}
+    if tour_slug:
+        initial_data["tour"] = SLUG_TO_KEY.get(tour_slug, None)
 
     if request.method == "POST":
-        form = TourBookingForm(request.POST)
+        form = TourBookingForm(request.POST, initial=initial_data)
         if form.is_valid():
             booking = form.save(commit=False)
 
-            if not request.user.is_authenticated:
-                messages.error(
-                    request,
-                    "You must be logged in to book a tour.",
-                )
-                return redirect("login")  # Redirect to login page
-
-            booking.user = request.user  # Link to the logged-in user
-            booking.save()
-
-            # ✅ Check availability dynamically
-            selected_tour = booking.tour
+            selected_tour = booking.tour                 # e.g. 'craft_tasting'
             booking_date = booking.date
             guests_requested = booking.guests
 
-            # 🛠 Fix: Use `dict(TOUR_CHOICES)` to get the tour name properly
-            tour_display_name = dict(TOUR_CHOICES).get(
-                selected_tour, "Unknown Tour"
+            # Human-friendly name
+            tour_display_name = dict(TOUR_CHOICES).get(selected_tour, "Unknown Tour")
+
+            # How many seats are already confirmed for that date/tour
+            booked_guests = (
+                TourBooking.objects
+                .filter(tour=selected_tour, date=booking_date, status="confirmed")
+                .aggregate(Sum("guests"))["guests__sum"] or 0
             )
-
-            booked_guests = TourBooking.objects.filter(
-                tour=selected_tour, date=booking_date, status="confirmed"
-            ).aggregate(Sum("guests"))["guests__sum"] or 0
-
-            tour_capacity = TOUR_CAPACITY.get(selected_tour, 0)
-            available_slots = tour_capacity - booked_guests
+            capacity = TOUR_CAPACITY.get(selected_tour, 0)
+            available_slots = max(capacity - booked_guests, 0)
 
             if guests_requested > available_slots:
                 messages.error(
                     request,
-                    (
-                        f"❌ Sorry, only {available_slots} spots left "
-                        f"for {tour_display_name} on {booking_date}."
-                    ),
+                    f"❌ Sorry, only {available_slots} spots left for {tour_display_name} on {booking_date}."
                 )
-                return redirect("book_tour", tour_slug=selected_tour)
+                # If you use pretty slugs in your URL, redirect with slug again:
+                return redirect("book_tour", tour_slug=KEY_TO_SLUG.get(selected_tour, selected_tour))
 
-            # ✅ Automatically confirm booking
+            # All good → confirm and save
+            booking.user = request.user
             booking.status = "confirmed"
-            booking.save()
+            booking.save()  # model-level guard still prevents race-condition overbooking
+
             messages.success(
                 request,
-                (
-                    f"🎉 Your {tour_display_name} booking on "
-                    f"{booking_date} is confirmed!"
-                ),
+                f"🎉 Your {tour_display_name} booking on {booking_date} is confirmed!"
             )
-
-            # 🔄 Redirect to success page with booking details
             return redirect("tour_booking_success", booking_id=booking.id)
-
     else:
         form = TourBookingForm(initial=initial_data)
 

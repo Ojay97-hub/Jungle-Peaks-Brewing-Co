@@ -63,7 +63,7 @@
                             <span>Filters</span>
                         </button>
                     </div>
-                    <div class="category-pills">
+                    <div class="category-pills d-none d-md-flex">
                         <a href="{% url 'products' %}" class="category-pill {% if not current_categories %}active{% endif %}">
                             <span>All Products</span>
                             <span class="pill-count">{{ products|length }}</span>
