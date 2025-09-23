@@ -78,21 +78,296 @@ p {
     z-index: 3; /* Bring it to the front */
     transform: scale(1.1) rotate(0deg); /* Enlarge and reset rotation */
 }
-/* Rounded Google Map */
-.map-container {
-    max-width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; /* Prevents any overflow */
+/* Full Width Location Section */
+.location-section-full {
+    padding: 40px 0;
 }
 
-.google-map-img {
+/* Full Width Map Container */
+.map-container-full {
     width: 100%;
-    max-width: 900px; /* Adjust based on your layout */
-    height: auto;
-    border-radius: 8px; /* Optional for a rounded corner */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional for a shadow effect */
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.location-map-wrapper-full {
+    width: 100%;
+    max-width: 1200px;
+    position: relative;
+    background: white;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.location-map-wrapper-full:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.25);
+}
+
+.map-embed-full {
+    width: 100%;
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+}
+
+.map-embed-full iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+/* Location Content - Left Column */
+.location-content-left {
+    text-align: left;
+    padding-right: 30px;
+    animation: slideInLeft 0.8s ease-out;
+}
+
+.location-content-left h3 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.location-content-left p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+/* Location Info - Right Column */
+.location-info-right {
+    padding-left: 20px;
+    animation: slideInRight 0.8s ease-out 0.2s both;
+}
+
+/* Info Cards Stack */
+.info-cards-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.info-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+.info-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.info-icon {
+    font-size: 2rem;
+    margin-right: 15px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+    width: 40px;
+    text-align: center;
+}
+
+.info-text h5 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 5px 0;
+}
+
+.info-text p {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Action Buttons - Right Column */
+.location-info-right .btn {
+    padding: 12px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    display: block;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.btn-primary {
+    background: #007bff;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+}
+
+.btn-outline-secondary {
+    background: transparent;
+    color: #6c757d;
+    border: 2px solid #dee2e6;
+}
+
+.btn-outline-secondary:hover {
+    background: #f8f9fa;
+    color: #495057;
+    transform: translateY(-2px);
+    border-color: #adb5bd;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .location-map-wrapper-full {
+        max-width: 100%;
+    }
+
+    .map-embed-full {
+        height: 450px;
+    }
+}
+
+@media (max-width: 992px) {
+    .location-content-left {
+        padding-right: 15px;
+    }
+
+    .location-info-right {
+        padding-left: 15px;
+        padding-top: 30px;
+    }
+
+    .location-content-left h3 {
+        font-size: 2rem;
+    }
+
+    .location-content-left p {
+        font-size: 1rem;
+    }
+
+    .map-embed-full {
+        height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .location-section-full {
+        padding: 30px 0;
+    }
+
+    .location-content-left h3 {
+        font-size: 1.8rem;
+    }
+
+    .location-content-left p {
+        font-size: 0.95rem;
+    }
+
+    .map-embed-full {
+        height: 350px;
+    }
+
+    .location-info-right .btn {
+        width: 100%;
+    }
+
+    .info-cards-stack {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .location-content-left {
+        padding-right: 0;
+    }
+
+    .location-info-right {
+        padding-left: 0;
+        padding-top: 30px;
+    }
+
+    .info-card {
+        padding: 15px;
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .info-icon {
+        margin-right: 0;
+        margin-bottom: 10px;
+        width: auto;
+    }
+
+    .info-text {
+        text-align: center;
+    }
+
+    .info-text h5 {
+        font-size: 1rem;
+    }
+
+    .info-text p {
+        font-size: 0.85rem;
+    }
+
+    .map-embed-full {
+        height: 300px;
+    }
+}
+
+/* Animation Keyframes */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Background for the Jungle Menu */
@@ -310,15 +585,6 @@ h5 {
         transition: all 0.3s ease-in-out;
     }
 
-    /* 🌍 Location Section: Stack Text & Map */
-    .location-section .row {
-        flex-direction: column-reverse; /* Puts the map BELOW the text */
-        text-align: center;
-    }
-
-    .map-container {
-        margin-top: 20px; /* Adds space between text and map */
-    }
 }
 
 /* 📱 Mobile & Small Tablets (Up to 768px) */
@@ -333,8 +599,4 @@ h5 {
         transition: all 0.3s ease-in-out;
     }
 
-    .location-section .row {
-        flex-direction: column-reverse; /* Puts the map BELOW the text */
-        text-align: center;
-    }
 }
