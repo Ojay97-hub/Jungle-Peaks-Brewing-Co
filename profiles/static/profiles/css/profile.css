@@ -15,14 +15,22 @@
     padding: var(--space-lg);
     display: grid;
     gap: var(--space-md);
+    overflow: hidden;
+    position: relative;
+}
+
+.panel-card:has(.booking-tabs) {
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-xs);
 }
 
 .filter-toolbar {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-sm);
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: var(--space-md);
+    align-items: stretch;
 }
 
 .filter-toolbar .form-control {
@@ -69,16 +77,35 @@
 .booking-list {
     display: grid;
     gap: var(--space-sm);
+    padding: var(--space-md) 0 0 0;
+    margin-top: var(--space-sm);
 }
 
 .booking-card {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    padding: var(--space-md);
+    padding: var(--space-sm);
     background: var(--color-surface);
     box-shadow: var(--shadow-xs);
     display: grid;
     gap: var(--space-xs);
+    transition: all 0.2s ease;
+}
+
+.booking-card:hover {
+    box-shadow: var(--shadow-sm);
+    border-color: rgba(var(--color-primary), 0.3);
+}
+
+/* Badge accessibility - white text for better contrast */
+.badge.bg-success {
+    color: white !important;
+    font-weight: 600;
+}
+
+.badge.bg-secondary {
+    color: white !important;
+    font-weight: 600;
 }
 
 .booking-card .booking-meta {
@@ -123,13 +150,84 @@
     width: 100%;
 }
 
+/* Booking Tabs Styling */
+.booking-tabs {
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-xxs);
+    margin: var(--space-sm) 0 0 0;
+    display: flex;
+    overflow-x: auto;
+    box-shadow: inset 0 0 0 1px var(--color-border);
+    gap: 2px;
+}
+
+.booking-tabs .btn {
+    background: var(--color-surface-alt);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+    font-weight: 500;
+    padding: var(--space-sm) var(--space-lg);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    flex: 1;
+    min-width: 120px;
+    position: relative;
+}
+
+.booking-tabs .btn:hover {
+    background: var(--color-surface);
+    color: var(--color-primary);
+    border-color: var(--color-border);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.booking-tabs .btn.active {
+    background: var(--color-surface);
+    color: var(--color-primary);
+    border-color: var(--color-border);
+    font-weight: 700;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(92, 111, 83, 0.15), 0 -1px 0 var(--color-surface);
+    z-index: 10;
+}
+
+/* Clean tab styling with proper rounded corners */
+
 @media (max-width: 767.98px) {
     .filter-toolbar {
         flex-direction: column;
         align-items: stretch;
+        gap: var(--space-sm);
     }
 
     .filter-toolbar .form-control {
         max-width: none;
+    }
+
+    .booking-tabs {
+        border-radius: var(--radius-md);
+        margin: var(--space-md) 0 0 0;
+        flex-direction: row;
+        gap: var(--space-xs);
+    }
+
+    .booking-tabs .btn {
+        border-radius: var(--radius-sm);
+        min-width: auto;
+        flex: 1;
+        padding: var(--space-xs) var(--space-sm);
+    }
+
+    .booking-tabs .btn.active {
+        background: var(--color-surface);
+        color: var(--color-primary);
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(92, 111, 83, 0.15);
+        transform: translateY(-1px);
+        z-index: 10;
     }
 }

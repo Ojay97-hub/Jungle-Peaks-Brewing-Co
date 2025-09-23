@@ -331,6 +331,9 @@ legend {
     margin-bottom: var(--space-sm);
 }
 
+/* base.css */
+.promo-banner[hidden] { display: none !important; }
+
 /* Modern Header Styles with Enhanced Transitions */
 .modern-header {
     position: sticky;

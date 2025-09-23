@@ -303,6 +303,17 @@
     border-radius: 0.75rem;
 }
 
+/* Form Button Styling */
+.booking-form .d-flex {
+    margin-top: 2rem;
+}
+
+.booking-form .d-flex .btn {
+    min-width: 160px;
+    max-width: 200px;
+    flex: 1;
+}
+
 .feature-item {
     display: flex;
     align-items: center;
@@ -337,5 +348,29 @@
     .tours-features {
         grid-template-columns: 1fr;
         gap: 0.5rem;
+    }
+
+    /* Mobile button adjustments */
+    .booking-form .d-flex {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .booking-form .d-flex .btn {
+        min-width: 200px;
+        max-width: 280px;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 576px) {
+    .tours-booking-modern {
+        padding: 2rem 0 3rem 0;
+    }
+
+    .booking-form .d-flex .btn {
+        min-width: 180px;
+        max-width: 250px;
     }
 }

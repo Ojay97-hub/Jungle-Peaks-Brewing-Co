@@ -68,9 +68,13 @@
                 <div class="panel-card">
                     <div class="filter-toolbar">
                         <h2 class="h5 mb-0">Bookings</h2>
-                        <div class="btn-group" role="group" aria-label="Booking type">
-                            <button type="button" class="btn btn-light active" data-booking-target="taproom-bookings">Taproom tables</button>
-                            <button type="button" class="btn btn-light" data-booking-target="tour-bookings">Tours</button>
+                        <div class="booking-tabs" role="tablist" aria-label="Booking type">
+                            <button type="button" class="btn active" data-booking-target="taproom-bookings" role="tab" aria-selected="true">
+                                Taproom
+                            </button>
+                            <button type="button" class="btn" data-booking-target="tour-bookings" role="tab" aria-selected="false">
+                                Tours
+                            </button>
                         </div>
                     </div>
 

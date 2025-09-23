@@ -132,7 +132,24 @@ def edit_booking(request, booking_id):
     else:
         form = TourBookingForm(instance=booking)
 
-    return render(request, "tours/edit_booking.html", {"form": form})
+    # Calculate current availability for this booking
+    booked_guests = (
+        TourBooking.objects
+        .filter(tour=booking.tour, date=booking.date, status="confirmed")
+        .exclude(pk=booking.pk)  # Exclude current booking from count
+        .aggregate(Sum("guests"))["guests__sum"] or 0
+    )
+    capacity = TOUR_CAPACITY.get(booking.tour, 0)
+    available_slots = max(capacity - booked_guests, 0)
+
+    context = {
+        "form": form,
+        "booking": booking,
+        "available_slots": available_slots,
+        "capacity": capacity
+    }
+
+    return render(request, "tours/edit_booking.html", context)
 
 
 @login_required
