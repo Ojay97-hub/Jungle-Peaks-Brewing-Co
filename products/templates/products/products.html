@@ -90,14 +90,36 @@
                                 Sort by
                             </label>
                             <div class="custom-select">
-                                <select id="filter-sort" name="sort" class="form-select">
-                                    <option value="" {% if not current_sorting %}selected{% endif %}>Recommended</option>
-                                    <option value="price_asc" {% if current_sorting == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
-                                    <option value="price_desc" {% if current_sorting == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
-                                    <option value="rating_desc" {% if current_sorting == 'rating_desc' %}selected{% endif %}>Highest Rated</option>
-                                    <option value="name" {% if current_sorting == 'name' %}selected{% endif %}>A-Z</option>
-                                </select>
-                                <i data-lucide="chevron-down" class="select-arrow"></i>
+                                <div class="custom-dropdown" data-type="sort" data-name="sort">
+                                    <div class="dropdown-trigger" role="button" aria-expanded="false" aria-haspopup="listbox">
+                                        <span class="dropdown-text">
+                                            {% if current_sorting == 'price_asc' %}Price: Low to High
+                                            {% elif current_sorting == 'price_desc' %}Price: High to Low
+                                            {% elif current_sorting == 'rating_desc' %}Highest Rated
+                                            {% elif current_sorting == 'name' %}A-Z
+                                            {% else %}Recommended{% endif %}
+                                        </span>
+                                        <i data-lucide="chevron-down" class="select-arrow"></i>
+                                    </div>
+                                    <div class="dropdown-options" role="listbox" aria-label="Sort options">
+                                        <div class="dropdown-option {% if not current_sorting %}selected{% endif %}" role="option" data-value="">
+                                            <span>Recommended</span>
+                                        </div>
+                                        <div class="dropdown-option {% if current_sorting == 'price_asc' %}selected{% endif %}" role="option" data-value="price_asc">
+                                            <span>Price: Low to High</span>
+                                        </div>
+                                        <div class="dropdown-option {% if current_sorting == 'price_desc' %}selected{% endif %}" role="option" data-value="price_desc">
+                                            <span>Price: High to Low</span>
+                                        </div>
+                                        <div class="dropdown-option {% if current_sorting == 'rating_desc' %}selected{% endif %}" role="option" data-value="rating_desc">
+                                            <span>Highest Rated</span>
+                                        </div>
+                                        <div class="dropdown-option {% if current_sorting == 'name' %}selected{% endif %}" role="option" data-value="name">
+                                            <span>A-Z</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="sort" value="{{ current_sorting }}">
                             </div>
                         </div>
 
@@ -107,13 +129,26 @@
                                 Category
                             </label>
                             <div class="custom-select">
-                                <select id="filter-category" name="category" class="form-select">
-                                    <option value="">All Categories</option>
-                                    {% for category in all_categories %}
-                                        <option value="{{ category.name }}" {% if current_categories|length > 0 and category.name == current_categories.0 %}selected{% endif %}>{{ category.name }}</option>
-                                    {% endfor %}
-                                </select>
-                                <i data-lucide="chevron-down" class="select-arrow"></i>
+                                <div class="custom-dropdown" data-type="category" data-name="category">
+                                    <div class="dropdown-trigger" role="button" aria-expanded="false" aria-haspopup="listbox">
+                                        <span class="dropdown-text">
+                                            {% if current_categories|length > 0 and current_categories.0 %}All Categories
+                                            {% else %}All Categories{% endif %}
+                                        </span>
+                                        <i data-lucide="chevron-down" class="select-arrow"></i>
+                                    </div>
+                                    <div class="dropdown-options" role="listbox" aria-label="Category options">
+                                        <div class="dropdown-option {% if not current_categories or current_categories|length == 0 %}selected{% endif %}" role="option" data-value="">
+                                            <span>All Categories</span>
+                                        </div>
+                                        {% for category in all_categories %}
+                                            <div class="dropdown-option {% if current_categories|length > 0 and category.name == current_categories.0 %}selected{% endif %}" role="option" data-value="{{ category.name }}">
+                                                <span>{{ category.name }}</span>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <input type="hidden" name="category" value="{% if current_categories|length > 0 %}{{ current_categories.0 }}{% endif %}">
                             </div>
                         </div>
 
@@ -433,26 +468,156 @@
             });
         }
 
+        function initializeCustomDropdowns() {
+            // Set initial selected states based on hidden inputs
+            document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
+                const hiddenInput = dropdown.parentElement.querySelector('input[type="hidden"]');
+                if (hiddenInput && hiddenInput.value) {
+                    const selectedOption = dropdown.querySelector(`[data-value="${hiddenInput.value}"]`);
+                    if (selectedOption) {
+                        dropdown.querySelectorAll('.dropdown-option').forEach(opt => opt.classList.remove('selected'));
+                        selectedOption.classList.add('selected');
+                        dropdown.querySelector('.dropdown-text').textContent = selectedOption.textContent.trim();
+                    }
+                }
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.custom-dropdown')) {
+                    closeAllDropdowns();
+                }
+            });
+
+            // Handle dropdown trigger clicks
+            document.querySelectorAll('.dropdown-trigger').forEach(trigger => {
+                trigger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const dropdown = this.closest('.custom-dropdown');
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+                    // Close all other dropdowns first
+                    closeAllDropdowns();
+
+                    if (!isExpanded) {
+                        // Open this dropdown
+                        this.setAttribute('aria-expanded', 'true');
+                        dropdown.querySelector('.dropdown-options').setAttribute('aria-expanded', 'true');
+                        dropdown.setAttribute('aria-expanded', 'true');
+                        document.body.classList.add('dropdown-open');
+                    } else {
+                        // Close this dropdown
+                        this.setAttribute('aria-expanded', 'false');
+                        dropdown.querySelector('.dropdown-options').setAttribute('aria-expanded', 'false');
+                        dropdown.setAttribute('aria-expanded', 'false');
+                        document.body.classList.remove('dropdown-open');
+                    }
+                });
+
+                // Handle keyboard navigation
+                trigger.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    } else if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        const dropdown = this.closest('.custom-dropdown');
+                        const firstOption = dropdown.querySelector('.dropdown-option');
+                        if (firstOption) {
+                            firstOption.focus();
+                        }
+                    }
+                });
+            });
+
+            // Handle dropdown option keyboard navigation
+            document.querySelectorAll('.dropdown-option').forEach((option, index) => {
+                option.addEventListener('keydown', function(e) {
+                    const dropdown = this.closest('.custom-dropdown');
+                    const options = dropdown.querySelectorAll('.dropdown-option');
+                    const currentIndex = Array.from(options).indexOf(this);
+
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        const nextIndex = (currentIndex + 1) % options.length;
+                        options[nextIndex].focus();
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        const prevIndex = currentIndex === 0 ? options.length - 1 : currentIndex - 1;
+                        options[prevIndex].focus();
+                    } else if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    } else if (e.key === 'Escape') {
+                        e.preventDefault();
+                        closeAllDropdowns();
+                        dropdown.querySelector('.dropdown-trigger').focus();
+                    }
+                });
+            });
+        }
+
+        function closeAllDropdowns() {
+            // Close all open dropdowns
+            document.querySelectorAll('.dropdown-trigger[aria-expanded="true"]').forEach(trigger => {
+                trigger.setAttribute('aria-expanded', 'false');
+                const dropdown = trigger.closest('.custom-dropdown');
+                dropdown.querySelector('.dropdown-options').setAttribute('aria-expanded', 'false');
+                dropdown.setAttribute('aria-expanded', 'false');
+            });
+
+            // Remove dropdown-open class from body
+            document.body.classList.remove('dropdown-open');
+        }
+
         function initializeFilters() {
             const form = document.getElementById('product-filters');
             const categoryPills = document.querySelectorAll('.category-pill');
 
-            // Auto-submit on select change
-            if (form) {
-                const selects = form.querySelectorAll('select');
-                selects.forEach(select => {
-                    select.addEventListener('change', function() {
-                        // Add loading state
-                        const submitBtn = form.querySelector('button[type="submit"]');
-                        if (submitBtn) {
-                            submitBtn.innerHTML = '<i data-lucide="loader-2"></i> Applying...';
-                            submitBtn.disabled = true;
-                        }
+            // Initialize custom dropdown functionality
+            initializeCustomDropdowns();
 
-                        // Submit form
-                        setTimeout(() => {
-                            form.submit();
-                        }, 300);
+            // Auto-submit on custom dropdown change
+            if (form) {
+                const customDropdowns = form.querySelectorAll('.custom-dropdown');
+                customDropdowns.forEach(dropdown => {
+                    const options = dropdown.querySelectorAll('.dropdown-option');
+                    options.forEach(option => {
+                        option.addEventListener('click', function() {
+                            const value = this.dataset.value;
+                            const hiddenInput = dropdown.parentElement.querySelector('input[type="hidden"]');
+
+                            if (hiddenInput) {
+                                // Ensure we don't set "None" as a string value
+                                const finalValue = value || '';
+                                hiddenInput.value = finalValue;
+
+                                // Update the display text
+                                const dropdownText = dropdown.querySelector('.dropdown-text');
+                                dropdownText.textContent = this.textContent.trim();
+
+                                // Update selected state
+                                dropdown.querySelectorAll('.dropdown-option').forEach(opt => opt.classList.remove('selected'));
+                                this.classList.add('selected');
+
+                                // Close dropdown
+                                closeAllDropdowns();
+
+                                // Add loading state
+                                const submitBtn = form.querySelector('button[type="submit"]');
+                                if (submitBtn) {
+                                    submitBtn.innerHTML = '<i data-lucide="loader-2"></i> Applying...';
+                                    submitBtn.disabled = true;
+                                }
+
+                                // Submit form
+                                setTimeout(() => {
+                                    form.submit();
+                                }, 300);
+                            }
+                        });
                     });
                 });
             }

@@ -576,11 +576,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     window.addEventListener("scroll", debouncedScroll, { passive: true });
 
-    // Promo banner close functionality
+    // Promo banner close functionality with session-based storage
     const promoCloseBtn = document.querySelector(".promo-close");
 
-    // Check if promo was previously closed
-    if (localStorage.getItem("promoBannerClosed") === "true") {
+    // Check if banner was closed in this session (not localStorage)
+    const sessionClosed = sessionStorage.getItem("promoBannerClosed") === "true";
+
+    if (sessionClosed) {
         header.classList.add("promo-closed");
     }
 
@@ -592,10 +594,10 @@ document.addEventListener("DOMContentLoaded", function () {
             // Add closed class with animation
             header.classList.add("promo-closed");
 
-            // Store the closed state
-            localStorage.setItem("promoBannerClosed", "true");
+            // Store closed state for this session only
+            sessionStorage.setItem("promoBannerClosed", "true");
 
-            // Update scroll thresholds since promo is now permanently hidden
+            // Update scroll thresholds since promo is now hidden
             isPromoHidden = true;
         });
     }
