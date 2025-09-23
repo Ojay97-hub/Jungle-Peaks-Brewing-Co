@@ -50,8 +50,11 @@ def all_products(request):
         products = products.order_by(sortkey)
 
     # Category Filtering
-    if categories:
+    if categories and categories[0]:  # Only filter if category is not empty
         products = products.filter(category__name__iexact=categories[0])
+    elif categories and not categories[0]:
+        # Don't filter if category is empty string
+        pass
 
     # Search Filtering
     if query:

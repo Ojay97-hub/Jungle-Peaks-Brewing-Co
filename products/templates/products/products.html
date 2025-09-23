@@ -64,12 +64,12 @@
                         </button>
                     </div>
                     <div class="category-pills d-none d-md-flex">
-                        <a href="{% url 'products' %}" class="category-pill {% if not current_categories %}active{% endif %}">
+                        <a href="{% url 'products' %}" class="category-pill {% if not current_categories or current_categories|length == 0 %}active{% endif %}">
                             <span>All Products</span>
                             <span class="pill-count">{{ products|length }}</span>
                         </a>
                         {% for category in all_categories %}
-                            <a href="?category={{ category.name }}" class="category-pill {% if current_categories and category.name in current_categories %}active{% endif %}">
+                            <a href="?category={{ category.name }}" class="category-pill {% if current_categories|length > 0 and category.name == current_categories.0 %}active{% endif %}">
                                 <span>{{ category.name }}</span>
                                 <span class="pill-count">{{ category.product_set.count }}</span>
                             </a>
@@ -110,7 +110,7 @@
                                 <select id="filter-category" name="category" class="form-select">
                                     <option value="">All Categories</option>
                                     {% for category in all_categories %}
-                                        <option value="{{ category.name }}" {% if current_categories and category.name in current_categories %}selected{% endif %}>{{ category.name }}</option>
+                                        <option value="{{ category.name }}" {% if current_categories|length > 0 and category.name == current_categories.0 %}selected{% endif %}>{{ category.name }}</option>
                                     {% endfor %}
                                 </select>
                                 <i data-lucide="chevron-down" class="select-arrow"></i>
