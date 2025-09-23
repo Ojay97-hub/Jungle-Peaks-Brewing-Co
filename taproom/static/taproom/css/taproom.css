@@ -16,8 +16,8 @@ p {
     margin-bottom: 10px;
 }
 
-/* Section Padding */
-.container {
+/* Section Padding - Only for main content containers, not header/navbar */
+section .container {
     padding-top: 40px;
     padding-bottom: 40px;
 }
@@ -211,17 +211,6 @@ p {
     margin-bottom: 10px;
 }
 
-.btn-primary {
-    background: #007bff;
-    color: white;
-    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
-}
-
-.btn-primary:hover {
-    background: #0056b3;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
-}
 
 .btn-outline-secondary {
     background: transparent;

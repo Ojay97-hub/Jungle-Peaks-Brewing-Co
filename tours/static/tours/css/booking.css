@@ -206,6 +206,12 @@
     color: white;
 }
 
+.tour-card.selected .tour-card-checkmark::after {
+    content: '✓';
+    font-weight: bold;
+    font-size: 12px;
+}
+
 .form-floating {
     margin-bottom: 1rem;
 }

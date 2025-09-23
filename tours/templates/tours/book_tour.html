@@ -29,6 +29,26 @@
             <p class="tours-booking-subtitle">Discover the craft brewing heritage of Jungle Peaks</p>
         </div>
 
+        <!-- Pre-select tour if coming from tours page -->
+        {% if form.initial.tour %}
+        <script>
+            // Pre-select the tour card based on initial form data
+            document.addEventListener('DOMContentLoaded', function() {
+                const initialTour = "{{ form.initial.tour }}";
+                const tourCards = document.querySelectorAll('.tour-card');
+                const tourRadios = document.querySelectorAll('.tour-card-radio');
+
+                tourCards.forEach(card => {
+                    const radio = card.querySelector('.tour-card-radio');
+                    if (radio && radio.value === initialTour) {
+                        card.classList.add('selected');
+                        radio.checked = true;
+                    }
+                });
+            });
+        </script>
+        {% endif %}
+
         <!-- Tour Selection Section (Outside Form) -->
         <div class="tours-selection-section">
             <h3 class="section-title">
