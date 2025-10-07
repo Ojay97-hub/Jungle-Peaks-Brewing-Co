@@ -9,7 +9,7 @@ class BookingForm(forms.ModelForm):
         model = Booking
         fields = [
             "name", "email", "phone", "date",
-            "time", "guests", "special_requests"
+            "time", "guests", "booking_type", "special_requests"
         ]
         widgets = {
             "name": forms.TextInput(
@@ -28,6 +28,9 @@ class BookingForm(forms.ModelForm):
                 attrs={"type": "time", "class": "custom-form-control"}
             ),
             "guests": forms.NumberInput(
+                attrs={"class": "custom-form-control"}
+            ),
+            "booking_type": forms.Select(
                 attrs={"class": "custom-form-control"}
             ),
             "special_requests": forms.Textarea(

@@ -82,6 +82,45 @@
                             {{ form.guests }}
                         </div>
                     </div>
+
+                    <!-- Booking Type Selection -->
+                    <div class="row g-3 mt-2">
+                        <div class="col-12">
+                            <label class="form-label fw-semibold mb-3">
+                                <i data-lucide="star" style="width: 16px; height: 16px; color: #d4a574;"></i>
+                                Booking Type *
+                            </label>
+                            <div class="booking-type-options">
+                                <div class="booking-type-item">
+                                    <input class="booking-type-radio" type="radio" name="booking_type" id="standard" value="standard" checked>
+                                    <label class="booking-type-label" for="standard">
+                                        <div class="booking-type-card">
+                                            <div class="booking-type-header">
+                                                <h6 class="booking-type-title">Standard</h6>
+                                                <div class="booking-type-radio-custom"></div>
+                                            </div>
+                                            <div class="booking-type-price">£10.00</div>
+                                            <small class="booking-type-desc">Regular table booking</small>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="booking-type-item">
+                                    <input class="booking-type-radio" type="radio" name="booking_type" id="premium" value="premium">
+                                    <label class="booking-type-label" for="premium">
+                                        <div class="booking-type-card booking-type-card-premium" style="background: rgba(218, 165, 32, 0.2); border-color: rgba(184, 134, 11, 0.8);">
+                                            <div class="booking-type-header">
+                                                <h6 class="booking-type-title">Premium</h6>
+                                                <div class="booking-type-radio-custom"></div>
+                                            </div>
+                                            <div class="booking-type-price">£20.00</div>
+                                            <small class="booking-type-desc">Premium location & service</small>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            {{ form.booking_type }}
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Special Requests -->
@@ -99,8 +138,8 @@
 
                 <!-- Submit Button -->
                 <button type="submit" class="btn-booking">
-                    <i data-lucide="check-circle" style="width: 20px; height: 20px;"></i>
-                    Confirm Reservation
+                    <i data-lucide="shopping-cart" style="width: 20px; height: 20px;"></i>
+                    Add to Cart
                 </button>
 
                 <!-- Features -->
@@ -167,6 +206,25 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+
+    // Booking type selection functionality
+    const bookingTypeRadios = form.querySelectorAll('.booking-type-radio');
+    const hiddenBookingType = form.querySelector('#id_booking_type');
+
+    bookingTypeRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.checked) {
+                hiddenBookingType.value = this.value;
+                // Visual feedback is handled by CSS :checked pseudo-selector
+            }
+        });
+    });
+
+    // Set initial selection
+    const initialChecked = form.querySelector('.booking-type-radio:checked');
+    if (initialChecked) {
+        hiddenBookingType.value = initialChecked.value;
+    }
 
     // Form submission feedback
     form.addEventListener('submit', function(e) {
