@@ -14,6 +14,7 @@ def imgix_url(image_path, params=""):
         base_url = f"https://{settings.IMGIX_DOMAIN}/{image_path.lstrip('/')}"
         if params:
             return f"{base_url}?{params}"
-        return base_url
+        else:
+            return base_url
 
     return f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/{image_path.lstrip('/')}"
