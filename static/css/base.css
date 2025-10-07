@@ -1390,6 +1390,12 @@ legend {
     border: 1px solid var(--color-border);
 }
 
+.mini-bag__thumb--icon {
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
 .mini-bag__meta {
     display: flex;
     flex-direction: column;

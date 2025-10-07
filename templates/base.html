@@ -135,7 +135,7 @@
                 <!-- Action buttons -->
                 <div class="navbar-actions">
                     <!-- Cart -->
-                    <a href="{% url 'view_bag' %}" class="action-btn cart-btn" aria-label="View shopping cart">
+                    <a href="{% url 'bag:view_bag' %}" class="action-btn cart-btn" aria-label="View shopping cart">
                         <div class="btn-icon">
                             <i data-lucide="shopping-cart"></i>
                             {% if bag_items %}
@@ -305,7 +305,7 @@
             {% elif level == 30 %}
             {% include 'includes/toasts/toast_warning.html' %}
             {% elif level == 25 %}
-            {% include 'includes/toasts/toast_success.html' %}
+            {% include 'includes/toasts/toast_success.html' with bag_items=bag_items grand_total=grand_total total=total free_delivery_delta=free_delivery_delta %}
             {% else %}
             {% include 'includes/toasts/toast_info.html' %}
             {% endif %}

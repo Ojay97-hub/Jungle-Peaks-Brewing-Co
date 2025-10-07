@@ -11,35 +11,53 @@
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close notification"></button>
             </div>
-            {% if grand_total and not on_profile_page %}
+            {% if grand_total %}
                 <div class="mini-bag" role="group" aria-label="Items recently added to bag">
                     {% for item in bag_items %}
                         <div class="mini-bag__item">
-                            {% if item.product.image %}
-                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="mini-bag__thumb">
-                            {% elif item.product.image_url %}
-                                <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="mini-bag__thumb">
-                            {% else %}
-                                <img src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}" class="mini-bag__thumb">
-                            {% endif %}
-                            <div class="mini-bag__meta">
-                                <span class="fw-semibold">{{ item.product.name }}</span>
-                                {% if item.product.has_sizes %}
-                                    <span class="text-small">Size {{ item.size|upper }}</span>
+                            {% if item.item_type == 'product' %}
+                                {% if item.product.image %}
+                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="mini-bag__thumb">
+                                {% elif item.product.image_url %}
+                                    <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="mini-bag__thumb">
+                                {% else %}
+                                    <img src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name }}" class="mini-bag__thumb">
                                 {% endif %}
-                                <span class="text-small text-muted">Qty {{ item.quantity }}</span>
-                            </div>
+                                <div class="mini-bag__meta">
+                                    <span class="fw-semibold">{{ item.product.name }}</span>
+                                    {% if item.product.has_sizes %}
+                                        <span class="text-small">Size {{ item.size|upper }}</span>
+                                    {% endif %}
+                                    <span class="text-small text-muted">Qty {{ item.quantity }}</span>
+                                </div>
+                            {% elif item.item_type == 'tour' %}
+                                <div class="mini-bag__thumb mini-bag__thumb--icon" style="background: linear-gradient(135deg, #d4a574, #b8935f); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;">
+                                    <i data-lucide="map-pin" style="width: 24px; height: 24px;"></i>
+                                </div>
+                                <div class="mini-bag__meta">
+                                    <span class="fw-semibold">{{ item.tour_booking.get_tour_display|default:"Tour" }} Tour</span>
+                                    <span class="text-small">{{ item.tour_date }} - {{ item.tour_guests }} guest{{ item.tour_guests|pluralize }}</span>
+                                </div>
+                            {% elif item.item_type == 'taproom' %}
+                                <div class="mini-bag__thumb mini-bag__thumb--icon" style="background: linear-gradient(135deg, #8B4513, #A0522D); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;">
+                                    <i data-lucide="home" style="width: 24px; height: 24px;"></i>
+                                </div>
+                                <div class="mini-bag__meta">
+                                    <span class="fw-semibold">{{ item.taproom_booking.get_booking_type_display }} Taproom</span>
+                                    <span class="text-small">{{ item.taproom_booking.date }} at {{ item.taproom_booking.time }}</span>
+                                </div>
+                            {% endif %}
                         </div>
                     {% endfor %}
                 </div>
                 <p class="fw-semibold mt-3 mb-1">
-                    Total{% if free_delivery_delta > 0 %} (exc. delivery){% endif %}: £{{ total|floatformat:2 }}
+                    Total{% if free_delivery_delta > 0 %} (exc. delivery){% endif %}: £{{ grand_total|floatformat:2 }}
                 </p>
                 {% if free_delivery_delta > 0 %}
                     <p class="text-small text-muted mb-0">Spend <strong>£{{ free_delivery_delta }}</strong> more for free delivery.</p>
                 {% endif %}
                 <div class="notification-toast__actions">
-                    <a href="{% url 'view_bag' %}" class="btn btn-primary btn-sm">Go to checkout</a>
+                    <a href="{% url 'bag:view_bag' %}" class="btn btn-primary btn-sm">Go to checkout</a>
                 </div>
             {% endif %}
         </div>
