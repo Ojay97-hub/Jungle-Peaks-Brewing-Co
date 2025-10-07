@@ -36,8 +36,14 @@ def get_env_setting(setting_name: str) -> str:
 SECRET_KEY = get_env_setting('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = True  # if you want to force https
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
 ALLOWED_HOSTS = [
     'jungle-peaks-brewing-29d2cf7236c2.herokuapp.com',
+    'https://jungle-peaks-update-01b3f62083c2.herokuapp.com/',
     'localhost',
     '127.0.0.1',
     'testserver',  # Required for Django Allauth email confirmation URLs
@@ -48,6 +54,8 @@ CSRF_TRUSTED_ORIGINS = [
     'https://8000-ojay97hub-junglepeaksbr-rlpjcwm6lxr.ws.codeinstitute-ide.net',
     'https://8080-ojay97hub-junglepeaksbr-rlpjcwm6lxr.ws.codeinstitute-ide.net',
     'https://*.herokuapp.com',  # For Heroku deployment
+    'https://localhost',
+    'https://127.0.0.1',
 ]
 
 # am i responsive screenshot generator
