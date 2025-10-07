@@ -209,7 +209,7 @@ def checkout(request):
                         "Please call us for assistance!"
                     )
                     order.delete()
-                    return redirect(reverse("bag:view_bag"))
+                    return redirect("/bag/")
 
             request.session["save_info"] = "save-info" in request.POST
             return redirect(

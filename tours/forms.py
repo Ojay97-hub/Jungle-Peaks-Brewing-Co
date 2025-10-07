@@ -128,14 +128,15 @@ class TourBookingForm(forms.ModelForm):
 
             if guests > available_slots:
                 if self.instance and self.instance.pk:
-                    # This is an edit - provide clearer error message
+                    # This is an edit - show total capacity they can increase to
+                    max_allowed = capacity if capacity else available_slots
                     raise forms.ValidationError(
                         (
-                            "You can increase your booking to %(available)s attendees "
+                            "You can increase your booking to %(max_allowed)s attendees "
                             "for %(tour)s on %(date)s. (You currently have %(current)s attendees)"
                         ),
                         params={
-                            "available": available_slots,
+                            "max_allowed": max_allowed,
                             "tour": tour_name,
                             "date": booking_date,
                             "current": self.instance.guests,

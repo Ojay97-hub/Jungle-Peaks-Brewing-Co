@@ -697,6 +697,8 @@
     align-items: center;
     gap: var(--space-xs);
     font-size: 0.875rem;
+    margin-bottom: 8px;
+    
 }
 
 .filter-actions .btn i {
