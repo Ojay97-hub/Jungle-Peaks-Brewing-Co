@@ -25,11 +25,19 @@ class StripeWH_Handler:
         try:
             if username and username != "AnonymousUser":
                 from django.contrib.auth.models import User
-                user = User.objects.get(username=username)
-                # Delete all cart items for this user
-                cart_items = CartItem.objects.filter(cart__user=user)
-                cart_items.delete()
-                # Note: The Cart object itself is kept for future use
+                try:
+                    user = User.objects.get(username=username)
+                    # Delete all cart items for this user
+                    cart_items = CartItem.objects.filter(cart__user=user)
+                    cart_items.delete()
+                    # Note: The Cart object itself is kept for future use
+                    print(f"Successfully cleared cart for user {username}")
+                except User.DoesNotExist:
+                    # User doesn't exist, which is fine - cart may have been cleared already
+                    print(f"User {username} not found when clearing cart - may have been deleted")
+                except Exception as e:
+                    # Log other errors but don't fail the webhook
+                    print(f"Warning: Could not clear cart for user {username}: {e}")
         except Exception as e:
             # Log the error but don't fail the webhook
             print(f"Warning: Could not clear cart for user {username}: {e}")

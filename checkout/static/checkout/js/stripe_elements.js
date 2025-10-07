@@ -12,10 +12,30 @@ const clientSecretElement = document.getElementById('id_client_secret');
 
 if (!stripePublicKeyElement || !clientSecretElement) {
     console.error('Stripe public key or client secret not found in the DOM.');
-} else {
-    const stripePublicKey = JSON.parse(stripePublicKeyElement.textContent);
-    const clientSecret = JSON.parse(clientSecretElement.textContent);
-    const stripe = Stripe(stripePublicKey);
+    // Exit early to prevent ReferenceErrors
+    throw new Error('Required Stripe elements not found');
+}
+
+let stripePublicKey, clientSecret, stripe;
+
+// Safely parse JSON with error handling
+try {
+    stripePublicKey = JSON.parse(stripePublicKeyElement.textContent);
+    clientSecret = JSON.parse(clientSecretElement.textContent);
+} catch (error) {
+    console.error('Failed to parse Stripe configuration from DOM:', error);
+    throw new Error('Invalid Stripe configuration in DOM');
+}
+
+// Validate required values
+if (!stripePublicKey || !clientSecret) {
+    console.error('Stripe public key or client secret is missing or invalid');
+    throw new Error('Invalid Stripe credentials');
+}
+
+// Initialize Stripe
+try {
+    stripe = Stripe(stripePublicKey);
     const elements = stripe.elements();
     const style = {
         base: {
@@ -163,4 +183,21 @@ if (!stripePublicKeyElement || !clientSecretElement) {
             }
         });
     }
+} catch (error) {
+    console.error('Failed to initialize Stripe:', error);
+    // Show error to user
+    const errorContainer = document.getElementById('card-errors');
+    if (errorContainer) {
+        errorContainer.innerHTML = `
+            <span class="icon" role="alert">
+                <i class="fas fa-times"></i>
+            </span>
+            <span>Payment system unavailable. Please refresh the page or try again later.</span>
+        `;
+    }
+    // Disable the form
+    const form = document.getElementById('payment-form');
+    const submitButton = document.getElementById('submit-button');
+    if (form) form.style.display = 'none';
+    if (submitButton) submitButton.disabled = true;
 }
