@@ -40,11 +40,14 @@ ALLOWED_HOSTS = [
     'jungle-peaks-brewing-29d2cf7236c2.herokuapp.com',
     'localhost',
     '127.0.0.1',
+    'testserver',  # Required for Django Allauth email confirmation URLs
+    '*.herokuapp.com',  # For Heroku deployment
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://8000-ojay97hub-junglepeaksbr-rlpjcwm6lxr.ws.codeinstitute-ide.net',
     'https://8080-ojay97hub-junglepeaksbr-rlpjcwm6lxr.ws.codeinstitute-ide.net',
+    'https://*.herokuapp.com',  # For Heroku deployment
 ]
 
 # am i responsive screenshot generator
@@ -139,6 +142,9 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 ACCOUNT_USERNAME_MIN_LENGTH = 4
+ACCOUNT_LOGIN_REDIRECT_URL = '/'
+ACCOUNT_EMAIL_CONFIRMATION_URL = '/accounts/confirm-email/'
+ACCOUNT_PASSWORD_RESET_REDIRECT_URL = '/accounts/password/reset/done/'
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
