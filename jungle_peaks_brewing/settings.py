@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
 
 # Import environment variables
 if os.path.exists('env.py'):
@@ -42,12 +43,11 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 ALLOWED_HOSTS = [
-    'jungle-peaks-brewing-29d2cf7236c2.herokuapp.com',
-    'https://jungle-peaks-update-01b3f62083c2.herokuapp.com/',
+    'jungle-peaks-update-01b3f62083c2.herokuapp.com',  # Your actual app
+    '.herokuapp.com',  # This allows any subdomain of herokuapp.com
     'localhost',
     '127.0.0.1',
-    'testserver',  # Required for Django Allauth email confirmation URLs
-    '*.herokuapp.com',  # For Heroku deployment
+    'testserver',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
