@@ -86,6 +86,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.gzip.GZipMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Serve static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -178,7 +179,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-USE_AWS = os.getenv('USE_AWS') == 'True'
+USE_AWS = False  # Disabled for Heroku deployment - use Whitenoise instead
 
 # Imgix Configuration
 IMGIX_DOMAIN = "junglepeaksbrewing.imgix.net"
@@ -190,6 +191,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),  # Make sure your static folder is correctly referenced
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Required for collectstatic
+
+# Whitenoise configuration for static files
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

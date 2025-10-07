@@ -270,6 +270,8 @@
     border-bottom: 1px solid var(--color-border);
     padding: var(--space-xl) 0;
     animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
+    position: relative;
+    z-index: 10; /* Create stacking context */
 }
 
 .filters-container {
@@ -443,38 +445,244 @@
     position: relative;
 }
 
-.custom-select select {
-    appearance: none;
+/* ===== CUSTOM DROPDOWN COMPONENT ===== */
+.custom-dropdown {
+    position: relative;
     width: 100%;
-    padding: var(--space-sm) 40px var(--space-sm) var(--space-sm);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    background: var(--color-surface);
-    color: var(--color-text);
-    font-size: 0.875rem;
-    transition: all 0.2s ease;
+    z-index: 1070; /* High z-index to ensure it appears above other elements */
 }
 
-.custom-select select:focus {
+.dropdown-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, var(--color-surface) 0%, rgba(255, 255, 255, 0.05) 100%);
+    color: var(--color-text);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    min-height: 44px;
+}
+
+.dropdown-trigger:hover {
     border-color: var(--color-primary);
-    box-shadow: var(--focus-ring);
+    background: linear-gradient(135deg, rgba(92, 111, 83, 0.05) 0%, rgba(255, 255, 255, 0.1) 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(92, 111, 83, 0.15);
+}
+
+.dropdown-trigger:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(92, 111, 83, 0.1), 0 4px 16px rgba(92, 111, 83, 0.2);
     outline: none;
+    background: linear-gradient(135deg, rgba(92, 111, 83, 0.08) 0%, rgba(255, 255, 255, 0.15) 100%);
+}
+
+.dropdown-trigger[aria-expanded="true"] {
+    border-color: var(--color-primary);
+    background: linear-gradient(135deg, rgba(92, 111, 83, 0.08) 0%, rgba(255, 255, 255, 0.15) 100%);
+    box-shadow: 0 4px 16px rgba(92, 111, 83, 0.2);
+}
+
+.dropdown-trigger[aria-expanded="true"] .select-arrow {
+    transform: rotate(180deg) scale(1.1);
+    color: var(--color-primary);
+}
+
+/* Ensure dropdown appears above all other content when open */
+.custom-dropdown:has([aria-expanded="true"]) {
+    z-index: 1080; /* Even higher when dropdown is open */
+    position: relative;
+}
+
+/* Prevent other elements from overlapping when dropdown is open */
+.dropdown-open {
+    overflow: hidden; /* Prevent body scroll when dropdown is open */
+}
+
+.dropdown-open .products-section {
+    position: relative;
+    z-index: 1; /* Lower z-index when dropdown is open */
+}
+
+/* Ensure dropdown container creates proper stacking context */
+.custom-dropdown[aria-expanded="true"] {
+    z-index: 1080;
+    isolation: isolate; /* Create stacking context */
+}
+
+/* Make sure the dropdown options appear above everything */
+.custom-dropdown .dropdown-options[aria-expanded="true"] {
+    z-index: 1090; /* Highest z-index for open dropdown options */
+    position: relative;
+}
+
+.dropdown-text {
+    flex: 1;
+    text-align: left;
+    color: var(--color-text);
+}
+
+.dropdown-options {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--color-surface);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 15px 35px rgba(92, 111, 83, 0.25), 0 5px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1070;
+    max-height: 300px;
+    overflow-y: auto;
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.dropdown-options[aria-expanded="true"] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+    z-index: 1075; /* Higher than dropdown container */
+}
+
+.dropdown-option {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-text);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.dropdown-option:last-child {
+    border-bottom: none;
+}
+
+.dropdown-option:hover {
+    background: rgba(92, 111, 83, 0.1);
+    color: var(--color-text);
+    padding-left: 20px;
+}
+
+.dropdown-option.selected {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    color: var(--color-surface);
+    font-weight: 600;
+}
+
+.dropdown-option:focus {
+    background: rgba(92, 111, 83, 0.15);
+    outline: none;
+}
+
+/* Remove old select styling since we're using custom dropdowns */
+.custom-select select {
+    display: none !important;
+}
+
+/* Add scrollbar styling for dropdown options */
+.dropdown-options::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dropdown-options::-webkit-scrollbar-track {
+    background: var(--color-surface-alt);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.dropdown-options::-webkit-scrollbar-thumb {
+    background: rgba(92, 111, 83, 0.3);
+    border-radius: var(--radius-sm);
+}
+
+.dropdown-options::-webkit-scrollbar-thumb:hover {
+    background: rgba(92, 111, 83, 0.5);
 }
 
 .select-arrow {
     position: absolute;
-    right: 12px;
+    right: 14px;
     top: 50%;
     transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     color: var(--color-text-muted);
     pointer-events: none;
-    transition: transform 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2;
 }
 
 .custom-select:focus-within .select-arrow {
-    transform: translateY(-50%) rotate(180deg);
+    transform: translateY(-50%) rotate(180deg) scale(1.1);
+    color: var(--color-primary);
+}
+
+.custom-select::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1));
+    pointer-events: none;
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    z-index: 1;
+}
+
+.custom-select select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: var(--color-surface-alt);
+}
+
+/* Style the dropdown list container */
+.custom-select select {
+    background-image: none; /* Remove default browser dropdown arrow */
+}
+
+/* Custom scrollbar for dropdown options */
+.custom-select select::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-select select::-webkit-scrollbar-track {
+    background: var(--color-surface-alt);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.custom-select select::-webkit-scrollbar-thumb {
+    background: rgba(92, 111, 83, 0.3);
+    border-radius: var(--radius-sm);
+}
+
+.custom-select select::-webkit-scrollbar-thumb:hover {
+    background: rgba(92, 111, 83, 0.5);
+}
+
+/* Firefox scrollbar */
+.custom-select select {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(92, 111, 83, 0.3) var(--color-surface-alt);
+}
+
+/* Ensure dropdown options have proper spacing */
+.custom-select select optgroup {
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-weight: 600;
+    padding: 8px 0;
 }
 
 .filter-actions {
@@ -489,6 +697,8 @@
     align-items: center;
     gap: var(--space-xs);
     font-size: 0.875rem;
+    margin-bottom: 8px;
+    
 }
 
 .filter-actions .btn i {
@@ -602,6 +812,7 @@
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
     border-color: var(--color-primary);
     animation: floatUp 3s ease-in-out infinite;
+    z-index: 5; /* Ensure hovered cards don't interfere with dropdowns */
 }
 
 .product-card:hover .product-badges {
@@ -1216,6 +1427,102 @@
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: var(--space-lg);
     }
+
+/* Enhanced mobile dropdown styling */
+.custom-select select {
+    padding: 14px 45px 14px 18px;
+    font-size: 1rem;
+    border-radius: var(--radius-xl);
+}
+
+/* Force custom styling to override browser defaults */
+.custom-select select,
+.custom-select select *,
+.custom-select select option,
+.custom-select select optgroup {
+    box-sizing: border-box;
+}
+
+/* Style the native dropdown container when it appears */
+.custom-select select option,
+.custom-select select optgroup option {
+    min-height: 44px;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+}
+
+/* Target browser's native dropdown container */
+.custom-select select {
+    color-scheme: light dark; /* This helps with some browsers */
+}
+
+/* Additional styling to override browser defaults */
+.custom-select select option[value=""] {
+    color: var(--color-text-muted);
+}
+
+.custom-select select option[value=""][disabled] {
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+/* Mobile responsive styles for custom dropdowns */
+@media (max-width: 991.98px) {
+    .dropdown-trigger {
+        padding: 14px 18px;
+        font-size: 1rem;
+    }
+
+    .dropdown-option {
+        padding: 14px 18px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .dropdown-trigger {
+        padding: 16px 20px;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .dropdown-option {
+        padding: 16px 20px;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .dropdown-options {
+        max-height: 250px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .dropdown-trigger {
+        padding: 18px 22px;
+        font-size: 1.15rem;
+        font-weight: 700;
+        min-height: 60px;
+    }
+
+    .dropdown-option {
+        padding: 18px 22px;
+        font-size: 1.15rem;
+        font-weight: 700;
+        min-height: 60px;
+    }
+
+    .dropdown-options {
+        max-height: 200px;
+    }
+}
+
+    .select-arrow {
+        right: 16px;
+        width: 20px;
+        height: 20px;
+    }
 }
 
 /* Mobile landscape */
@@ -1289,6 +1596,31 @@
     .quantity-controls {
         align-self: center;
     }
+
+    /* Mobile dropdown enhancements */
+    .custom-select select {
+        padding: 16px 50px 16px 20px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: var(--radius-2xl);
+        border-width: 3px;
+    }
+
+    .custom-select::after {
+        width: 50px;
+        border-radius: 0 var(--radius-2xl) var(--radius-2xl) 0;
+    }
+
+    .select-arrow {
+        right: 18px;
+        width: 22px;
+        height: 22px;
+    }
+
+    .filter-label {
+        font-size: 1rem;
+        font-weight: 600;
+    }
 }
 
 /* Mobile portrait */
@@ -1359,6 +1691,37 @@
     .empty-state__actions {
         flex-direction: column;
         align-items: stretch;
+    }
+
+    /* Small screen dropdown optimizations */
+    .custom-select select {
+        padding: 18px 55px 18px 22px;
+        font-size: 1.15rem;
+        font-weight: 700;
+        border-radius: 20px;
+        border-width: 3px;
+        min-height: 60px;
+    }
+
+    .custom-select::after {
+        width: 55px;
+        border-radius: 0 20px 20px 0;
+    }
+
+    .select-arrow {
+        right: 20px;
+        width: 24px;
+        height: 24px;
+    }
+
+    .filter-label {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: var(--space-sm);
+    }
+
+    .filter-group {
+        margin-bottom: var(--space-md);
     }
 }
 
