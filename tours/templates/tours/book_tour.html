@@ -283,10 +283,10 @@
                 </div>
                 {% endif %}
 
-                <!-- Submit Button -->
-                <button type="submit" class="btn-tours-booking" id="submit-btn">
-                    <i data-lucide="check-circle" style="width: 20px; height: 20px;"></i>
-                    Confirm Booking
+                <!-- Add to Cart Button -->
+                <button type="button" class="btn-tours-booking" id="add-to-cart-btn">
+                    <i data-lucide="shopping-cart" style="width: 20px; height: 20px;"></i>
+                    Add to Cart
                 </button>
 
                 <!-- Features -->
@@ -364,7 +364,11 @@
     
         // Add click handlers to tour cards
         tourCards.forEach(card => {
-            card.addEventListener('click', () => selectTourCard(card));
+            card.addEventListener('click', () => {
+                selectTourCard(card);
+                // Also check availability when tour is selected
+                setTimeout(checkAvailability, 100);
+            });
         });
     
         // Handle radio button changes (for keyboard navigation)
@@ -373,6 +377,8 @@
                 if (this.checked) {
                     const card = this.closest('.tour-card');
                     selectTourCard(card);
+                    // Also check availability when radio button is selected
+                    setTimeout(checkAvailability, 100);
                 }
             });
         });
@@ -382,7 +388,6 @@
         const guestsInput = document.getElementById("id_guests");
         const availabilityAlert = document.getElementById("availability-alert");
         const availabilityText = document.getElementById("availability-text");
-        const submitButton = document.getElementById("submit-btn");
     
         function checkAvailability() {
             const selectedTourRadio = document.querySelector('input[name="tour"]:checked');
@@ -410,14 +415,16 @@
                         if (guestsInput) {
                             guestsInput.max = data.available_slots;
                         }
-                        submitButton.disabled = false;
+                        const addToCartBtn = document.getElementById("add-to-cart-btn");
+                        if (addToCartBtn) addToCartBtn.disabled = false;
                     } else {
                         // ❌ Show fully booked message
                         availabilityAlert.style.display = "block";
                         availabilityText.innerHTML = "⚠️ This tour is fully booked for this date!";
                         availabilityAlert.classList.remove("alert-info");
                         availabilityAlert.classList.add("alert-danger");
-                        submitButton.disabled = true;
+                        const addToCartBtn = document.getElementById("add-to-cart-btn");
+                        if (addToCartBtn) addToCartBtn.disabled = true;
                     }
                 })
                 .catch(error => {
@@ -429,18 +436,56 @@
         // Listen for changes
         if (datePicker) datePicker.addEventListener("change", checkAvailability);
     
-        // Form submission feedback
-        form.addEventListener('submit', function(e) {
-            if (!submitButton.disabled) {
-                submitButton.innerHTML = '<i data-lucide="loader-2" style="width: 20px; height: 20px; animation: spin 1s linear infinite;"></i> Processing...';
-                submitButton.disabled = true;
-    
+        // Add to Cart functionality
+        const addToCartBtn = document.getElementById('add-to-cart-btn');
+        if (addToCartBtn) {
+            // Ensure button is enabled by default
+            addToCartBtn.disabled = false;
+            addToCartBtn.addEventListener('click', function() {
+                console.log('🛒 Add to Cart button clicked!');
+
+                const selectedTourRadio = document.querySelector('input[name="tour"]:checked');
+                const selectedDate = datePicker ? datePicker.value : '';
+                const guests = guestsInput ? guestsInput.value : 1;
+
+                console.log('📋 Form data:', {
+                    selectedTour: selectedTourRadio ? selectedTourRadio.value : 'none',
+                    selectedDate: selectedDate,
+                    guests: guests
+                });
+
+                if (!selectedTourRadio) {
+                    alert('Please select a tour experience.');
+                    return;
+                }
+
+                if (!selectedDate) {
+                    alert('Please select a date.');
+                    return;
+                }
+
+                if (!guests || guests < 1) {
+                    alert('Please enter the number of guests.');
+                    return;
+                }
+
+                // Show loading state
+                addToCartBtn.innerHTML = '<i data-lucide="loader-2" style="width: 20px; height: 20px; animation: spin 1s linear infinite;"></i> Adding to Cart...';
+                addToCartBtn.disabled = true;
+
                 // Re-initialize icons for the loading spinner
                 if (typeof lucide !== 'undefined') {
                     lucide.createIcons();
                 }
-            }
-        });
+
+                // Redirect to add tour to cart
+                const tourType = selectedTourRadio.value;
+                console.log('🔄 Redirecting to:', `/bag/add-tour/${tourType}/${selectedDate}/${guests}/`);
+                window.location.href = `/bag/add-tour/${tourType}/${selectedDate}/${guests}/`;
+            });
+        } else {
+            console.error('❌ Add to Cart button not found!');
+        }
     });
 </script>
 {% endblock %}
