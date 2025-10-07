@@ -257,7 +257,7 @@ class CheckoutViewsTestCase(TestCase):
         )
 
         # Ensure redirection to view_bag
-        self.assertRedirects(response, reverse("view_bag"))
+        self.assertRedirects(response, reverse("bag:view_bag"))
 
         # Extract messages
         messages = list(get_messages(response.wsgi_request))
