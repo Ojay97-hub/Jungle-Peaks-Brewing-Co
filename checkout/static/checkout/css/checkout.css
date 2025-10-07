@@ -218,3 +218,15 @@
         gap: var(--space-sm);
     }
 }
+
+/* Order confirmation page styling */
+.order-item-icon {
+    flex-shrink: 0;
+    border-radius: var(--radius-sm);
+}
+
+.order-item-info {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: flex-start;
+}

@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import Order, OrderLineItem
 from products.models import Product
 from profiles.models import UserProfile
+from bag.models import Cart, CartItem
 from .utils import send_order_confirmation_email
 
 import json
@@ -18,6 +19,20 @@ class StripeWH_Handler:
     def _send_confirmation_email(self, order):
         """Send the user a confirmation email."""
         send_order_confirmation_email(order)
+
+    def _clear_user_cart(self, username):
+        """Clear the user's shopping cart after successful order."""
+        try:
+            if username and username != "AnonymousUser":
+                from django.contrib.auth.models import User
+                user = User.objects.get(username=username)
+                # Delete all cart items for this user
+                cart_items = CartItem.objects.filter(cart__user=user)
+                cart_items.delete()
+                # Note: The Cart object itself is kept for future use
+        except Exception as e:
+            # Log the error but don't fail the webhook
+            print(f"Warning: Could not clear cart for user {username}: {e}")
 
     def handle_event(self, event):
         """Handle a generic/unknown/unexpected webhook event."""
@@ -89,6 +104,8 @@ class StripeWH_Handler:
 
         if order_exists:
             self._send_confirmation_email(order)
+            # Clear the user's cart after successful order verification
+            self._clear_user_cart(username)
             return HttpResponse(
                 content=(
                     f'Webhook received: {event["type"]} | '
@@ -144,6 +161,8 @@ class StripeWH_Handler:
                 )
 
         self._send_confirmation_email(order)
+        # Clear the user's cart after successful order creation
+        self._clear_user_cart(username)
         return HttpResponse(
             content=(
                 f'Webhook received: {event["type"]} | '
