@@ -44,18 +44,39 @@
                                 <tr>
                                     <td>
                                         <div class="order-item-info">
-                                            <img src="{% if item.product.image_url %}{{ item.product.image_url }}{% elif item.product.image %}{% imgix_url item.product.image.name params='w=300&h=300&fit=crop&auto=format,compress&q=75' %}{% else %}{% imgix_url 'noimage.png' params='w=300&h=300&fit=crop&auto=format,compress&q=75' %}{% endif %}" alt="{{ item.product.name }}">
-                                            <div>
-                                                <strong>{{ item.product.name }}</strong>
-                                                <p class="text-small text-muted mb-0">{{ item.product.description|truncatewords:12 }}</p>
-                                            </div>
+                                            {% if item.item_type == 'product' %}
+                                                <img src="{% if item.product.image_url %}{{ item.product.image_url }}{% elif item.product.image %}{% imgix_url item.product.image.name params='w=300&h=300&fit=crop&auto=format,compress&q=75' %}{% else %}{% imgix_url 'noimage.png' params='w=300&h=300&fit=crop&auto=format,compress&q=75' %}{% endif %}" alt="{{ item.product.name }}">
+                                                <div>
+                                                    <strong>{{ item.product.name }}</strong>
+                                                    <p class="text-small text-muted mb-0">{{ item.product.description|truncatewords:12 }}</p>
+                                                </div>
+                                            {% else %}
+                                                <!-- Tour item -->
+                                                <div class="tour-icon" style="width: 80px; height: 80px; background: linear-gradient(135deg, #d4a574, #b8935f); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; border: 2px solid #e9ecef;">
+                                                    <i data-lucide="map-pin" style="width: 32px; height: 32px;"></i>
+                                                </div>
+                                                <div>
+                                                    <strong>{{ item.tour_booking.get_tour_display }} Tour</strong>
+                                                    <p class="text-small text-muted mb-0">{{ item.tour_date }} - {{ item.tour_guests }} guest{{ item.tour_guests|pluralize }}</p>
+                                                </div>
+                                            {% endif %}
                                         </div>
                                     </td>
                                     <td class="text-small text-muted">
-                                        {% if item.product.has_sizes %}Size {{ item.size|upper }}{% else %}Standard{% endif %}
+                                        {% if item.item_type == 'product' %}
+                                            {% if item.product.has_sizes %}Size {{ item.size|upper }}{% else %}Standard{% endif %}
+                                        {% else %}
+                                            Tour Experience
+                                        {% endif %}
                                     </td>
-                                    <td>{{ item.quantity }}</td>
-                                    <td class="text-end">£{{ item.product.price|calc_subtotal:item.quantity }}</td>
+                                    <td>
+                                        {% if item.item_type == 'product' %}
+                                            {{ item.quantity }}
+                                        {% else %}
+                                            {{ item.tour_guests|default:1 }}
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-end">£{{ item.price|default:0|floatformat:2 }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -72,13 +93,26 @@
                     <h2 class="h5 mb-3">Order summary</h2>
                     {% for item in bag_items %}
                         <div class="order-item-info">
-                            <img src="{% if item.product.image_url %}{{ item.product.image_url }}{% elif item.product.image %}{% imgix_url item.product.image.name params='w=300&h=300&fit=crop&auto=format,compress&q=75' %}{% else %}{% imgix_url 'noimage.png' params='w=300&h=300&fit=crop&auto=format,compress&q=75' %}{% endif %}" alt="{{ item.product.name }}">
-                            <div>
-                                <p class="mb-1"><strong>{{ item.product.name }}</strong></p>
-                                <p class="text-small text-muted mb-1">{% if item.product.has_sizes %}Size {{ item.size|upper }}{% else %}Standard{% endif %}</p>
-                                <p class="text-small text-muted mb-1">Quantity {{ item.quantity }}</p>
-                                <p class="mb-0">£{{ item.product.price|calc_subtotal:item.quantity }}</p>
-                            </div>
+                            {% if item.item_type == 'product' %}
+                                <img src="{% if item.product.image_url %}{{ item.product.image_url }}{% elif item.product.image %}{% imgix_url item.product.image.name params='w=300&h=300&fit=crop&auto=format,compress&q=75' %}{% else %}{% imgix_url 'noimage.png' params='w=300&h=300&fit=crop&auto=format,compress&q=75' %}{% endif %}" alt="{{ item.product.name }}">
+                                <div>
+                                    <p class="mb-1"><strong>{{ item.product.name }}</strong></p>
+                                    <p class="text-small text-muted mb-1">{% if item.product.has_sizes %}Size {{ item.size|upper }}{% else %}Standard{% endif %}</p>
+                                    <p class="text-small text-muted mb-1">Quantity {{ item.quantity }}</p>
+                                    <p class="mb-0">£{{ item.product.price|calc_subtotal:item.quantity }}</p>
+                                </div>
+                            {% else %}
+                                <!-- Tour item -->
+                                <div class="tour-icon" style="width: 80px; height: 80px; background: linear-gradient(135deg, #d4a574, #b8935f); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; border: 2px solid #e9ecef;">
+                                    <i data-lucide="map-pin" style="width: 32px; height: 32px;"></i>
+                                </div>
+                                <div>
+                                    <p class="mb-1"><strong>{{ item.tour_booking.get_tour_display }} Tour</strong></p>
+                                    <p class="text-small text-muted mb-1">{{ item.tour_date }} - {{ item.tour_guests }} guest{{ item.tour_guests|pluralize }}</p>
+                                    <p class="text-small text-muted mb-1">Tour Experience</p>
+                                    <p class="mb-0">£{{ item.price|default:0|floatformat:2 }}</p>
+                                </div>
+                            {% endif %}
                         </div>
                     {% endfor %}
                     <div class="order-totals mt-3">
@@ -124,7 +158,7 @@
                         </fieldset>
 
                         <div class="payment-footer mt-4">
-                            <a href="{% url 'view_bag' %}" class="btn btn-light"><i class="fas fa-chevron-left"></i> Adjust bag</a>
+                            <a href="{% url 'bag:view_bag' %}" class="btn btn-light"><i class="fas fa-chevron-left"></i> Adjust bag</a>
                             <button id="submit-button" class="btn btn-primary">
                                 Complete order £{{ grand_total|floatformat:2 }}
                             </button>
