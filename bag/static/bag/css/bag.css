@@ -1,0 +1,212 @@
+.bag-shell {
+    padding: var(--space-2xl) 0;
+}
+
+.bag-header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+}
+
+.bag-header p {
+    max-width: 36rem;
+    margin: 0 auto;
+    color: var(--color-text-muted);
+}
+
+.bag-layout {
+    display: grid;
+    gap: var(--space-lg);
+}
+
+.bag-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-xs);
+}
+
+.bag-table thead {
+    background-color: var(--color-surface-alt);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+.bag-table th,
+.bag-table td {
+    padding: var(--space-sm) var(--space-md);
+    vertical-align: middle;
+}
+
+.bag-table tbody tr + tr {
+    border-top: 1px solid var(--color-border);
+}
+
+.bag-item-info {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.bag-item-info img {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+}
+
+.bag-item-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxs);
+}
+
+.bag-item-meta .sku {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+.quantity-stepper {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background-color: var(--color-surface);
+}
+
+.quantity-stepper button {
+    border: none;
+    background: transparent;
+    padding: 0.35rem 0.6rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text);
+}
+
+.quantity-stepper button:hover,
+.quantity-stepper button:focus-visible {
+    background-color: var(--color-surface-alt);
+}
+
+.quantity-stepper input {
+    width: 3.5rem;
+    border: none;
+    text-align: center;
+    font-weight: 600;
+}
+
+.bag-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+}
+
+.bag-actions.stack {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.bag-summary-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-xs);
+}
+
+.bag-summary-card h2 {
+    font-size: 1.125rem;
+}
+
+.bag-summary-card .totals {
+    display: grid;
+    gap: var(--space-xs);
+    margin: var(--space-md) 0;
+}
+
+.bag-summary-card .totals p {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    font-weight: 600;
+}
+
+.bag-summary-card .totals span {
+    font-weight: 700;
+}
+
+.bag-summary-card .helper {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+}
+
+.bag-summary-card .helper strong {
+    color: var(--color-primary);
+}
+
+.bag-summary-card .cta-group {
+    display: grid;
+    gap: var(--space-sm);
+}
+
+.bag-item-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    display: grid;
+    gap: var(--space-sm);
+    box-shadow: var(--shadow-xs);
+}
+
+.bag-item-card img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+}
+
+.bag-empty {
+    text-align: center;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-xs);
+}
+
+.bag-empty .icon {
+    font-size: 2.5rem;
+    color: var(--color-primary);
+}
+
+@media (min-width: 992px) {
+    .bag-layout {
+        grid-template-columns: minmax(0, 2.5fr) minmax(0, 1fr);
+        align-items: start;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .bag-shell {
+        padding: var(--space-xl) 0;
+    }
+
+    .bag-item-info {
+        align-items: flex-start;
+    }
+
+    .bag-item-info img {
+        width: 64px;
+        height: 64px;
+    }
+}

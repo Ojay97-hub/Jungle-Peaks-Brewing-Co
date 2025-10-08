@@ -1,14 +1,17 @@
-{% extends "allauth/layouts/entrance.html" %}
+{% extends "allauth/layouts/base.html" %}
 {% load i18n %}
-{% load allauth %}
-{% block head_title %}
-    {% translate "Account Inactive" %}
-{% endblock head_title %}
-{% block content %}
-    {% element h1 %}
-        {% translate "Account Inactive" %}
-    {% endelement %}
-    {% element p %}
-        {% translate "This account is inactive." %}
-    {% endelement %}
-{% endblock content %}
+
+{% block head_title %}{% translate "Account Inactive" %}{% endblock %}
+
+{% block inner_content %}
+<header>
+    <h1>{% translate "Account inactive" %}</h1>
+    <p class="text-muted">{% translate "This account is currently inactive. Please contact support if you believe this is a mistake." %}</p>
+</header>
+
+<div class="auth-links">
+    <a href="{% url 'contact:contact' %}">{% trans "Contact support" %}</a>
+    <span>•</span>
+    <a href="{% url 'account_login' %}">{% trans "Return to login" %}</a>
+</div>
+{% endblock %}

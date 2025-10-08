@@ -7,8 +7,10 @@
 {% endblock %}
 
 {% block content %}
-<div class="container-2">
-    <div class="card booking-experience shadow-lg border-0 rounded-4 p-4">
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-7">
+            <div class="card booking-experience shadow-lg border-0 rounded-4 p-4">
         <div class="card-body">
             <h2 class="text-center fw-bold mb-4">📝 Edit Your Tour Booking</h2>
             <p class="text-center text-muted mb-4">
@@ -16,22 +18,30 @@
             </p>
             <!-- ✅ Tour Availability Notice -->
             <div class="alert alert-info text-center" id="availability-alert">
-                <strong>Availability:</strong> <span id="availability-text"></span>
+                <strong>Availability:</strong> <span id="availability-text">
+                    {% if available_slots > 0 %}
+                        ✅ {{ available_slots }} additional spots available ({{ capacity }} total capacity)
+                        <br><small class="text-muted">You currently have {{ booking.guests }} attendees - you can increase your booking</small>
+                    {% else %}
+                        ⚠️ This tour is fully booked!
+                    {% endif %}
+                </span>
             </div>
 
             <form method="post" class="booking-form needs-validation" id="booking-form">
                 {% csrf_token %}
                 {{ form|crispy }}
 
-                <div class="d-grid mt-4 gap-2">
-                    <button type="submit" class="btn btn-success btn-lg shadow-sm">
+                <div class="d-flex justify-content-center mt-4 gap-3">
+                    <button type="submit" class="btn btn-success btn-lg shadow-sm" style="width: 180px;">
                         <i class="fas fa-save"></i> Save Changes
                     </button>
-                    <a href="{% url 'profile' %}" class="btn btn-secondary btn-lg shadow-sm">
+                    <a href="{% url 'profile' %}" class="btn btn-secondary btn-lg shadow-sm" style="width: 180px;">
                         <i class="fas fa-times-circle"></i> Cancel
                     </a>
                 </div>
             </form>
+            </div>
         </div>
     </div>
 </div>
@@ -40,7 +50,7 @@
 {% block extra_js %}
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        console.log("✅ Availability Script Loaded!");  
+        console.log("✅ Availability Script Loaded!");
 
         const tourDropdown = document.getElementById("id_tour");
         const datePicker = document.getElementById("id_date");
@@ -67,7 +77,8 @@
                         availabilityText.innerHTML = `✅ ${data.available_slots} spots left!`;
                         availabilityAlert.classList.remove("alert-danger");
                         availabilityAlert.classList.add("alert-info");
-                        guestsInput.max = data.available_slots;
+                        // Don't limit guests input for editing - user should be able to increase their own booking
+                        // guestsInput.max = data.available_slots;
                         submitButton.disabled = false;  // Enable submission
                     } else {
                         // ❌ Show fully booked message
@@ -80,6 +91,9 @@
                 })
                 .catch(error => console.error("🚨 Error fetching availability:", error));
         }
+
+        // Check availability on page load
+        checkAvailability();
 
         // Listen for changes
         tourDropdown.addEventListener("change", checkAvailability);

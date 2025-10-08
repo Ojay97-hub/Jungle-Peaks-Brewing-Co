@@ -1,11 +1,10 @@
 from django.http import HttpResponse
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from django.conf import settings
 
 from .models import Order, OrderLineItem
 from products.models import Product
 from profiles.models import UserProfile
+from bag.models import Cart, CartItem
+from .utils import send_order_confirmation_email
 
 import json
 import time
@@ -19,24 +18,29 @@ class StripeWH_Handler:
 
     def _send_confirmation_email(self, order):
         """Send the user a confirmation email."""
-        cust_email = order.email
-        subject = render_to_string(
-            "checkout/confirmation_emails/"
-            "confirmation_email_subject.txt",
-            {"order": order},
-        )
-        body = render_to_string(
-            "checkout/confirmation_emails/"
-            "confirmation_email_body.txt",
-            {"order": order, "contact_email": settings.DEFAULT_FROM_EMAIL},
-        )
+        send_order_confirmation_email(order)
 
-        send_mail(
-            subject,
-            body,
-            settings.DEFAULT_FROM_EMAIL,
-            [cust_email],
-        )
+    def _clear_user_cart(self, username):
+        """Clear the user's shopping cart after successful order."""
+        try:
+            if username and username != "AnonymousUser":
+                from django.contrib.auth.models import User
+                try:
+                    user = User.objects.get(username=username)
+                    # Delete all cart items for this user
+                    cart_items = CartItem.objects.filter(cart__user=user)
+                    cart_items.delete()
+                    # Note: The Cart object itself is kept for future use
+                    print(f"Successfully cleared cart for user {username}")
+                except User.DoesNotExist:
+                    # User doesn't exist, which is fine - cart may have been cleared already
+                    print(f"User {username} not found when clearing cart - may have been deleted")
+                except Exception as e:
+                    # Log other errors but don't fail the webhook
+                    print(f"Warning: Could not clear cart for user {username}: {e}")
+        except Exception as e:
+            # Log the error but don't fail the webhook
+            print(f"Warning: Could not clear cart for user {username}: {e}")
 
     def handle_event(self, event):
         """Handle a generic/unknown/unexpected webhook event."""
@@ -108,6 +112,8 @@ class StripeWH_Handler:
 
         if order_exists:
             self._send_confirmation_email(order)
+            # Clear the user's cart after successful order verification
+            self._clear_user_cart(username)
             return HttpResponse(
                 content=(
                     f'Webhook received: {event["type"]} | '
@@ -163,6 +169,8 @@ class StripeWH_Handler:
                 )
 
         self._send_confirmation_email(order)
+        # Clear the user's cart after successful order creation
+        self._clear_user_cart(username)
         return HttpResponse(
             content=(
                 f'Webhook received: {event["type"]} | '

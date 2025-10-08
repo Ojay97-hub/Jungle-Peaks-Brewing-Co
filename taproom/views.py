@@ -1,9 +1,10 @@
 # Standard Library Imports
 
 # Django Imports
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, render, redirect, reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 # Local Application Imports
 from taproom.models import Booking
@@ -36,24 +37,31 @@ def booking(request):
 
     **Request Methods Supported:**
         - GET: Displays the booking form.
-        - POST: Creates a new booking for the logged-in user.
+        - POST: Creates a new booking and adds it to the user's cart.
 
     **Context Provided:**
         - `form`: A booking form for user input.
 
     **Workflow:**
-        - Saves the booking and associates it with the logged-in user.
-        - Redirects to `booking_success` upon successful submission.
+        - Creates a temporary booking and adds it to the user's shopping cart.
+        - Redirects to cart upon successful submission.
     """
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
-            booking = form.save(commit=False)
-            booking.user = request.user  # Link booking to user
-            booking.save()
+            # Get form data
+            booking_type = form.cleaned_data['booking_type']
+            booking_date = form.cleaned_data['date']
+            booking_time = form.cleaned_data['time']
 
-            messages.success(request, 'Booking has been successfully created.')
-            return redirect('booking_success')  # Redirect to success page
+            # Create URL for adding taproom booking to cart
+            # Format date as YYYY-MM-DD and time as HH:MM for URL safety
+            formatted_date = booking_date.strftime('%Y-%m-%d')
+            formatted_time = booking_time.strftime('%H:%M')
+            cart_url = reverse('bag:add_taproom_to_cart',
+                             args=[booking_type, formatted_date, formatted_time])
+
+            return redirect(cart_url)
     else:
         form = BookingForm()
 

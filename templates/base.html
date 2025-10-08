@@ -30,7 +30,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Montserrat:wght@100..900&family=Noto+Sans:wght@100..900&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Albert+Sans:wght@100..900&display=swap">
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% endblock %}
 
@@ -38,9 +38,7 @@
     {% endblock %}
 
     {% block corejs %}
-        <script src="https://kit.fontawesome.com/e696cb5a12.js" crossorigin="anonymous" defer></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous" defer></script>
+        <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
@@ -58,138 +56,240 @@
     </head>
 
   <body>
-<!-- Header --> 
-<header class="border-bottom site-header">
-    <!-- Top banner section -->
-    <div id="delivery-banner" class="bg-yellow text-center py-2">
-        <p class="logo-font m-0">
-            🚛 <a href="{% url 'products' %}" class="text-dark fw-bold promo-link">
-                Free delivery on orders over £{{ free_delivery_threshold }}! Order now! 🎉
-            </a>
-            <span id="countdown-desktop" aria-live="polite"></span> ⏳
-        </p>                
-    </div>
-
-    <!-- Main Header Section -->
-    <div class="container py-2">
-        <div class="d-flex align-items-center justify-content-between">
-            <!-- Brand Logo -->
-            <a href="{% url 'home' %}" class="text-decoration-none d-none d-md-inline" aria-label="Go to Jungle Peaks Brewing homepage">
-                <h1 class="jungle-peaks-logo m-0 fw-bold"> 
-                    <i class="fas fa-mountain"></i> Jungle Peaks 🍻
-                </h1>
-            </a>
-        
-            {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}
-            <!-- Main Search Bar -->
-            <div class="main-search-bar d-none d-md-flex">
-                <form method="GET" action="{% url 'products' %}" class="input-group-2">
-                    <input 
-                        type="text" 
-                        name="q" 
-                        class="form-control border-0 px-3" 
-                        placeholder="Search for products..." 
-                        aria-label="Search for products">
-                    <button type="submit" class="btn btn-dark" aria-label="Search">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
-            </div>
-            {% endif %}
-
-            <!-- Header Icons -->
-            <div class="d-flex align-items-center ms-auto header-icons-wrapper">
-                <!-- Navbar Toggler (For Mobile) -->
-                <button 
-                    class="navbar-toggler menu-toggle d-flex d-lg-none me-2" 
-                    id="main-nav-toggle" 
-                    type="button" 
-                    data-bs-toggle="collapse"
-                    data-bs-target="#secondary-nav" 
-                    aria-controls="secondary-nav" 
-                    aria-expanded="false" 
-                    aria-label="Toggle navigation menu">
-                    <i class="fas fa-bars"></i>
-                </button>
-
-                <!-- Shopping Bag -->
-                <a class="nav-link bag-icon d-flex align-items-center" href="{% url 'view_bag' %}" aria-label="View shopping bag">
-                    <div class="icon-wrapper">
-                        <i class="fas fa-shopping-bag fa-lg"></i>
-                    </div>
-                    <span class="bag-text d-none d-md-inline">
-                        {% if grand_total %}
-                            £{{ grand_total|floatformat:2 }}
-                        {% else %}
-                            £0.00
-                        {% endif %}
-                    </span>
-                </a>
-
-                <!-- Account Dropdown -->
-                <div class="dropdown user-dropdown">
-                    <a 
-                        class="nav-link dropdown-toggle user-icon d-flex align-items-center" 
-                        href="#" 
-                        id="user-options" 
-                        data-bs-toggle="dropdown" 
-                        aria-expanded="false"
-                        aria-label="User account options">
-                        <div class="icon-wrapper">
-                            <i class="fas fa-user fa-lg"></i>
-                        </div>
-                        <i class="fas fa-chevron-down dropdown-arrow"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-options">
-                        {% if request.user.is_authenticated %}
-                            {% if request.user.is_superuser %}
-                            <li>
-                                <a href="{% url 'add_product' %}" class="dropdown-item">Product Management</a>
-                            </li>
-                            {% endif %}
-                            <li><a href="{% url 'profile' %}" class="dropdown-item">My Profile</a></li>
-                            <li><a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a></li>
-                        {% else %}
-                            <li><a href="{% url 'account_signup' %}" class="dropdown-item">Register</a></li>
-                            <li><a href="{% url 'account_login' %}" class="dropdown-item">Login</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
+<!-- Header -->
+<header class="modern-header">
+    <!-- Top promotional banner -->
+    <div class="promo-banner">
+        <div class="container">
+            <div class="promo-content">
+                <span class="promo-text">
+                    <i data-lucide="truck" class="promo-icon"></i>
+                    Free delivery on orders over £{{ free_delivery_threshold }}!
+                    <span class="countdown-timer" id="countdown-desktop"></span>
+                </span>
+                <button class="promo-close" type="button" aria-label="Close banner">
+                    <i data-lucide="x"></i>
+                  </button>
             </div>
         </div>
     </div>
 
-    <!-- Secondary Header Section for Navigation -->
-    <nav class="border-top">
-        <div class="container py-3">
-            <div class="d-flex justify-content-center">
-                <button class="navbar-toggler mb-2 text-white d-lg-none secondary-navbar-toggler" type="button" 
-                    data-bs-toggle="collapse" data-bs-target="#secondary-nav" 
-                    aria-controls="secondary-nav" aria-expanded="false" 
-                    aria-label="Toggle navigation">
-                    <i class="fas fa-bars"></i>
-                </button>
+    <!-- Main navigation -->
+    <nav class="main-navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <!-- Logo -->
+                <a href="{% url 'home' %}" class="brand-logo" aria-label="Go to Jungle Peaks Brewing homepage">
+                    <div class="logo-icon">
+                        <i data-lucide="mountain"></i>
+                    </div>
+                    <span class="logo-text">Jungle Peaks</span>
+                </a>
+
+                <!-- Search Bar (Desktop) -->
+                {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}
+                <div class="search-container d-none d-lg-flex">
+                    <form method="GET" action="{% url 'products' %}" class="search-form">
+                        <div class="search-input-group">
+                            <i data-lucide="search" class="search-icon"></i>
+                            <input
+                                type="search"
+                                name="q"
+                                value="{{ request.GET.q }}"
+                                placeholder="Search for craft beers, merchandise..."
+                                aria-label="Search for products"
+                                class="search-input"
+                            >
+                            <button type="submit" class="search-btn" aria-label="Search">
+                                <i data-lucide="arrow-right"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+
+                <!-- Navigation Links (Desktop) -->
+                <div class="nav-links d-none d-lg-flex">
+                    <a href="{% url 'home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                        <i data-lucide="home"></i>
+                        Home
+                    </a>
+                    <a href="{% url 'products' %}" class="nav-link {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}active{% endif %}">
+                        <i data-lucide="shopping-bag"></i>
+                        Shop
+                    </a>
+                    <a href="{% url 'taproom' %}" class="nav-link {% if request.resolver_match.url_name == 'taproom' %}active{% endif %}">
+                        <i data-lucide="coffee"></i>
+                        Taproom
+                    </a>
+                    <a href="{% url 'tours' %}" class="nav-link {% if request.resolver_match.url_name == 'tours' %}active{% endif %}">
+                        <i data-lucide="map-pin"></i>
+                        Tours
+                    </a>
+                    <a href="{% url 'contact:contact' %}" class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                        <i data-lucide="mail"></i>
+                        Contact
+                    </a>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="navbar-actions">
+                    <!-- Cart -->
+                    <a href="{% url 'bag:view_bag' %}" class="action-btn cart-btn" aria-label="View shopping cart">
+                        <div class="btn-icon">
+                            <i data-lucide="shopping-cart"></i>
+                            {% if bag_items %}
+                                <span class="cart-badge">{{ bag_items|length }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="btn-content d-none d-md-block">
+                            <span class="btn-label">Cart</span>
+                            <span class="btn-value">
+                                {% if grand_total %}
+                                    £{{ grand_total|floatformat:2 }}
+                                {% else %}
+                                    £0.00
+                                {% endif %}
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- User Account -->
+                    <div class="dropdown">
+                        <button
+                            class="action-btn user-btn"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            aria-label="User account menu"
+                        >
+                            <div class="btn-icon">
+                                <i data-lucide="user"></i>
+                            </div>
+                            <div class="btn-content d-none d-md-block">
+                                <span class="btn-label">
+                                    {% if request.user.is_authenticated %}
+                                        {{ request.user.username|title }}
+                                    {% else %}
+                                        Account
+                                    {% endif %}
+                                </span>
+                                <span class="btn-value">
+                                    {% if request.user.is_authenticated %}
+                                        My Profile
+                                    {% else %}
+                                        Sign In
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <i data-lucide="chevron-down" class="dropdown-arrow d-none d-md-block"></i>
+                        </button>
+
+                        <ul class="dropdown-menu">
+                            {% if request.user.is_authenticated %}
+                                {% if request.user.is_superuser %}
+                                    <li>
+                                        <a href="{% url 'add_product' %}" class="dropdown-item">
+                                            <i data-lucide="settings"></i>
+                                            Product Management
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li>
+                                    <a href="{% url 'profile' %}" class="dropdown-item">
+                                        <i data-lucide="user-circle"></i>
+                                        My Profile
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a href="{% url 'account_logout' %}" class="dropdown-item">
+                                        <i data-lucide="log-out"></i>
+                                        Sign Out
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{% url 'account_login' %}" class="dropdown-item">
+                                        <i data-lucide="log-in"></i>
+                                        Sign In
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'account_signup' %}" class="dropdown-item">
+                                        <i data-lucide="user-plus"></i>
+                                        Create Account
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                    <!-- Mobile menu toggle -->
+                    <button
+                        class="mobile-menu-btn d-lg-none"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#mobile-nav"
+                        aria-controls="mobile-nav"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation menu"
+                    >
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
             </div>
 
-            <!-- Collapsible Navigation Menu -->
-            <div class="collapse navbar-collapse" id="secondary-nav">
-                <ul class="navbar-nav d-flex justify-content-center align-items-center flex-lg-row flex-column">
-                    <li class="nav-item">
-                        <a href="{% url 'home' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white {% if request.resolver_match.url_name == 'home' %} active{% endif %}" aria-label="Go to Home Page">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'products' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %} active{% endif %}" aria-label="Go to Shop">Shop</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'taproom' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white {% if request.resolver_match.url_name == 'taproom' %} active{% endif %}" aria-label="Go to Taproom">Taproom</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'tours' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white {% if request.resolver_match.url_name == 'tours' %} active{% endif %}" aria-label="Go to Tours">Tours</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'contact:contact' %}" class="nav-link-2 text-uppercase px-3 fw-bold text-white {% if request.resolver_match.url_name == 'contact' %} active{% endif %}" aria-label="Go to Contact Page">Contact</a>
-                    </li>
-                </ul>
+            <!-- Mobile Navigation -->
+            <div class="collapse mobile-nav-collapse" id="mobile-nav">
+                <div class="mobile-nav-content">
+                    <!-- Mobile Search (if on products page) -->
+                    {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}
+                    <div class="mobile-search">
+                        <form method="GET" action="{% url 'products' %}">
+                            <div class="search-input-group">
+                                <i data-lucide="search" class="search-icon"></i>
+                                <input
+                                    type="search"
+                                    name="q"
+                                    value="{{ request.GET.q }}"
+                                    placeholder="Search products..."
+                                    aria-label="Search for products"
+                                    class="search-input"
+                                >
+                                <button type="submit" class="search-btn">
+                                    <i data-lucide="arrow-right"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    {% endif %}
+
+                    <!-- Mobile Navigation Links -->
+                    <div class="mobile-nav-links">
+                        <a href="{% url 'home' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                            <i data-lucide="home"></i>
+                            <span>Home</span>
+                        </a>
+                        <a href="{% url 'products' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}active{% endif %}">
+                            <i data-lucide="shopping-bag"></i>
+                            <span>Shop</span>
+                        </a>
+                        <a href="{% url 'taproom' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'taproom' %}active{% endif %}">
+                            <i data-lucide="coffee"></i>
+                            <span>Taproom</span>
+                        </a>
+                        <a href="{% url 'tours' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'tours' %}active{% endif %}">
+                            <i data-lucide="map-pin"></i>
+                            <span>Tours</span>
+                        </a>
+                        <a href="{% url 'contact:contact' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                            <i data-lucide="mail"></i>
+                            <span>Contact</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -197,7 +297,7 @@
 
     <main>
         {% if messages %}
-        <div class="message-container">
+        <div class="message-container" aria-live="polite" aria-atomic="true">
             {% for message in messages %}
             {% with message.level as level %}
             {% if level == 40 %}
@@ -205,7 +305,7 @@
             {% elif level == 30 %}
             {% include 'includes/toasts/toast_warning.html' %}
             {% elif level == 25 %}
-            {% include 'includes/toasts/toast_success.html' %}
+            {% include 'includes/toasts/toast_success.html' with bag_items=bag_items grand_total=grand_total total=total free_delivery_delta=free_delivery_delta %}
             {% else %}
             {% include 'includes/toasts/toast_info.html' %}
             {% endif %}
@@ -213,6 +313,8 @@
             {% endfor %}
         </div>
         {% endif %}
+
+        {% block breadcrumbs %}{% endblock %}
 
         {% block page_header %}
         {% endblock %}
@@ -222,7 +324,7 @@
     </main>
 
 <!-- FOOTER SECTION -->
-<footer class="footer bg-black text-white py-5">
+<footer class="footer py-5">
     <div class="container">
             <!-- Main Footer Content -->
             <div class="row justify-content-between">
@@ -230,17 +332,17 @@
               <div class="col-md-4 mb-4">
                 <h3 class="text-start fw-bold">Newsletter</h3>
                 <p class="text-start">Sign up for our newsletter to stay updated on our latest brews and events.</p>
-                <form action="{% url 'newsletter_signup' %}" method="POST" class="d-flex align-items-center" id="newsletter-form">
+                <form action="{% url 'newsletter_signup' %}" method="POST" class="d-flex flex-column flex-sm-row gap-2 align-items-center justify-content-center" id="newsletter-form">
                     {% csrf_token %}
-                    <input 
-                        type="email" 
+                    <input
+                        type="email"
                         name="email"
-                        id="email" 
-                        class="form-control me-2 input-lg" 
-                        placeholder="Enter your email" 
+                        id="email"
+                        class="form-control"
+                        placeholder="Enter your email"
                         required
                         aria-label="Enter your email to subscribe">
-                  <button type="submit" class="btn custom-btn" aria-label="Subscribe to newsletter">
+                  <button type="submit" class="btn btn-newsletter-subscribe" aria-label="Subscribe to newsletter">
                         Subscribe
                     </button>
                 </form>
@@ -277,14 +379,14 @@
             <div class="col-md-3 text-center">
                 <h3 class="fw-bold">Follow Us</h3>
                 <div class="d-flex justify-content-center gap-3 mt-3">
-                    <a href="https://www.facebook.com/profile.php?id=61573268283619" target="_blank" rel="noopener" class="text-warning text-decoration-none" aria-label="Follow us on Facebook">
-                        <i class="fab fa-facebook fa-2x icon"></i>
+                    <a href="https://www.facebook.com/profile.php?id=61573268283619" target="_blank" rel="noopener" class="text-decoration-none" aria-label="Follow us on Facebook">
+                        <i data-lucide="facebook"></i>
                     </a>
-                    <a href="https://twitter.com" target="_blank"  rel="noopener" class="text-warning text-decoration-none" aria-label="Follow us on Twitter">
-                        <i class="fab fa-twitter fa-2x icon"></i>
+                    <a href="https://twitter.com" target="_blank"  rel="noopener" class="text-decoration-none" aria-label="Follow us on Twitter">
+                        <i data-lucide="twitter"></i>
                     </a>
-                    <a href="https://instagram.com" target="_blank" rel="noopener" class="text-warning text-decoration-none" aria-label="Follow us on Instagram">
-                        <i class="fab fa-instagram fa-2x icon"></i>
+                    <a href="https://instagram.com" target="_blank" rel="noopener" class="text-decoration-none" aria-label="Follow us on Instagram">
+                        <i data-lucide="instagram"></i>
                     </a>
                 </div>
             </div>
@@ -340,6 +442,11 @@
 {% block postloadjs %}
 <script src="{% static 'js/newsletter.js' %}"></script>
 
+<!-- Initialize Lucide Icons -->
+<script>
+    lucide.createIcons();
+</script>
+
 <!-- Stripe -->        
 {% if request.resolver_match.url_name == 'checkout' %}
 <script src="https://js.stripe.com/v3/"></script>
@@ -360,55 +467,80 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-function startCountdown(hours, elementId){
-    let now = new Date();
-    let resetTime = new Date(now);
-    resetTime.setHours(now.getHours() + hours, 0, 0, 0);
+// Simple countdown
+function startCountdown(hours, elementId) {
+const resetTime = new Date();
+resetTime.setHours(resetTime.getHours() + hours, 0, 0, 0);
 
-    function updateCountdown() {
-        let currentTime = new Date();
-        let remainingTime = resetTime - currentTime;
-
-        if (remainingTime <= 0) {
-            resetTime.setHours(resetTime.getHours() + hours, 0, 0, 0);
-            remainingTime = resetTime - currentTime;
-        }
-
-        let seconds = Math.floor((remainingTime / 1000) % 60);
-        let minutes = Math.floor((remainingTime / 1000 / 60) % 60);
-        let hoursLeft = Math.floor((remainingTime / 1000 / 60 / 60));
-
-        let countdownElement = document.getElementById(elementId);
-        if (countdownElement) {
-            countdownElement.innerHTML = `Offer ends in: ${hoursLeft}h ` +
-                             `${minutes}m ${seconds}s`;
-        }
-
-        setTimeout(updateCountdown, 1000);
+function updateCountdown() {
+    const remainingTime = resetTime - new Date();
+    if (remainingTime <= 0) {
+    resetTime.setHours(resetTime.getHours() + hours, 0, 0, 0);
     }
-
-    updateCountdown();
+    const s = Math.floor((remainingTime / 1000) % 60);
+    const m = Math.floor((remainingTime / 1000 / 60) % 60);
+    const h = Math.floor((remainingTime / 1000 / 60 / 60));
+    const el = document.getElementById(elementId);
+    if (el) el.textContent = `Offer ends in: ${h}h ${m}m ${s}s`;
+    setTimeout(updateCountdown, 1000);
+}
+updateCountdown();
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    let lastScrollTop = 0;
-    const header = document.querySelector(".site-header");
-
-    window.addEventListener("scroll", function () {
-        let scrollTop = window.pageYOffset ||
-        document.documentElement.scrollTop;
-
-        if (scrollTop > lastScrollTop) {
-            // Scrolling down → Hide header
-            header.classList.add("hidden-header");
-        } else {
-            // Scrolling up → Show header
-            header.classList.remove("hidden-header");
-        }
-
-        lastScrollTop = scrollTop;
-    });
+document.addEventListener('DOMContentLoaded', function () {
+// Toasts
+document.querySelectorAll('.toast').forEach(function (toastEl) {
+    new bootstrap.Toast(toastEl).show();
 });
+
+// Countdown (only if element exists)
+if (document.getElementById('countdown-desktop')) {
+    startCountdown(24, 'countdown-desktop');
+}
+
+// --- Simple promo banner controls (no scroll logic) ---
+const banner = document.querySelector('.promo-banner');
+const closeBtn = document.querySelector('.promo-close');
+
+// Choose behaviour: 'none' | 'session' | 'day'
+const DISMISS_BEHAVIOUR = 'none';   // <- your requested behaviour
+const KEY = 'promoBannerDismissedAt';
+
+function hideBanner() { if (banner) banner.setAttribute('hidden', ''); }
+function showBanner() { if (banner) banner.removeAttribute('hidden'); }
+
+// Show on load based on behaviour
+(function initVisibility() {
+    if (!banner) return;
+
+    if (DISMISS_BEHAVIOUR === 'none') { showBanner(); return; }
+
+    if (DISMISS_BEHAVIOUR === 'session') {
+    const dismissed = sessionStorage.getItem(KEY) === '1';
+    dismissed ? hideBanner() : showBanner();
+    return;
+    }
+
+    if (DISMISS_BEHAVIOUR === 'day') {
+    const raw = localStorage.getItem(KEY);
+    if (!raw) { showBanner(); return; }
+    const dismissedAt = Number(raw);
+    const DAY = 24 * 60 * 60 * 1000;
+    if (Date.now() - dismissedAt < DAY) hideBanner();
+    else { localStorage.removeItem(KEY); showBanner(); }
+    }
+})();
+
+// Close button
+if (closeBtn && banner) {
+    closeBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    hideBanner();
+    if (DISMISS_BEHAVIOUR === 'session') sessionStorage.setItem(KEY, '1');
+    else if (DISMISS_BEHAVIOUR === 'day') localStorage.setItem(KEY, String(Date.now()));
+    });
+}
+  });
 </script>
 {% endblock %}
 

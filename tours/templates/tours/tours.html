@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static imgix_tags %}  {# ✅ Ensure Imgix is loaded #}
+{% load static imgix_tags %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'tours/css/tours.css' %}">
@@ -8,46 +8,87 @@
 {% block content %}
 
 <!-- Hero Section -->
-<div class="hero-section">
-    <img class="hero-image"
-        src="{% imgix_url 'images/tours-hero.jpg' params='w=1200&h=600&fit=crop&auto=format,compress&q=75' %}"
-        alt="Jungle Peaks Brewery Tours">
-    <div class="hero-overlay">
+<section class="tours-hero">
+    <div class="hero-background">
+        <img class="hero-image"
+            src="{% imgix_url 'images/tours-hero.jpg' params='w=1400&h=700&fit=crop&auto=format,compress&q=85' %}"
+            alt="Jungle Peaks Brewery Tours">
+        <div class="hero-overlay"></div>
+    </div>
+    <div class="container hero-container">
         <div class="hero-content">
+            <div class="hero-badge">
+                <i data-lucide="beer"></i>
+                <span>Premium Tours & Tastings</span>
+            </div>
             <h1 class="hero-title">Explore Our Brewery Tours & Tastings</h1>
-            <p class="hero-tagline">Discover our craft, taste our passion.</p>
-            <p class="hero-description">
-                <i class="fas fa-beer"></i> Join us for an unforgettable craft beer experience.
-            </p>
+            <p class="hero-description">Discover our craft, taste our passion. Join us for an unforgettable craft beer experience where tradition meets innovation.</p>
         </div>
     </div>
-</div>
+</section>
 
 <!-- Brewery Tours Section -->
-<section class="container my-5">
-    <h2 class="fw-bold">Brewery Tours</h2>
-    <div class="row g-4">
-        <div class="col-md-6">
-            <div class="card tour-card">
-                <img class="card-img-top"
-                    src="{% imgix_url 'images/brewery-tours.jpg' params='w=800&h=500&fit=crop&auto=format,compress&q=75' %}"
-                    alt="Guided Brewery Tour">
-                <div class="card-body">
-                    <h3 class="card-title">Guided Brewery Tour</h3>
-                    <p class="card-text">Join our expert guides for an in-depth look at our brewing process, from grain to glass.</p>
-                    <a href="{% url 'tour:book_tour_specific' tour_slug='guided' %}" class="btn custom-btn-2">Book Now</a>
+<section class="tours-section">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-badge">
+                <i data-lucide="map"></i>
+                <span>Guided Experiences</span>
+            </div>
+            <h2 class="section-title">Brewery Tours</h2>
+            <p class="section-description">Immerse yourself in the art of brewing with our expertly guided tours</p>
+        </div>
+
+        <div class="tours-grid">
+            <div class="tour-card">
+                <div class="tour-image">
+                    <img src="{% imgix_url 'images/brewery-tours.jpg' params='w=600&h=400&fit=crop&auto=format,compress&q=85' %}"
+                        alt="Guided Brewery Tour">
+                    <div class="tour-badge">
+                        <i data-lucide="users"></i>
+                        <span>Popular</span>
+                    </div>
+                </div>
+                <div class="tour-content">
+                    <h3 class="tour-title">Guided Brewery Tour</h3>
+                    <p class="tour-description">Join our expert guides for an in-depth look at our brewing process, from grain to glass. Learn about our ingredients, techniques, and the passion behind every brew.</p>
+                    <div class="tour-features">
+                        <div class="feature">
+                            <i data-lucide="clock"></i>
+                            <span>90 minutes</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="user-check"></i>
+                            <span>Expert guide</span>
+                        </div>
+                    </div>
+                    <a href="{% url 'tour:book_tour_specific' tour_slug='guided-brewery-tour' %}" class="btn btn-tour-booking btn-primary">Book Tour</a>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card tour-card">
-                <img class="card-img-top"
-                    src="{% imgix_url 'images/sunset-tours.jpg' params='w=800&h=500&fit=crop&auto=format,compress&q=75' %}"
-                    alt="Sunset Tour">
-                <div class="card-body">
-                    <h3 class="card-title">Sunset Tour</h3>
-                    <p class="card-text">Experience the beauty of our brewery at sunset, complete with a tasting session on our terrace.</p>
-                    <a href="{% url 'tour:book_tour_specific' tour_slug='sunset' %}" class="btn custom-btn-2">Book Now</a>
+
+            <div class="tour-card">
+                <div class="tour-image">
+                    <img src="{% imgix_url 'images/sunset-tours.jpg' params='w=600&h=400&fit=crop&auto=format,compress&q=85' %}"
+                        alt="Sunset Tour">
+                    <div class="tour-badge">
+                        <i data-lucide="sunset"></i>
+                        <span>Special</span>
+                    </div>
+                </div>
+                <div class="tour-content">
+                    <h3 class="tour-title">Sunset Tour</h3>
+                    <p class="tour-description">Experience the beauty of our brewery at sunset, complete with a tasting session on our terrace. Perfect for romantic evenings and special occasions.</p>
+                    <div class="tour-features">
+                        <div class="feature">
+                            <i data-lucide="clock"></i>
+                            <span>2 hours</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="wine"></i>
+                            <span>Includes tasting</span>
+                        </div>
+                    </div>
+                    <a href="{% url 'tour:book_tour_specific' tour_slug='sunset-tour' %}" class="btn btn-tour-booking btn-primary">Book Tour</a>
                 </div>
             </div>
         </div>
@@ -55,42 +96,81 @@
 </section>
 
 <!-- Tasting Experiences Section -->
-<section class="container my-5">
-    <h2 class="fw-bold text-start">Tasting Experiences</h2>
-    <div class="row g-4">
-        <div class="col-md-4 d-flex">
-            <div class="card tour-card h-100">
-                <img class="card-img-top"
-                    src="{% imgix_url 'images/craft-beer-tastings.jpg' params='w=800&h=500&fit=crop&auto=format,compress&q=75' %}"
-                    alt="Craft Beer Tasting">
-                <div class="card-body text-start">
-                    <h3 class="card-title">Craft Beer Tasting</h3>
-                    <p class="card-text">Sample a variety of our finest craft beers, each brewed with locally sourced ingredients.</p>
-                    <a href="{% url 'tour:book_tour_specific' tour_slug='craft_tasting' %}" class="btn custom-btn-2">Book Now</a>
+<section class="tastings-section">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-badge">
+                <i data-lucide="wine"></i>
+                <span>Flavor Exploration</span>
+            </div>
+            <h2 class="section-title">Tasting Experiences</h2>
+            <p class="section-description">Discover our finest craft beers through curated tasting sessions</p>
+        </div>
+
+        <div class="tastings-grid">
+            <div class="tasting-card">
+                <div class="tasting-image">
+                    <img src="{% imgix_url 'images/craft-beer-tastings.jpg' params='w=500&h=350&fit=crop&auto=format,compress&q=85' %}"
+                        alt="Craft Beer Tasting">
+                </div>
+                <div class="tasting-content">
+                    <h3 class="tasting-title">Craft Beer Tasting</h3>
+                    <p class="tasting-description">Sample a variety of our finest craft beers, each brewed with locally sourced ingredients and unique flavor profiles.</p>
+                    <div class="tasting-features">
+                        <div class="feature">
+                            <i data-lucide="droplet"></i>
+                            <span>5 beer samples</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="map-pin"></i>
+                            <span>Local ingredients</span>
+                        </div>
+                    </div>
+                    <a href="{% url 'tour:book_tour_specific' tour_slug='craft-beer-tasting' %}" class="btn btn-tour-booking btn-accent">Book Tasting</a>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4 d-flex">
-            <div class="card tour-card h-100">
-                <img class="card-img-top"
-                    src="{% imgix_url 'images/seasonal-beer.jpg' params='w=800&h=500&fit=crop&auto=format,compress&q=75' %}"
-                    alt="Seasonal Selection">
-                <div class="card-body text-start">
-                    <h3 class="card-title">Seasonal Selection</h3>
-                    <p class="card-text">Enjoy a tasting session featuring our seasonal beers, crafted with unique and exciting flavors.</p>
-                    <a href="{% url 'tour:book_tour_specific' tour_slug='seasonal' %}" class="btn custom-btn-2">Book Now</a>
+
+            <div class="tasting-card">
+                <div class="tasting-image">
+                    <img src="{% imgix_url 'images/seasonal-beer.jpg' params='w=500&h=350&fit=crop&auto=format,compress&q=85' %}"
+                        alt="Seasonal Selection">
+                </div>
+                <div class="tasting-content">
+                    <h3 class="tasting-title">Seasonal Selection</h3>
+                    <p class="tasting-description">Enjoy a tasting session featuring our seasonal beers, crafted with unique and exciting flavors that celebrate each season.</p>
+                    <div class="tasting-features">
+                        <div class="feature">
+                            <i data-lucide="calendar"></i>
+                            <span>Seasonal specials</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="star"></i>
+                            <span>Limited edition</span>
+                        </div>
+                    </div>
+                    <a href="{% url 'tour:book_tour_specific' tour_slug='seasonal-selection' %}" class="btn btn-tour-booking btn-accent">Book Tasting</a>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4 d-flex">
-            <div class="card tour-card h-100">
-                <img class="card-img-top"
-                    src="{% imgix_url 'images/master-brewer.jpg' params='w=800&h=500&fit=crop&auto=format,compress&q=75' %}"
-                    alt="Master Brewer's Session">
-                <div class="card-body text-start">
-                    <h3 class="card-title">Master Brewer's Session</h3>
-                    <p class="card-text">Participate in an educational tasting session led by our master brewer, exploring a range of beer styles and flavors.</p>
-                    <a href="{% url 'tour:book_tour_specific' tour_slug='brewer_session' %}" class="btn custom-btn-2">Book Now</a>
+
+            <div class="tasting-card">
+                <div class="tasting-image">
+                    <img src="{% imgix_url 'images/master-brewer.jpg' params='w=500&h=350&fit=crop&auto=format,compress&q=85' %}"
+                        alt="Master Brewer's Session">
+                </div>
+                <div class="tasting-content">
+                    <h3 class="tasting-title">Master Brewer's Session</h3>
+                    <p class="tasting-description">Participate in an educational tasting session led by our master brewer, exploring a range of beer styles and brewing techniques.</p>
+                    <div class="tasting-features">
+                        <div class="feature">
+                            <i data-lucide="graduation-cap"></i>
+                            <span>Educational</span>
+                        </div>
+                        <div class="feature">
+                            <i data-lucide="award"></i>
+                            <span>Expert-led</span>
+                        </div>
+                    </div>
+                    <a href="{% url 'tour:book_tour_specific' tour_slug='master-brewer-session' %}" class="btn btn-tour-booking btn-accent">Book Session</a>
                 </div>
             </div>
         </div>
@@ -98,42 +178,63 @@
 </section>
 
 <!-- FAQ Section -->
-<section class="container my-5">
-    <h2 class="fw-bold">Frequently Asked Questions</h2>
-    <div class="accordion" id="faqAccordion">
-        <div class="accordion-item">
-            <h3 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                    What should I wear for the tour?
-                </button>
-            </h3>
-            <div id="faq1" class="accordion-collapse collapse show">
-                <div class="accordion-body">
-                    We recommend comfortable clothing and closed-toe shoes for safety during the tour.
+<section class="faq-section">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-badge">
+                <i data-lucide="help-circle"></i>
+                <span>Need Help?</span>
+            </div>
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-description">Everything you need to know about our tours and tastings</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <div class="faq-icon">
+                        <i data-lucide="shirt"></i>
+                    </div>
+                    <div class="faq-text">
+                        <h3>What should I wear for the tour?</h3>
+                        <p>We recommend comfortable clothing and closed-toe shoes for safety during the tour. Dress for the weather as parts of our tour may be outdoors.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="accordion-item">
-            <h3 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                    Can I bring my kids to the tasting session?
-                </button>
-            </h3>
-            <div id="faq2" class="accordion-collapse collapse">
-                <div class="accordion-body">
-                    Our tasting sessions are limited to guests aged 21 and over. Children are welcome in our taproom area.
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <div class="faq-icon">
+                        <i data-lucide="baby"></i>
+                    </div>
+                    <div class="faq-text">
+                        <h3>Can I bring my kids to the tasting session?</h3>
+                        <p>Our tasting sessions are limited to guests aged 21 and over. Children are welcome in our taproom area where we offer non-alcoholic beverages and food.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="accordion-item">
-            <h3 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                    How do I book a tour or tasting experience?
-                </button>
-            </h3>
-            <div id="faq3" class="accordion-collapse collapse">
-                <div class="accordion-body">
-                    You can book directly through our website or contact our customer service team for assistance.
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <div class="faq-icon">
+                        <i data-lucide="calendar-check"></i>
+                    </div>
+                    <div class="faq-text">
+                        <h3>How do I book a tour or tasting experience?</h3>
+                        <p>You can book directly through our website using the booking buttons above, or contact our customer service team for assistance and special group rates.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <div class="faq-icon">
+                        <i data-lucide="clock"></i>
+                    </div>
+                    <div class="faq-text">
+                        <h3>What are your tour times?</h3>
+                        <p>Tours run daily from 11 AM to 7 PM, with the last tour starting at 6 PM. Sunset tours are seasonal and times vary based on sunset. Check our booking calendar for availability.</p>
+                    </div>
                 </div>
             </div>
         </div>

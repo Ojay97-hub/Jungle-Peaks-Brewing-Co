@@ -25,12 +25,13 @@ def all_products(request):
     """
     products = Product.objects.all()
     query = request.GET.get('q', None)
-    categories = request.GET.getlist('category', None)
-    sort = request.GET.get('sort', None)
-    direction = request.GET.get('direction', None)
+    categories = request.GET.getlist('category', [])
+    sort = request.GET.get('sort', '')
+    direction = request.GET.get('direction', '')
+
 
     # Sorting Logic
-    if sort:
+    if sort and sort != 'None' and sort != '':
         sort_mapping = {
             'name': 'lower_name',
             'category': 'category__name',
@@ -50,6 +51,8 @@ def all_products(request):
         products = products.order_by(sortkey)
 
     # Category Filtering
+    # Filter out empty strings from categories
+    categories = [cat for cat in categories if cat]
     if categories:
         products = products.filter(category__name__iexact=categories[0])
 
@@ -62,7 +65,7 @@ def all_products(request):
         return redirect(reverse('products'))
 
     all_categories = Category.objects.all()
-    current_sorting = f'{sort}_{direction}' if sort and direction else sort
+    current_sorting = f'{sort}_{direction}' if sort and direction and sort != 'None' and direction != 'None' else (sort if sort and sort != 'None' else '')
 
     context = {
         'products': products,

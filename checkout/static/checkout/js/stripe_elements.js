@@ -7,115 +7,197 @@
     https://stripe.com/docs/stripe-js
 */
 
-var stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
-var clientSecret = $('#id_client_secret').text().slice(1, -1);
-var stripe = Stripe(stripePublicKey);
-var elements = stripe.elements();
-var style = {
-    base: {
-        color: '#000',
-        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-        fontSmoothing: 'antialiased',
-        fontSize: '16px',
-        '::placeholder': {
-            color: '#aab7c4'
-        }
-    },
-    invalid: {
-        color: '#dc3545',
-        iconColor: '#dc3545'
-    }
-};
-var card = elements.create('card', {style: style});
-card.mount('#card-element');
+const stripePublicKeyElement = document.getElementById('id_stripe_public_key');
+const clientSecretElement = document.getElementById('id_client_secret');
 
-// Handle realtime validation errors on the card element
-card.addEventListener('change', function (event) {
-    var errorDiv = document.getElementById('card-errors');
-    if (event.error) {
-        var html = `
+if (!stripePublicKeyElement || !clientSecretElement) {
+    console.error('Stripe public key or client secret not found in the DOM.');
+    // Exit early to prevent ReferenceErrors
+    throw new Error('Required Stripe elements not found');
+}
+
+let stripePublicKey, clientSecret, stripe;
+
+// Safely parse JSON with error handling
+try {
+    stripePublicKey = JSON.parse(stripePublicKeyElement.textContent);
+    clientSecret = JSON.parse(clientSecretElement.textContent);
+} catch (error) {
+    console.error('Failed to parse Stripe configuration from DOM:', error);
+    throw new Error('Invalid Stripe configuration in DOM');
+}
+
+// Validate required values
+if (!stripePublicKey || !clientSecret) {
+    console.error('Stripe public key or client secret is missing or invalid');
+    throw new Error('Invalid Stripe credentials');
+}
+
+// Initialize Stripe
+try {
+    stripe = Stripe(stripePublicKey);
+    const elements = stripe.elements();
+    const style = {
+        base: {
+            color: '#000',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+                color: '#aab7c4'
+            }
+        },
+        invalid: {
+            color: '#dc3545',
+            iconColor: '#dc3545'
+        }
+    };
+    const card = elements.create('card', { style });
+    card.mount('#card-element');
+
+    const form = document.getElementById('payment-form');
+    const submitButton = document.getElementById('submit-button');
+    const overlay = document.getElementById('loading-overlay');
+    const paymentCard = form ? form.closest('.payment-card') : null;
+    const errorContainer = document.getElementById('card-errors');
+
+    const setProcessingState = (isProcessing) => {
+        card.update({ disabled: isProcessing });
+        if (submitButton) {
+            submitButton.disabled = isProcessing;
+        }
+        if (overlay) {
+            overlay.classList.toggle('active', isProcessing);
+        }
+        if (paymentCard) {
+            paymentCard.classList.toggle('is-processing', isProcessing);
+        }
+    };
+
+    const renderError = (message) => {
+        if (!errorContainer) {
+            return;
+        }
+
+        if (!message) {
+            errorContainer.textContent = '';
+            errorContainer.innerHTML = '';
+            return;
+        }
+
+        errorContainer.innerHTML = `
             <span class="icon" role="alert">
                 <i class="fas fa-times"></i>
             </span>
-            <span>${event.error.message}</span>
+            <span>${message}</span>
         `;
-        $(errorDiv).html(html);
-    } else {
-        errorDiv.textContent = '';
-    }
-});
-
-// Handle form submit
-var form = document.getElementById('payment-form');
-
-form.addEventListener('submit', function(ev) {
-    ev.preventDefault();
-    card.update({ 'disabled': true});
-    $('#submit-button').attr('disabled', true);
-    $('#payment-form').fadeToggle(100);
-    $('#loading-overlay').fadeToggle(100);
-
-    var saveInfo = Boolean($('#id-save-info').attr('checked'));
-    // From using {% csrf_token %} in the form
-    var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
-    var postData = {
-        'csrfmiddlewaretoken': csrfToken,
-        'client_secret': clientSecret,
-        'save_info': saveInfo,
     };
-    var url = '/checkout/cache_checkout_data/';
 
-    $.post(url, postData).done(function () {
-        stripe.confirmCardPayment(clientSecret, {
-            payment_method: {
-                card: card,
-                billing_details: {
-                    name: $.trim(form.full_name.value),
-                    phone: $.trim(form.phone_number.value),
-                    email: $.trim(form.email.value),
-                    address:{
-                        line1: $.trim(form.street_address1.value),
-                        line2: $.trim(form.street_address2.value),
-                        city: $.trim(form.town_or_city.value),
-                        country: $.trim(form.country.value),
-                        state: $.trim(form.county.value),
+    card.addEventListener('change', (event) => {
+        if (event.error) {
+            renderError(event.error.message);
+        } else {
+            renderError('');
+        }
+    });
+
+    if (form) {
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            setProcessingState(true);
+
+            const csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
+            const saveInfoCheckbox = document.getElementById('id-save-info');
+            const postData = new URLSearchParams();
+
+            if (!csrfInput) {
+                renderError('Missing CSRF token. Please refresh and try again.');
+                setProcessingState(false);
+                return;
+            }
+
+            postData.append('csrfmiddlewaretoken', csrfInput.value);
+            postData.append('client_secret', clientSecret);
+            postData.append('save_info', saveInfoCheckbox && saveInfoCheckbox.checked ? 'true' : 'false');
+
+            const getTrimmedValue = (fieldName) => {
+                const field = form.elements.namedItem(fieldName);
+                return field ? field.value.trim() : '';
+            };
+
+            try {
+                const response = await fetch('/checkout/cache_checkout_data/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: postData.toString()
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to cache checkout data.');
+                }
+
+                const billingDetails = {
+                    name: getTrimmedValue('full_name'),
+                    phone: getTrimmedValue('phone_number'),
+                    email: getTrimmedValue('email'),
+                    address: {
+                        line1: getTrimmedValue('street_address1'),
+                        line2: getTrimmedValue('street_address2'),
+                        city: getTrimmedValue('town_or_city'),
+                        country: getTrimmedValue('country'),
+                        state: getTrimmedValue('county')
                     }
-                }
-            },
-            shipping: {
-                name: $.trim(form.full_name.value),
-                phone: $.trim(form.phone_number.value),
-                address: {
-                    line1: $.trim(form.street_address1.value),
-                    line2: $.trim(form.street_address2.value),
-                    city: $.trim(form.town_or_city.value),
-                    country: $.trim(form.country.value),
-                    postal_code: $.trim(form.postcode.value),
-                    state: $.trim(form.county.value),
-                }
-            },
-        }).then(function(result) {
-            if (result.error) {
-                var errorDiv = document.getElementById('card-errors');
-                var html = `
-                    <span class="icon" role="alert">
-                    <i class="fas fa-times"></i>
-                    </span>
-                    <span>${result.error.message}</span>`;
-                $(errorDiv).html(html);
-                $('#payment-form').fadeToggle(100);
-                $('#loading-overlay').fadeToggle(100);
-                card.update({ 'disabled': false});
-                $('#submit-button').attr('disabled', false);
-            } else {
-                if (result.paymentIntent.status === 'succeeded') {
-                    console.log("Payment succeeded! Submitting form...");
+                };
+
+                const shippingDetails = {
+                    name: billingDetails.name,
+                    phone: billingDetails.phone,
+                    address: {
+                        line1: billingDetails.address.line1,
+                        line2: billingDetails.address.line2,
+                        city: billingDetails.address.city,
+                        country: billingDetails.address.country,
+                        postal_code: getTrimmedValue('postcode'),
+                        state: billingDetails.address.state
+                    }
+                };
+
+                const result = await stripe.confirmCardPayment(clientSecret, {
+                    payment_method: {
+                        card,
+                        billing_details: billingDetails
+                    },
+                    shipping: shippingDetails
+                });
+
+                if (result.error) {
+                    renderError(result.error.message);
+                    setProcessingState(false);
+                } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
                     form.submit();
                 }
+            } catch (error) {
+                window.location.reload();
             }
         });
-    }).fail(function () {
-        // just reload the page, the error will be in django messages
-        location.reload();
-    });
-});
+    }
+} catch (error) {
+    console.error('Failed to initialize Stripe:', error);
+    // Show error to user
+    const errorContainer = document.getElementById('card-errors');
+    if (errorContainer) {
+        errorContainer.innerHTML = `
+            <span class="icon" role="alert">
+                <i class="fas fa-times"></i>
+            </span>
+            <span>Payment system unavailable. Please refresh the page or try again later.</span>
+        `;
+    }
+    // Disable the form
+    const form = document.getElementById('payment-form');
+    const submitButton = document.getElementById('submit-button');
+    if (form) form.style.display = 'none';
+    if (submitButton) submitButton.disabled = true;
+}

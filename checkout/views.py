@@ -1,4 +1,6 @@
 import json
+import logging
+
 import stripe
 
 from django.conf import settings
@@ -14,6 +16,28 @@ from products.models import Product
 from profiles.models import UserProfile
 from profiles.forms import UserProfileForm
 from bag.contexts import bag_contents
+from bag.models import Cart, CartItem
+from django.contrib.auth.models import User
+from tours.models import TourBooking
+from taproom.models import Booking
+from .utils import send_order_confirmation_email
+
+
+logger = logging.getLogger(__name__)
+
+
+def clear_user_cart(username):
+    """Clear the user's shopping cart after successful order."""
+    try:
+        if username:
+            user = User.objects.get(username=username)
+            # Delete all cart items for this user
+            cart_items = CartItem.objects.filter(cart__user=user)
+            cart_items.delete()
+            # Note: The Cart object itself is kept for future use
+    except Exception as e:
+        # Log the error but don't fail
+        logger.warning(f"Could not clear cart for user {username}: {e}")
 
 
 @require_POST
@@ -84,9 +108,19 @@ def checkout(request):
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
     if request.method == "POST":
+        # Get database cart items first
+        cart_items = []
+        if request.user.is_authenticated:
+            try:
+                cart = Cart.objects.get(user=request.user)
+                cart_items = CartItem.objects.filter(cart=cart)
+            except Cart.DoesNotExist:
+                pass
+
+        # Also check session bag for backward compatibility
         bag = request.session.get("bag", {})
 
-        if not bag:
+        if not cart_items and not bag:
             messages.error(
                 request,
                 "There's nothing in your bag at the moment."
@@ -126,6 +160,33 @@ def checkout(request):
             order.original_bag = json.dumps(bag)
             order.save()
 
+            # Process database cart items first
+            for cart_item in cart_items:
+                if cart_item.item_type == 'product':
+                    OrderLineItem.objects.create(
+                        order=order,
+                        product=cart_item.product,
+                        quantity=cart_item.quantity,
+                        product_size=cart_item.size
+                    )
+                elif cart_item.item_type == 'tour' and cart_item.tour_booking:
+                    # Create order line item for tour
+                    OrderLineItem.objects.create(
+                        order=order,
+                        product=None,  # Tours don't have products
+                        quantity=cart_item.tour_guests,
+                        tour_booking=cart_item.tour_booking
+                    )
+                elif cart_item.item_type == 'taproom' and cart_item.taproom_booking:
+                    # Create order line item for taproom booking
+                    OrderLineItem.objects.create(
+                        order=order,
+                        product=None,  # Taproom bookings don't have products
+                        quantity=1,  # One booking per line item
+                        taproom_booking=cart_item.taproom_booking
+                    )
+
+            # Process session bag items (backward compatibility)
             for item_id, item_data in bag.items():
                 try:
                     product = Product.objects.get(id=item_id)
@@ -148,7 +209,7 @@ def checkout(request):
                         "Please call us for assistance!"
                     )
                     order.delete()
-                    return redirect(reverse("view_bag"))
+                    return redirect("/bag/")
 
             request.session["save_info"] = "save-info" in request.POST
             return redirect(
@@ -162,8 +223,19 @@ def checkout(request):
             )
 
     else:
+        # Get database cart items for GET request
+        cart_items = []
+        if request.user.is_authenticated:
+            try:
+                cart = Cart.objects.get(user=request.user)
+                cart_items = CartItem.objects.filter(cart=cart)
+            except Cart.DoesNotExist:
+                pass
+
+        # Also check session bag for backward compatibility
         bag = request.session.get("bag", {})
-        if not bag:
+
+        if not cart_items and not bag:
             messages.error(
                 request, "There's nothing in your bag at the moment."
             )
@@ -177,6 +249,7 @@ def checkout(request):
             amount=stripe_total, currency=settings.STRIPE_CURRENCY
         )
 
+        # Initialize order form
         order_form = OrderForm()
         if request.user.is_authenticated:
             try:
@@ -195,6 +268,17 @@ def checkout(request):
             except UserProfile.DoesNotExist:
                 order_form = OrderForm()
 
+        # Add bag contents to template context
+        template_context = {
+            "order_form": order_form,
+            "stripe_public_key": stripe_public_key,
+            "client_secret": intent.client_secret,
+            "bag_items": current_bag["bag_items"],
+            "total": current_bag["total"],
+            "delivery": current_bag["delivery"],
+            "grand_total": current_bag["grand_total"],
+        }
+
     if not stripe_public_key:
         messages.warning(
             request,
@@ -204,11 +288,7 @@ def checkout(request):
 
     return render(
         request, "checkout/checkout.html",
-        {
-            "order_form": order_form,
-            "stripe_public_key": stripe_public_key,
-            "client_secret": intent.client_secret,
-        }
+        template_context
     )
 
 
@@ -245,13 +325,84 @@ def checkout_success(request, order_number):
             if user_profile_form.is_valid():
                 user_profile_form.save()
 
-    messages.success(
-        request,
-        f"Order successfully processed! Your order number is {order_number}. "
-        f"A confirmation email will be sent to {order.email}."
-    )
+        # Clear the user's cart after successful order
+        clear_user_cart(request.user.username)
+
+    sent_orders = request.session.get("orders_with_sent_email", [])
+    should_send_email = order_number not in sent_orders
+
+    email_sent = False
+    if should_send_email:
+        try:
+            email_sent = bool(send_order_confirmation_email(order))
+        except Exception:
+            logger.exception(
+                "Failed to send confirmation email for order %s", order_number
+            )
+            messages.warning(
+                request,
+                (
+                    "Your order was processed, but we couldn't send a confirmation "
+                    "email. Please contact us if you don't receive one shortly."
+                ),
+            )
+        else:
+            if email_sent:
+                sent_orders.append(order_number)
+                request.session["orders_with_sent_email"] = sent_orders[-10:]
+
+    success_message = f"Order successfully processed! Your order number is {order_number}."
+    if email_sent:
+        success_message += f" A confirmation email was sent to {order.email}."
+
+    messages.success(request, success_message)
+
+    recent_orders = request.session.get("recent_orders", [])
+    if order_number not in recent_orders:
+        recent_orders.append(order_number)
+        request.session["recent_orders"] = recent_orders[-5:]
 
     if "bag" in request.session:
         del request.session["bag"]
 
     return render(request, "checkout/checkout_success.html", {"order": order})
+
+
+@require_POST
+def resend_order_confirmation(request, order_number):
+    """Allow customers to trigger an additional confirmation email."""
+    order = get_object_or_404(Order, order_number=order_number)
+
+    allowed = False
+    if request.user.is_authenticated and order.user_profile:
+        allowed = order.user_profile.user == request.user
+
+    recent_orders = request.session.get("recent_orders", [])
+    if order_number in recent_orders:
+        allowed = True
+
+    if not allowed:
+        messages.error(
+            request,
+            "We couldn't verify permission to resend that order confirmation.",
+        )
+        return redirect("home")
+
+    try:
+        send_order_confirmation_email(order)
+        sent_orders = request.session.get("orders_with_sent_email", [])
+        if order_number not in sent_orders:
+            sent_orders.append(order_number)
+            request.session["orders_with_sent_email"] = sent_orders[-10:]
+        messages.success(
+            request,
+            f"A confirmation email was resent to {order.email}.",
+        )
+    except Exception:
+        logger.exception("Failed to resend confirmation email for order %s", order_number)
+        messages.warning(
+            request,
+            "We couldn't resend the confirmation email right now. Please try again later.",
+        )
+
+    return redirect("checkout_success", order_number=order_number)

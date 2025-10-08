@@ -1,40 +1,56 @@
 {% extends "allauth/layouts/base.html" %}
-{% load crispy_forms_tags %}
-{% load static %}
 {% load i18n %}
 
-{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block head_title %}{% trans "Sign Up" %}{% endblock %}
 
 {% block inner_content %}
-  <div class="signup-container">
-      <!-- Left Side: Signup Form -->
-      <div class="signup-form-section">
-        <h2 class="logo-font mb-4">{% trans "Create your account" %}</h2>
-        <p>{% trans "Fill the form below to create an account." %}</p>
-    
-        <form class="signup-form" id="signup_form" method="post" action="{% url 'account_signup' %}">
-            {% csrf_token %}
-            {{ form|crispy }}
-    
-            {% if redirect_field_value %}
-                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-            {% endif %}
+<header>
+    <h1>{% trans "Join Jungle Peaks" %}</h1>
+    <p class="text-muted">{% trans "Create an account to save your favourites, track orders, and book tours faster." %}</p>
+</header>
 
-            <!-- ✅ Terms & Conditions (External Link) -->
-            <div class="terms-container">
-                <input type="checkbox" id="terms" name="terms" required>
-                <label for="terms">
-                    {% trans "I have read, understood, and accept the" %}
-                    <a href="https://www.example.com/terms" target="_blank" rel="noopener noreferrer">{% trans "terms and conditions" %}</a>.
-                </label>
-            </div>
-    
-                        <!-- ✅ Evenly Spaced Buttons -->
-            <div class="signup-buttons-container">
-                <a class="btn-back" href="{% url 'account_login' %}">{% trans "Back to Login" %}</a>
-                <button type="submit" class="btn-signup">{% trans "Sign Up" %}</button>
-            </div>
-        </form>
+<form id="signup_form" method="post" action="{% url 'account_signup' %}" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for error in form.non_field_errors %}
+                <p class="mb-0">{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% for field in form %}
+        <div>
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+                <p class="form-text">{{ field.help_text }}</p>
+            {% endif %}
+            {% for error in field.errors %}
+                <p class="invalid-feedback d-block">{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+    {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+    {% endif %}
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="terms" required>
+        <label class="form-check-label" for="terms">
+            {% trans "I accept the" %} <a href="https://www.example.com/terms" target="_blank" rel="noopener noreferrer">{% trans "terms and conditions" %}</a>.
+        </label>
     </div>
-  </div>
+
+    <div class="auth-actions">
+        <a class="btn btn-light" href="{% url 'account_login' %}">{% trans "Back to login" %}</a>
+        <button type="submit" class="btn btn-primary">{% trans "Create account" %}</button>
+    </div>
+</form>
+
+<div class="auth-links">
+    <span>{% trans "Already have an account?" %}</span>
+    <a href="{% url 'account_login' %}">{% trans "Sign in" %}</a>
+</div>
 {% endblock %}

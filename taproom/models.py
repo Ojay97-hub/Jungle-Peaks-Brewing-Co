@@ -2,6 +2,12 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+# Table booking pricing in GBP
+TABLE_PRICING = {
+    "standard": 10,  # £10 per table booking (base fee)
+    "premium": 20,   # £20 per table booking (premium location/time)
+}
+
 # Booking a table model
 class Booking(models.Model):
     user = models.ForeignKey(
@@ -13,8 +19,17 @@ class Booking(models.Model):
     date = models.DateField()
     time = models.TimeField()
     guests = models.PositiveIntegerField()
+    booking_type = models.CharField(
+        max_length=10, choices=[("standard", "Standard"), ("premium", "Premium")], default="standard"
+    )
     special_requests = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def get_total_price(self):
+        """
+        Calculate the total price for this table booking.
+        """
+        return TABLE_PRICING.get(self.booking_type, 0)
 
     def __str__(self):
         return (
