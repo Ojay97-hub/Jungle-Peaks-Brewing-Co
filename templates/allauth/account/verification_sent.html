@@ -1,27 +1,17 @@
-{% extends "account/base_entrance.html" %}
+{% extends "allauth/layouts/base.html" %}
 {% load i18n %}
-{% load allauth %}
 
-{% block head_title %}
-    {% trans "Verify Your Email Address" %}
-{% endblock head_title %}
+{% block head_title %}{% trans "Verify Your Email Address" %}{% endblock %}
 
-{% block content %}
-<div class="container d-flex justify-content-center align-items-center mt-5">
-    <div class="verify-card shadow-lg p-5 text-center">
-        <h1 class="fw-bold text-warning">
-            📩 {% trans "Verify Your Email Address" %}
-        </h1>
-        <p class="lead mt-3">
-            {% blocktrans %}We’ve sent you a verification email! 📬<br>
-            Please check your inbox and follow the link to complete your signup. ✅{% endblocktrans %}
-        </p>
-        <p class="text-muted">
-            {% blocktrans %}Didn’t receive the email? Check your spam folder or <strong>wait a few minutes</strong> before trying again.{% endblocktrans %}
-        </p>
-        <a href="{% url 'account_email' %}" class="btn btn-warning btn-lg fw-bold px-4 mt-3 resend-btn">
-            🔄 {% trans "Resend Verification Email" %}
-        </a>
-    </div>
+{% block inner_content %}
+<header>
+    <h1>{% trans "Verify your email" %}</h1>
+    <p class="text-muted">{% blocktrans %}We’ve sent a verification link to your inbox. Click it to finish setting up your account.{% endblocktrans %}</p>
+</header>
+
+<div class="auth-links">
+    <a href="{% url 'account_email' %}" class="btn btn-primary">{% trans "Resend verification email" %}</a>
 </div>
-{% endblock content %}
+
+<p class="text-small text-muted mb-0">{% trans "If the email doesn’t arrive in a few minutes, check your spam folder or try resending." %}</p>
+{% endblock %}

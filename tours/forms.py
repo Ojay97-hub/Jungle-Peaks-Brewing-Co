@@ -54,9 +54,39 @@ class TourBookingForm(forms.ModelForm):
                    css_class="btn btn-primary btn-lg shadow-sm")
         )
 
-        if "initial" in kwargs and "tour" in kwargs["initial"]:
-            max_guests = TOUR_CAPACITY.get(kwargs["initial"]["tour"], 20)
-            self.fields["guests"].widget.attrs["max"] = max_guests
+        selected_tour = None
+        if "initial" in kwargs and kwargs["initial"].get("tour"):
+            selected_tour = kwargs["initial"]["tour"]
+        elif self.instance and self.instance.tour:
+            selected_tour = self.instance.tour
+
+        if selected_tour:
+            max_guests = TOUR_CAPACITY.get(selected_tour, 20)
+            # For editing, allow users to increase their booking beyond current availability
+            # The form validation will handle the actual availability check
+            if self.instance and self.instance.pk:
+                # This is an edit - allow higher numbers initially
+                self.fields["guests"].widget.attrs.update(
+                    {
+                        "max": max_guests,  # Still limit to capacity
+                        "aria-describedby": "guest-help-text",
+                    }
+                )
+                self.fields["guests"].help_text = (
+                    f"You currently have {self.instance.guests} attendees. "
+                    f"Up to {max_guests} attendees can join this tour."
+                )
+            else:
+                # This is a new booking
+                self.fields["guests"].widget.attrs.update(
+                    {
+                        "max": max_guests,
+                        "aria-describedby": "guest-help-text",
+                    }
+                )
+                self.fields["guests"].help_text = (
+                    f"Up to {max_guests} attendees can join this tour."
+                )
 
     def clean_date(self):
         """Ensure the user selects a future date."""
@@ -72,22 +102,58 @@ class TourBookingForm(forms.ModelForm):
         booking_date = cleaned_data.get("date")
         guests = cleaned_data.get("guests")
 
-        if tour and booking_date:
-            booked_guests = (
-                TourBooking.objects
-                .filter(tour=tour, date=booking_date, status="confirmed")
-                .aggregate(total=Sum("guests"))
-                .get("total", 0) or 0
+        if guests is not None and guests < 1:
+            self.add_error(
+                "guests",
+                "Please choose at least one attendee.",
             )
-            available_slots = TOUR_CAPACITY[tour] - booked_guests
+            return cleaned_data
 
-            # ✅ Use TOUR_CHOICES correctly
+        if tour and booking_date and guests is not None:
+            # Calculate available slots, excluding current booking if editing
+            booking_qs = TourBooking.objects.filter(
+                tour=tour, date=booking_date, status="confirmed"
+            )
+            if self.instance and self.instance.pk:
+                # This is an edit - exclude the current booking from count
+                booking_qs = booking_qs.exclude(pk=self.instance.pk)
+
+            booked_guests = (
+                booking_qs.aggregate(total=Sum("guests")).get("total") or 0
+            )
+            capacity = TOUR_CAPACITY.get(tour)
+            available_slots = max(capacity - booked_guests, 0) if capacity else 0
+
             tour_name = dict(TOUR_CHOICES).get(tour, "this tour")
 
             if guests > available_slots:
-                raise forms.ValidationError(
-                    f"Only {available_slots} spots are available "
-                    f"for {tour_name} on {booking_date}."
-                )
+                if self.instance and self.instance.pk:
+                    # This is an edit - show total capacity they can increase to
+                    max_allowed = capacity if capacity else available_slots
+                    raise forms.ValidationError(
+                        (
+                            "You can increase your booking to %(max_allowed)s attendees "
+                            "for %(tour)s on %(date)s. (You currently have %(current)s attendees)"
+                        ),
+                        params={
+                            "max_allowed": max_allowed,
+                            "tour": tour_name,
+                            "date": booking_date,
+                            "current": self.instance.guests,
+                        },
+                    )
+                else:
+                    # This is a new booking
+                    raise forms.ValidationError(
+                        (
+                            "Only %(available)s attendees can be booked for "
+                            "%(tour)s on %(date)s."
+                        ),
+                        params={
+                            "available": available_slots,
+                            "tour": tour_name,
+                            "date": booking_date,
+                        },
+                    )
 
         return cleaned_data

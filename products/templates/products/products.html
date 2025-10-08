@@ -5,242 +5,792 @@
     <link rel="stylesheet" href="{% static 'products/css/products.css' %}">
 {% endblock %}
 
-{% block page_header %}
-    <div class="container header-container-2">
-        <div class="row">
-            <div class="col"></div>
-        </div>
+{% block breadcrumbs %}
+    <div class="container mt-3">
+        <nav aria-label="Breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Shop</li>
+            </ol>
+        </nav>
     </div>
 {% endblock %}
 
 {% block content %}
-    <div class="hero-section">
-        <img
-            src="{% imgix_url 'images/jungle-hero-image.jpg' %}"
-            alt="Jungle Peaks Brewing Shop Hero"
-            class="hero-image" style="max-height: 800px;">
-        <div class="hero-overlay">
-            <div class="hero-content">
-                <h1 class="hero-title">Jungle Peaks Brewing Shop</h1>
-                <p class="hero-tagline">Order now for a unique beer experience</p>
-                <p class="hero-description">
-                    <i class="fas fa-truck"></i> Discover our full range of craft beers and merchandise.
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="overlay"></div>
-    <div class="container-fluid pt-5">
-        <div class="row">
-            <div class="col text-center mt-1">
-                <h2 class="logo-font products-heading">Products</h2>
-            </div>
-        </div>
-        <!-- Filter Buttons -->
-        <div class="row mb-4">
-            <div class="col-12 filter-buttons d-flex justify-content-center align-items-center gap-3 flex-wrap">
-                <!-- Core Categories as Badges -->
-                <div>
-                    <a href="{% url 'products' %}" class="badge custom-badge">All Products</a>
-                    <a href="{% url 'products' %}?category=Merchandise" class="badge custom-badge">Merchandise</a>
-                    <a href="{% url 'products' %}?category=Gift%20Sets" class="badge custom-badge">Gift Sets</a>
+    <!-- Modern Shop Header -->
+    <section class="shop-header">
+        <div class="container">
+            <div class="shop-header__content">
+                <div class="shop-header__text">
+                    <h1>Craft Beer Collection</h1>
+                    <p>Discover our handcrafted brews, from hoppy IPAs to rich stouts, all brewed with passion in the heart of the rainforest.</p>
+                    <div class="shop-header__stats">
+                        <div class="stat-item">
+                            <span class="stat-number">{{ products|length }}</span>
+                            <span class="stat-label">Products</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">{{ all_categories|length }}</span>
+                            <span class="stat-label">Categories</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-highlight">
+                            <i data-lucide="truck"></i>
+                            <span>Free delivery over £{{ free_delivery_threshold }}</span>
+                        </div>
+                    </div>
                 </div>
+                <div class="shop-header__image">
+                    <div class="header-image-container">
+                        <img src="{% static 'images/jungle-hero-image.jpg' %}" alt="Craft Beer Collection" loading="eager">
+                        <div class="image-overlay"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                <!-- Vertical Divider (Hidden on Mobile) -->
-                <div class="custom-vr divider-2 mx-3 d-none d-md-block"></div> 
-
-                <!-- Dropdown for Beer Categories -->
-                <div class="dropdown beer-category-dropdown"> <!-- Added class here -->
-                    <button class="btn custom-dropdown-btn dropdown-toggle-2" type="button" id="beerCategoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        Beer Categories
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="beerCategoryDropdown">
+    <!-- Advanced Filtering Interface -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters-container">
+                <!-- Quick Filters -->
+                <div class="quick-filters">
+                    <div class="quick-filters__header">
+                        <h3>Shop by Category</h3>
+                        <button class="filter-toggle d-lg-none" data-bs-toggle="collapse" data-bs-target="#advanced-filters">
+                            <i data-lucide="sliders-horizontal"></i>
+                            <span>Filters</span>
+                        </button>
+                    </div>
+                    <div class="category-pills d-none d-md-flex">
+                        <a href="{% url 'products' %}" class="category-pill {% if not current_categories or current_categories|length == 0 %}active{% endif %}">
+                            <span>All Products</span>
+                            <span class="pill-count">{{ products|length }}</span>
+                        </a>
                         {% for category in all_categories %}
-                            {% if category.name != "Merchandise" and category.name != "Gift Sets" %}
-                                <li>
-                                    <a href="{% url 'products' %}?category={{ category.name|urlencode }}" class="dropdown-item">
-                                        {{ category.name }}
-                                    </a>
-                                </li>
-                            {% endif %}
+                            <a href="?category={{ category.name }}" class="category-pill {% if current_categories|length > 0 and category.name == current_categories.0 %}active{% endif %}">
+                                <span>{{ category.name }}</span>
+                                <span class="pill-count">{{ category.product_set.count }}</span>
+                            </a>
                         {% endfor %}
-                    </ul>
+                    </div>
                 </div>
 
-                <!-- Sort Dropdown -->
-                <div class="dropdown product-sort-dropdown">
-                    <button class="btn product-sort-btn dropdown-toggle-2" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        Sort
-                    </button>
-                    <ul class="dropdown-menu product-sort-menu" aria-labelledby="sortDropdown">
-                        <li><a href="{% url 'products' %}?sort=price_asc" class="dropdown-item product-sort-item">Price: Low to High</a></li>
-                        <li><a href="{% url 'products' %}?sort=price_desc" class="dropdown-item product-sort-item">Price: High to Low</a></li>
-                        <li><a href="{% url 'products' %}?sort=rating_asc" class="dropdown-item product-sort-item">Rating: Low to High</a></li>
-                        <li><a href="{% url 'products' %}?sort=rating_desc" class="dropdown-item product-sort-item">Rating: High to Low</a></li>
-                    </ul>
+                <!-- Advanced Filters -->
+                <div class="advanced-filters collapse d-lg-block" id="advanced-filters">
+                    <form id="product-filters" method="get" class="filters-form">
+                        {% if search_term %}
+                            <input type="hidden" name="q" value="{{ search_term }}">
+                        {% endif %}
+
+                        <div class="filter-group">
+                            <label for="filter-sort" class="filter-label">
+                                <i data-lucide="arrow-up-down"></i>
+                                Sort by
+                            </label>
+                            <div class="custom-select">
+                                <div class="custom-dropdown" data-type="sort" data-name="sort">
+                                    <div class="dropdown-trigger" role="button" aria-expanded="false" aria-haspopup="listbox">
+                                        <span class="dropdown-text">
+                                            {% if current_sorting == 'price_asc' %}Price: Low to High
+                                            {% elif current_sorting == 'price_desc' %}Price: High to Low
+                                            {% elif current_sorting == 'rating_desc' %}Highest Rated
+                                            {% elif current_sorting == 'name' %}A-Z
+                                            {% else %}Recommended{% endif %}
+                                        </span>
+                                        <i data-lucide="chevron-down" class="select-arrow"></i>
+                                    </div>
+                                    <div class="dropdown-options" role="listbox" aria-label="Sort options">
+                                        <div class="dropdown-option {% if not current_sorting %}selected{% endif %}" role="option" data-value="">
+                                            <span>Recommended</span>
+                                        </div>
+                                        <div class="dropdown-option {% if current_sorting == 'price_asc' %}selected{% endif %}" role="option" data-value="price_asc">
+                                            <span>Price: Low to High</span>
+                                        </div>
+                                        <div class="dropdown-option {% if current_sorting == 'price_desc' %}selected{% endif %}" role="option" data-value="price_desc">
+                                            <span>Price: High to Low</span>
+                                        </div>
+                                        <div class="dropdown-option {% if current_sorting == 'rating_desc' %}selected{% endif %}" role="option" data-value="rating_desc">
+                                            <span>Highest Rated</span>
+                                        </div>
+                                        <div class="dropdown-option {% if current_sorting == 'name' %}selected{% endif %}" role="option" data-value="name">
+                                            <span>A-Z</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="sort" value="{{ current_sorting }}">
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="filter-category" class="filter-label">
+                                <i data-lucide="tag"></i>
+                                Category
+                            </label>
+                            <div class="custom-select">
+                                <div class="custom-dropdown" data-type="category" data-name="category">
+                                    <div class="dropdown-trigger" role="button" aria-expanded="false" aria-haspopup="listbox">
+                                        <span class="dropdown-text">
+                                            {% if current_categories|length > 0 and current_categories.0 %}All Categories
+                                            {% else %}All Categories{% endif %}
+                                        </span>
+                                        <i data-lucide="chevron-down" class="select-arrow"></i>
+                                    </div>
+                                    <div class="dropdown-options" role="listbox" aria-label="Category options">
+                                        <div class="dropdown-option {% if not current_categories or current_categories|length == 0 %}selected{% endif %}" role="option" data-value="">
+                                            <span>All Categories</span>
+                                        </div>
+                                        {% for category in all_categories %}
+                                            <div class="dropdown-option {% if current_categories|length > 0 and category.name == current_categories.0 %}selected{% endif %}" role="option" data-value="{{ category.name }}">
+                                                <span>{{ category.name }}</span>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <input type="hidden" name="category" value="{% if current_categories|length > 0 %}{{ current_categories.0 }}{% endif %}">
+                            </div>
+                        </div>
+
+                        <div class="filter-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i data-lucide="search"></i>
+                                Apply Filters
+                            </button>
+                            {% if request.GET %}
+                                <a href="{% url 'products' %}" class="btn btn-outline-secondary">
+                                    <i data-lucide="x"></i>
+                                    Clear All
+                                </a>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Results Summary -->
+                <div class="results-summary">
+                    <div class="results-text">
+                        <span class="results-count">{{ products|length }}</span>
+                        <span class="results-label">product{% if products|length != 1 %}s{% endif %} found</span>
+                        {% if search_term %}
+                            <span class="search-term">for "{{ search_term }}"</span>
+                        {% endif %}
+                    </div>
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid" aria-label="Grid view">
+                            <i data-lucide="grid-3x3"></i>
+                        </button>
+                        <button class="view-btn" data-view="list" aria-label="List view">
+                            <i data-lucide="list"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Product Cards -->
-        <div class="row">
-            <div class="product-container col-10 offset-1">
-                <div class="row">
-                    {% for product in products %}
-                    <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
-                            <div class="card h-100 border-0 shadow">
-                                <a href="{% url 'product_detail' product.id %}" class="text-decoration-none">
-                                    {% if product.image_url %}
-                                    {% if "http" in product.image_url %}
-                                        <!-- If image is an absolute URL (external), use it directly -->
-                                        <img class="card-img-top img-fluid" 
-                                             src="{{ product.image_url }}" 
-                                             alt="{{ product.name }}">
-                                    {% else %}
-                                        <!-- If it's a relative URL, use imgix -->
-                                        <img class="card-img-top img-fluid" 
-                                             src="{% imgix_url product.image_url params='w=800&h=600&fit=crop&auto=format,compress&q=75' %}" 
-                                             alt="{{ product.name }}">
-                                    {% endif %}
-                                
-                                {% elif product.image %}
-                                    <!-- Ensure `product.image.name` gets properly processed -->
-                                    <img class="card-img-top img-fluid" 
-                                         src="{% imgix_url product.image.name params='w=800&h=600&fit=crop&auto=format,compress&q=75' %}" 
-                                         alt="{{ product.name }}">
-                                
-                                {% else %}
-                                    <!-- Default image -->
-                                    <img class="card-img-top img-fluid" 
-                                         src="{% imgix_url 'noimage.png' params='w=800&h=600&fit=crop&auto=format,compress&q=75' %}" 
-                                         alt="{{ product.name }}">
-                                {% endif %}
-                                </a>
-                                <div class="card-body">
-                                    <h3 class="card-title text-dark">{{ product.name }}</h3>
-                                    <p class="card-text text-muted"><small>{{ product.category.name }}</small></p>
-                                     <!-- ADDING DESCRIPTION HERE -->
-                                    <p class="card-text">{{ product.description|truncatewords:20 }}</p>
-                                    <p class="text-muted">
-                                        {% if product.rating %}
-                                            <i class="fas fa-star text-warning"></i> {{ product.rating }} / 5
-                                        {% else %}
-                                            No Rating
-                                        {% endif %}
-                                    </p>
-                                </div>
-                                <div class="card-footer d-flex justify-content-between align-items-center bg-white border-0">
-                                    <span class="font-weight-bold">£{{ product.price }}</span>
-                                
-                                    <!-- Quantity Input with + and - Buttons -->
-                                    <form method="POST" action="{% url 'add_to_bag' product.id %}" class="d-flex align-items-center">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="redirect_url" value="{{ request.path }}">
-
-                                        <div class="input-group">
-                                            <!-- Visually Hidden Label for Accessibility -->
-                                            <label for="quantity-{{ product.id }}" class="visually-hidden">Quantity</label>
-                                        
-                                            <!-- Decrease Button -->
-                                            <button type="button" class="btn btn-sm btn-outline-secondary decrease-btn"
-                                                    aria-label="Decrease quantity" data-item_id="{{ product.id }}">−</button>
-                                        
-                                            <!-- Quantity Input -->
-                                            <input type="number" id="quantity-{{ product.id }}" name="quantity" value="1" min="1"
-                                                   class="form-control form-control-sm text-center qty_input"
-                                                   data-item_id="{{ product.id }}" aria-labelledby="quantity-{{ product.id }}">
-                                        
-                                            <!-- Increase Button -->
-                                            <button type="button" class="btn btn-sm btn-outline-secondary increase-btn"
-                                                    aria-label="Increase quantity" data-item_id="{{ product.id }}">+</button>
-                                        </div>
-
-                                        <!-- Add to Cart Button -->
-                                        <button type="submit" class="btn product-page-btn btn-sm ms-2">Add to Cart</button>
-                                    </form>
-                                </div>
+    <!-- Products Grid Section -->
+    <section class="products-section">
+        <div class="container">
+            {% if products %}
+                <!-- Loading Skeletons -->
+                <div id="product-skeletons" class="products-grid skeleton-loading" aria-hidden="true">
+                    {% for _ in "123456" %}
+                        <div class="product-skeleton">
+                            <div class="skeleton-image loading-skeleton"></div>
+                            <div class="skeleton-content">
+                                <div class="skeleton-badge loading-skeleton"></div>
+                                <div class="skeleton-title loading-skeleton"></div>
+                                <div class="skeleton-price loading-skeleton"></div>
+                                <div class="skeleton-rating loading-skeleton"></div>
+                                <div class="skeleton-text loading-skeleton"></div>
+                                <div class="skeleton-text loading-skeleton"></div>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
-            </div>
-        </div>
 
-        <!-- Back to top button -->
-        <button
-                type="button"
-                class="btn btn-danger btn-floating btn-lg"
-                id="btn-back-to-top"
-                >
+                <!-- Products Grid -->
+                <div id="product-grid" class="products-grid" data-view="grid" data-loaded="false">
+                    {% for product in products %}
+                        <article class="product-card">
+                            <div class="product-card__header">
+                                <div class="product-image">
+                                    {% if product.image_url %}
+                                        {% if "http" in product.image_url %}
+                                            <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy">
+                                        {% else %}
+                                            <img src="{% imgix_url product.image_url params='w=400&h=300&fit=crop&auto=format,compress&q=85' %}" alt="{{ product.name }}" loading="lazy">
+                                        {% endif %}
+                                    {% elif product.image %}
+                                        <img src="{% imgix_url product.image.name params='w=400&h=300&fit=crop&auto=format,compress&q=85' %}" alt="{{ product.name }}" loading="lazy">
+                                    {% else %}
+                                        <img src="{% imgix_url 'noimage.png' params='w=400&h=300&fit=crop&auto=format,compress&q=85' %}" alt="{{ product.name }}" loading="lazy">
+                                    {% endif %}
+                                    <div class="product-overlay">
+                                        <a href="{% url 'product_detail' product.id %}" class="btn btn-light btn-sm">
+                                            <i data-lucide="eye"></i>
+                                            View Details
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="product-badges">
+                                    <span class="category-badge">{{ product.category.name }}</span>
+                                    {% if product.abv %}
+                                        <span class="abv-badge">{{ product.abv }}% ABV</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="product-card__body">
+                                <h3 class="product-title">
+                                    <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
+                                </h3>
+
+                                <div class="product-rating">
+                                    {% if product.rating %}
+                                        <div class="rating-stars">
+                                            {% for i in "12345" %}
+                                                <i data-lucide="star" class="star {% if forloop.counter <= product.rating|floatformat:0 %}filled{% endif %}"></i>
+                                            {% endfor %}
+                                        </div>
+                                        <span class="rating-text">{{ product.rating|floatformat:1 }} ({{ product.rating_count|default:"0" }})</span>
+                                    {% else %}
+                                        <span class="no-rating">Not yet rated</span>
+                                    {% endif %}
+                                </div>
+
+                                <p class="product-description">{{ product.description|truncatewords:20 }}</p>
+
+                                <div class="product-price">
+                                    <span class="price-current">£{{ product.price }}</span>
+                                    {% if product.original_price and product.original_price != product.price %}
+                                        <span class="price-original">£{{ product.original_price }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="product-card__footer">
+                                <form method="post" action="{% url 'bag:add_to_bag' product.id %}" class="add-to-cart-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
+
+                                    <div class="quantity-controls">
+                                        <label for="qty-{{ product.id }}" class="visually-hidden">Quantity for {{ product.name }}</label>
+                                        <button type="button" class="qty-btn minus" data-target="qty-{{ product.id }}">
+                                            <i data-lucide="minus"></i>
+                                        </button>
+                                        <input id="qty-{{ product.id }}"
+                                               type="number"
+                                               name="quantity"
+                                               value="1"
+                                               min="1"
+                                               max="99"
+                                               class="qty-input">
+                                        <button type="button" class="qty-btn plus" data-target="qty-{{ product.id }}">
+                                            <i data-lucide="plus"></i>
+                                        </button>
+                                    </div>
+
+                                    <button type="submit" class="btn-add-to-cart">
+                                        <i data-lucide="shopping-cart"></i>
+                                        <span>Add to Cart</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+
+            {% else %}
+                <!-- Empty State -->
+                <div class="empty-state">
+                    <div class="empty-state__content">
+                        <div class="empty-state__icon">
+                            <i data-lucide="search-x"></i>
+                        </div>
+                        <h3>No products found</h3>
+                        <p>We couldn't find any products matching your filters. Try adjusting your search criteria or browse our full collection.</p>
+                        <div class="empty-state__actions">
+                            <a href="{% url 'products' %}" class="btn btn-primary">
+                                <i data-lucide="grid-3x3"></i>
+                                Browse All Products
+                            </a>
+                            {% if current_categories or current_sorting %}
+                                <a href="{% url 'products' %}" class="btn btn-outline-secondary">
+                                    <i data-lucide="x"></i>
+                                    Clear Filters
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <button type="button" class="btn btn-primary back-to-top d-none" id="btn-back-to-top" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
-        </button>
-    </div>
+    </button>
 {% endblock %}
 
 {% block postloadjs %}
     {{ block.super }}
-<script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize page
+            initializeProductsPage();
 
-    // Get the button
-let mybutton = document.getElementById("btn-back-to-top");
+            // Enhanced quantity controls
+            initializeQuantityControls();
 
-// When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function () {
-    scrollFunction();
-};
+            // Filter functionality
+            initializeFilters();
 
-function scrollFunction() {
-    if (
-        document.body.scrollTop > 20 ||
-        document.documentElement.scrollTop > 20
-    ) {
-        mybutton.style.display = "block";
-    } else {
-        mybutton.style.display = "none";
-    }
-}
+            // View toggle functionality
+            initializeViewToggle();
 
-// When the user clicks on the button, scroll to the top of the document
-mybutton.addEventListener("click", backToTop);
-
-function backToTop() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-}
-
-// Function to decrease quantity
-function decreaseQuantity(button) {
-    let input = button.nextElementSibling;
-    if (input.value > 1) {
-        input.value = parseInt(input.value, 10) - 1;
-    }
-    button.blur(); // ✅ Remove focus after clicking
-}
-
-// Function to increase quantity
-function increaseQuantity(button) {
-    let input = button.previousElementSibling;
-    input.value = parseInt(input.value, 10) + 1;
-    button.blur(); // ✅ Remove focus after clicking
-}
-
-// Attach event listeners to quantity buttons
-document.addEventListener("DOMContentLoaded", function () {
-    let decreaseButtons = document.querySelectorAll(".decrease-btn");
-    let increaseButtons = document.querySelectorAll(".increase-btn");
-
-    decreaseButtons.forEach(function (button) {
-        button.addEventListener("click", function () {
-            decreaseQuantity(this);
+            // Back to top functionality
+            initializeBackToTop();
         });
-    });
 
-    increaseButtons.forEach(function (button) {
-        button.addEventListener("click", function () {
-            increaseQuantity(this);
+        function initializeProductsPage() {
+            const skeletons = document.getElementById('product-skeletons');
+            const grid = document.getElementById('product-grid');
+
+            if (skeletons && grid) {
+                // Show loading for realistic duration with smooth transition
+                setTimeout(() => {
+                    skeletons.style.opacity = '0';
+                    skeletons.style.transform = 'translateY(-20px)';
+
+                    setTimeout(() => {
+                        skeletons.style.display = 'none';
+                        grid.dataset.loaded = 'true';
+
+                        // Trigger staggered entrance animations
+                        triggerStaggeredEntrance();
+                    }, 300);
+                }, 800);
+            }
+
+            // Initialize Lucide icons
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+
+        function triggerStaggeredEntrance() {
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px) scale(0.95)';
+                card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0) scale(1)';
+                }, index * 100 + 200);
+            });
+        }
+
+        function initializeQuantityControls() {
+            // Modern quantity controls
+            document.querySelectorAll('.qty-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.dataset.target;
+                    const input = document.getElementById(targetId);
+
+                    if (!input) return;
+
+                    const isPlus = this.classList.contains('plus');
+                    const current = parseInt(input.value) || 1;
+                    const min = parseInt(input.getAttribute('min')) || 1;
+                    const max = parseInt(input.getAttribute('max')) || 99;
+
+                    let newValue;
+                    if (isPlus) {
+                        newValue = Math.min(current + 1, max);
+                    } else {
+                        newValue = Math.max(current - 1, min);
+                    }
+
+                    input.value = newValue;
+
+                    // Add visual feedback with enhanced animation
+                    input.classList.add('updating');
+                    input.style.transform = 'scale(1.1)';
+
+                    // Create success ripple effect
+                    const button = this;
+                    const ripple = document.createElement('div');
+                    ripple.style.cssText = `
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(92, 111, 83, 0.6);
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        pointer-events: none;
+                    `;
+
+                    const rect = button.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = (rect.width / 2 - size / 2) + 'px';
+                    ripple.style.top = (rect.height / 2 - size / 2) + 'px';
+
+                    button.appendChild(ripple);
+
+                    setTimeout(() => {
+                        input.style.transform = 'scale(1)';
+                        input.classList.remove('updating');
+                        button.removeChild(ripple);
+                    }, 600);
+                });
+            });
+
+            // Handle direct input changes
+            document.querySelectorAll('.qty-input').forEach(input => {
+                input.addEventListener('change', function() {
+                    const min = parseInt(this.getAttribute('min')) || 1;
+                    const max = parseInt(this.getAttribute('max')) || 99;
+                    let value = parseInt(this.value) || min;
+
+                    value = Math.max(min, Math.min(max, value));
+                    this.value = value;
+                });
+
+                input.addEventListener('blur', function() {
+                    if (!this.value || this.value < 1) {
+                        this.value = 1;
+                    }
+                });
+            });
+        }
+
+        function initializeCustomDropdowns() {
+            // Set initial selected states based on hidden inputs
+            document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
+                const hiddenInput = dropdown.parentElement.querySelector('input[type="hidden"]');
+                if (hiddenInput && hiddenInput.value) {
+                    const selectedOption = dropdown.querySelector(`[data-value="${hiddenInput.value}"]`);
+                    if (selectedOption) {
+                        dropdown.querySelectorAll('.dropdown-option').forEach(opt => opt.classList.remove('selected'));
+                        selectedOption.classList.add('selected');
+                        dropdown.querySelector('.dropdown-text').textContent = selectedOption.textContent.trim();
+                    }
+                }
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.custom-dropdown')) {
+                    closeAllDropdowns();
+                }
+            });
+
+            // Handle dropdown trigger clicks
+            document.querySelectorAll('.dropdown-trigger').forEach(trigger => {
+                trigger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const dropdown = this.closest('.custom-dropdown');
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+                    // Close all other dropdowns first
+                    closeAllDropdowns();
+
+                    if (!isExpanded) {
+                        // Open this dropdown
+                        this.setAttribute('aria-expanded', 'true');
+                        dropdown.querySelector('.dropdown-options').setAttribute('aria-expanded', 'true');
+                        dropdown.setAttribute('aria-expanded', 'true');
+                        document.body.classList.add('dropdown-open');
+                    } else {
+                        // Close this dropdown
+                        this.setAttribute('aria-expanded', 'false');
+                        dropdown.querySelector('.dropdown-options').setAttribute('aria-expanded', 'false');
+                        dropdown.setAttribute('aria-expanded', 'false');
+                        document.body.classList.remove('dropdown-open');
+                    }
+                });
+
+                // Handle keyboard navigation
+                trigger.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    } else if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        const dropdown = this.closest('.custom-dropdown');
+                        const firstOption = dropdown.querySelector('.dropdown-option');
+                        if (firstOption) {
+                            firstOption.focus();
+                        }
+                    }
+                });
+            });
+
+            // Handle dropdown option keyboard navigation
+            document.querySelectorAll('.dropdown-option').forEach((option, index) => {
+                option.addEventListener('keydown', function(e) {
+                    const dropdown = this.closest('.custom-dropdown');
+                    const options = dropdown.querySelectorAll('.dropdown-option');
+                    const currentIndex = Array.from(options).indexOf(this);
+
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        const nextIndex = (currentIndex + 1) % options.length;
+                        options[nextIndex].focus();
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        const prevIndex = currentIndex === 0 ? options.length - 1 : currentIndex - 1;
+                        options[prevIndex].focus();
+                    } else if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    } else if (e.key === 'Escape') {
+                        e.preventDefault();
+                        closeAllDropdowns();
+                        dropdown.querySelector('.dropdown-trigger').focus();
+                    }
+                });
+            });
+        }
+
+        function closeAllDropdowns() {
+            // Close all open dropdowns
+            document.querySelectorAll('.dropdown-trigger[aria-expanded="true"]').forEach(trigger => {
+                trigger.setAttribute('aria-expanded', 'false');
+                const dropdown = trigger.closest('.custom-dropdown');
+                dropdown.querySelector('.dropdown-options').setAttribute('aria-expanded', 'false');
+                dropdown.setAttribute('aria-expanded', 'false');
+            });
+
+            // Remove dropdown-open class from body
+            document.body.classList.remove('dropdown-open');
+        }
+
+        function initializeFilters() {
+            const form = document.getElementById('product-filters');
+            const categoryPills = document.querySelectorAll('.category-pill');
+
+            // Initialize custom dropdown functionality
+            initializeCustomDropdowns();
+
+            // Auto-submit on custom dropdown change
+            if (form) {
+                const customDropdowns = form.querySelectorAll('.custom-dropdown');
+                customDropdowns.forEach(dropdown => {
+                    const options = dropdown.querySelectorAll('.dropdown-option');
+                    options.forEach(option => {
+                        option.addEventListener('click', function() {
+                            const value = this.dataset.value;
+                            const hiddenInput = dropdown.parentElement.querySelector('input[type="hidden"]');
+
+                            if (hiddenInput) {
+                                // Ensure we don't set "None" as a string value
+                                const finalValue = value || '';
+                                hiddenInput.value = finalValue;
+
+                                // Update the display text
+                                const dropdownText = dropdown.querySelector('.dropdown-text');
+                                dropdownText.textContent = this.textContent.trim();
+
+                                // Update selected state
+                                dropdown.querySelectorAll('.dropdown-option').forEach(opt => opt.classList.remove('selected'));
+                                this.classList.add('selected');
+
+                                // Close dropdown
+                                closeAllDropdowns();
+
+                                // Add loading state
+                                const submitBtn = form.querySelector('button[type="submit"]');
+                                if (submitBtn) {
+                                    submitBtn.innerHTML = '<i data-lucide="loader-2"></i> Applying...';
+                                    submitBtn.disabled = true;
+                                }
+
+                                // Submit form
+                                setTimeout(() => {
+                                    form.submit();
+                                }, 300);
+                            }
+                        });
+                    });
+                });
+            }
+
+            // Category pill interactions
+            categoryPills.forEach(pill => {
+                pill.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Add loading state
+                    this.style.opacity = '0.7';
+                    this.style.pointerEvents = 'none';
+
+                    // Navigate to URL
+                    setTimeout(() => {
+                        window.location.href = this.href;
+                    }, 200);
+                });
+            });
+
+            // Filter toggle for mobile
+            const filterToggle = document.querySelector('.filter-toggle');
+            if (filterToggle) {
+                filterToggle.addEventListener('click', function() {
+                    const icon = this.querySelector('[data-lucide]');
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+                    if (icon) {
+                        icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+                    }
+                });
+            }
+        }
+
+        function initializeViewToggle() {
+            const viewButtons = document.querySelectorAll('.view-btn');
+            const grid = document.getElementById('product-grid');
+
+            if (!grid) return;
+
+            viewButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const view = this.dataset.view;
+
+                    // Update active state
+                    viewButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Update grid view
+                    grid.dataset.view = view;
+
+                    // Add transition effect
+                    grid.style.opacity = '0.7';
+                    setTimeout(() => {
+                        grid.style.opacity = '1';
+                    }, 150);
+
+                    // Store preference
+                    localStorage.setItem('productsView', view);
+                });
+            });
+
+            // Restore saved view preference
+            const savedView = localStorage.getItem('productsView');
+            if (savedView) {
+                const targetBtn = document.querySelector(`[data-view="${savedView}"]`);
+                if (targetBtn) {
+                    targetBtn.click();
+                }
+            }
+        }
+
+        function initializeBackToTop() {
+            const backToTop = document.getElementById('btn-back-to-top');
+            if (!backToTop) return;
+
+            let isVisible = false;
+
+            const toggleBackToTop = () => {
+                const shouldShow = window.scrollY > 400;
+
+                if (shouldShow && !isVisible) {
+                    backToTop.classList.remove('d-none');
+                    isVisible = true;
+                } else if (!shouldShow && isVisible) {
+                    backToTop.classList.add('d-none');
+                    isVisible = false;
+                }
+            };
+
+            // Throttled scroll listener
+            let scrollTimeout;
+            window.addEventListener('scroll', () => {
+                if (scrollTimeout) {
+                    clearTimeout(scrollTimeout);
+                }
+                scrollTimeout = setTimeout(toggleBackToTop, 100);
+            }, { passive: true });
+
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+
+                // Add click feedback
+                backToTop.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    backToTop.style.transform = 'scale(1)';
+                }, 150);
+            });
+
+            // Initial check
+            toggleBackToTop();
+        }
+
+        // Enhanced form submission with loading states and success animation
+        document.addEventListener('submit', function(e) {
+            if (e.target.classList.contains('add-to-cart-form')) {
+                const button = e.target.querySelector('.btn-add-to-cart');
+                if (button) {
+                    // Prevent double submission
+                    if (button.classList.contains('loading')) {
+                        e.preventDefault();
+                        return;
+                    }
+
+                    const originalContent = button.innerHTML;
+                    button.classList.add('loading');
+                    button.innerHTML = '<i data-lucide="loader-2"></i> <span>Adding...</span>';
+                    button.disabled = true;
+
+                    // Add success pulse animation
+                    setTimeout(() => {
+                        button.style.animation = 'successPulse 0.5s';
+                        button.innerHTML = '<i data-lucide="check"></i> <span>Added!</span>';
+
+                        setTimeout(() => {
+                            button.innerHTML = originalContent;
+                            button.disabled = false;
+                            button.classList.remove('loading');
+                            button.style.animation = '';
+
+                            if (typeof lucide !== 'undefined') {
+                                lucide.createIcons();
+                            }
+                        }, 1000);
+                    }, 500);
+                }
+            }
         });
-    });
-});
 
-</script>
+        // Add smooth animations for dynamic content
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        // Observe product cards for scroll animations
+        setTimeout(() => {
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        }, 900);
+    </script>
 {% endblock %}

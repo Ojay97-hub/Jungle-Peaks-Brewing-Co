@@ -10,27 +10,60 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
 
-# Load environment variables if env.py exists
-if os.path.isfile('env.py'):
+# Import environment variables
+if os.path.exists('env.py'):
     import env
 
 # Base directory of the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security settings
-SECRET_KEY = os.getenv('SECRET_KEY', '')
-DEBUG = False
+
+
+def get_env_setting(setting_name: str) -> str:
+    """Return the required environment variable or raise an error."""
+
+    value = os.getenv(setting_name)
+    if value:
+        return value
+
+    raise ImproperlyConfigured(
+        f"Set the {setting_name} environment variable."
+    )
+
+
+def require_env_var(name: str) -> str:
+    """Require an environment variable in production, allow empty in development."""
+    value = os.getenv(name)
+    if not value:
+        raise ImproperlyConfigured(f"Missing required env var: {name}")
+    return value
+
+
+SECRET_KEY = get_env_setting('SECRET_KEY')
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
 
 ALLOWED_HOSTS = [
-    'jungle-peaks-brewing-29d2cf7236c2.herokuapp.com',
+    'jungle-peaks-update-01b3f62083c2.herokuapp.com',  # Your actual app
+    '.herokuapp.com',  # This allows any subdomain of herokuapp.com
     'localhost',
     '127.0.0.1',
+    'testserver',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://8000-ojay97hub-junglepeaksbr-rlpjcwm6lxr.ws.codeinstitute-ide.net',
-    'https://8080-ojay97hub-junglepeaksbr-rlpjcwm6lxr.ws.codeinstitute-ide.net',
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+    'http://127.0.0.1',
+    'http://localhost',
+    'https://*.herokuapp.com',  # For Heroku deployment
 ]
 
 # am i responsive screenshot generator
@@ -69,6 +102,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.gzip.GZipMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Serve static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -125,6 +159,9 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 ACCOUNT_USERNAME_MIN_LENGTH = 4
+ACCOUNT_LOGIN_REDIRECT_URL = '/'
+ACCOUNT_EMAIL_CONFIRMATION_URL = '/accounts/confirm-email/'
+ACCOUNT_PASSWORD_RESET_REDIRECT_URL = '/accounts/password/reset/done/'
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
@@ -158,7 +195,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-USE_AWS = True
+USE_AWS = False  # Disabled for Heroku deployment - use Whitenoise instead
 
 # Imgix Configuration
 IMGIX_DOMAIN = "junglepeaksbrewing.imgix.net"
@@ -171,16 +208,19 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Required for collectstatic
 
+# Whitenoise configuration for static files
+STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # AWS S3 Storage for static and media files
-if os.getenv('USE_AWS'):
+if USE_AWS:
     AWS_S3_OBJECT_PARAMETERS = {
         'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
         'CacheControl': 'max-age=94608000',
     }
-    
+
     AWS_STORAGE_BUCKET_NAME = 'jungle-peaks-brewing'
     AWS_S3_REGION_NAME = 'eu-west-2'
     AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
@@ -200,23 +240,29 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Stripe Configuration
 STRIPE_CURRENCY = 'gbp'
-STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
-STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
-STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
+
+# Stripe keys - required in production, optional in development
+if not DEBUG:
+    STRIPE_PUBLIC_KEY = require_env_var('STRIPE_PUBLIC_KEY')
+    STRIPE_SECRET_KEY = require_env_var('STRIPE_SECRET_KEY')
+    STRIPE_WH_SECRET = require_env_var('STRIPE_WH_SECRET')
+else:
+    STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
+    STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
+    STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
 
 # Delivery Settings
 FREE_DELIVERY_THRESHOLD = 50
 STANDARD_DELIVERY_PERCENTAGE = 10
 
 # Email Configuration
-if os.getenv('DEVELOPMENT'):
+SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
+
+if SENDGRID_API_KEY:
+    # Use custom SendGrid API backend for all emails
+    EMAIL_BACKEND = 'jungle_peaks_brewing.email_backend.SendGridEmailBackend'
+    DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'junglepeaksbrewing@example.com')
+else:
+    # Fallback to console backend
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     DEFAULT_FROM_EMAIL = 'junglepeaksbrewing@example.com'
-else:
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_USE_TLS = True
-    EMAIL_PORT = 587
-    EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASS')
-    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER  # Use the email address as the sender

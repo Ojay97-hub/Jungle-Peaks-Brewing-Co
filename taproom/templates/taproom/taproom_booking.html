@@ -1,34 +1,243 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load crispy_forms_tags %} 
+{% load crispy_forms_tags %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'taproom/css/taproom_booking.css' %}">
+{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'taproom/css/taproom_booking.css' %}"> 
+<div class="booking-modern">
+    <div class="booking-container">
+        <!-- Header -->
+        <div class="booking-header">
+            <h1 class="booking-title">
+                <i data-lucide="calendar-check" style="width: 2rem; height: 2rem; color: #d4a574;"></i>
+                Reserve Your Table
+            </h1>
+            <p class="booking-subtitle">Join us for an exceptional dining experience at Jungle Peaks</p>
+        </div>
 
-<div class="custom-container-2"> 
-    <div class="booking-page">
-        <div class="mt-5"> 
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="booking-card">
-                        <h2>📅 Book a Table</h2>
-                        <p>Fill in the details below to reserve your spot.</p>
+        <!-- Booking Form -->
+        <div class="booking-card">
+            <form method="post">
+                {% csrf_token %}
 
-                        <form method="post" class="needs-validation">
-                            {% csrf_token %}
-                            {{ form|crispy }}  
+                <!-- Personal Information -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i data-lucide="user" class="section-icon"></i>
+                        Personal Information
+                    </h3>
 
-                            <div class="d-grid mt-4">
-                                <button type="submit" class="btn btn-primary-3 btn-lg shadow-sm">
-                                    <i class="fas fa-check-circle"></i> Confirm Booking
-                                </button>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                {{ form.name }}
+                                <label for="{{ form.name.id_for_label }}">Full Name *</label>
                             </div>
-                        </form>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                {{ form.email }}
+                                <label for="{{ form.email.id_for_label }}">Email Address *</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                {{ form.phone }}
+                                <label for="{{ form.phone.id_for_label }}">Phone Number *</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+
+                <!-- Reservation Details -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i data-lucide="calendar" class="section-icon"></i>
+                        Reservation Details
+                    </h3>
+
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label for="{{ form.date.id_for_label }}" class="form-label fw-semibold">
+                                <i data-lucide="calendar-days" style="width: 16px; height: 16px; color: #d4a574;"></i>
+                                Date *
+                            </label>
+                            {{ form.date }}
+                        </div>
+                        <div class="col-md-4">
+                            <label for="{{ form.time.id_for_label }}" class="form-label fw-semibold">
+                                <i data-lucide="clock" style="width: 16px; height: 16px; color: #d4a574;"></i>
+                                Time *
+                            </label>
+                            {{ form.time }}
+                        </div>
+                        <div class="col-md-4">
+                            <label for="{{ form.guests.id_for_label }}" class="form-label fw-semibold">
+                                <i data-lucide="users" style="width: 16px; height: 16px; color: #d4a574;"></i>
+                                Guests *
+                            </label>
+                            {{ form.guests }}
+                        </div>
+                    </div>
+
+                    <!-- Booking Type Selection -->
+                    <div class="row g-3 mt-2">
+                        <div class="col-12">
+                            <label class="form-label fw-semibold mb-3">
+                                <i data-lucide="star" style="width: 16px; height: 16px; color: #d4a574;"></i>
+                                Booking Type *
+                            </label>
+                            <div class="booking-type-options">
+                                <div class="booking-type-item">
+                                    <input class="booking-type-radio" type="radio" name="booking_type" id="standard" value="standard" checked>
+                                    <label class="booking-type-label" for="standard">
+                                        <div class="booking-type-card">
+                                            <div class="booking-type-header">
+                                                <h6 class="booking-type-title">Standard</h6>
+                                                <div class="booking-type-radio-custom"></div>
+                                            </div>
+                                            <div class="booking-type-price">£10.00</div>
+                                            <small class="booking-type-desc">Regular table booking</small>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="booking-type-item">
+                                    <input class="booking-type-radio" type="radio" name="booking_type" id="premium" value="premium">
+                                    <label class="booking-type-label" for="premium">
+                                        <div class="booking-type-card booking-type-card-premium" style="background: rgba(218, 165, 32, 0.2); border-color: rgba(184, 134, 11, 0.8);">
+                                            <div class="booking-type-header">
+                                                <h6 class="booking-type-title">Premium</h6>
+                                                <div class="booking-type-radio-custom"></div>
+                                            </div>
+                                            <div class="booking-type-price">£20.00</div>
+                                            <small class="booking-type-desc">Premium location & service</small>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            {{ form.booking_type }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Special Requests -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i data-lucide="message-square" class="section-icon"></i>
+                        Special Requests
+                    </h3>
+
+                    <div class="form-floating">
+                        {{ form.special_requests }}
+                        <label for="{{ form.special_requests.id_for_label }}">Any special requests or dietary requirements?</label>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-booking">
+                    <i data-lucide="shopping-cart" style="width: 20px; height: 20px;"></i>
+                    Add to Cart
+                </button>
+
+                <!-- Features -->
+                <div class="booking-features">
+                    <div class="feature-item">
+                        <i data-lucide="clock" class="feature-icon"></i>
+                        <span>Instant confirmation</span>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="shield-check" class="feature-icon"></i>
+                        <span>Secure booking</span>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="phone" class="feature-icon"></i>
+                        <span>24/7 support</span>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="calendar-x" class="feature-icon"></i>
+                        <span>Free cancellation</span>
+                    </div>
+                </div>
+            </form>
         </div>
-    </div> 
+    </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Lucide icons
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+
+    // Add form validation classes
+    const form = document.querySelector('form');
+    const inputs = form.querySelectorAll('input, select, textarea');
+
+    inputs.forEach(input => {
+        // Add Bootstrap classes for better styling
+        if (input.type === 'text' || input.type === 'email' || input.type === 'tel' || input.tagName === 'TEXTAREA') {
+            input.classList.add('form-control');
+        } else if (input.tagName === 'SELECT') {
+            input.classList.add('form-select');
+        }
+
+        // Add date/time input styling
+        if (input.type === 'date' || input.type === 'time') {
+            input.classList.add('form-control');
+        }
+
+        // Handle floating labels for pre-filled or autofilled fields
+        const floatingLabel = input.closest('.form-floating');
+        if (floatingLabel) {
+            const label = floatingLabel.querySelector('label');
+            if (input.value && input.value.trim() !== '') {
+                label.classList.add('floating-active');
+            }
+            
+            // Handle autofill
+            input.addEventListener('animationstart', function(e) {
+                if (e.animationName === 'onAutoFillStart') {
+                    label.classList.add('floating-active');
+                }
+            });
+        }
+    });
+
+    // Booking type selection functionality
+    const bookingTypeRadios = form.querySelectorAll('.booking-type-radio');
+    const hiddenBookingType = form.querySelector('#id_booking_type');
+
+    bookingTypeRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.checked) {
+                hiddenBookingType.value = this.value;
+                // Visual feedback is handled by CSS :checked pseudo-selector
+            }
+        });
+    });
+
+    // Set initial selection
+    const initialChecked = form.querySelector('.booking-type-radio:checked');
+    if (initialChecked) {
+        hiddenBookingType.value = initialChecked.value;
+    }
+
+    // Form submission feedback
+    form.addEventListener('submit', function(e) {
+        const submitBtn = form.querySelector('.btn-booking');
+        submitBtn.innerHTML = '<i data-lucide="loader-2" style="width: 20px; height: 20px; animation: spin 1s linear infinite;"></i> Processing...';
+        submitBtn.disabled = true;
+
+        // Re-initialize icons for the loading spinner
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    });
+});
+</script>
 
 {% endblock %}

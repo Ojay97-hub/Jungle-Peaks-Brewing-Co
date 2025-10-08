@@ -8,6 +8,8 @@ from django_countries.fields import CountryField
 
 from products.models import Product
 from profiles.models import UserProfile
+from tours.models import TourBooking
+from taproom.models import Booking
 
 
 class Order(models.Model):
@@ -55,9 +57,13 @@ class Order(models.Model):
         Update grand total each time a line item is added,
         accounting for delivery costs.
         """
-        # Filter out line items where the product is None
+        # Include all line items that have either a product, tour booking, or taproom booking
         self.order_total = (
-            self.lineitems.filter(product__isnull=False)
+            self.lineitems.filter(
+                models.Q(product__isnull=False) |
+                models.Q(tour_booking__isnull=False) |
+                models.Q(taproom_booking__isnull=False)
+            )
             .aggregate(Sum("lineitem_total"))["lineitem_total__sum"]
             or 0  # Default to 0 if None
         )
@@ -95,6 +101,12 @@ class OrderLineItem(models.Model):
     product = models.ForeignKey(
         Product, null=True, blank=True, on_delete=models.SET_NULL
     )
+    tour_booking = models.ForeignKey(
+        TourBooking, null=True, blank=True, on_delete=models.SET_NULL
+    )
+    taproom_booking = models.ForeignKey(
+        Booking, null=True, blank=True, on_delete=models.SET_NULL
+    )
     product_size = models.CharField(
         max_length=2, null=True, blank=True
     )  # XS, S, M, L, XL
@@ -111,15 +123,32 @@ class OrderLineItem(models.Model):
         """
         if self.product:
             self.lineitem_total = self.product.price * self.quantity
+        elif self.tour_booking:
+            self.lineitem_total = self.tour_booking.get_total_price()
+        elif self.taproom_booking:
+            self.lineitem_total = self.taproom_booking.get_total_price()
         else:
-            self.lineitem_total = 0  # Default to 0 if the product is None
+            self.lineitem_total = 0  # Default to 0 if no product, tour, or taproom booking
 
         super().save(*args, **kwargs)
         # Ensure the order total is updated
         self.order.update_total()
 
     def __str__(self):
-        return (
-            f"SKU {self.product.sku if self.product else 'Unknown'} "
-            f"on order {self.order.order_number}"
-        )
+        if self.product:
+            return (
+                f"SKU {self.product.sku} "
+                f"on order {self.order.order_number}"
+            )
+        elif self.tour_booking:
+            return (
+                f"Tour {self.tour_booking.get_tour_display()} "
+                f"on order {self.order.order_number}"
+            )
+        elif self.taproom_booking:
+            return (
+                f"Taproom {self.taproom_booking.get_booking_type_display()} "
+                f"on order {self.order.order_number}"
+            )
+        else:
+            return f"Unknown item on order {self.order.order_number}"

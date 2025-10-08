@@ -2,64 +2,218 @@
 {% load static imgix_tags %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'products/css/products.css' %}">
-{% endblock %}
-
-{% block page_header %}
-    <div class="container header-container">
-        <div class="row">
-            <div class="col"></div>
-        </div>
-    </div>
+    <link rel="stylesheet" href="{% static 'products/css/product_form.css' %}">
 {% endblock %}
 
 {% block content %}
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-12 col-md-6">
-                <hr>
-                <h2 class="logo-font mb-4">Product Management</h2>
-                <h5 class="text-muted">Edit a Product</h5>
-                <hr>
+<section class="container product-form-shell">
+    <div class="product-form-header">
+        <h1 class="mb-2">Edit {{ product.name }}</h1>
+        <p class="mb-0">Update the product details below. Changes go live as soon as you save.</p>
+    </div>
+
+    <div class="product-form-layout">
+        <form method="post" action="{% url 'edit_product' product.id %}" enctype="multipart/form-data" class="product-form-card" novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                    {% for error in form.non_field_errors %}
+                        <p class="mb-0">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="form-section">
+                <h2>Product details</h2>
+                <div class="row">
+                    <div class="col-12 col-lg-6">
+                        {% with field=form.name %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            <p class="form-text" id="{{ field.name }}-help">Update the product name as it appears in the shop.</p>
+                            {% for error in field.errors %}
+                                <p class="invalid-feedback">{{ error }}</p>
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        {% with field=form.sku %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            <p class="form-text" id="{{ field.name }}-help">Unique SKU used for inventory tracking.</p>
+                            {% for error in field.errors %}
+                                <p class="invalid-feedback">{{ error }}</p>
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        {% with field=form.category %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            <p class="form-text" id="{{ field.name }}-help">Select the category this product belongs to.</p>
+                            {% for error in field.errors %}
+                                <p class="invalid-feedback">{{ error }}</p>
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        {% with field=form.type %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            <p class="form-text" id="{{ field.name }}-help">Outline the style or product family for filtering.</p>
+                            {% for error in field.errors %}
+                                <p class="invalid-feedback">{{ error }}</p>
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Pricing &amp; attributes</h2>
+                <div class="row">
+                    <div class="col-12 col-lg-4">
+                        {% with field=form.price %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            <p class="form-text" id="{{ field.name }}-help">Enter the price in GBP.</p>
+                            {% for error in field.errors %}
+                                <p class="invalid-feedback">{{ error }}</p>
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        {% with field=form.abv %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            <p class="form-text" id="{{ field.name }}-help">{{ field.help_text }}</p>
+                            {% for error in field.errors %}
+                                <p class="invalid-feedback">{{ error }}</p>
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        {% with field=form.rating %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            <p class="form-text" id="{{ field.name }}-help">Optional average rating used for featured products.</p>
+                            {% for error in field.errors %}
+                                <p class="invalid-feedback">{{ error }}</p>
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                    <div class="col-12">
+                        {% with field=form.has_sizes %}
+                            <div class="form-check">
+                                {{ field }}
+                                <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            </div>
+                            <p class="form-text" id="{{ field.name }}-help">Enable if this product has size options (e.g., small/large).</p>
+                            {% for error in field.errors %}
+                                <p class="invalid-feedback">{{ error }}</p>
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Description</h2>
+                <div class="row">
+                    <div class="col-12">
+                        {% with field=form.description %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            <p class="form-text" id="{{ field.name }}-help">Share tasting notes, ingredients, and what makes this product special.</p>
+                            {% for error in field.errors %}
+                                <p class="invalid-feedback">{{ error }}</p>
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Imagery</h2>
+                <div class="row">
+                    <div class="col-12">
+                        {% with field=form.image_url %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            <p class="form-text" id="{{ field.name }}-help">Use when hosting the image externally (https://...).</p>
+                            {% for error in field.errors %}
+                                <p class="invalid-feedback">{{ error }}</p>
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                    <div class="col-12">
+                        {% with field=form.image %}
+                            <label for="{{ field.id_for_label }}">Upload image</label>
+                            {{ field }}
+                            <p class="form-text" id="{{ field.name }}-help" data-image-filename>{{ product.image.name|default:"No image selected" }}</p>
+                            {% for error in field.errors %}
+                                <p class="invalid-feedback">{{ error }}</p>
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-form-footer">
+                <a href="{% url 'products' %}" class="btn btn-light">Cancel</a>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteProductModal">Delete product</button>
+            </div>
+        </form>
+
+        <aside class="product-form-aside">
+            <div class="image-preview">
+                <figure>
+                    {% if product.image %}
+                        <img src="{% imgix_url product.image.name params='w=600&h=450&fit=crop&auto=format,compress&q=75' %}" alt="{{ product.name }}" data-image-preview data-has-original="true">
+                    {% elif product.image_url %}
+                        <img src="{{ product.image_url }}" alt="{{ product.name }}" data-image-preview data-has-original="true">
+                    {% else %}
+                        <div class="placeholder" data-image-placeholder>Image preview</div>
+                        <img src="{% imgix_url 'noimage.png' params='w=600&h=450&fit=crop&auto=format,compress&q=75' %}" alt="Product preview" data-image-preview hidden>
+                    {% endif %}
+                </figure>
+                <p class="text-small text-muted mb-0">Upload images at least 1200×900px for crisp display across the site.</p>
+            </div>
+            <hr class="my-4">
+            <h2 class="h5">Publishing tips</h2>
+            <ul class="mb-0">
+                <li>Keep descriptions up to date with seasonal flavours.</li>
+                <li>Highlight limited stock or exclusives to drive urgency.</li>
+                <li>Ensure imagery matches current packaging.</li>
+            </ul>
+        </aside>
+    </div>
+</section>
+
+<div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title h5" id="deleteProductModalLabel">Delete {{ product.name }}?</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">This action cannot be undone. The product will be removed from the store, but existing orders will keep their references.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <form method="post" action="{% url 'delete_product' product.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-12 col-md-6">
-                <form method="POST" action="{% url 'edit_product' product.id %}" class="form mb-2" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    
-                    {% for field in form %}
-                        {% if field.name != 'image' %}
-                            {{ field | as_crispy_field }}
-                        {% else %}
-                            <!-- Custom File Input Styling -->
-                            <div class="form-group">
-                                <label for="image-upload" class="btn btn-select-image">Select Image</label>
-                                <input type="file" id="image-upload" name="{{ field.name }}" class="d-none">
-                                <span id="filename" class="text-muted ml-2">No file selected</span>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-
-                    <div class="text-right">
-                        <a class="btn btn-cancel" href="{% url 'products' %}">Cancel</a>
-                        <button class="btn btn-add-product" type="submit">Update Product</button>
-                    </div>
-                </form>
-            </div>            
-        </div>
     </div>
+</div>
 {% endblock %}
 
 {% block postloadjs %}
     {{ block.super }}
-    <script>
-        // ✅ Update the displayed file name when selecting an image
-        document.getElementById('image-upload').addEventListener('change', function() {
-            var fileName = this.files[0] ? this.files[0].name : "No file selected";
-            document.getElementById('filename').textContent = fileName;
-        });
-    </script>
+    <script src="{% static 'products/js/product_form.js' %}" defer></script>
 {% endblock %}

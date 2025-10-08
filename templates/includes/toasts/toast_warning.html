@@ -1,11 +1,16 @@
-<div class="toast custom-toast rounded-0 border-top-0" data-bs-autohide="false">
-    <div class="arrow-up arrow-warning"></div>
-    <div class="w-100 toast-capper bg-warning"></div>
-    <div class="toast-header bg-white text-dark">
-        <strong class="me-auto">Warning!</strong>
-        <button type="button" class="btn-close text-dark" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-    <div class="toast-body bg-white">
-        {{ message }}
+<div class="toast notification-toast notification-toast--warning" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+    <div class="toast-body">
+        <div class="notification-toast__icon" aria-hidden="true">
+            <i class="fas fa-exclamation"></i>
+        </div>
+        <div>
+            <div class="d-flex justify-content-between align-items-start gap-3">
+                <div>
+                    <p class="notification-toast__title mb-0">Heads up</p>
+                    <p class="notification-toast__message mb-0">{{ message }}</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close notification"></button>
+            </div>
+        </div>
     </div>
 </div>

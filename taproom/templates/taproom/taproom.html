@@ -40,34 +40,94 @@
     </div>
 </section>
 
-<!-- Location Section with Alternating Layout -->
-<section class="container my-5">
-    <div class="row justify-content-center align-items-center">
-        <div class="col-lg-6 text-center text-lg-start">
-            <h3 class="fw-bold">Location</h3>
-            <p>
-                Nestled in the heart of nature’s beauty, <strong>Jungle Peaks Brewing</strong> is located at the foot of lush green hills, where the serene landscape meets the vibrant energy of craft brewing. 
-                Our brewery is situated just outside the bustling city, offering a peaceful retreat into the wild while still being easily accessible for an adventurous day trip or a relaxing evening out.
-            </p>
-            <p>
-                The location features stunning panoramic views of the surrounding forest, with the sounds of nature and the fresh mountain air enhancing every visit. 
-                Whether you’re here for a tour, tasting, or to simply unwind in our cozy taproom, the atmosphere is one of warmth, community, and the unmistakable scent of freshly brewed beer.
-            </p>
-            <p>
-                Our modern brewery is designed with an open, welcoming vibe, inviting visitors to explore every corner of our operation. 
-                From the brewing equipment to the tasting room, we’ve created a space that brings you closer to the craft and the heart of Jungle Peaks Brewing. 
-            </p>
+<!-- Location Section with Full-Width Map -->
+<section class="location-section-full my-5">
+    <div class="container">
+        <!-- Full Width Map -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-12">
+                <div class="map-container-full">
+                    <div class="location-map-wrapper-full">
+                        <!-- Google Maps Embed -->
+                        <div class="map-embed-full">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3172.3325395272983!2d-122.08385168469228!3d37.38605177982596!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb0b0b0b0b0b%3A0x1234567890123456!2sJungle%20Peaks%20Brewing!5e0!3m2!1sen!2sus!4v1640995200000!5m2!1sen!2sus"
+                                width="100%"
+                                height="450"
+                                style="border:0; border-radius: 25px;"
+                                allowfullscreen=""
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                title="Jungle Peaks Brewing Location">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-6">
-            <div class="map-container">
-                <a href="https://www.google.com/maps/place/Amazon+Rainforest/@-3.4624137,-62.1812299,10z"
-                   target="_blank"
-                   rel="noopener"
-                   aria-label="Open Jungle Peaks Brewing location in Google Maps">
-                    <img src="{% static 'images/google-maps-placeholder.jpg' %}"
-                         alt="Google Maps preview of Jungle Peaks Brewing"
-                         class="google-map-img">
-                </a>
+
+        <!-- Location Text Below Map -->
+        <div class="row">
+            <!-- Main Content Column (Left) -->
+            <div class="col-lg-8">
+                <div class="location-content-left fade-in-up">
+                    <h3 class="fw-bold mb-4">Location</h3>
+                    <p class="mb-3">
+                        Nestled in the heart of nature's beauty, <strong>Jungle Peaks Brewing</strong> is located at the foot of lush green hills, where the serene landscape meets the vibrant energy of craft brewing.
+                        Our brewery is situated just outside the bustling city, offering a peaceful retreat into the wild while still being easily accessible for an adventurous day trip or a relaxing evening out.
+                    </p>
+                    <p class="mb-3">
+                        The location features stunning panoramic views of the surrounding forest, with the sounds of nature and the fresh mountain air enhancing every visit.
+                        Whether you're here for a tour, tasting, or to simply unwind in our cozy taproom, the atmosphere is one of warmth, community, and the unmistakable scent of freshly brewed beer.
+                    </p>
+                    <p class="mb-4">
+                        Our modern brewery is designed with an open, welcoming vibe, inviting visitors to explore every corner of our operation.
+                        From the brewing equipment to the tasting room, we've created a space that brings you closer to the craft and the heart of Jungle Peaks Brewing.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Info Cards Column (Right) -->
+            <div class="col-lg-4">
+                <div class="location-info-right fade-in-up">
+                    <!-- Quick Info Cards -->
+                    <div class="info-cards-stack mb-4">
+                        <div class="info-card">
+                            <div class="info-icon">📍</div>
+                            <div class="info-text">
+                                <h5>Prime Location</h5>
+                                <p>15 minutes from downtown</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-icon">🚗</div>
+                            <div class="info-text">
+                                <h5>Parking</h5>
+                                <p>Free parking available</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-icon">🚌</div>
+                            <div class="info-text">
+                                <h5>Access</h5>
+                                <p>Public transport accessible</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="d-flex flex-column gap-2">
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=Jungle+Peaks+Brewing+123+Forest+Ridge+Drive+Mountain+View+CA+94043"
+                           target="_blank"
+                           rel="noopener"
+                           class="btn btn-primary btn-lg">
+                            🗺️ Get Directions
+                        </a>
+                        <button class="btn btn-outline-secondary btn-lg" onclick="toggleMapView()">
+                            🏔️ Street View
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -244,4 +304,51 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Map view toggle functionality
+function toggleMapView() {
+    const mapIframe = document.querySelector('.map-embed-full iframe');
+    const currentSrc = mapIframe.src;
+    const isStreetView = currentSrc.includes('streetview');
+
+    if (isStreetView) {
+        // Switch back to regular map view
+        mapIframe.src = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3172.3325395272983!2d-122.08385168469228!3d37.38605177982596!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb0b0b0b0b0b%3A0x1234567890123456!2sJungle%20Peaks%20Brewing!5e0!3m2!1sen!2sus!4v1640995200000!5m2!1sen!2sus";
+    } else {
+        // Switch to street view
+        mapIframe.src = "https://www.google.com/maps/embed?pb=!4v1640995200000!6m8!1m7!1sCAoSLEFGMVFpcE1TV1F0TmhKTW1rSnZ6V3hFTVFwR1h3YUR6cXhJVGhJQzA5Z3hN!2m2!1d37.38605177982596!2d-122.08385168469228!3f0!4f0!5f0.7820865974627469";
+    }
+}
+
+// Add smooth loading animation when map loads
+document.addEventListener('DOMContentLoaded', function() {
+    const mapWrapper = document.querySelector('.location-map-wrapper-full');
+    if (mapWrapper) {
+        mapWrapper.style.opacity = '0';
+        mapWrapper.style.transform = 'translateY(20px)';
+
+        setTimeout(() => {
+            mapWrapper.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            mapWrapper.style.opacity = '1';
+            mapWrapper.style.transform = 'translateY(0)';
+        }, 300);
+    }
+
+    // Add loading animation to info cards
+    const infoCards = document.querySelectorAll('.info-cards-stack .info-card');
+    infoCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+
+        setTimeout(() => {
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, 500 + (index * 100));
+    });
+});
+</script>
 {% endblock %}  

@@ -1,1 +1,1 @@
-web: gunicorn jungle_peaks_brewing.wsgi:application
+web: gunicorn jungle_peaks_brewing.wsgi --log-file -
