@@ -1,0 +1,333 @@
+/* Hero Image */
+.hero-img {
+    position: static;
+    width: 100%;
+    height: 70vh; /* Adjust height dynamically */
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.16);
+    object-fit: cover;
+    object-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    filter: brightness(70%); /* Darkens background slightly */
+}
+
+/* Hero Overlay - Adds a subtle background */
+.hero-overlay {
+    position: absolute; /* Ensures it sits on top */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centers the overlay */
+    width: 90%;
+    max-width: 550px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* Hero Title - Makes text pop */
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #fff;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7);
+}
+
+/* Hero Subtitle */
+.hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #f5f5f5;
+    margin-top: 10px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+@keyframes glow {
+    0% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5); }
+    100% { text-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 40px rgba(255, 255, 255, 0.8); }
+}
+
+.hero-title {
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+/* About Us Section */
+.about-section {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+    gap: 20px; /* Adjust spacing between text and image */
+    background-color: #ffffff; /* White background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 3rem 2rem; /* Add padding for spacing */
+}
+
+/* Ensuring side-by-side layout on large screens */
+.about-section .text-content, .about-section .image-content {
+    flex: 1 1 50%; /* Each takes half the width */
+}
+
+/* Image Styling */
+.about-img {
+    width: 100%;
+    max-width: 100%; /* Adjust image width */ 
+    height: auto; /* Maintains aspect ratio */
+    max-height: 645px;
+    border-radius: 8px; /* Rounded image corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for image */
+}
+
+
+/* CTA Section Styling */
+.cta-section .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; /* Adjust space between cards */
+}
+
+/* Default: 3 cards in a row (Desktop) */
+.cta-section .col-md-4 {
+    flex: 1 1 calc(33.333% - 20px); /* 3 cards per row */
+    max-width: calc(33.333% - 20px);
+}
+
+.cta-section {
+    background-color: #1F6C62; /* Dark teal background */
+    padding: 5rem 0; /* Vertical padding */
+}
+
+.cta-section .card {
+    max-width: 550px;  /* Prevents it from becoming too wide */
+    margin: 0 auto;    /* Centers the card when max-width is applied */
+}
+
+.card {
+    border-radius: 10px; /* Rounded corners for the card */
+    overflow: hidden; /* Ensures content doesn't overflow the card */
+}
+
+.card-img-top {
+    width: 100%;
+    height: 200px; /* Fixed height for uniformity */
+    object-fit: cover;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centers text vertically */
+    align-items: flex-start; /* Left-align text horizontally */
+    text-align: left; /* Ensures text stays left-aligned */
+    padding: 20px; /* Padding inside the card body */
+}
+
+.card-title {
+    font-size: 1.5rem; /* Title size */
+    font-weight: bold; /* Bold title */
+    margin-bottom: 1rem; /* Space below the title */
+    color: var(--color-heading); /* Dark title color */
+}
+
+.card-text {
+    font-size: 1rem; /* Text size */
+    color: var(--color-text-muted); /* Muted text color using CSS variable */
+    margin-bottom: 1.5rem; /* Space below the text */
+}
+
+/* Button Styling */
+.custom-btn-2 {
+    background-color: var(--color-golden); /* Golden button color */
+    color: var(--color-heading); /* Dark text for contrast */
+    border-radius: 5px; /* Slightly rounded corners */
+    padding: 10px 20px; /* Button padding */
+    font-weight: bold; /* Bold font for button text */
+    text-align: center;
+    display: inline-block; /* Ensures proper button dimensions */
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.custom-btn-2:hover {
+    background-color: var(--color-coral); /* Coral on hover */
+    color: var(--color-surface); /* White text on hover */
+    text-decoration: none; /* Ensures no underline on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 122, 89, 0.3);
+}
+
+/* Left Align Button */
+.w-100.text-start {
+    text-align: left; /* Aligns the button to the left */
+    width: 100%; /* Ensures the button container spans full width */
+    margin-top: 1rem; /* Space above the button */
+}
+
+/* Card Shadow */
+.shadow {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Testimonials Section */
+.reviews-section {
+    background-color: #ffc107; /* Golden yellow background */
+    color: var(--color-heading); /* Dark text color */
+}
+
+.reviews-section .card {
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.reviews-section .card img {
+    object-fit: cover;
+    border-radius: 50%; /* Circular images */
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.reviews-section h5 {
+    font-size: 1.25rem; /* Larger font size */
+    font-weight: bold;
+}
+
+.reviews-section .row {
+    justify-content: flex-start; /* Left-align the review cards */
+}
+
+.reviews-section .col-md-4 {
+    text-align: left; /* Left-align content within each card */
+}
+
+.reviews-section .card-body {
+    align-items: flex-start; /* Left-align content in review cards */
+    text-align: left;
+}
+
+/* Ethos Section */
+.ethos-section {
+    background-color: #fff; /* White background */
+}
+
+.ethos-section .icon-leaf {
+    color: #28a745; /* Green icon for sustainability */
+}
+
+.ethos-section .icon-map-pin {
+    color: #dc3545; /* Red icon for local sourcing */
+}
+
+.ethos-section .icon-heart {
+    color: #ffc107; /* Yellow icon for community */
+}
+
+.ethos-section .fs-1 {
+    font-size: 2.5rem; /* Larger icons */
+    margin-bottom: 1rem;
+}
+
+.ethos-section h5 {
+    font-size: 1.25rem; /* Larger section titles */
+    font-weight: bold;
+}
+
+.ethos-section .row {
+    justify-content: flex-start; /* Left-align the ethos items */
+}
+
+.ethos-section .col-md-4 {
+    text-align: left; /* Left-align content within each ethos item */
+}
+
+.ethos-section p {
+    color: var(--color-text-muted); /* Muted text color using CSS variable */
+    font-size: 0.95rem;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+    .about-section {
+        flex-direction: column; /* Stack text above image */
+        text-align: center; /* Center align text */
+    }
+
+    .about-section .text-content,
+    .about-section .image-content {
+        flex: 1 1 100%; /* Take full width */
+    }
+
+    .about-img {
+        margin-top: 20px; /* Adds space between text and image */
+        max-width: 90%; /* Prevents the image from being too wide */
+    }
+
+    .cta-section .col-md-4 {
+        flex: 1 1 calc(50% - 20px); /* 2 cards per row */
+        max-width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .cta-section .col-md-4 {
+        flex: 1 1 100%; /* 1 card per row */
+        max-width: 100%;
+    }
+
+    .about-section {
+        text-align: center; /* Center-align content for smaller screens */
+    }
+
+    .about-section h2,
+    .about-section p {
+        text-align: center; /* Center-align text for smaller screens */
+    }
+
+    .about-img {
+        margin-top: 30px; /* More space on mobile */
+        max-width: 100%; /* Adjusts width for better fit */
+    }
+
+    .hero-title {
+        font-size: 2rem; /* Reduce text size for small screens */
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .hero-overlay {
+        width: 80%;
+        padding: 15px;
+        max-width: 400px;
+    }
+
+    .hero-img {
+        height: 50vh; /* Reduce height for mobile */
+    }
+
+    .cta-section .card {
+        max-width: 400px;
+    }
+    
+}
+
+@media (max-width: 400px) {
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .hero-img {
+        height: 40vh; /* Make it even smaller on very small screens */
+    }
+}
