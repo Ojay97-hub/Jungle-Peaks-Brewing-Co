@@ -34,6 +34,14 @@ def get_env_setting(setting_name: str) -> str:
     )
 
 
+def require_env_var(name: str) -> str:
+    """Require an environment variable in production, allow empty in development."""
+    value = os.getenv(name)
+    if not value:
+        raise ImproperlyConfigured(f"Missing required env var: {name}")
+    return value
+
+
 SECRET_KEY = get_env_setting('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
@@ -232,9 +240,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Stripe Configuration
 STRIPE_CURRENCY = 'gbp'
-STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
-STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
-STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
+
+# Stripe keys - required in production, optional in development
+if not DEBUG:
+    STRIPE_PUBLIC_KEY = require_env_var('STRIPE_PUBLIC_KEY')
+    STRIPE_SECRET_KEY = require_env_var('STRIPE_SECRET_KEY')
+    STRIPE_WH_SECRET = require_env_var('STRIPE_WH_SECRET')
+else:
+    STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
+    STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
+    STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
 
 # Delivery Settings
 FREE_DELIVERY_THRESHOLD = 50
