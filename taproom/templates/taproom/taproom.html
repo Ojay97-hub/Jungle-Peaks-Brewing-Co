@@ -8,34 +8,36 @@
 {% block content %}
 
 <!-- Taproom Section -->
-<section class="container my-5">
-    <div class="taproom-grid">
-        <!-- Text Block -->
-        <div class="taproom-text">
-            <h2 class="fw-bold">Our Taproom</h2>
-            <p>
-                Step into the heart of <strong>Jungle Peaks Brewing</strong>'s welcoming atmosphere, where every corner tells a story of craft beer and community.
-                Our taproom is a warm and inviting space that blends rustic charm with modern design, perfect for a casual drink, a tour with friends, or an afternoon relaxing with a cold brew in hand.
-            </p>
-            <p>
-                Our taproom is designed with comfort in mind, featuring cozy seating areas, including high-top tables and booths, perfect for groups or intimate get-togethers.
-                Rustic touches like exposed brick, wood beams, and local artwork on the walls create a relaxed, earthy ambiance, making you feel at home the moment you walk in.
-            </p>
-            <p>
-                Whether you're here to sample a new brew, learn about our brewing process, or simply unwind, <strong>Jungle Peaks Brewing's taproom</strong> offers a memorable experience that celebrates
-                the craft of beer, the beauty of nature, and the joy of good company.
-            </p>
-        </div>
+<section class="taproom-hero-section">
+    <div class="container">
+        <div class="taproom-hero-wrapper">
+            <!-- Main Image with Overlay Title -->
+            <div class="taproom-hero-image">
+                <img class="taproom-main-image"
+                    src="{% imgix_url 'images/taproom.jpg' params='w=1200&h=700&fit=crop&auto=format,compress&q=85' %}" 
+                    alt="Jungle Peaks Brewing Taproom">
+                <div class="taproom-image-overlay">
+                    <h2 class="taproom-hero-title">Our Taproom</h2>
+                </div>
+            </div>
 
-        <!-- Image Blocks -->
-        <div class="taproom-image-wrapper">
-            <img class="taproom-image img-fluid main-image"
-            src="{% imgix_url 'images/taproom.jpg' params='w=800&h=600&fit=crop&auto=format,compress&q=75' %}" 
-            alt="Taproom Interior">
-
-            <img class="taproom-image img-fluid overlay-image"
-            src="{% imgix_url 'images/taproom-2.jpg' params='w=800&h=600&fit=crop&auto=format,compress&q=75' %}" 
-            alt="Taproom Bar">
+            <!-- Description Content Below Image -->
+            <div class="taproom-hero-content">
+                <div class="taproom-description">
+                    <p class="taproom-intro">
+                        Step into the heart of <strong>Jungle Peaks Brewing</strong>'s welcoming atmosphere, where every corner tells a story of craft beer and community.
+                        Our taproom is a warm and inviting space that blends rustic charm with modern design, perfect for a casual drink, a tour with friends, or an afternoon relaxing with a cold brew in hand.
+                    </p>
+                    <p class="taproom-details">
+                        Our taproom is designed with comfort in mind, featuring cozy seating areas, including high-top tables and booths, perfect for groups or intimate get-togethers.
+                        Rustic touches like exposed brick, wood beams, and local artwork on the walls create a relaxed, earthy ambiance, making you feel at home the moment you walk in.
+                    </p>
+                    <p class="taproom-closing">
+                        Whether you're here to sample a new brew, learn about our brewing process, or simply unwind, <strong>Jungle Peaks Brewing's taproom</strong> offers a memorable experience that celebrates
+                        the craft of beer, the beauty of nature, and the joy of good company.
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
