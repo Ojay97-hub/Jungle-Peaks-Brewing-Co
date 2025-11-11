@@ -93,24 +93,40 @@
                     <!-- Quick Info Cards -->
                     <div class="info-cards-stack mb-4">
                         <div class="info-card">
-                            <div class="info-icon">📍</div>
+                            <div class="info-icon info-icon-location">
+                                <i data-lucide="map-pin"></i>
+                            </div>
                             <div class="info-text">
                                 <h5>Prime Location</h5>
                                 <p>15 minutes from downtown</p>
                             </div>
                         </div>
                         <div class="info-card">
-                            <div class="info-icon">🚗</div>
+                            <div class="info-icon info-icon-parking">
+                                <i data-lucide="car"></i>
+                            </div>
                             <div class="info-text">
                                 <h5>Parking</h5>
                                 <p>Free parking available</p>
                             </div>
                         </div>
                         <div class="info-card">
-                            <div class="info-icon">🚌</div>
+                            <div class="info-icon info-icon-access">
+                                <i data-lucide="bus"></i>
+                            </div>
                             <div class="info-text">
                                 <h5>Access</h5>
                                 <p>Public transport accessible</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-icon info-icon-hours">
+                                <i data-lucide="clock"></i>
+                            </div>
+                            <div class="info-text">
+                                <h5>Operating Hours</h5>
+                                <p><strong>Monday - Friday:</strong> 10 AM - 8 PM<br>
+                                <strong>Saturday - Sunday:</strong> 12 PM - 10 PM</p>
                             </div>
                         </div>
                     </div>
@@ -120,11 +136,13 @@
                         <a href="https://www.google.com/maps/dir/?api=1&destination=Jungle+Peaks+Brewing+123+Forest+Ridge+Drive+Mountain+View+CA+94043"
                            target="_blank"
                            rel="noopener"
-                           class="btn btn-primary btn-lg">
-                            🗺️ Get Directions
+                           class="btn btn-location-primary btn-lg">
+                            <i data-lucide="map"></i>
+                            Get Directions
                         </a>
-                        <button class="btn btn-outline-secondary btn-lg" onclick="toggleMapView()">
-                            🏔️ Street View
+                        <button class="btn btn-location-secondary btn-lg" onclick="toggleMapView()">
+                            <i data-lucide="mountain"></i>
+                            Street View
                         </button>
                     </div>
                 </div>

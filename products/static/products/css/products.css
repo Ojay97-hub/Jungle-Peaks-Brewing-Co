@@ -272,14 +272,34 @@
     animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
     position: relative;
     z-index: 10; /* Create stacking context */
+    overflow: visible; /* Allow dropdowns to overflow */
+}
+
+.filters-section .container {
+    overflow: visible !important; /* Ensure Bootstrap container doesn't clip dropdowns */
 }
 
 .filters-container {
     display: grid;
     gap: var(--space-lg);
+    overflow: visible; /* Allow dropdowns to overflow */
+    position: relative;
+    z-index: auto; /* Don't create stacking context unless needed */
+}
+
+/* When dropdown is active, ensure container allows proper stacking */
+.filters-container:has(.custom-dropdown.active) {
+    z-index: auto;
+    isolation: auto; /* Don't isolate, allow dropdowns to escape */
 }
 
 /* Quick Filters */
+.quick-filters {
+    position: relative;
+    z-index: 1; /* Lower z-index to ensure dropdowns appear above */
+    isolation: isolate; /* Create stacking context to contain it */
+}
+
 .quick-filters__header {
     display: flex;
     justify-content: space-between;
@@ -395,6 +415,17 @@
 }
 
 /* Advanced Filters Form */
+.advanced-filters {
+    position: relative;
+    z-index: 10; /* Much higher than quick-filters to ensure dropdowns appear above */
+    isolation: isolate; /* Create new stacking context */
+}
+
+.advanced-filters.show,
+.advanced-filters.collapsing {
+    z-index: 10; /* Ensure it stays high when expanded */
+}
+
 .filters-form {
     display: flex;
     align-items: end;
@@ -406,6 +437,9 @@
     border: 1px solid var(--color-border);
     animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 1s both;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: visible; /* Allow dropdowns to overflow */
+    position: relative;
+    z-index: 1; /* Within advanced-filters stacking context */
 }
 
 .filters-form:hover {
@@ -420,6 +454,14 @@
     min-width: 200px;
     flex: 1;
     animation: fadeInScale 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+    position: relative;
+    z-index: 1;
+    overflow: visible; /* Allow dropdown to overflow */
+}
+
+/* Ensure filter groups with active dropdowns have higher z-index */
+.filter-group:has(.custom-dropdown.active) {
+    z-index: 100;
 }
 
 .filter-group:nth-child(1) { animation-delay: 1.1s; }
@@ -443,13 +485,15 @@
 
 .custom-select {
     position: relative;
+    overflow: visible; /* Allow dropdown to overflow container */
 }
 
 /* ===== CUSTOM DROPDOWN COMPONENT ===== */
 .custom-dropdown {
     position: relative;
     width: 100%;
-    z-index: 1070; /* High z-index to ensure it appears above other elements */
+    z-index: 1; /* Base z-index, will increase when open */
+    overflow: visible; /* Ensure dropdown can overflow */
 }
 
 .dropdown-trigger {
@@ -495,74 +539,98 @@
 }
 
 /* Ensure dropdown appears above all other content when open */
+.custom-dropdown.active,
 .custom-dropdown:has([aria-expanded="true"]) {
-    z-index: 1080; /* Even higher when dropdown is open */
+    z-index: 1000 !important; /* High z-index when dropdown is open */
     position: relative;
+    isolation: isolate; /* Create new stacking context */
 }
 
 /* Prevent other elements from overlapping when dropdown is open */
-.dropdown-open {
-    overflow: hidden; /* Prevent body scroll when dropdown is open */
+.filters-section:has(.custom-dropdown.active) {
+    z-index: 100;
 }
 
-.dropdown-open .products-section {
-    position: relative;
-    z-index: 1; /* Lower z-index when dropdown is open */
-}
-
-/* Ensure dropdown container creates proper stacking context */
-.custom-dropdown[aria-expanded="true"] {
-    z-index: 1080;
-    isolation: isolate; /* Create stacking context */
-}
-
-/* Make sure the dropdown options appear above everything */
-.custom-dropdown .dropdown-options[aria-expanded="true"] {
-    z-index: 1090; /* Highest z-index for open dropdown options */
-    position: relative;
+.filters-form:has(.custom-dropdown.active) {
+    z-index: 100;
 }
 
 .dropdown-text {
     flex: 1;
     text-align: left;
     color: var(--color-text);
+    font-size: inherit; /* Inherit from dropdown-trigger */
+}
+
+/* Mobile: Ensure dropdown text is 14px */
+@media (max-width: 991.98px) {
+    .dropdown-text {
+        font-size: 14px !important;
+    }
 }
 
 .dropdown-options {
     position: absolute;
-    top: calc(100% + 4px);
+    top: calc(100% + 8px);
     left: 0;
     right: 0;
-    background: var(--color-surface);
+    background: var(--color-surface) !important;
     border: 2px solid var(--color-primary);
     border-radius: var(--radius-lg);
-    box-shadow: 0 15px 35px rgba(92, 111, 83, 0.25), 0 5px 15px rgba(0, 0, 0, 0.1);
-    z-index: 1070;
-    max-height: 300px;
+    box-shadow: 0 20px 40px rgba(92, 111, 83, 0.3), 0 8px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1000 !important;
+    max-height: 350px;
     overflow-y: auto;
+    overflow-x: hidden;
     opacity: 0;
-    transform: translateY(-8px) scale(0.95);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    visibility: hidden;
+    transform: translateY(-12px) scale(0.96);
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     pointer-events: none;
+    margin-top: 0;
+    /* Ensure dropdown is opaque and appears above all content */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
-.dropdown-options[aria-expanded="true"] {
+.dropdown-options[aria-expanded="true"],
+.custom-dropdown.active .dropdown-options {
     opacity: 1;
+    visibility: visible;
     transform: translateY(0) scale(1);
     pointer-events: all;
-    z-index: 1075; /* Higher than dropdown container */
+    z-index: 1000 !important;
+    /* Ensure solid background on mobile */
+    background: var(--color-surface) !important;
 }
 
 .dropdown-option {
     display: flex;
     align-items: center;
-    padding: 12px 16px;
+    padding: 14px 18px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    border-bottom: 1px solid rgba(172, 185, 166, 0.2);
     color: var(--color-text);
-    font-size: 0.875rem;
+    font-size: 0.9rem;
     font-weight: 500;
+    position: relative;
+}
+
+.dropdown-option::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--color-primary);
+    transform: scaleY(0);
+    transition: transform 0.2s ease;
+}
+
+.dropdown-option:hover::before {
+    transform: scaleY(1);
 }
 
 .dropdown-option:last-child {
@@ -570,9 +638,10 @@
 }
 
 .dropdown-option:hover {
-    background: rgba(92, 111, 83, 0.1);
-    color: var(--color-text);
-    padding-left: 20px;
+    background: rgba(92, 111, 83, 0.08);
+    color: var(--color-primary);
+    padding-left: 18px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .dropdown-option.selected {
@@ -824,11 +893,20 @@
     overflow: hidden;
 }
 
+.product-image-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    width: 100%;
+}
+
 .product-image {
     position: relative;
     aspect-ratio: 4/3;
     overflow: hidden;
     background: var(--color-surface-alt);
+    width: 100%;
 }
 
 .product-image img {
@@ -838,7 +916,8 @@
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.product-card:hover .product-image img {
+.product-card:hover .product-image img,
+.product-image-link:hover .product-image img {
     transform: scale(1.05);
 }
 
@@ -853,7 +932,8 @@
     transition: opacity 0.3s ease;
 }
 
-.product-card:hover .product-overlay {
+.product-card:hover .product-overlay,
+.product-image-link:hover .product-overlay {
     opacity: 1;
 }
 
@@ -889,6 +969,72 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-xs);
+    z-index: 2; /* Ensure badges appear above the image link */
+    pointer-events: none; /* Allow clicks to pass through to image link */
+}
+
+.product-view-link {
+    display: none; /* Hidden by default, shown only on mobile list view */
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-md);
+    margin-top: var(--space-sm);
+    background: var(--color-primary);
+    color: var(--color-surface);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+}
+
+.product-view-link:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(92, 111, 83, 0.3);
+    color: var(--color-surface);
+}
+
+.product-view-link i {
+    width: 24px;
+    height: 24px;
+}
+
+.product-view-link span {
+    display: inline;
+}
+
+/* Show view link only on mobile list view, hide overlay on mobile */
+@media (max-width: 767.98px) {
+    .product-overlay {
+        display: none !important;
+    }
+    
+    /* Ensure product image link is clickable on mobile grid view */
+    .products-grid[data-view="grid"] .product-image-link,
+    .products-grid:not([data-view="list"]) .product-image-link {
+        cursor: pointer;
+        display: block;
+        position: relative;
+    }
+    
+    /* Add visual feedback on tap for mobile */
+    .products-grid[data-view="grid"] .product-image-link:active,
+    .products-grid:not([data-view="list"]) .product-image-link:active {
+        opacity: 0.8;
+    }
+    
+    /* Show view link only in list view on mobile */
+    .products-grid[data-view="list"] .product-view-link {
+        display: flex !important;
+    }
+    
+    /* Hide image link in list view since we have the view button */
+    .products-grid[data-view="list"] .product-image-link {
+        pointer-events: none;
+    }
 }
 
 .category-badge {
@@ -1151,6 +1297,21 @@
     transform: scale(1.1);
 }
 
+.btn-add-text-mobile {
+    display: none; /* Hidden on desktop by default */
+}
+
+/* Grid view: Show "Add" on all screen sizes */
+.products-grid[data-view="grid"] .btn-add-to-cart .btn-add-text,
+.products-grid:not([data-view="list"]) .btn-add-to-cart .btn-add-text {
+    display: none !important;
+}
+
+.products-grid[data-view="grid"] .btn-add-to-cart .btn-add-text-mobile,
+.products-grid:not([data-view="list"]) .btn-add-to-cart .btn-add-text-mobile {
+    display: inline !important;
+}
+
 /* ===== ENHANCED SKELETON LOADING STATES ===== */
 .skeleton-loading {
     display: grid;
@@ -1346,10 +1507,22 @@
     cursor: pointer;
 }
 
+.back-to-top i,
+.back-to-top [data-lucide] {
+    color: white !important;
+    stroke: white !important;
+}
+
 .back-to-top:hover {
     background: var(--color-primary-dark);
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(92, 111, 83, 0.3);
+}
+
+.back-to-top:hover i,
+.back-to-top:hover [data-lucide] {
+    color: white !important;
+    stroke: white !important;
 }
 
 .back-to-top.d-none {
@@ -1423,9 +1596,20 @@
         text-align: center;
     }
 
-    .products-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: var(--space-lg);
+    /* Grid view - smaller cards on tablet */
+    .products-grid[data-view="grid"] {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+        gap: var(--space-md) !important;
+    }
+    
+    .products-grid:not([data-view="list"]) {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+        gap: var(--space-md) !important;
+    }
+    
+    /* Ensure list view still works */
+    .products-grid[data-view="list"] {
+        grid-template-columns: 1fr !important;
     }
 
 /* Enhanced mobile dropdown styling */
@@ -1467,54 +1651,173 @@
     font-style: italic;
 }
 
+/* Mobile: Show "Add" text and hide "Add to Cart", make icon bigger - applies to both grid and list views */
+@media (max-width: 767.98px) {
+    .btn-add-to-cart .btn-add-text {
+        display: none !important;
+    }
+    
+    .btn-add-to-cart .btn-add-text-mobile {
+        display: inline !important;
+    }
+    
+    /* Bigger icon for both grid and list views on mobile */
+    .btn-add-to-cart i {
+        width: 20px !important;
+        height: 20px !important;
+    }
+    
+    /* Ensure grid view also gets the bigger icon */
+    .products-grid[data-view="grid"] .btn-add-to-cart i,
+    .products-grid:not([data-view="list"]) .btn-add-to-cart i {
+        width: 20px !important;
+        height: 20px !important;
+    }
+    
+    /* Ensure list view also gets the bigger icon (override the smaller one) */
+    .products-grid[data-view="list"] .btn-add-to-cart i {
+        width: 20px !important;
+        height: 20px !important;
+    }
+    
+    /* List view: Show "Add" text only on mobile */
+    .products-grid[data-view="list"] .btn-add-to-cart .btn-add-text {
+        display: none !important;
+    }
+    
+    .products-grid[data-view="list"] .btn-add-to-cart .btn-add-text-mobile {
+        display: inline !important;
+    }
+    
+    /* Grid view already shows "Add" from the general rule above, but ensure it's visible on mobile too */
+    .products-grid[data-view="grid"] .btn-add-to-cart .btn-add-text-mobile,
+    .products-grid:not([data-view="list"]) .btn-add-to-cart .btn-add-text-mobile {
+        display: inline !important;
+    }
+}
+
 /* Mobile responsive styles for custom dropdowns */
 @media (max-width: 991.98px) {
     .dropdown-trigger {
         padding: 14px 18px;
-        font-size: 1rem;
+        font-size: 14px; /* 0.875rem */
     }
 
     .dropdown-option {
         padding: 14px 18px;
-        font-size: 1rem;
+        font-size: 14px; /* 0.875rem */
+    }
+    
+    /* Ensure filters-section allows proper stacking */
+    .filters-section {
+        z-index: 10;
+        position: relative;
+    }
+    
+    /* Ensure advanced-filters section appears above quick-filters on mobile */
+    .advanced-filters {
+        z-index: 100 !important;
+        position: relative;
+    }
+    
+    .advanced-filters.show,
+    .advanced-filters.collapsing {
+        z-index: 100 !important;
+    }
+    
+    /* Ensure dropdown appears above category section on mobile */
+    .custom-dropdown.active,
+    .custom-dropdown:has([aria-expanded="true"]) {
+        z-index: 1050 !important; /* Higher z-index on mobile */
+        position: relative;
+    }
+    
+    .dropdown-options {
+        z-index: 1050 !important; /* Higher z-index on mobile */
+        background: var(--color-surface) !important; /* Ensure solid background */
+    }
+    
+    .dropdown-options[aria-expanded="true"],
+    .custom-dropdown.active .dropdown-options {
+        z-index: 1050 !important; /* Higher z-index on mobile */
+        background: var(--color-surface) !important;
+    }
+    
+    /* Ensure quick-filters stays below and doesn't interfere */
+    .quick-filters {
+        z-index: 1 !important;
+        position: relative;
+        isolation: isolate; /* Contain its own stacking context */
+    }
+    
+    /* Ensure category pills don't interfere */
+    .category-pills {
+        position: relative;
+        z-index: 1;
     }
 }
 
 @media (max-width: 767.98px) {
     .dropdown-trigger {
         padding: 16px 20px;
-        font-size: 1.1rem;
+        font-size: 14px; /* 0.875rem */
         font-weight: 600;
     }
 
     .dropdown-option {
         padding: 16px 20px;
-        font-size: 1.1rem;
+        font-size: 14px; /* 0.875rem */
         font-weight: 600;
     }
 
     .dropdown-options {
         max-height: 250px;
+        z-index: 1050 !important; /* Ensure dropdown appears above category section */
+        background: var(--color-surface) !important; /* Solid opaque background */
+    }
+    
+    .custom-dropdown.active,
+    .custom-dropdown:has([aria-expanded="true"]) {
+        z-index: 1050 !important;
+    }
+    
+    .dropdown-options[aria-expanded="true"],
+    .custom-dropdown.active .dropdown-options {
+        z-index: 1050 !important;
+        background: var(--color-surface) !important;
     }
 }
 
 @media (max-width: 575.98px) {
     .dropdown-trigger {
         padding: 18px 22px;
-        font-size: 1.15rem;
+        font-size: 14px; /* 0.875rem */
         font-weight: 700;
         min-height: 60px;
     }
 
     .dropdown-option {
         padding: 18px 22px;
-        font-size: 1.15rem;
+        font-size: 14px; /* 0.875rem */
         font-weight: 700;
         min-height: 60px;
     }
 
     .dropdown-options {
         max-height: 200px;
+        z-index: 1050 !important; /* Ensure dropdown appears above category section */
+        background: var(--color-surface) !important; /* Solid opaque background */
+    }
+    
+    .custom-dropdown.active,
+    .custom-dropdown:has([aria-expanded="true"]) {
+        z-index: 1050 !important;
+    }
+    
+    .dropdown-options[aria-expanded="true"],
+    .custom-dropdown.active .dropdown-options {
+        z-index: 1050 !important;
+        background: var(--color-surface) !important;
     }
 }
 
@@ -1575,17 +1878,56 @@
         padding: var(--space-md);
     }
 
-    .products-grid {
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: var(--space-md);
+    /* Grid view - smaller cards on mobile */
+    .products-grid[data-view="grid"] {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+        gap: var(--space-sm) !important;
+    }
+    
+    .products-grid:not([data-view="list"]) {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+        gap: var(--space-sm) !important;
+    }
+    
+    /* Ensure list view still works */
+    .products-grid[data-view="list"] {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-md) !important;
+    }
+    
+    /* Smaller padding for grid cards on mobile */
+    .products-grid[data-view="grid"] .product-card__body,
+    .products-grid:not([data-view="list"]) .product-card__body {
+        padding: var(--space-sm);
     }
 
-    .product-card__body {
-        padding: var(--space-md);
+    .products-grid[data-view="grid"] .product-card__footer,
+    .products-grid:not([data-view="list"]) .product-card__footer {
+        padding: var(--space-sm);
+    }
+    
+    /* Smaller font sizes for grid cards on mobile */
+    .products-grid[data-view="grid"] .product-title,
+    .products-grid:not([data-view="list"]) .product-title {
+        font-size: 0.95rem;
+    }
+    
+    .products-grid[data-view="grid"] .product-price .price-current,
+    .products-grid:not([data-view="list"]) .product-price .price-current {
+        font-size: 1.1rem;
+    }
+    
+    /* List view keeps normal padding and sizes */
+    .products-grid[data-view="list"] .product-card__body {
+        padding: var(--space-md) !important;
     }
 
-    .product-card__footer {
-        padding: var(--space-md);
+    .products-grid[data-view="list"] .product-card__footer {
+        padding: var(--space-md) !important;
+    }
+    
+    .products-grid[data-view="list"] .product-title {
+        font-size: 1.125rem !important;
     }
 
     .add-to-cart-form {
@@ -1657,14 +1999,32 @@
         min-width: 0;
     }
 
-    .products-grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-md);
+    /* Grid view - smaller cards on very small mobile */
+    .products-grid[data-view="grid"] {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+        gap: var(--space-sm) !important;
+    }
+    
+    .products-grid:not([data-view="list"]) {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+        gap: var(--space-sm) !important;
+    }
+    
+    /* Ensure list view still works */
+    .products-grid[data-view="list"] {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-md) !important;
     }
 
     .product-card {
-        max-width: 400px;
-        margin: 0 auto;
+        max-width: none;
+        margin: 0;
+    }
+    
+    /* List view card adjustments for very small screens */
+    .products-grid[data-view="list"] .product-card {
+        max-width: none !important;
+        margin: 0 !important;
     }
 
     .back-to-top {
@@ -1763,22 +2123,210 @@
 }
 
 @media (max-width: 767.98px) {
+    /* Ensure list view works on mobile - horizontal layout */
+    .products-grid[data-view="list"] {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-md) !important;
+        display: grid !important;
+    }
+    
     .products-grid[data-view="list"] .product-card {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto;
+        display: grid !important;
+        grid-template-columns: 120px 1fr !important;
+        grid-template-rows: auto auto !important;
+        gap: var(--space-md) !important;
+        max-width: none !important;
+        height: auto !important;
+        padding: var(--space-md) !important;
+        position: relative !important;
+        align-items: start !important;
     }
 
     .products-grid[data-view="list"] .product-card__header {
-        grid-row: 1;
+        grid-row: 1 / -1 !important;
+        grid-column: 1 !important;
+        width: 120px !important;
+        margin: 0 !important;
+        position: relative !important;
+    }
+    
+    .products-grid[data-view="list"] .product-card__body {
+        grid-row: 1 !important;
+        grid-column: 2 !important;
+    }
+    
+    .products-grid[data-view="list"] .product-card__footer {
+        grid-row: 2 !important;
+        grid-column: 2 !important;
     }
 
     .products-grid[data-view="list"] .product-image {
-        aspect-ratio: 4/3;
-        height: auto;
+        aspect-ratio: 1 !important;
+        width: 100% !important;
+        height: 120px !important;
+    }
+    
+    .products-grid[data-view="list"] .product-overlay {
+        display: none !important; /* Hide overlay on mobile list view */
+    }
+    
+    .products-grid[data-view="list"] .product-badges {
+        position: absolute !important;
+        top: var(--space-xs) !important;
+        left: var(--space-xs) !important;
+        flex-direction: column !important;
+        gap: var(--space-xxs) !important;
+        z-index: 2 !important;
+    }
+    
+    .products-grid[data-view="list"] .category-badge,
+    .products-grid[data-view="list"] .abv-badge {
+        font-size: 0.7rem !important;
+        padding: 2px 8px !important;
+    }
+    
+    .products-grid[data-view="list"] .product-card__body {
+        flex: 1 !important;
+        padding: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: var(--space-xs) !important;
+        min-width: 0 !important;
+    }
+    
+    .products-grid[data-view="list"] .product-title {
+        font-size: 1rem !important;
+        margin: 0 !important;
+        line-height: 1.3 !important;
+    }
+    
+    .products-grid[data-view="list"] .product-description {
+        font-size: 0.875rem !important;
+        line-height: 1.4 !important;
+        margin: 0 !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+    }
+    
+    .products-grid[data-view="list"] .product-rating {
+        margin: 0 !important;
+    }
+    
+    .products-grid[data-view="list"] .product-price {
+        margin-top: auto !important;
+    }
+    
+    .products-grid[data-view="list"] .product-price .price-current {
+        font-size: 1.25rem !important;
     }
 
     .products-grid[data-view="list"] .product-card__footer {
-        border-left: none;
-        border-top: 1px solid var(--color-border);
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        border-top: 1px solid var(--color-border) !important;
+        border-left: none !important;
+        padding: var(--space-sm) 0 0 0 !important;
+        margin-top: var(--space-sm) !important;
+        background: transparent !important;
+        width: 100% !important;
+    }
+    
+    /* Show add to cart form inline in mobile list view */
+    .products-grid[data-view="list"] .add-to-cart-form {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: var(--space-xs) !important;
+        align-items: center !important;
+        width: 100% !important;
+    }
+    
+    .products-grid[data-view="list"] .quantity-controls {
+        flex-shrink: 0 !important;
+        border: 1px solid var(--color-border) !important;
+    }
+    
+    .products-grid[data-view="list"] .qty-btn {
+        width: 32px !important;
+        height: 32px !important;
+    }
+    
+    .products-grid[data-view="list"] .qty-input {
+        width: 40px !important;
+        height: 32px !important;
+        font-size: 0.875rem !important;
+    }
+    
+    .products-grid[data-view="list"] .btn-add-to-cart {
+        flex: 1 !important;
+        padding: var(--space-xs) var(--space-sm) !important;
+        font-size: 0.875rem !important;
+        min-height: 32px !important;
+    }
+    
+    /* Icon size is handled by the general mobile rule above */
+    .products-grid[data-view="list"] .btn-add-to-cart span {
+        font-size: 0.875rem !important;
+    }
+    
+    /* View product link styling for list view */
+    .products-grid[data-view="list"] .product-view-link {
+        margin-top: var(--space-xs) !important;
+        padding: var(--space-xs) var(--space-sm) !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .products-grid[data-view="list"] .product-view-link i {
+        width: 20px !important;
+        height: 20px !important;
+    }
+}
+
+/* Responsive: Stack quantity and add to cart vertically at 400px */
+@media (max-width: 400px) {
+    /* Grid view - stack controls vertically */
+    .products-grid[data-view="grid"] .add-to-cart-form,
+    .products-grid:not([data-view="list"]) .add-to-cart-form {
+        flex-direction: column !important;
+        gap: var(--space-xs) !important;
+    }
+    
+    .products-grid[data-view="grid"] .quantity-controls,
+    .products-grid:not([data-view="list"]) .quantity-controls {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+    
+    .products-grid[data-view="grid"] .btn-add-to-cart,
+    .products-grid:not([data-view="list"]) .btn-add-to-cart {
+        width: 100% !important;
+    }
+    
+    /* List view - stack controls vertically */
+    .products-grid[data-view="list"] .add-to-cart-form {
+        flex-direction: column !important;
+        gap: var(--space-xs) !important;
+    }
+    
+    .products-grid[data-view="list"] .quantity-controls {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+    
+    .products-grid[data-view="list"] .btn-add-to-cart {
+        width: 100% !important;
+    }
+    
+    /* View product link adjustments */
+    .product-view-link {
+        font-size: 0.8rem !important;
+        padding: var(--space-xs) var(--space-sm) !important;
+    }
+    
+    .product-view-link span {
+        display: inline !important;
     }
 }

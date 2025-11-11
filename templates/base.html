@@ -30,7 +30,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Albert+Sans:wght@100..900&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Montserrat:wght@100..900&display=swap">
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% endblock %}
 
@@ -241,9 +241,23 @@
                 </div>
             </div>
 
-            <!-- Mobile Navigation -->
-            <div class="collapse mobile-nav-collapse" id="mobile-nav">
+            <!-- Mobile Navigation Drawer -->
+            <div class="mobile-drawer-overlay" id="mobile-drawer-overlay"></div>
+            <div class="collapse mobile-nav-collapse mobile-drawer" id="mobile-nav">
                 <div class="mobile-nav-content">
+                    <!-- Drawer Header -->
+                    <div class="mobile-drawer-header">
+                        <div class="mobile-drawer-logo">
+                            <div class="logo-icon">
+                                <i data-lucide="mountain"></i>
+                            </div>
+                            <span class="logo-text">Jungle Peaks</span>
+                        </div>
+                        <button class="mobile-drawer-close" type="button" data-bs-toggle="collapse" data-bs-target="#mobile-nav" aria-label="Close menu">
+                            <i data-lucide="x"></i>
+                        </button>
+                    </div>
+
                     <!-- Mobile Search (if on products page) -->
                     {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}
                     <div class="mobile-search">
@@ -272,10 +286,26 @@
                             <i data-lucide="home"></i>
                             <span>Home</span>
                         </a>
-                        <a href="{% url 'products' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}active{% endif %}">
-                            <i data-lucide="shopping-bag"></i>
-                            <span>Shop</span>
-                        </a>
+                        
+                        <!-- Shop with Categories -->
+                        <div class="mobile-nav-section">
+                            <button type="button" class="mobile-nav-link mobile-nav-link-parent {% if request.resolver_match.url_name == 'products' or request.resolver_match.url_name == 'product_detail' %}active{% endif %}" data-toggle-submenu>
+                                <i data-lucide="shopping-bag"></i>
+                                <span>Shop</span>
+                                <i data-lucide="chevron-right" class="mobile-nav-chevron"></i>
+                            </button>
+                            <div class="mobile-nav-submenu">
+                                <a href="{% url 'products' %}" class="mobile-nav-sublink mobile-nav-sublink-all">
+                                    <span>View All Products</span>
+                                </a>
+                                {% for category in all_categories %}
+                                <a href="{% url 'products' %}?category={{ category.name }}" class="mobile-nav-sublink">
+                                    <span>{{ category.name }}</span>
+                                </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+
                         <a href="{% url 'taproom' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'taproom' %}active{% endif %}">
                             <i data-lucide="coffee"></i>
                             <span>Taproom</span>
@@ -287,6 +317,19 @@
                         <a href="{% url 'contact:contact' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
                             <i data-lucide="mail"></i>
                             <span>Contact</span>
+                        </a>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="mobile-quick-actions">
+                        <h3 class="mobile-quick-actions-title">Quick Actions</h3>
+                        <a href="{% url 'tour:tours' %}" class="mobile-quick-action-btn mobile-quick-action-primary">
+                            <i data-lucide="calendar"></i>
+                            <span>Book a Tour</span>
+                        </a>
+                        <a href="{% url 'taproom' %}#booking" class="mobile-quick-action-btn mobile-quick-action-secondary">
+                            <i data-lucide="utensils-crossed"></i>
+                            <span>Book a Table</span>
                         </a>
                     </div>
                 </div>
@@ -442,6 +485,77 @@
 {% block postloadjs %}
 <script src="{% static 'js/newsletter.js' %}"></script>
 
+<!-- Mobile Drawer JavaScript -->
+<script>
+    // Mobile drawer functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileNav = document.getElementById('mobile-nav');
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const drawerOverlay = document.getElementById('mobile-drawer-overlay');
+        const drawerCloseBtn = document.querySelector('.mobile-drawer-close');
+        const shopSection = document.querySelector('.mobile-nav-section');
+        
+        // Toggle drawer when menu button is clicked
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function() {
+                setTimeout(() => {
+                    if (mobileNav.classList.contains('show')) {
+                        mobileNav.classList.add('mobile-drawer');
+                        document.body.style.overflow = 'hidden';
+                    }
+                }, 10);
+            });
+        }
+        
+        // Close drawer when overlay is clicked
+        if (drawerOverlay) {
+            drawerOverlay.addEventListener('click', function() {
+                if (mobileMenuBtn) {
+                    mobileMenuBtn.click();
+                }
+            });
+        }
+        
+        // Close drawer when close button is clicked
+        if (drawerCloseBtn) {
+            drawerCloseBtn.addEventListener('click', function() {
+                if (mobileMenuBtn) {
+                    mobileMenuBtn.click();
+                }
+            });
+        }
+        
+        // Handle drawer close and restore body scroll
+        if (mobileNav) {
+            mobileNav.addEventListener('hidden.bs.collapse', function() {
+                document.body.style.overflow = '';
+                mobileNav.classList.remove('mobile-drawer');
+            });
+        }
+        
+        // Toggle category submenu
+        const shopToggleBtn = document.querySelector('[data-toggle-submenu]');
+        if (shopToggleBtn && shopSection) {
+            shopToggleBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                shopSection.classList.toggle('active');
+                // Reinitialize icons after toggle
+                setTimeout(() => lucide.createIcons(), 100);
+            });
+        }
+        
+        // Close drawer on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && mobileNav && mobileNav.classList.contains('show')) {
+                if (mobileMenuBtn) {
+                    mobileMenuBtn.click();
+                }
+            }
+        });
+    });
+</script>
+
 <!-- Initialize Lucide Icons -->
 <script>
     lucide.createIcons();
@@ -503,7 +617,7 @@ const banner = document.querySelector('.promo-banner');
 const closeBtn = document.querySelector('.promo-close');
 
 // Choose behaviour: 'none' | 'session' | 'day'
-const DISMISS_BEHAVIOUR = 'none';   // <- your requested behaviour
+const DISMISS_BEHAVIOUR = 'session';   // <- Session-based dismissal
 const KEY = 'promoBannerDismissedAt';
 
 function hideBanner() { if (banner) banner.setAttribute('hidden', ''); }
