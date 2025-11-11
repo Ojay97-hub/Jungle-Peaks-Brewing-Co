@@ -12,7 +12,17 @@
      class="hero-img" width="1920" height="800" fetchpriority="high" alt="Hero Image">
   <div class="hero-overlay position-absolute top-50 start-50 translate-middle text-center">
       <h1 class="display-3 fw-bold hero-title">Jungle Peaks Brewing</h1>
-      <p class="hero-subtitle">Crafting nature’s finest beers</p>
+      <p class="hero-subtitle">Crafting nature's finest beers</p>
+      <div class="hero-cta-buttons mt-4">
+          <a href="{% url 'products' %}" class="btn btn-hero-primary btn-lg">
+              <i data-lucide="shopping-bag"></i>
+              Shop Our Beers
+          </a>
+          <a href="{% url 'tour:tours' %}" class="btn btn-hero-secondary btn-lg">
+              <i data-lucide="calendar"></i>
+              Book a Tour
+          </a>
+      </div>
   </div>
 </div>
 
@@ -22,20 +32,20 @@
     <div class="row align-items-center about-content">
         <!-- Text Section -->
         <div class="col-lg-6 col-md-12 text-content">
-            <h2 class="fw-bold text-center text-md-start">🌿 About Jungle Peaks Brewing 🌿</h2>
-            <p class="text-center text-md-start">
-                Welcome to <strong>Jungle Peaks Brewing</strong>, where every sip tells a story! 🍺✨ Nestled in the heart of nature, our brewery is more than just a place—it’s a <strong>passion project born from adventure, creativity, and a love for craft beer.</strong>
+            <h2 class="fw-bold text-start">🌿 About Jungle Peaks Brewing 🌿</h2>
+            <p class="text-start">
+                Welcome to <strong>Jungle Peaks Brewing</strong>, where every sip tells a story! 🍺✨ Nestled in the heart of nature, our brewery is more than just a place—it's a <strong>passion project born from adventure, creativity, and a love for craft beer.</strong>
             </p>
-            <p class="text-center text-md-start">
-                Since <strong>2010</strong>, we’ve been brewing unique, handcrafted beers inspired by the untamed beauty of the jungle and the spirit of exploration. We believe that every great beer starts with the <strong>best ingredients</strong>, which is why we source <strong>locally grown grains, pure mountain spring water, and the freshest hops</strong> to create flavors that are as bold and vibrant as the wilderness that surrounds us.
+            <p class="text-start">
+                Since <strong>2010</strong>, we've been brewing unique, handcrafted beers inspired by the untamed beauty of the jungle and the spirit of exploration. We believe that every great beer starts with the <strong>best ingredients</strong>, which is why we source <strong>locally grown grains, pure mountain spring water, and the freshest hops</strong> to create flavors that are as bold and vibrant as the wilderness that surrounds us.
             </p>
-            <p class="text-center text-md-start">
-                But we don’t just stop at great taste—we are deeply committed to <strong>sustainability and community</strong>. From eco-friendly brewing practices to collaborating with local farmers, we ensure that every pint we pour leaves a positive impact.
+            <p class="text-start">
+                But we don't just stop at great taste—we are deeply committed to <strong>sustainability and community</strong>. From eco-friendly brewing practices to collaborating with local farmers, we ensure that every pint we pour leaves a positive impact.
             </p>
-            <p class="text-center text-md-start">
+            <p class="text-start">
                 Join us on a <strong>journey of discovery</strong>, where we blend tradition with innovation, creating craft beers that awaken the senses and celebrate the untamed spirit of nature. 🌎🍻
             </p>
-            <p class="text-center text-md-start fw-bold">🍻 Cheers to adventure! 🎉</p>
+            <p class="text-start fw-bold">🍻 Cheers to adventure! 🎉</p>
         </div>
         <!-- Image Section -->
         <div class="col-lg-6 col-md-12 text-center image-content">

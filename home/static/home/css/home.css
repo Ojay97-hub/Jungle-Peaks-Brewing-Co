@@ -21,12 +21,13 @@
     left: 50%;
     transform: translate(-50%, -50%); /* Centers the overlay */
     width: 90%;
-    max-width: 550px;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    max-width: 700px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     text-align: center;
+    backdrop-filter: blur(10px);
 }
 
 /* Hero Title - Makes text pop */
@@ -45,7 +46,98 @@
     font-weight: 500;
     color: #f5f5f5;
     margin-top: 10px;
+    margin-bottom: 0;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* Hero CTA Buttons Container */
+.hero-cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 32px !important;
+}
+
+/* Hero Primary Button - Shop Products */
+.btn-hero-primary {
+    background: linear-gradient(135deg, #36472E 0%, #5C6F53 100%);
+    color: #fff;
+    border: none;
+    padding: 16px 32px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 16px rgba(54, 71, 46, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    min-width: 200px;
+    justify-content: center;
+}
+
+.btn-hero-primary i {
+    width: 20px;
+    height: 20px;
+}
+
+.btn-hero-primary:hover {
+    background: linear-gradient(135deg, #2a3824 0%, #4a5d42 100%);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(54, 71, 46, 0.5);
+    text-decoration: none;
+}
+
+.btn-hero-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(54, 71, 46, 0.4);
+}
+
+/* Hero Secondary Button - Book Tour */
+.btn-hero-secondary {
+    background: rgba(255, 255, 255, 0.95);
+    color: #36472E;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 16px 32px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    min-width: 200px;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.btn-hero-secondary i {
+    width: 20px;
+    height: 20px;
+}
+
+.btn-hero-secondary:hover {
+    background: #fff;
+    color: #2a3824;
+    border-color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+    text-decoration: none;
+}
+
+.btn-hero-secondary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
 }
 
 @keyframes glow {
@@ -53,8 +145,27 @@
     100% { text-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 40px rgba(255, 255, 255, 0.8); }
 }
 
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .hero-title {
     animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+.hero-subtitle {
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.hero-cta-buttons {
+    animation: fadeInUp 0.8s ease-out 0.4s both;
 }
 
 /* About Us Section */
@@ -303,9 +414,22 @@
     }
 
     .hero-overlay {
-        width: 80%;
-        padding: 15px;
-        max-width: 400px;
+        width: 90%;
+        padding: 30px 20px;
+        max-width: 500px;
+    }
+
+    .hero-cta-buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .btn-hero-primary,
+    .btn-hero-secondary {
+        width: 100%;
+        min-width: auto;
+        padding: 14px 24px;
+        font-size: 1rem;
     }
 
     .hero-img {

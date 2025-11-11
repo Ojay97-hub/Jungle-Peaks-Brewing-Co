@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load static imgix_tags %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'tours/css/tours.css' %}">
+{% endblock %}
+
 {% block content %}
 
 <!-- Contact Us Section -->
@@ -40,56 +44,63 @@
 </section>
 
 <!-- FAQs Section -->
-<section class="container my-5" id="faqs">
-    <h2 class="fw-bold text-center">❓ Frequently Asked Questions</h2>
-    <p class="text-muted text-center">Find quick answers to common questions about our brewery tours, tastings, and more.</p>
+<section class="faq-section" id="faqs">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-badge">
+                <i data-lucide="help-circle"></i>
+                <span>Need Help?</span>
+            </div>
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-description">Find quick answers to common questions about our brewery tours, tastings, and more.</p>
+        </div>
 
-    <div class="accordion mt-4" id="faqAccordion">
-        <div class="accordion-item">
-            <h3 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                    What are your operating hours?
-                </button>
-            </h3>
-            <div id="faq1" class="accordion-collapse collapse show">
-                <div class="accordion-body">
-                    We are open from <strong>Monday - Friday: 10 AM - 8 PM</strong> and <strong>Saturday - Sunday: 12 PM - 10 PM</strong>.
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <div class="faq-icon">
+                        <i data-lucide="clock"></i>
+                    </div>
+                    <div class="faq-text">
+                        <h3>What are your operating hours?</h3>
+                        <p>We are open from <strong>Monday - Friday: 10 AM - 8 PM</strong> and <strong>Saturday - Sunday: 12 PM - 10 PM</strong>.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="accordion-item">
-            <h3 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                    How do I book a brewery tour?
-                </button>
-            </h3>
-            <div id="faq2" class="accordion-collapse collapse">
-                <div class="accordion-body">
-                    You can book a tour directly through our website on the <a href="{% url 'tour:tours' %}">Brewery Tours</a> page, or visit us in person to check availability.
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <div class="faq-icon">
+                        <i data-lucide="calendar-check"></i>
+                    </div>
+                    <div class="faq-text">
+                        <h3>How do I book a brewery tour?</h3>
+                        <p>You can book a tour directly through our website on the <a href="{% url 'tour:tours' %}">Brewery Tours</a> page, or visit us in person to check availability.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="accordion-item">
-            <h3 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                    Can I bring my kids to the brewery?
-                </button>
-            </h3>
-            <div id="faq3" class="accordion-collapse collapse">
-                <div class="accordion-body">
-                    Yes! Families are welcome at Jungle Peaks Brewing, but our tasting sessions are restricted to guests **21+**.
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <div class="faq-icon">
+                        <i data-lucide="baby"></i>
+                    </div>
+                    <div class="faq-text">
+                        <h3>Can I bring my kids to the brewery?</h3>
+                        <p>Yes! Families are welcome at Jungle Peaks Brewing, but our tasting sessions are restricted to guests <strong>21+</strong>.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="accordion-item">
-            <h3 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
-                    Do you serve food at the brewery?
-                </button>
-            </h3>
-            <div id="faq4" class="accordion-collapse collapse">
-                <div class="accordion-body">
-                    Yes, we have a delicious selection of locally sourced snacks and food pairings to complement your craft beer experience.
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <div class="faq-icon">
+                        <i data-lucide="utensils-crossed"></i>
+                    </div>
+                    <div class="faq-text">
+                        <h3>Do you serve food at the brewery?</h3>
+                        <p>Yes, we have a delicious selection of locally sourced snacks and food pairings to complement your craft beer experience.</p>
+                    </div>
                 </div>
             </div>
         </div>

@@ -114,6 +114,27 @@
     align-items: stretch;
 }
 
+/* Mobile: Align quantity stepper and Update button horizontally */
+@media (max-width: 767.98px) {
+    .bag-actions.stack form {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--space-sm);
+    }
+    
+    .bag-actions.stack .quantity-stepper {
+        flex: 1;
+        max-width: fit-content;
+    }
+    
+    .bag-actions.stack .btn-outline-primary {
+        margin-top: 0 !important;
+        align-self: center;
+        white-space: nowrap;
+    }
+}
+
 .bag-summary-card {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -198,7 +219,11 @@
 
 @media (max-width: 767.98px) {
     .bag-shell {
-        padding: var(--space-xl) 0;
+        padding: var(--space-xl) var(--space-md);
+    }
+
+    .bag-header {
+        margin-bottom: var(--space-lg);
     }
 
     .bag-item-info {
@@ -208,5 +233,31 @@
     .bag-item-info img {
         width: 64px;
         height: 64px;
+    }
+
+    /* Mobile cart cards spacing */
+    .d-lg-none.d-grid {
+        gap: var(--space-md) !important;
+        margin: 0;
+    }
+
+    .bag-item-card {
+        margin: 0;
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* Ensure summary card also has proper spacing */
+    .bag-summary-card {
+        margin-top: var(--space-lg);
+    }
+}
+
+@media (max-width: 575.98px) {
+    .bag-shell {
+        padding: var(--space-lg) var(--space-sm);
+    }
+
+    .bag-item-card {
+        padding: var(--space-md) var(--space-sm);
     }
 }

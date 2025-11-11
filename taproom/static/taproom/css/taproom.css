@@ -160,69 +160,132 @@ section .container {
 .info-card {
     background: white;
     padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     text-align: left;
+    gap: 15px;
 }
 
 .info-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: #d0d0d0;
 }
 
 .info-icon {
-    font-size: 2rem;
-    margin-right: 15px;
-    margin-bottom: 0;
     flex-shrink: 0;
-    width: 40px;
-    text-align: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+.info-icon i {
+    width: 24px;
+    height: 24px;
+    color: white;
+}
+
+.info-icon-location {
+    background-color: #FF6B9D;
+}
+
+.info-icon-parking {
+    background-color: #FF4444;
+}
+
+.info-icon-access {
+    background-color: #FFB800;
+}
+
+.info-icon-hours {
+    background-color: #5C6F53;
+}
+
+.info-icon-hours i {
+    color: white !important; /* Ensure white icon for better contrast on green background */
+}
+
+.info-text {
+    flex: 1;
 }
 
 .info-text h5 {
     font-size: 1.1rem;
-    font-weight: bold;
+    font-weight: 700;
     color: #333;
-    margin: 0 0 5px 0;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
 }
 
 .info-text p {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: #666;
     margin: 0;
-    line-height: 1.4;
+    line-height: 1.5;
+}
+
+.info-text p strong {
+    color: #333;
+    font-weight: 600;
 }
 
 /* Action Buttons - Right Column */
 .location-info-right .btn {
-    padding: 12px 20px;
-    border-radius: 25px;
+    padding: 14px 24px;
+    border-radius: 8px;
     text-decoration: none;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     transition: all 0.3s ease;
     font-size: 1rem;
     font-weight: 600;
     border: none;
     cursor: pointer;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    width: 100%;
 }
 
-
-.btn-outline-secondary {
-    background: transparent;
-    color: #6c757d;
-    border: 2px solid #dee2e6;
+.location-info-right .btn i {
+    width: 18px;
+    height: 18px;
 }
 
-.btn-outline-secondary:hover {
-    background: #f8f9fa;
-    color: #495057;
+.btn-location-primary {
+    background-color: #36472E;
+    color: white;
+    box-shadow: 0 2px 8px rgba(54, 71, 46, 0.3);
+}
+
+.btn-location-primary:hover {
+    background-color: #2a3824;
+    color: white;
     transform: translateY(-2px);
-    border-color: #adb5bd;
+    box-shadow: 0 4px 12px rgba(54, 71, 46, 0.4);
+}
+
+.btn-location-secondary {
+    background-color: transparent;
+    color: #5C6F53;
+    border: 2px solid #ACB9A6;
+}
+
+.btn-location-secondary:hover {
+    background-color: #F3F6F1;
+    color: #36472E;
+    border-color: #5C6F53;
+    transform: translateY(-2px);
 }
 
 /* Responsive Design */
@@ -297,19 +360,24 @@ section .container {
 
     .info-card {
         padding: 15px;
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
+        flex-direction: row;
+        text-align: left;
+        gap: 15px;
+        align-items: flex-start;
     }
 
     .info-icon {
         margin-right: 0;
-        margin-bottom: 10px;
-        width: auto;
+        margin-bottom: 0;
+        width: 48px;
+        height: 48px;
+        align-self: flex-start;
+        flex-shrink: 0;
     }
 
     .info-text {
-        text-align: center;
+        text-align: left;
+        flex: 1;
     }
 
     .info-text h5 {
