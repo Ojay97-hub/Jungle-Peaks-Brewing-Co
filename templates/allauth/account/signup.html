@@ -1,12 +1,12 @@
 {% extends "allauth/layouts/base.html" %}
 {% load i18n %}
+{% load socialaccount %}
 
 {% block head_title %}{% trans "Sign Up" %}{% endblock %}
 
 {% block inner_content %}
 <header>
-    <h1>{% trans "Join Jungle Peaks" %}</h1>
-    <p class="text-muted">{% trans "Create an account to save your favourites, track orders, and book tours faster." %}</p>
+    <h1>{% trans "Create Account" %}</h1>
 </header>
 
 <form id="signup_form" method="post" action="{% url 'account_signup' %}" novalidate>
@@ -20,15 +20,26 @@
     {% endif %}
 
     {% for field in form %}
-        <div>
-            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-            {{ field }}
-            {% if field.help_text %}
-                <p class="form-text">{{ field.help_text }}</p>
+        <div class="form-field">
+            {% if field.name == "email" or field.name == "email2" or field.name == "username" or field.name == "password1" or field.name == "password2" %}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="field-errors">
+                        {% for error in field.errors %}
+                            <p class="error-message">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% else %}
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                    <p class="form-text">{{ field.help_text }}</p>
+                {% endif %}
+                {% for error in field.errors %}
+                    <p class="invalid-feedback d-block">{{ error }}</p>
+                {% endfor %}
             {% endif %}
-            {% for error in field.errors %}
-                <p class="invalid-feedback d-block">{{ error }}</p>
-            {% endfor %}
         </div>
     {% endfor %}
 
@@ -36,21 +47,26 @@
         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
     {% endif %}
 
-    <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="terms" required>
+    <div class="form-check terms-checkbox">
+        <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
         <label class="form-check-label" for="terms">
-            {% trans "I accept the" %} <a href="https://www.example.com/terms" target="_blank" rel="noopener noreferrer">{% trans "terms and conditions" %}</a>.
+            {% trans "I agree to the" %} <a href="https://www.example.com/terms" target="_blank" rel="noopener noreferrer" class="terms-link">{% trans "Terms" %}</a> {% trans "and" %} <a href="https://www.example.com/privacy" target="_blank" rel="noopener noreferrer" class="terms-link">{% trans "Privacy Policy" %}</a>.
         </label>
     </div>
 
     <div class="auth-actions">
-        <a class="btn btn-light" href="{% url 'account_login' %}">{% trans "Back to login" %}</a>
-        <button type="submit" class="btn btn-primary">{% trans "Create account" %}</button>
+        <button type="submit" class="btn btn-signup">{% trans "Sign Up" %}</button>
+        <a class="btn btn-signin-secondary" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
     </div>
 </form>
 
-<div class="auth-links">
-    <span>{% trans "Already have an account?" %}</span>
-    <a href="{% url 'account_login' %}">{% trans "Sign in" %}</a>
+{% get_providers as socialaccount_providers %}
+{% if socialaccount_providers %}
+<div class="auth-divider">
+    <span>{% trans "or sign up with" %}</span>
 </div>
+<div class="social-login-section social-login-bottom">
+    {% include "socialaccount/snippets/provider_list.html" with process="signup" %}
+</div>
+{% endif %}
 {% endblock %}

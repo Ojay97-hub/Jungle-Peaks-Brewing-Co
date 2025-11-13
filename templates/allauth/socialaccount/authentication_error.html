@@ -1,14 +1,36 @@
-{% extends "socialaccount/base_entrance.html" %}
+{% extends "allauth/layouts/base.html" %}
 {% load i18n %}
-{% load allauth %}
-{% block head_title %}
-    {% trans "Third-Party Login Failure" %}
-{% endblock head_title %}
-{% block content %}
-    {% element h1 %}
-        {% trans "Third-Party Login Failure" %}
-    {% endelement %}
-    {% element p %}
-        {% trans "An error occurred while attempting to login via your third-party account." %}
-    {% endelement %}
-{% endblock content %}
+{% load static %}
+
+{% block head_title %}{% trans "Authentication Error" %}{% endblock %}
+
+{% block inner_content %}
+<div class="auth-error">
+    <div class="error-icon">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+    </div>
+
+    <header>
+        <h1>{% trans "Authentication Error" %}</h1>
+        <p class="text-muted">{% trans "An error occurred while attempting to login via your third-party account." %}</p>
+    </header>
+
+    <div class="error-details">
+        <p>{% trans "This could be due to:" %}</p>
+        <ul>
+            <li>{% trans "The social account provider is not properly configured" %}</li>
+            <li>{% trans "You cancelled the authentication process" %}</li>
+            <li>{% trans "There was a temporary issue with the provider" %}</li>
+        </ul>
+    </div>
+
+    <div class="auth-actions">
+        <a href="{% url 'account_login' %}" class="btn btn-signup">{% trans "Try Again" %}</a>
+        <a href="{% url 'account_signup' %}" class="btn btn-signin-secondary">{% trans "Sign Up with Email" %}</a>
+    </div>
+</div>
+{% endblock %}

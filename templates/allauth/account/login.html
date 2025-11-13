@@ -1,13 +1,13 @@
 {% extends "allauth/layouts/base.html" %}
 {% load i18n %}
 {% load account %}
+{% load socialaccount %}
 
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
 {% block inner_content %}
 <header>
-    <h1>{% trans "Welcome back" %}</h1>
-    <p class="text-muted">{% trans "Sign in to manage your orders, reviews, and tour bookings." %}</p>
+    <h1>{% trans "Sign In" %}</h1>
 </header>
 
 <form method="post" action="{% url 'account_login' %}" novalidate>
@@ -22,20 +22,20 @@
 
     {% for field in form %}
         {% if field.name != "remember" %}
-            <div>
-                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            <div class="form-field">
                 {{ field }}
-                {% if field.help_text %}
-                    <p class="form-text">{{ field.help_text }}</p>
+                {% if field.errors %}
+                    <div class="field-errors">
+                        {% for error in field.errors %}
+                            <p class="error-message">{{ error }}</p>
+                        {% endfor %}
+                    </div>
                 {% endif %}
-                {% for error in field.errors %}
-                    <p class="invalid-feedback d-block">{{ error }}</p>
-                {% endfor %}
             </div>
         {% endif %}
     {% endfor %}
 
-    <div class="form-check">
+    <div class="form-check remember-checkbox">
         <input type="checkbox" class="form-check-input" id="remember-me" name="remember" {% if form.remember.value %}checked{% endif %}>
         <label class="form-check-label" for="remember-me">{% trans "Remember me" %}</label>
     </div>
@@ -45,14 +45,23 @@
     {% endif %}
 
     <div class="auth-actions">
-        <a href="{% url 'home' %}" class="btn btn-light">{% trans "Cancel" %}</a>
-        <button type="submit" class="btn btn-primary">{% trans "Sign In" %}</button>
+        <button type="submit" class="btn btn-signup">{% trans "Sign In" %}</button>
     </div>
 </form>
 
 <div class="auth-links">
     <a href="{% url 'account_reset_password' %}">{% trans "Forgot password?" %}</a>
     <span>•</span>
-    <a href="{{ signup_url }}">{% trans "Create an account" %}</a>
+    <a href="{% url 'account_signup' %}">{% trans "Create an account" %}</a>
 </div>
+
+{% get_providers as socialaccount_providers %}
+{% if socialaccount_providers %}
+<div class="auth-divider">
+    <span>{% trans "or sign in with" %}</span>
+</div>
+<div class="social-login-section social-login-bottom">
+    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+</div>
+{% endif %}
 {% endblock %}

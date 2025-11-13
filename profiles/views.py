@@ -129,7 +129,6 @@ def reorder(request, order_id):
     # Save updated bag to session
     request.session['bag'] = bag
 
-    messages.success(request, "Your previous order has been added to your bag."
-                     "You can now proceed to checkout.")
+    messages.success(request, "Your previous order has been added to your bag. You can now proceed to checkout.")
 
-    return redirect('view_bag')
+    return redirect('bag:view_bag')

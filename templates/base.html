@@ -481,6 +481,17 @@
       </div>
     </div>
 
+<!-- Newsletter Success Modal -->
+<div id="newsletter-success-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="newsletter-success-title">
+  <div class="modal-card text-center">
+      <h2 id="newsletter-success-title" class="fw-bold">You're all set! 🎉</h2>
+      <p class="text-muted">Thanks for subscribing. We'll send you updates based on your preferences.</p>
+      <div class="mt-3">
+          <button type="button" id="close-success-modal" class="btn btn-success">Great!</button>
+      </div>
+  </div>
+</div>
+
 
 {% block postloadjs %}
 <script src="{% static 'js/newsletter.js' %}"></script>
