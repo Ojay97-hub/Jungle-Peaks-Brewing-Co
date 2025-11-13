@@ -12,6 +12,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # Get or create the default site
+        """
+        Configure or update the Google OAuth SocialApp from environment variables and attach it to the current Site.
+        
+        Reads GOOGLE_OAUTH_CLIENT_ID and GOOGLE_OAUTH_CLIENT_SECRET from the environment, validates them, creates or updates the `SocialApp` with provider 'google' using those credentials, associates the app with the current Site, and writes progress, success, and next-step messages to stdout.
+        """
         site = Site.objects.get_current()
         self.stdout.write(f'Using site: {site.name} ({site.domain})')
 
@@ -53,4 +58,3 @@ class Command(BaseCommand):
         self.stdout.write('3. Visit: http://127.0.0.1:8000/accounts/signup/')
         self.stdout.write('4. You should see "Sign up with Google" button!')
         self.stdout.write('\n' + self.style.WARNING('Note: Make sure you added the redirect URI in Google Cloud Console first!'))
-

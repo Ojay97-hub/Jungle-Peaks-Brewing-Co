@@ -13,20 +13,34 @@ document.addEventListener("DOMContentLoaded", function () {
     const successModal = document.getElementById("newsletter-success-modal");
     const successCloseBtn = document.getElementById("close-success-modal");
 
+    /**
+     * Display the popup element by making it visible.
+     */
     function showPopup() {
         popup.style.display = "flex"; 
     }
 
+    /**
+     * Hide the newsletter popup.
+     *
+     * Sets the popup element's display style to "none" to remove it from view.
+     */
     function hidePopup() {
         popup.style.display = "none";
     }
 
+    /**
+     * Displays the success modal if it exists.
+     */
     function showSuccessModal() {
         if (successModal) {
             successModal.style.display = "flex";
         }
     }
 
+    /**
+     * Hides the success modal if it exists.
+     */
     function hideSuccessModal() {
         if (successModal) {
             successModal.style.display = "none";
