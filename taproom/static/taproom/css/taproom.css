@@ -22,61 +22,142 @@ section .container {
     padding-bottom: 40px;
 }
 
-/* taproom image */
-.taproom-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Two-column layout */
-    gap: 40px;
-    align-items: center;
-    max-width: 1400px;
-    margin: auto;
+/* Modern Taproom Hero Section */
+.taproom-hero-section {
+    padding: var(--space-3xl) 0;
+    background: var(--color-surface);
 }
 
-/* Keep the text aligned properly */
-.taproom-text {
-    grid-column: 1;
-    max-width: 600px;
+.taproom-hero-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.taproom-image-wrapper {
+/* Hero Image Container with Overlay Title */
+.taproom-hero-image {
     position: relative;
     width: 100%;
-    max-width: 700px; /* Adjust for better scaling */
+    aspect-ratio: 16/9;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    margin-bottom: var(--space-2xl);
 }
 
-/* Main (background) image */
-.main-image {
+.taproom-main-image {
     width: 100%;
-    border-radius: 15px;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.15);
-    position: relative;
-    transition: transform 0.3s ease-in-out, z-index 0.3s;
-    z-index: 1; /* Initially behind */
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Overlay (foreground) image */
-.overlay-image {
+.taproom-hero-image:hover .taproom-main-image {
+    transform: scale(1.05);
+}
+
+.taproom-image-overlay {
     position: absolute;
-    bottom: -40px;
-    right: -50px;
-    width: 60%;
-    border-radius: 10px;
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.15);
-    transform: rotate(-2deg);
-    transition: transform 0.3s ease-in-out, z-index 0.3s;
-    z-index: 2; /* Initially in front */
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+    padding: var(--space-3xl) var(--space-2xl) var(--space-xl);
+    display: flex;
+    align-items: flex-end;
 }
 
-/* When hovering over the main (background) image */
-.main-image:hover {
-    z-index: 3; /* Bring to front */
-    transform: scale(1.05); /* Slight zoom effect */
+.taproom-hero-title {
+    font-family: "Outfit", sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    color: white;
+    margin: 0;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
 }
 
-/* When hovering over the overlay (foreground) image */
-.overlay-image:hover {
-    z-index: 3; /* Bring it to the front */
-    transform: scale(1.1) rotate(0deg); /* Enlarge and reset rotation */
+/* Description Content Below Image */
+.taproom-hero-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.taproom-description {
+    display: grid;
+    gap: var(--space-lg);
+}
+
+.taproom-description p {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--color-text);
+    margin: 0;
+}
+
+.taproom-intro {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-heading);
+}
+
+.taproom-details,
+.taproom-closing {
+    color: var(--color-text);
+}
+
+.taproom-description strong {
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+/* Responsive Design */
+@media (max-width: 991.98px) {
+    .taproom-hero-section {
+        padding: var(--space-2xl) 0;
+    }
+    
+    .taproom-hero-image {
+        margin-bottom: var(--space-xl);
+        border-radius: var(--radius-lg);
+    }
+    
+    .taproom-image-overlay {
+        padding: var(--space-2xl) var(--space-xl) var(--space-lg);
+    }
+    
+    .taproom-description {
+        gap: var(--space-md);
+    }
+    
+    .taproom-description p {
+        font-size: 1rem;
+    }
+    
+    .taproom-intro {
+        font-size: 1.125rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .taproom-hero-section {
+        padding: var(--space-xl) 0;
+    }
+    
+    .taproom-hero-image {
+        aspect-ratio: 4/3;
+        margin-bottom: var(--space-lg);
+    }
+    
+    .taproom-image-overlay {
+        padding: var(--space-xl) var(--space-md) var(--space-md);
+    }
+    
+    .taproom-hero-content {
+        padding: 0 var(--space-md);
+    }
 }
 /* Full Width Location Section */
 .location-section-full {
@@ -178,8 +259,8 @@ section .container {
 
 .info-icon {
     flex-shrink: 0;
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -189,9 +270,30 @@ section .container {
 }
 
 .info-icon i {
-    width: 24px;
-    height: 24px;
-    color: white;
+    width: 28px;
+    height: 28px;
+    color: white !important;
+}
+
+.info-icon i svg,
+.info-icon [data-lucide] svg,
+.info-icon svg {
+    width: 28px !important;
+    height: 28px !important;
+    stroke: white !important;
+    stroke-width: 2 !important;
+    color: white !important;
+    fill: none !important;
+}
+
+/* Target all SVG paths and lines within info icons */
+.info-icon svg path,
+.info-icon svg line,
+.info-icon svg circle,
+.info-icon svg polyline,
+.info-icon svg polygon {
+    stroke: white !important;
+    fill: none !important;
 }
 
 .info-icon-location {
@@ -212,6 +314,12 @@ section .container {
 
 .info-icon-hours i {
     color: white !important; /* Ensure white icon for better contrast on green background */
+}
+
+.info-icon-hours i svg,
+.info-icon-hours [data-lucide] svg {
+    stroke: white !important;
+    color: white !important;
 }
 
 .info-text {
@@ -369,10 +477,23 @@ section .container {
     .info-icon {
         margin-right: 0;
         margin-bottom: 0;
-        width: 48px;
-        height: 48px;
+        width: 56px;
+        height: 56px;
         align-self: flex-start;
         flex-shrink: 0;
+    }
+    
+    .info-icon i {
+        width: 28px !important;
+        height: 28px !important;
+    }
+    
+    .info-icon i svg,
+    .info-icon [data-lucide] svg {
+        width: 28px !important;
+        height: 28px !important;
+        stroke: white !important;
+        color: white !important;
     }
 
     .info-text {

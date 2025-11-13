@@ -83,6 +83,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'crispy_forms',
     'crispy_bootstrap5',
     'storages',
@@ -157,7 +158,7 @@ SITE_ID = 1
 # Allauth authentication settings
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Avoid forcing confirm-email after social signup
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 ACCOUNT_USERNAME_MIN_LENGTH = 4
 ACCOUNT_LOGIN_REDIRECT_URL = '/'
@@ -165,6 +166,29 @@ ACCOUNT_EMAIL_CONFIRMATION_URL = '/accounts/confirm-email/'
 ACCOUNT_PASSWORD_RESET_REDIRECT_URL = '/accounts/password/reset/done/'
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
+SOCIALACCOUNT_LOGIN_ON_GET = True  # Allow login via GET request for social providers
+ACCOUNT_ADAPTER = 'jungle_peaks_brewing.adapters.CustomAccountAdapter'  # Custom adapter for email verification
+
+# Social Account Settings - Google OAuth
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    },
+}
+
+SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'  # Skip verification for social accounts (already verified by provider)
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_ADAPTER = 'jungle_peaks_brewing.adapters.CustomSocialAccountAdapter'  # Custom adapter to auto-verify social emails
+SOCIALACCOUNT_STORE_TOKENS = True  # Store OAuth tokens for future use
 
 # Messages storage
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

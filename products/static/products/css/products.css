@@ -923,13 +923,21 @@
 
 .product-overlay {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     transition: opacity 0.3s ease;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
 }
 
 .product-card:hover .product-overlay,
@@ -940,6 +948,7 @@
 .product-overlay .btn {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: var(--space-xs);
     padding: var(--space-sm) var(--space-md);
     background: var(--color-surface);
@@ -949,12 +958,19 @@
     font-weight: 600;
     text-decoration: none;
     transition: all 0.2s ease;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    white-space: nowrap;
 }
 
 .product-overlay .btn:hover {
     background: var(--color-primary);
     color: var(--color-surface);
-    transform: scale(1.05);
+    transform: translate(-50%, -50%) scale(1.05);
 }
 
 .product-overlay .btn i {
