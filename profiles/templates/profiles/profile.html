@@ -43,12 +43,15 @@
                                 <tbody>
                                     {% for order in orders %}
                                         <tr data-order="{{ order.order_number|lower }}" data-date="{{ order.date|date:'Y-m-d' }}" {% if forloop.counter > 5 %}class="d-none"{% endif %}>
-                                            <td>
-                                                <a href="{% url 'order_history' order.order_number %}" class="text-decoration-none">{{ order.order_number }}</a>
+                                            <td data-label="Order">
+                                                <a href="{% url 'order_history' order.order_number %}" class="text-decoration-none order-number-link" title="{{ order.order_number }}">
+                                                    <span class="order-number-full">{{ order.order_number }}</span>
+                                                    <span class="order-number-short">{{ order.order_number|slice:":6" }}&hellip;</span>
+                                                </a>
                                             </td>
-                                            <td>{{ order.date|date:"j M Y" }}</td>
-                                            <td>£{{ order.grand_total|floatformat:2 }}</td>
-                                            <td class="profile-actions">
+                                            <td data-label="Date">{{ order.date|date:"j M Y" }}</td>
+                                            <td data-label="Total">£{{ order.grand_total|floatformat:2 }}</td>
+                                            <td class="profile-actions" data-label="Actions">
                                                 <a href="{% url 'order_history' order.order_number %}" class="btn btn-light btn-sm">View</a>
                                                 <a href="{% url 'reorder' order.id %}" class="btn btn-primary btn-sm">Reorder</a>
                                             </td>

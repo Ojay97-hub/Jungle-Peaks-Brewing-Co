@@ -1282,6 +1282,19 @@ legend {
     max-width: min(22rem, 90vw);
 }
 
+@media (max-width: 575.98px) {
+    .message-container {
+        left: var(--space-sm);
+        right: var(--space-sm);
+        transform: none;
+        max-width: none;
+    }
+
+    .message-container .toast {
+        width: 100%;
+    }
+}
+
 .toast {
     border-radius: var(--radius-md);
     border: 1px solid var(--color-border);
@@ -1324,6 +1337,8 @@ legend {
 .notification-toast__message {
     font-size: 0.95rem;
     color: var(--color-text);
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
 .notification-toast__actions {
@@ -1688,7 +1703,6 @@ legend {
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
     padding: var(--space-2xl) var(--space-xl);
-    display: grid;
     gap: var(--space-lg);
     max-width: 500px;
     margin: 0 auto;

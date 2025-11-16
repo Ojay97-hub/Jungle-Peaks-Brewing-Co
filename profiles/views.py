@@ -94,19 +94,15 @@ def order_history(request, order_number):
 @login_required
 def reorder(request, order_id):
     """
-    Allows users to reorder a past purchase.
-
-    Models Used:
-    - Order: Retrieves the order for reordering.
-    - OrderLineItem: Fetches the line items of the selected order.
-
-    Handles:
-    - Fetching the previous order based on order_id.
-    - Adding items from the past order to the user's shopping bag.
-    - Redirecting to the shopping bag page after adding the items.
-
-    Redirects:
-    - view_bag: Redirects the user to the shopping bag after adding items.
+    Add items from a previous order to the current session shopping bag and redirect to the bag view.
+    
+    Fetches the order belonging to the requesting user, merges its line items into the session 'bag' (summing quantities for matching products), saves the updated bag in the session, and redirects the user to the shopping bag page.
+    
+    Parameters:
+        order_id (int): Database ID of the order to re-add to the bag.
+    
+    Returns:
+        HttpResponseRedirect: Redirect response to the shopping bag view.
     """
 
     order = get_object_or_404(Order,

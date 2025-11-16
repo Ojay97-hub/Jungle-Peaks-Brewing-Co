@@ -3,63 +3,150 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'home/css/home.css' %}">
+<link rel="stylesheet" href="{% static 'home/css/hero-modern.css' %}">
+{% endblock %}
+
+{% block body_class %}home-hero-page{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const revealItems = document.querySelectorAll('.reveal-on-scroll');
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    revealItems.forEach(item => observer.observe(item));
+});
+</script>
 {% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<div class="hero-image position-relative">
+<div class="hero-image position-relative reveal-on-scroll">
   <img src="{% imgix_url 'images/jungle-hero-image.jpg' 'w=1920&h=800&fit=crop&auto=format,compress&q=75' %}" 
      class="hero-img" width="1920" height="800" fetchpriority="high" alt="Hero Image">
-  <div class="hero-overlay position-absolute top-50 start-50 translate-middle text-center">
-      <h1 class="display-3 fw-bold hero-title">Jungle Peaks Brewing</h1>
-      <p class="hero-subtitle">Crafting nature's finest beers</p>
-      <div class="hero-cta-buttons mt-4">
-          <a href="{% url 'products' %}" class="btn btn-hero-primary btn-lg">
-              <i data-lucide="shopping-bag"></i>
-              Shop Our Beers
-          </a>
-          <a href="{% url 'tour:tours' %}" class="btn btn-hero-secondary btn-lg">
-              <i data-lucide="calendar"></i>
-              Book a Tour
-          </a>
+  <div class="hero-overlay-modern position-absolute top-50 start-50 translate-middle text-center">
+      <div class="hero-glass-card">
+          <div class="hero-pill-modern">
+              <span>Small-batch brewery</span>
+          </div>
+          <h1 class="hero-title-modern">Jungle Peaks Brewing</h1>
+          <p class="hero-subtitle-modern">Crafting nature's finest beers</p>
+          <div class="hero-cta-modern">
+              <a href="{% url 'products' %}" class="btn-modern btn-modern-primary">
+                  <i data-lucide="shopping-bag"></i>
+                  <span>Shop Our Beers</span>
+              </a>
+              <a href="{% url 'tour:tours' %}" class="btn-modern btn-modern-secondary">
+                  <i data-lucide="calendar"></i>
+                  <span>Book A Tour</span>
+              </a>
+          </div>
       </div>
   </div>
 </div>
 
 <!-- About Section -->
-<div class="container my-5" id="about">
-  <div class="about-section my-5 py-5">
-    <div class="row align-items-center about-content">
-        <!-- Text Section -->
-        <div class="col-lg-6 col-md-12 text-content">
-            <h2 class="fw-bold text-start">🌿 About Jungle Peaks Brewing 🌿</h2>
-            <p class="text-start">
-                Welcome to <strong>Jungle Peaks Brewing</strong>, where every sip tells a story! 🍺✨ Nestled in the heart of nature, our brewery is more than just a place—it's a <strong>passion project born from adventure, creativity, and a love for craft beer.</strong>
-            </p>
-            <p class="text-start">
-                Since <strong>2010</strong>, we've been brewing unique, handcrafted beers inspired by the untamed beauty of the jungle and the spirit of exploration. We believe that every great beer starts with the <strong>best ingredients</strong>, which is why we source <strong>locally grown grains, pure mountain spring water, and the freshest hops</strong> to create flavors that are as bold and vibrant as the wilderness that surrounds us.
-            </p>
-            <p class="text-start">
-                But we don't just stop at great taste—we are deeply committed to <strong>sustainability and community</strong>. From eco-friendly brewing practices to collaborating with local farmers, we ensure that every pint we pour leaves a positive impact.
-            </p>
-            <p class="text-start">
-                Join us on a <strong>journey of discovery</strong>, where we blend tradition with innovation, creating craft beers that awaken the senses and celebrate the untamed spirit of nature. 🌎🍻
-            </p>
-            <p class="text-start fw-bold">🍻 Cheers to adventure! 🎉</p>
+<div class="container my-5 reveal-on-scroll" id="about">
+  <section class="about-modern">
+    <div class="about-modern__hero">
+        <img src="{% static 'images/about-brewhouse.jpg' %}"
+            class="about-modern__hero-image"
+            width="1200"
+            height="800"
+            loading="lazy"
+            alt="Craft beer being poured at Jungle Peaks Brewing">
+        <div class="about-modern__hero-overlay">
+            <p class="about-modern__eyebrow">About us</p>
+            <h2>Our Jungle Peaks Journey</h2>
         </div>
-        <!-- Image Section -->
-        <div class="col-lg-6 col-md-12 text-center image-content">
-          <img src="{% imgix_url 'images/jungle-about-us.webp' 'w=800&h=600&fit=crop' %}" 
-          class="about-img img-fluid rounded" width="1920" height="800"
-          loading="lazy" 
-          alt="About Jungle Peaks Brewing">
+    </div>
+    <div class="about-modern__grid">
+        <div class="about-modern__content">
+            <p>
+                Founded with a love of wild places and great beer, Jungle Peaks Brewing blends modern craft techniques with the raw energy of the rainforest.
+            </p>
+            <p>
+                Every small batch is grounded in sustainable sourcing, pure spring water, and a community-first mindset.
+            </p>
+            <p>
+                Today we design tasting adventures, host immersive tours, and continue to push new flavor profiles that keep the spirit of exploration alive in every pour.
+            </p>
+            <p>
+                Join us for guided taproom experiences, limited releases, and collaborations that showcase the best of jungle-inspired brewing.
+            </p>
+        </div>
+        <div class="about-modern__stats">
+            <article class="about-stat">
+                <span class="about-stat__label">Founded</span>
+                <strong>2010</strong>
+                <p>Years of brewing bold jungle-inspired beers.</p>
+            </article>
+            <article class="about-stat">
+                <span class="about-stat__label">Products</span>
+                <strong>40+</strong>
+                <p>Seasonal and core beers crafted each year.</p>
+            </article>
+            <article class="about-stat">
+                <span class="about-stat__label">Tours hosted</span>
+                <strong>350+</strong>
+                <p>Guided taproom and brewery experiences.</p>
+            </article>
+            <article class="about-stat">
+                <span class="about-stat__label">Awards</span>
+                <strong>12</strong>
+                <p>National and regional recognitions for flavor & design.</p>
+            </article>
+        </div>
+    </div>
+  </section>
+</div>
+
+<section class="trusted-partners reveal-on-scroll">
+  <div class="container">
+    <div class="trusted-partners__content">
+        <div>
+            <p class="trusted-partners__eyebrow">Trusted by communities worldwide</p>
+            <h3>Brewing confidence with every pour</h3>
+            <p>From boutique bottle shops to bustling taprooms, Jungle Peaks Brewing partners with teams who care about craft, consistency, and guest experience.</p>
+        </div>
+        <div class="trusted-partners__badges">
+            <div class="trusted-badge">
+                <strong>Ship Worldwide</strong>
+                <span>Cold-chain logistics for premium freshness.</span>
+            </div>
+            <div class="trusted-badge">
+                <strong>100+ Venues</strong>
+                <span>Bars & restaurants pouring our flagship lineup.</span>
+            </div>
+            <div class="trusted-badge">
+                <strong>Eco Certified</strong>
+                <span>Sustainable sourcing & production standards.</span>
+            </div>
+            <div class="trusted-badge">
+                <strong>24h Support</strong>
+                <span>Dedicated account team for partners.</span>
+            </div>
+        </div>
+        <div class="trusted-partners__logos">
+            <span>Peak Pourhouse</span>
+            <span>Forest Table</span>
+            <span>Atlas Spirits</span>
+            <span>Nomad Taphouse</span>
         </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- CTA Section (Blue Background with Styled Cards) -->
-<div class="cta-section py-5">
+<div class="cta-section py-5 reveal-on-scroll">
   <div class="container">
     <div class="row">
       <div class="col-md-4 mb-4">
@@ -97,7 +184,7 @@
 </div>
 
 <!-- Customer Reviews Section (Yellow Background) -->
-<div class="reviews-section bg-yellow py-5">
+<div class="reviews-section bg-yellow py-5 reveal-on-scroll">
   <div class="container">
     <h2 class="fw-bold mb-4">Customer Reviews</h2>
     <div class="row">
@@ -148,7 +235,7 @@
 </div>
 
 <!-- Our Ethos Section (White Background) -->
-<div class="ethos-section bg-white py-5">
+<div class="ethos-section bg-white py-5 reveal-on-scroll">
   <div class="container">
     <h2 class="fw-bold mb-4">Our Ethos</h2>
     <div class="row text-center">

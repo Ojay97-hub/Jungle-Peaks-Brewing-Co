@@ -67,7 +67,7 @@
                 <div class="product-info bg-white rounded-4 shadow-sm p-4 h-100">
                     <!-- Category Badge -->
                     <div class="mb-3">
-                        <span class="badge px-3 py-2 rounded-pill" style="background: linear-gradient(135deg, #d4a574, #b8935f); color: white;">
+                        <span class="badge px-3 py-2 rounded-pill" style="background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); color: white;">
                             <i data-lucide="tag" style="width: 14px; height: 14px;"></i>
                             {{ product.category.name }}
                         </span>
@@ -78,7 +78,7 @@
 
                     <!-- Price -->
                     <div class="mb-4">
-                        <div class="h2 fw-bold mb-1" style="color: #d4a574;">£{{ product.price }}</div>
+                        <div class="h2 fw-bold mb-1" style="color: var(--color-primary);">£{{ product.price }}</div>
                         <small class="text-muted">Includes VAT • Free delivery over £50</small>
                     </div>
 
@@ -198,7 +198,7 @@
                         </div>
 
                         <div class="d-grid gap-2 mb-4">
-                            <button type="submit" class="btn btn-lg fw-semibold text-white" style="background: linear-gradient(135deg, #d4a574, #b8935f); border: none;">
+                            <button type="submit" class="btn btn-lg fw-semibold text-white" style="background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); border: none;">
                                 <i data-lucide="shopping-cart" style="width: 20px; height: 20px;"></i>
                                 Add to Bag - £<span id="total-price">{{ product.price }}</span>
                             </button>
@@ -243,7 +243,7 @@
                         </div>
                         {% if product.reviews.all %}
                             <div class="text-center">
-                                <div class="h2 fw-bold mb-1" style="color: #d4a574;">{{ product.rating|floatformat:1 }}</div>
+                                <div class="h2 fw-bold mb-1" style="color: var(--color-primary);">{{ product.rating|floatformat:1 }}</div>
                                 <div class="d-flex justify-content-center mb-1">
                                     {% for i in "12345" %}
                                         {% if forloop.counter <= product.rating|floatformat:0 %}
