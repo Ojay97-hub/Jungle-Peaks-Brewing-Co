@@ -28,13 +28,13 @@
         <div class="row g-4 align-items-start">
             <div class="col-12 col-xl-8">
                 <div class="summary-card">
-                    <h2 class="h5 mb-3">Order {{ order.order_number }}</h2>
+                    <h2 class="h5 mb-3">Order <span class="order-number">{{ order.order_number }}</span></h2>
                     <p class="text-small text-muted mb-4">Placed on {{ order.date|date:"j F Y, H:i" }}</p>
                     <table class="order-table">
                         <thead>
                             <tr>
                                 <th scope="col">Item</th>
-                                <th scope="col">Details</th>
+                                <th scope="col" class="order-table-details">Details</th>
                                 <th scope="col">Qty</th>
                                 <th scope="col" class="text-end">Subtotal</th>
                             </tr>
@@ -42,7 +42,7 @@
                         <tbody>
                             {% for item in order.lineitems.all %}
                                 <tr>
-                                    <td>
+                                    <td data-label="Item">
                                         <div class="order-item-info">
                                             {% if item.product %}
                                                 <!-- Product item -->
@@ -50,7 +50,7 @@
                                                 <div>
                                                     <strong>{{ item.product.name }}</strong>
                                                     {% if item.product.description %}
-                                                        <p class="text-small text-muted mb-0">{{ item.product.description|truncatewords:12 }}</p>
+                                                        <p class="text-small text-muted mb-0 order-item-secondary">{{ item.product.description|truncatewords:12 }}</p>
                                                     {% endif %}
                                                 </div>
                                             {% elif item.tour_booking %}
@@ -60,7 +60,7 @@
                                                 </div>
                                                 <div>
                                                     <strong>{{ item.tour_booking.get_tour_display }} Tour</strong>
-                                                    <p class="text-small text-muted mb-0">{{ item.tour_booking.date }} - {{ item.quantity }} guest{{ item.quantity|pluralize }}</p>
+                                                    <p class="text-small text-muted mb-0 order-item-secondary">{{ item.tour_booking.date }} - {{ item.quantity }} guest{{ item.quantity|pluralize }}</p>
                                                 </div>
                                             {% elif item.taproom_booking %}
                                                 <!-- Taproom booking item -->
@@ -69,7 +69,7 @@
                                                 </div>
                                                 <div>
                                                     <strong>{{ item.taproom_booking.get_booking_type_display }} Taproom Booking</strong>
-                                                    <p class="text-small text-muted mb-0">{{ item.taproom_booking.date }} at {{ item.taproom_booking.time }}</p>
+                                                    <p class="text-small text-muted mb-0 order-item-secondary">{{ item.taproom_booking.date }} at {{ item.taproom_booking.time }}</p>
                                                 </div>
                                             {% else %}
                                                 <!-- Fallback for items without product, tour, or taproom booking -->
@@ -82,7 +82,7 @@
                                             {% endif %}
                                         </div>
                                     </td>
-                                    <td class="text-small text-muted">
+                                    <td class="text-small text-muted order-table-details" data-label="Details">
                                         {% if item.product %}
                                             {% if item.product_size %}Size {{ item.product_size|upper }}{% else %}Standard{% endif %}
                                         {% elif item.tour_booking %}
@@ -93,8 +93,8 @@
                                             Standard
                                         {% endif %}
                                     </td>
-                                    <td>{{ item.quantity }}</td>
-                                    <td class="text-end">£{{ item.lineitem_total|floatformat:2 }}</td>
+                                    <td data-label="Qty">{{ item.quantity }}</td>
+                                    <td class="text-end" data-label="Subtotal">£{{ item.lineitem_total|floatformat:2 }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
