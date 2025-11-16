@@ -138,8 +138,8 @@
 
 @media (max-width: 768px) {
     .hero-overlay-modern {
-        top: 60%;
-        transform: translate(-50%, -50%);
+        top: 200px; /* Fixed distance from top of hero container */
+        transform: translateX(-50%); /* Only center horizontally */
         width: 92%;
     }
     .hero-glass-card { padding: 2rem 1.5rem; border-radius: 24px; }
@@ -150,7 +150,9 @@
 }
 
 @media (max-width: 480px) {
-    .hero-overlay-modern { top: 62%; }
+    .hero-overlay-modern { 
+        top: 180px; /* Slightly higher for small screens to fit better */
+    }
     .hero-title-modern { font-size: 2rem; }
     .btn-modern { min-width: 170px; }
 }
@@ -168,13 +170,23 @@
 }
 
 .home-hero-page .promo-banner {
-    background: rgba(0,0,0,0.35);
+    background: linear-gradient(135deg, rgba(5, 20, 10, 0.94), rgba(32, 71, 48, 0.92));
     color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.home-hero-page .promo-content {
+    gap: 0.85rem;
 }
 
 .home-hero-page .promo-text,
 .home-hero-page .promo-icon,
-.home-hero-page .promo-close i { color: #fff; }
+.home-hero-page .promo-close i {
+    color: #fff;
+}
 
 .home-hero-page .main-navbar { background: transparent; border: none; }
 
