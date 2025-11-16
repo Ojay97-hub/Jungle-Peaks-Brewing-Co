@@ -414,7 +414,7 @@ legend {
 /* Promo banner with smoother hide/show */
 .promo-banner {
     background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-coral) 100%);
-    color: #1a1d1f;
+    color: #FAFAFA;
     font-weight: 600;
     font-size: 0.875rem;
     position: relative;
@@ -457,7 +457,7 @@ legend {
 .countdown-timer {
     margin-left: 8px;
     font-weight: 700;
-    color: #0f172a;
+    color: #FAFAFA;
 }
 
 .promo-close {
@@ -1753,6 +1753,7 @@ legend {
     gap: var(--space-xs);
     justify-content: center;
     font-size: 0.95rem;
+    margin-top: 16px;
 }
 
 .auth-links a {
@@ -2403,7 +2404,7 @@ legend {
 @media (max-width: 767.98px) {
     .navbar-content {
         gap: 12px;
-        padding: 8px 0;
+        padding: 24px 0;
     }
 
     .brand-logo {
@@ -2457,7 +2458,7 @@ legend {
     }
 
     .navbar-actions {
-        gap: 12px;
+        gap: 24px;
     }
 
     .action-btn {

@@ -433,7 +433,7 @@
     }
 
     .hero-img {
-        height: 50vh; /* Reduce height for mobile */
+        height: 85vh; /* Reduce height for mobile */
     }
 
     .cta-section .card {
@@ -475,6 +475,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    max-height: 640px;
 }
 
 .about-modern__hero-overlay {
