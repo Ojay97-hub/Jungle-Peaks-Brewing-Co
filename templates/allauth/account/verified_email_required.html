@@ -10,10 +10,36 @@
 </header>
 
 <p class="mb-2">{% blocktrans %}We sent a verification link to your inbox. Click the link to confirm your address. If you can't find it, check spam or request a new email below.{% endblocktrans %}</p>
-{% url 'account_email' as email_url %}
-<div class="auth-links">
-    <a href="{{ email_url }}">{% trans "Update email address" %}</a>
-    <span>•</span>
-    <a href="{{ email_url }}">{% trans "Resend email" %}</a>
-</div>
+
+{% if user.is_authenticated %}
+    {# Show unverified emails for authenticated users #}
+    {% for emailaddress in user.emailaddress_set.all %}
+        {% if not emailaddress.verified %}
+            <form method="post" action="{% url 'resend_verification_email' %}" class="d-grid gap-3 mt-3">
+                {% csrf_token %}
+                <input type="hidden" name="email" value="{{ emailaddress.email }}">
+                <button type="submit" class="btn btn-primary">{% trans "Resend verification email to" %} {{ emailaddress.email }}</button>
+            </form>
+        {% endif %}
+    {% endfor %}
+    
+    <div class="auth-links mt-3">
+        <a href="{% url 'account_email' %}">{% trans "Manage email addresses" %}</a>
+    </div>
+{% else %}
+    {# For unauthenticated users, show email input form #}
+    <form method="post" action="{% url 'resend_verification_email' %}" class="d-grid gap-3 mt-3">
+        {% csrf_token %}
+        <div class="form-field">
+            <label for="id_email">{% trans "Email address" %}</label>
+            <input type="email" name="email" id="id_email" class="form-control" required 
+                   placeholder="{% trans 'Enter your email address' %}">
+        </div>
+        <button type="submit" class="btn btn-primary">{% trans "Resend verification email" %}</button>
+    </form>
+    
+    <div class="auth-links mt-3">
+        <a href="{% url 'account_login' %}">{% trans "Back to sign in" %}</a>
+    </div>
+{% endif %}
 {% endblock %}
