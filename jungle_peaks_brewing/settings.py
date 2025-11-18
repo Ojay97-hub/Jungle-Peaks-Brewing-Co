@@ -158,7 +158,7 @@ SITE_ID = 1
 # Allauth authentication settings
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Avoid forcing confirm-email after social signup
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Make email verification optional for smoother flow
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 ACCOUNT_USERNAME_MIN_LENGTH = 4
 ACCOUNT_LOGIN_REDIRECT_URL = '/'
@@ -167,7 +167,7 @@ ACCOUNT_PASSWORD_RESET_REDIRECT_URL = '/accounts/password/reset/done/'
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 SOCIALACCOUNT_LOGIN_ON_GET = True  # Allow login via GET request for social providers
-ACCOUNT_ADAPTER = 'jungle_peaks_brewing.adapters.CustomAccountAdapter'  # Custom adapter for email verification
+ACCOUNT_ADAPTER = 'jungle_peaks_brewing.adapters.CustomAccountAdapter'
 
 # Social Account Settings - Google OAuth
 SOCIALACCOUNT_PROVIDERS = {
@@ -185,9 +185,11 @@ SOCIALACCOUNT_PROVIDERS = {
 
 SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_EMAIL_REQUIRED = True
-SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'  # Skip verification for social accounts (already verified by provider)
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'  # Trust social provider verification
 SOCIALACCOUNT_AUTO_SIGNUP = True
-SOCIALACCOUNT_ADAPTER = 'jungle_peaks_brewing.adapters.CustomSocialAccountAdapter'  # Custom adapter to auto-verify social emails
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = True  # Link social accounts by email
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True  # Auto-connect to existing accounts
+SOCIALACCOUNT_ADAPTER = 'jungle_peaks_brewing.adapters.CustomSocialAccountAdapter'
 SOCIALACCOUNT_STORE_TOKENS = True  # Store OAuth tokens for future use
 
 # Messages storage

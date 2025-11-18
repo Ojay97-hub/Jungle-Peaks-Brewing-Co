@@ -1,102 +1,90 @@
 """
-Custom adapters for django-allauth
+Custom adapters for django-allauth to handle redirects, social linking, and verification.
 """
+from django.conf import settings
+from django.shortcuts import resolve_url
 from allauth.account.adapter import DefaultAccountAdapter
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
+from allauth.account.utils import user_email, user_username
+import logging
 
+logger = logging.getLogger(__name__)
 
 class CustomAccountAdapter(DefaultAccountAdapter):
     """
-    Custom account adapter to handle email verification differently for social accounts
+    Custom account adapter to handle redirects and verification logic smoothly.
     """
     
+    def get_login_redirect_url(self, request):
+        """
+        Ensure the 'next' parameter is respected after login.
+        """
+        # Check for 'next' parameter in POST or GET
+        next_url = request.POST.get('next') or request.GET.get('next')
+        
+        # If next_url exists and is safe, return it
+        if next_url and self.is_safe_url(next_url):
+            return next_url
+            
+        # Fallback to default behavior (settings.LOGIN_REDIRECT_URL)
+        return resolve_url(settings.LOGIN_REDIRECT_URL)
+
+    def get_signup_redirect_url(self, request):
+        """
+        Ensure the 'next' parameter is respected after signup.
+        """
+        # Check for 'next' parameter in POST or GET
+        next_url = request.POST.get('next') or request.GET.get('next')
+        
+        # If next_url exists and is safe, return it
+        if next_url and self.is_safe_url(next_url):
+            return next_url
+            
+        # Fallback to default behavior
+        return resolve_url(settings.LOGIN_REDIRECT_URL)
+
     def is_email_verification_mandatory(self, request):
         """
-        Determine whether email verification is required for the incoming request.
-        
-        Returns `False` for social signups detected by a session sociallogin entry or known social provider callback paths (e.g., Google, Facebook); otherwise defers to the default behavior.
-        
-        Returns:
-            `True` if email verification should be required, `False` otherwise.
+        Make email verification optional to avoid blocking checkout.
+        Settings: ACCOUNT_EMAIL_VERIFICATION = 'optional' handles the enforcement,
+        but we ensure here we don't force it.
         """
-        # Check if user is authenticating via social account
-        # Look for social login in session or URL path
-        if hasattr(request, 'session'):
-            if request.session.get('socialaccount_sociallogin'):
-                return False
-        
-        # Check if this is a social callback URL
-        if hasattr(request, 'path'):
-            if '/accounts/google/' in request.path or '/accounts/facebook/' in request.path:
-                return False
-        
-        # For regular signups, use the default behavior
-        return super().is_email_verification_mandatory(request)
-    
-    def send_confirmation_mail(self, request, emailconfirmation, signup):
-        """
-        Skip sending confirmation emails for social-account signups.
-        
-        If the email address is associated with a user who has one or more social accounts,
-        mark that EmailAddress as verified and do not send a confirmation email. For all
-        other signups, delegate to the superclass implementation to send the confirmation.
-        
-        Parameters:
-            request: The current Django HttpRequest.
-            emailconfirmation: allauth EmailConfirmation instance for the target email address.
-            signup: Boolean-like flag indicating whether this is part of a signup flow.
-        """
-        # Check if user has social accounts
-        if hasattr(emailconfirmation.email_address, 'user') and emailconfirmation.email_address.user:
-            user = emailconfirmation.email_address.user
-            if user.socialaccount_set.exists():
-                # User signed up via social auth, don't send verification email
-                # Mark as verified immediately
-                emailconfirmation.email_address.verified = True
-                emailconfirmation.email_address.save()
-                return
-        
-        # For regular email signups, send the email
-        super().send_confirmation_mail(request, emailconfirmation, signup)
+        return False
 
 
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
     """
-    Custom adapter to automatically verify emails from social providers
+    Custom social account adapter to handle account linking and redirects.
     """
-    
+
     def is_auto_signup_allowed(self, request, sociallogin):
-        """
-        Allow automatic creation of a user account for incoming social logins.
-        
-        @returns
-            True to permit automatic signup for the given social login, `False` to require explicit signup.
-        """
+        # Allow auto signup
         return True
-    
-    def save_user(self, request, sociallogin, form=None):
+
+    def pre_social_login(self, request, sociallogin):
         """
-        Save a user created from a social login and ensure any emails provided by the social provider are marked verified.
+        Invoked just after a user successfully authenticates via a social provider,
+        but before the login is actually processed.
         
-        If the social login includes email addresses, those addresses are created or updated on the saved user with `verified = True` and `primary = True` so they do not require further verification.
+        We rely on SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True in settings
+        to handle automatic linking of social accounts to existing users with the same email.
         
-        Returns:
-            The saved User model instance.
+        However, we can add custom logic here if needed.
         """
-        user = super().save_user(request, sociallogin, form)
+        # Ensure the email is marked as verified if it comes from a trusted provider
+        # This prevents allauth from asking to verify an email that Google already verified
+        if sociallogin.account.provider == 'google':
+            if sociallogin.email_addresses:
+                for email in sociallogin.email_addresses:
+                    email.verified = True
         
-        # Mark the email as verified immediately
-        if sociallogin.email_addresses:
-            from allauth.account.models import EmailAddress
-            for email_address in sociallogin.email_addresses:
-                email_obj, created = EmailAddress.objects.get_or_create(
-                    user=user,
-                    email=email_address.email.lower(),
-                    defaults={'verified': True, 'primary': True}
-                )
-                if not created and not email_obj.verified:
-                    email_obj.verified = True
-                    email_obj.primary = True
-                    email_obj.save()
-        
-        return user
+        return super().pre_social_login(request, sociallogin)
+
+    def get_connect_redirect_url(self, request, socialaccount):
+        """
+        URL to redirect to after successfully connecting a social account.
+        """
+        next_url = request.POST.get('next') or request.GET.get('next')
+        if next_url:
+            return next_url
+        return super().get_connect_redirect_url(request, socialaccount)

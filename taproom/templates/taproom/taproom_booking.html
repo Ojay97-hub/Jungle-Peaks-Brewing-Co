@@ -136,11 +136,15 @@
                     </div>
                 </div>
 
-                <!-- Submit Button -->
-                <button type="submit" class="btn-booking">
-                    <i data-lucide="shopping-cart" style="width: 20px; height: 20px;"></i>
-                    Add to Cart
-                </button>
+                <!-- Submit Buttons -->
+                <div class="button-group">
+                    <button type="submit" class="btn-booking btn-primary-custom">
+                        Book Table
+                    </button>
+                    <a href="{% url 'taproom' %}" class="btn-booking btn-secondary-custom">
+                        Back to Taproom
+                    </a>
+                </div>
 
                 <!-- Features -->
                 <div class="booking-features">

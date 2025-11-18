@@ -17,11 +17,20 @@ class SendGridEmailBackend(BaseEmailBackend):
         super().__init__(fail_silently=fail_silently)
         self.api_key = os.getenv('SENDGRID_API_KEY')
         if not self.api_key:
-            raise ValueError("SENDGRID_API_KEY environment variable is required")
+            if fail_silently:
+                logger.warning("SENDGRID_API_KEY not set - emails will not be sent")
+            else:
+                raise ValueError("SENDGRID_API_KEY environment variable is required")
 
     def send_messages(self, email_messages):
         """Send email messages using SendGrid API."""
         if not email_messages:
+            return 0
+
+        if not self.api_key:
+            logger.error("SENDGRID_API_KEY not set - cannot send emails")
+            if not self.fail_silently:
+                raise ValueError("SENDGRID_API_KEY environment variable is required")
             return 0
 
         sent_count = 0
@@ -30,20 +39,32 @@ class SendGridEmailBackend(BaseEmailBackend):
             try:
                 # Convert Django EmailMessage to SendGrid format
                 mail = self._django_to_sendgrid(email)
-                if mail:
-                    sg = SendGridAPIClient(self.api_key)
-                    response = sg.send(mail)
+                if not mail:
+                    logger.warning("Failed to convert email to SendGrid format - skipping")
+                    continue
+                
+                sg = SendGridAPIClient(self.api_key)
+                response = sg.send(mail)
 
-                    if response.status_code in [200, 201, 202]:
-                        sent_count += 1
-                        logger.info(f"Email sent successfully via SendGrid API - Status: {response.status_code}")
-                    else:
-                        logger.warning(f"Email sent but with non-success status: {response.status_code}")
+                if response.status_code in [200, 201, 202]:
+                    sent_count += 1
+                    logger.info(
+                        f"Email sent successfully via SendGrid API - "
+                        f"To: {email.to}, Subject: {email.subject}, Status: {response.status_code}"
+                    )
+                else:
+                    error_msg = f"Email failed to send - Status: {response.status_code}"
+                    if hasattr(response, 'body'):
+                        error_msg += f", Body: {response.body}"
+                    logger.error(error_msg)
+                    if not self.fail_silently:
+                        raise Exception(error_msg)
 
             except Exception as e:
-                logger.error(f"Failed to send email via SendGrid API: {str(e)}")
+                error_msg = f"Failed to send email via SendGrid API: {str(e)}"
+                logger.error(error_msg)
                 if not self.fail_silently:
-                    raise
+                    raise Exception(error_msg)
 
         return sent_count
 

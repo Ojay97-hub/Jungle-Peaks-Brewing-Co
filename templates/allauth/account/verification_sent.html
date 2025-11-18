@@ -6,12 +6,33 @@
 {% block inner_content %}
 <header>
     <h1>{% trans "Verify your email" %}</h1>
-    <p class="text-muted">{% blocktrans %}We’ve sent a verification link to your inbox. Click it to finish setting up your account.{% endblocktrans %}</p>
+    <p class="text-muted">{% blocktrans %}We've sent a verification link to your inbox. Click it to finish setting up your account.{% endblocktrans %}</p>
 </header>
 
-<div class="auth-links">
-    <a href="{% url 'account_email' %}" class="btn btn-primary">{% trans "Resend verification email" %}</a>
+<form method="post" action="{% url 'resend_verification_email' %}" class="d-grid gap-3">
+    {% csrf_token %}
+    {% if user.is_authenticated %}
+        {# If user is authenticated, show their email #}
+        {% for emailaddress in user.emailaddress_set.all %}
+            {% if not emailaddress.verified %}
+                <input type="hidden" name="email" value="{{ emailaddress.email }}">
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        {# If not authenticated, allow them to enter email #}
+        <div class="form-field">
+            <label for="id_email">{% trans "Email address" %}</label>
+            <input type="email" name="email" id="id_email" class="form-control" required 
+                   placeholder="{% trans 'Enter your email address' %}"
+                   value="{{ request.session.account_verified_email|default:'' }}">
+        </div>
+    {% endif %}
+    <button type="submit" class="btn btn-primary">{% trans "Resend verification email" %}</button>
+</form>
+
+<div class="auth-links mt-3">
+    <a href="{% url 'account_login' %}">{% trans "Back to sign in" %}</a>
 </div>
 
-<p class="text-small text-muted mb-0">{% trans "If the email doesn’t arrive in a few minutes, check your spam folder or try resending." %}</p>
+<p class="text-small text-muted mb-0 mt-3">{% trans "If the email doesn't arrive in a few minutes, check your spam folder or try resending." %}</p>
 {% endblock %}
