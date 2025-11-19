@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
 {% block content %}
 <!-- Hero Section -->
 <div class="hero-image position-relative reveal-on-scroll">
-  <img src="{% imgix_url 'images/jungle-hero-image.jpg' 'w=1920&h=800&fit=crop&auto=format,compress&q=75' %}" 
+  <img src="{% static 'images/jungle-hero-image-v2.jpg' %}" 
      class="hero-img" width="1920" height="800" fetchpriority="high" alt="Hero Image">
   <div class="hero-overlay-modern position-absolute top-50 start-50 translate-middle text-center">
       <div class="hero-glass-card">
