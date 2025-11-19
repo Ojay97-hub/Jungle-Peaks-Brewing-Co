@@ -10,9 +10,22 @@
 }
 
 /* Responsive CTA width adjustments */
-@media (max-width: 1199px) {
+@media (max-width: 1200px), (max-height: 600px) {
     .hero-overlay-modern {
         width: min(820px, 92%);
+        /* Fix for short screens/zoomed screens: avoid overlap with navbar */
+        /* Reserve space equal to promo banner + navbar using clamp */
+        top: clamp(160px, 22vh, 240px);
+        /* Override the vertical centering */
+        transform: translateX(-50%); 
+    }
+
+    .hero-glass-card {
+        padding: 2.5rem 2rem;
+    }
+
+    .hero-title-modern {
+        font-size: 3rem;
     }
 }
 
