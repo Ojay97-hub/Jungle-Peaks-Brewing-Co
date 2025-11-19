@@ -279,7 +279,7 @@
 <!-- Booking Section -->
 <section class="booking-section text-center py-5" id="booking">
     <div class="container">
-        <h3 class="fw-bold">🍽️ Make a Booking!</h3>
+        <h3 class="fw-bold">Make a Booking!</h3>
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card cta-card bg-light p-3 custom-card">
@@ -317,7 +317,10 @@
 
                     <!-- Booking Text -->
                     <p class="mt-3">🌿 Enjoy a taste of nature with our handcrafted meals!</p>
-                    <a href="{% url 'taproom_booking' %}" class="btn btn-primary">📅 Book a Table</a>
+                    <a href="{% url 'taproom_booking' %}" class="btn btn-primary d-inline-flex align-items-center gap-2">
+                        <i data-lucide="calendar"></i>
+                        <span>Book a Table</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -345,6 +348,11 @@ function toggleMapView() {
 
 // Add smooth loading animation when map loads
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Lucide icons
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+    
     const mapWrapper = document.querySelector('.location-map-wrapper-full');
     if (mapWrapper) {
         mapWrapper.style.opacity = '0';

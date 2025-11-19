@@ -142,6 +142,7 @@ small,
     padding: var(--space-xs) var(--space-md);
     border-width: 1px;
     transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    justify-content: center;
 }
 
 .btn:disabled,
@@ -336,23 +337,21 @@ legend {
     max-width: 100%;
 }
 
-/* Footer newsletter subscribe button - high specificity to override page-specific CSS */
+/* Footer newsletter subscribe button */
 .btn.btn-newsletter-subscribe {
     min-width: 140px !important;
     max-width: 180px !important;
     margin: 0 auto !important;
     display: block !important;
     text-align: center !important;
-    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-golden) 100%) !important;
-    border-color: var(--color-accent) !important;
-    color: var(--color-heading) !important;
+    background: #36472e;
+    color: #ffffff;
     border-radius: var(--radius-sm) !important;
     padding: var(--space-xs) var(--space-sm) !important;
     font-weight: 600 !important;
     font-size: 0.9rem !important;
     letter-spacing: 0.02em !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    box-shadow: 0 4px 15px rgba(224, 176, 78, 0.25) !important;
     position: relative !important;
     overflow: hidden !important;
     border: 2px solid transparent !important;
@@ -498,8 +497,8 @@ legend {
     display: flex;
     align-items: center;
     gap: 32px;
-    padding: 16px 0;
-    min-height: 80px;
+    padding: 12px 0 24px 0;
+    min-height: 64px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -2300,26 +2299,39 @@ legend {
 }
 
 /* Tablet-specific responsive improvements */
+/* Laptop and tablet landscape screens (992px - 1199px) */
 @media (max-width: 1199.98px) and (min-width: 992px) {
     .navbar-content {
-        gap: 24px;
+        gap: 16px;
+        padding: 10px 0;
+        min-height: 56px;
     }
 
     .search-container {
-        max-width: 400px;
+        max-width: 350px;
     }
 
     .nav-links {
-        gap: 4px;
+        gap: 2px;
     }
 
     .nav-link {
-        padding: 10px 12px;
-        font-size: 14px;
+        padding: 8px 10px;
+        font-size: 13px;
     }
 
     .action-btn {
-        padding: 10px 14px;
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+    
+    .btn-label,
+    .btn-value {
+        font-size: 12px;
+    }
+    
+    .logo-text {
+        font-size: 1.25rem;
     }
 }
 

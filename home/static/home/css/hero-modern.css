@@ -9,6 +9,19 @@
     z-index: 10;
 }
 
+/* Responsive CTA width adjustments */
+@media (max-width: 1199px) {
+    .hero-overlay-modern {
+        width: min(820px, 92%);
+    }
+}
+
+@media (max-width: 991px) {
+    .hero-overlay-modern {
+        width: min(700px, 90%);
+    }
+}
+
 .hero-glass-card {
     /* Deep Jungle/Brewery Glass Theme */
     background: linear-gradient(135deg, rgba(20, 33, 20, 0.75), rgba(10, 20, 10, 0.85));
@@ -65,7 +78,7 @@
 }
 
 .hero-title-modern {
-    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-size: clamp(2rem, 5vw, 4rem); /* 64px max for laptop, scales down */
     font-weight: 800;
     color: #fff;
     line-height: 1.1;
@@ -168,7 +181,7 @@
 .home-hero-page .modern-header {
     position: absolute;
     top: 0;
-    padding-top: 32px;
+    padding-top: 16px;
     left: 0;
     width: 100%;
     background: linear-gradient(180deg, rgba(4,10,4,0.85), rgba(4,10,4,0));
