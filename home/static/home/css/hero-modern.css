@@ -10,13 +10,14 @@
 }
 
 .hero-glass-card {
-    background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    /* Deep Jungle/Brewery Glass Theme */
+    background: linear-gradient(135deg, rgba(20, 33, 20, 0.75), rgba(10, 20, 10, 0.85));
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
     border-radius: 32px;
     padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
     position: relative;
     overflow: hidden;
 }
@@ -26,16 +27,18 @@
     position: absolute;
     top: 0;
     left: -120%;
-    width: 100%;
+    width: 120%;
     height: 100%;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
-    animation: hero-shine 3.5s infinite;
+    /* Subtle shine */
+    background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.05) 45%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 55%, transparent 80%);
+    animation: hero-shine 8s infinite ease-in-out;
+    pointer-events: none;
 }
 
 @keyframes hero-shine {
-    0% { left: -120%; }
-    60% { left: 120%; }
-    100% { left: 120%; }
+    0% { transform: translateX(-100%); }
+    20% { transform: translateX(200%); }
+    100% { transform: translateX(200%); }
 }
 
 .hero-pill-modern {
@@ -44,20 +47,21 @@
     justify-content: center;
     padding: 0.5rem 1.5rem;
     border-radius: 15px;
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.2);
     font-size: 0.75rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.9);
+    color: #e0e8d9; /* Soft off-white */
     margin-bottom: 1.25rem;
-    animation: hero-float 3s ease-in-out infinite;
+    /* Subtle float or static */
+    animation: hero-float 4s ease-in-out infinite;
 }
 
 @keyframes hero-float {
     0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+    50% { transform: translateY(-5px); }
 }
 
 .hero-title-modern {
@@ -66,12 +70,12 @@
     color: #fff;
     line-height: 1.1;
     margin-bottom: 1rem;
-    text-shadow: 0 10px 30px rgba(0,0,0,0.45), 0 0 30px rgba(255,255,255,0.2);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 .hero-subtitle-modern {
     font-size: clamp(1rem, 2vw, 1.35rem);
-    color: rgba(255,255,255,0.9);
+    color: rgba(255,255,255,0.85);
     margin-bottom: 2rem;
 }
 
@@ -96,7 +100,7 @@
     overflow: hidden;
     border: 1px solid transparent;
     min-width: 190px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .btn-modern i {
@@ -107,40 +111,42 @@
 
 .btn-modern span { position: relative; z-index: 1; }
 
-.btn-modern::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0));
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.btn-modern:hover::before { opacity: 1; }
-.btn-modern:hover i { transform: scale(1.1) rotate(5deg); }
-
 .btn-modern-primary {
-    background: linear-gradient(135deg, #5C6F53, #1f2d21);
-    color: #fff;
-    border-color: rgba(255,255,255,0.25);
-    box-shadow: 0 15px 30px rgba(31,45,33,0.45);
+    /* Warm Gold/Amber for contrast against dark glass */
+    background: linear-gradient(135deg, #d4af37, #ffd55b);
+    color: #0b0b0a;
+    border-color: rgba(255,255,255,0.2);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
-.btn-modern-primary:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(31,45,33,0.55); }
+.btn-modern-primary:hover {
+    background: linear-gradient(135deg, #eac54e, #cbb03a);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+}
+.btn-modern-primary:hover i { transform: scale(1.1); }
+
 
 .btn-modern-secondary {
-    background: rgba(255,255,255,0.95);
-    color: #1f2d21;
-    border-color: rgba(255,255,255,0.35);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border-color: rgba(255,255,255,0.3);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
-.btn-modern-secondary:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+.btn-modern-secondary:hover {
+    color: #fff !important;
+    background: rgba(255,255,255,0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    border-color: #ffd55b;
+}
 
 @media (max-width: 768px) {
     .hero-overlay-modern {
-        top: 200px; /* Fixed distance from top of hero container */
-        transform: translateX(-50%); /* Only center horizontally */
+        top: 200px; 
+        transform: translateX(-50%);
         width: 92%;
     }
     .hero-glass-card { padding: 2rem 1.5rem; border-radius: 24px; }
@@ -152,7 +158,7 @@
 
 @media (max-width: 480px) {
     .hero-overlay-modern { 
-        top: 180px; /* Slightly higher for small screens to fit better */
+        top: 180px; 
     }
     .hero-title-modern { font-size: 2rem; }
     .btn-modern { min-width: 170px; }
@@ -162,6 +168,7 @@
 .home-hero-page .modern-header {
     position: absolute;
     top: 0;
+    padding-top: 32px;
     left: 0;
     width: 100%;
     background: linear-gradient(180deg, rgba(4,10,4,0.85), rgba(4,10,4,0));
@@ -219,3 +226,44 @@
     margin: 0 auto;
 }
 
+/* Home Page Dropdown Styling */
+.home-hero-page .dropdown-menu {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    padding: 0.5rem;
+    margin-top: 10px;
+}
+
+.home-hero-page .dropdown-item {
+    color: #fff;
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    transition: all 0.2s ease;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.home-hero-page .dropdown-item:hover,
+.home-hero-page .dropdown-item:focus {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.home-hero-page .dropdown-divider {
+    border-top-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Fix for dropdown arrow/icon colors in header */
+.home-hero-page .navbar-actions .dropdown-toggle::after {
+    color: #fff;
+}
+
+
+@media (max-width: 991px) {
+    .home-hero-page .modern-header {
+        padding-top: 0;
+    }
+}

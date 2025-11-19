@@ -53,6 +53,26 @@
     <!-- Advanced Filtering Interface -->
     <section class="filters-section">
         <div class="container">
+            <!-- Mobile Search Bar (Visible only on mobile) -->
+            <div class="mobile-search-container d-lg-none mb-3">
+                <form method="GET" action="{% url 'products' %}" class="mobile-search-form">
+                    <div class="search-input-group">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input
+                            type="search"
+                            name="q"
+                            value="{{ search_term|default:'' }}"
+                            placeholder="Search products..."
+                            aria-label="Search for products"
+                            class="search-input"
+                        >
+                        <button type="submit" class="search-btn" aria-label="Search">
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
             <div class="filters-container">
                 <!-- Quick Filters -->
                 <div class="quick-filters">

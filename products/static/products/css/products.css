@@ -400,7 +400,7 @@
 }
 
 .pill-count {
-    background: rgba(255, 255, 255, 0.2);
+    background: #dee2e6;
     padding: 2px 8px;
     border-radius: 999px;
     font-size: 0.75rem;
@@ -808,10 +808,11 @@
 
 .view-toggle {
     display: flex;
-    gap: 4px;
+    gap: 8px;
     background: var(--color-surface-alt);
     border-radius: var(--radius-md);
-    padding: 4px;
+    padding: 8px;
+    border: solid .5px var(--color-border);
 }
 
 .view-btn {
