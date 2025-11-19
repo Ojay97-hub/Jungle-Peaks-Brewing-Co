@@ -254,23 +254,26 @@
 
 /* Button Styling */
 .custom-btn-2 {
-    background-color: var(--color-golden); /* Golden button color */
-    color: var(--color-heading); /* Dark text for contrast */
-    border-radius: 5px; /* Slightly rounded corners */
-    padding: 10px 20px; /* Button padding */
-    font-weight: bold; /* Bold font for button text */
+    background: rgb(31 108 98);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+    backdrop-filter: blur(5px);
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: bold;
     text-align: center;
-    display: inline-block; /* Ensures proper button dimensions */
-    border: none;
+    display: inline-block;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .custom-btn-2:hover {
-    background-color: var(--color-coral); /* Coral on hover */
-    color: var(--color-surface); /* White text on hover */
-    text-decoration: none; /* Ensures no underline on hover */
+    background: rgba(255,255,255,0.2);
+    color: #0b0b0a;
+    text-decoration: none;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 122, 89, 0.3);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    border-color: rgba(255,255,255,0.5);
 }
 
 /* Left Align Button */
