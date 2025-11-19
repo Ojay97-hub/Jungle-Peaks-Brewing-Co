@@ -177,6 +177,15 @@
     z-index: 50;
 }
 
+.home-hero-page .main-navbar {
+    margin-top: 32px; /* Account for fixed promo banner */
+}
+
+.home-hero-page .modern-header.hide-promo .main-navbar,
+.home-hero-page .modern-header.promo-closed .main-navbar {
+    margin-top: 0;
+}
+
 .home-hero-page .promo-banner {
     background: linear-gradient(135deg, rgba(5, 20, 10, 0.94), rgba(32, 71, 48, 0.92));
     color: #fff;
@@ -265,5 +274,14 @@
 @media (max-width: 991px) {
     .home-hero-page .modern-header {
         padding-top: 0;
+    }
+    
+    .home-hero-page .main-navbar {
+        margin-top: 32px; /* Keep margin for fixed promo banner */
+    }
+    
+    .home-hero-page .modern-header.hide-promo .main-navbar,
+    .home-hero-page .modern-header.promo-closed .main-navbar {
+        margin-top: 0;
     }
 }

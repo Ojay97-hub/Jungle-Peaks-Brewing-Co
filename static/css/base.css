@@ -417,7 +417,12 @@ legend {
     color: #FAFAFA;
     font-weight: 600;
     font-size: 0.875rem;
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1060;
     transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
                 opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1),
                 transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
@@ -481,6 +486,12 @@ legend {
     background: #ffffff;
     border-bottom: 1px solid #f1f5f9;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 32px; /* Account for fixed promo banner height */
+}
+
+.modern-header.hide-promo .main-navbar,
+.modern-header.promo-closed .main-navbar {
+    margin-top: 0;
 }
 
 .navbar-content {
