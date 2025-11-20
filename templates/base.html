@@ -58,22 +58,6 @@
   <body class="{% block body_class %}{% endblock %}">
 <!-- Header -->
 <header class="modern-header">
-    <!-- Top promotional banner -->
-    <div class="promo-banner">
-        <div class="container">
-            <div class="promo-content">
-                <span class="promo-text">
-                    <i data-lucide="truck" class="promo-icon"></i>
-                    Free delivery on orders over £{{ free_delivery_threshold }}!
-                    <span class="countdown-timer" id="countdown-desktop"></span>
-                </span>
-                <button class="promo-close" type="button" aria-label="Close banner">
-                    <i stroke="#fff" data-lucide="x"></i>
-                  </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Main navigation -->
     <nav class="main-navbar">
         <div class="container">
@@ -481,6 +465,29 @@
       </div>
     </div>
 
+    <!-- Promo Modal -->
+    <div id="promo-modal" class="modal-overlay" style="z-index: 1070;">
+        <div class="modal-card text-center position-relative" style="max-width: 400px;">
+            <button type="button" class="promo-modal-close btn-icon position-absolute top-0 end-0 m-3" aria-label="Close promo" style="background: transparent; border: none; color: var(--color-text);">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="promo-modal-content pt-4 px-2 pb-2">
+                <div class="promo-icon-large mb-3 d-flex justify-content-center">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 64px; height: 64px; background: rgba(92, 111, 83, 0.1);">
+                        <i data-lucide="truck" class="text-success" style="width: 32px; height: 32px; color: var(--color-primary);"></i>
+                    </div>
+                </div>
+                <h3 class="fw-bold mb-2">Free Delivery!</h3>
+                <p class="mb-3 text-muted">On orders over £{{ free_delivery_threshold }}</p>
+                <div class="promo-timer-container mb-4 p-3 rounded bg-light">
+                    <span class="small text-uppercase fw-bold text-muted d-block mb-1">Offer ends in</span>
+                    <span class="countdown-timer fw-bold fs-4" id="countdown-modal" style="color: var(--color-danger); font-family: monospace;"></span>
+                </div>
+                <a href="{% url 'products' %}" class="btn btn-primary w-100" id="promo-modal-cta">Shop Now</a>
+            </div>
+        </div>
+    </div>
+
 <!-- Newsletter Success Modal -->
 <div id="newsletter-success-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="newsletter-success-title">
   <div class="modal-card text-center">
@@ -580,92 +587,103 @@
 <script>
     /* global bootstrap */
     
-document.addEventListener("DOMContentLoaded", function () {
-    var toastElements = document.querySelectorAll(".toast");
-    toastElements.forEach(function (toastEl) {
-        var toast = new bootstrap.Toast(toastEl);
-        toast.show();
+    // Simple countdown
+    function startCountdown(hours, elementId) {
+        const resetTime = new Date();
+        resetTime.setHours(resetTime.getHours() + hours, 0, 0, 0);
+
+        function updateCountdown() {
+            const remainingTime = resetTime - new Date();
+            if (remainingTime <= 0) {
+                resetTime.setHours(resetTime.getHours() + hours, 0, 0, 0);
+            }
+            const s = Math.floor((remainingTime / 1000) % 60);
+            const m = Math.floor((remainingTime / 1000 / 60) % 60);
+            const h = Math.floor((remainingTime / 1000 / 60 / 60));
+            const el = document.getElementById(elementId);
+            // Show only time
+            if (el) el.textContent = `${h}h ${m}m ${s}s`;
+            setTimeout(updateCountdown, 1000);
+        }
+        updateCountdown();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Toasts
+        document.querySelectorAll('.toast').forEach(function (toastEl) {
+            new bootstrap.Toast(toastEl).show();
+        });
+
+        // Countdown for modal
+        if (document.getElementById('countdown-modal')) {
+            startCountdown(24, 'countdown-modal');
+        }
+
+        // --- Promo Modal Controls ---
+        const promoModal = document.getElementById('promo-modal');
+        const closePromoBtn = document.querySelector('.promo-modal-close');
+        const ctaPromoBtn = document.getElementById('promo-modal-cta');
+
+        // Choose behaviour: 'none' | 'session' | 'day'
+        const DISMISS_BEHAVIOUR = 'session';
+        const KEY = 'promoModalDismissedAt';
+
+        function hidePromo() {
+            if (promoModal) promoModal.classList.remove('active');
+        }
+
+        function showPromo() {
+            if (promoModal) {
+                // Small delay for better UX
+                setTimeout(() => {
+                    promoModal.classList.add('active');
+                }, 2500);
+            }
+        }
+
+        function dismissPromo() {
+            hidePromo();
+            if (DISMISS_BEHAVIOUR === 'session') sessionStorage.setItem(KEY, '1');
+            else if (DISMISS_BEHAVIOUR === 'day') localStorage.setItem(KEY, String(Date.now()));
+        }
+
+        // Show on load based on behaviour
+        (function initPromoVisibility() {
+            if (!promoModal) return;
+
+            if (DISMISS_BEHAVIOUR === 'none') { showPromo(); return; }
+
+            if (DISMISS_BEHAVIOUR === 'session') {
+                const dismissed = sessionStorage.getItem(KEY) === '1';
+                if (!dismissed) showPromo();
+                return;
+            }
+
+            if (DISMISS_BEHAVIOUR === 'day') {
+                const raw = localStorage.getItem(KEY);
+                if (!raw) { showPromo(); return; }
+                const dismissedAt = Number(raw);
+                const DAY = 24 * 60 * 60 * 1000;
+                if (Date.now() - dismissedAt >= DAY) {
+                    localStorage.removeItem(KEY);
+                    showPromo();
+                } else {
+                    hidePromo();
+                }
+            }
+        })();
+
+        // Event Listeners
+        if (closePromoBtn) closePromoBtn.addEventListener('click', dismissPromo);
+        if (ctaPromoBtn) ctaPromoBtn.addEventListener('click', dismissPromo);
+        
+        // Close when clicking outside
+        if (promoModal) {
+            promoModal.addEventListener('click', function(e) {
+                if (e.target === promoModal) dismissPromo();
+            });
+        }
     });
-
-    if (document.getElementById("countdown-desktop")) {
-        startCountdown(24, "countdown-desktop");
-    }
-});
-
-// Simple countdown
-function startCountdown(hours, elementId) {
-const resetTime = new Date();
-resetTime.setHours(resetTime.getHours() + hours, 0, 0, 0);
-
-function updateCountdown() {
-    const remainingTime = resetTime - new Date();
-    if (remainingTime <= 0) {
-    resetTime.setHours(resetTime.getHours() + hours, 0, 0, 0);
-    }
-    const s = Math.floor((remainingTime / 1000) % 60);
-    const m = Math.floor((remainingTime / 1000 / 60) % 60);
-    const h = Math.floor((remainingTime / 1000 / 60 / 60));
-    const el = document.getElementById(elementId);
-    if (el) el.textContent = `Offer ends in: ${h}h ${m}m ${s}s`;
-    setTimeout(updateCountdown, 1000);
-}
-updateCountdown();
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-// Toasts
-document.querySelectorAll('.toast').forEach(function (toastEl) {
-    new bootstrap.Toast(toastEl).show();
-});
-
-// Countdown (only if element exists)
-if (document.getElementById('countdown-desktop')) {
-    startCountdown(24, 'countdown-desktop');
-}
-
-// --- Simple promo banner controls (no scroll logic) ---
-const banner = document.querySelector('.promo-banner');
-const closeBtn = document.querySelector('.promo-close');
-
-// Choose behaviour: 'none' | 'session' | 'day'
-const DISMISS_BEHAVIOUR = 'session';   // <- Session-based dismissal
-const KEY = 'promoBannerDismissedAt';
-
-function hideBanner() { if (banner) banner.setAttribute('hidden', ''); }
-function showBanner() { if (banner) banner.removeAttribute('hidden'); }
-
-// Show on load based on behaviour
-(function initVisibility() {
-    if (!banner) return;
-
-    if (DISMISS_BEHAVIOUR === 'none') { showBanner(); return; }
-
-    if (DISMISS_BEHAVIOUR === 'session') {
-    const dismissed = sessionStorage.getItem(KEY) === '1';
-    dismissed ? hideBanner() : showBanner();
-    return;
-    }
-
-    if (DISMISS_BEHAVIOUR === 'day') {
-    const raw = localStorage.getItem(KEY);
-    if (!raw) { showBanner(); return; }
-    const dismissedAt = Number(raw);
-    const DAY = 24 * 60 * 60 * 1000;
-    if (Date.now() - dismissedAt < DAY) hideBanner();
-    else { localStorage.removeItem(KEY); showBanner(); }
-    }
-})();
-
-// Close button
-if (closeBtn && banner) {
-    closeBtn.addEventListener('click', function (e) {
-    e.preventDefault();
-    hideBanner();
-    if (DISMISS_BEHAVIOUR === 'session') sessionStorage.setItem(KEY, '1');
-    else if (DISMISS_BEHAVIOUR === 'day') localStorage.setItem(KEY, String(Date.now()));
-    });
-}
-  });
 </script>
 {% endblock %}
 
