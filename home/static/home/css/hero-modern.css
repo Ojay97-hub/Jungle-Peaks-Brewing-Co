@@ -194,7 +194,7 @@
 .home-hero-page .modern-header {
     position: absolute;
     top: 0;
-    padding-top: 16px;
+    padding-top: 8px; /* Reduced from 16px to reduce space around logo */
     left: 0;
     width: 100%;
     background: linear-gradient(180deg, rgba(4,10,4,0.85), rgba(4,10,4,0));
@@ -204,7 +204,7 @@
 }
 
 .home-hero-page .main-navbar {
-    margin-top: 32px; /* Account for fixed promo banner */
+    margin-top: 0;
 }
 
 .home-hero-page .modern-header.hide-promo .main-navbar,
@@ -212,23 +212,15 @@
     margin-top: 0;
 }
 
-.home-hero-page .promo-banner {
-    background: linear-gradient(135deg, rgba(5, 20, 10, 0.94), rgba(32, 71, 48, 0.92));
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
-
 .home-hero-page .promo-content {
     gap: 0.85rem;
 }
 
-.home-hero-page .promo-text,
-.home-hero-page .promo-icon,
-.home-hero-page .promo-close i {
-    color: #fff;
+@media (max-width: 768px) {
+    /* Ensure navbar pushes down correctly on mobile */
+    .home-hero-page .main-navbar {
+        margin-top: 0;
+    }
 }
 
 .home-hero-page .main-navbar { background: transparent; border: none; }
@@ -303,7 +295,7 @@
     }
     
     .home-hero-page .main-navbar {
-        margin-top: 32px; /* Keep margin for fixed promo banner */
+        margin-top: 0; /* Keep margin for fixed promo banner */
     }
     
     .home-hero-page .modern-header.hide-promo .main-navbar,
