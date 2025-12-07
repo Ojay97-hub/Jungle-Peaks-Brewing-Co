@@ -66,9 +66,9 @@
                                                     </div>
                                                 {% else %}
                                                     <!-- Tour item -->
-                                                    <div class="tour-icon" style="width: 80px; height: 80px; background: linear-gradient(135deg, #d4a574, #b8935f); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; border: 2px solid #e9ecef;">
-                                                        <i data-lucide="map-pin" style="width: 32px; height: 32px;"></i>
-                                                    </div>
+                                                    <img src="{% static 'tours/images/'|add:item.tour_booking.tour|add:'.png' %}" 
+                                                         alt="{{ item.tour_booking.get_tour_display }}"
+                                                         style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6;">
                                                     <div class="bag-item-meta">
                                                         <span class="fw-semibold">{{ item.tour_booking.get_tour_display|default:"Tour" }} Tour</span>
                                                         <span class="text-small">{{ item.tour_date }} - {{ item.tour_guests }} guest{{ item.tour_guests|pluralize }}</span>
@@ -236,9 +236,9 @@
                                 <p class="fw-semibold mb-0">Subtotal £{{ item.price|default:0|floatformat:2 }}</p>
                             {% else %}
                                 <!-- Tour item for mobile -->
-                                <div class="tour-icon-mobile" style="width: 120px; height: 120px; background: linear-gradient(135deg, #d4a574, #b8935f); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 36px; border: 2px solid #e9ecef; margin-bottom: 1rem;">
-                                    <i data-lucide="map-pin" style="width: 48px; height: 48px;"></i>
-                                </div>
+                                <img src="{% static 'tours/images/'|add:item.tour_booking.tour|add:'.png' %}" 
+                                     alt="{{ item.tour_booking.get_tour_display }}"
+                                     style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6; margin-bottom: 1rem;">
                                 <div>
                                     {% if item.legacy_item %}
                                         <h2 class="h5 mb-2">Tour Booking</h2>
@@ -294,8 +294,12 @@
         <div class="bag-empty" role="status" aria-live="polite">
             <div class="icon mb-3" aria-hidden="true">👜</div>
             <h2 class="h4 mb-2">Your bag is empty</h2>
-            <p class="mb-4">Browse the shop to discover new brews and exclusive experiences.</p>
-            <a href="{% url 'products' %}" class="btn btn-primary">Discover products</a>
+            <p class="mb-4">Browse the shop to discover new brews or book an experience.</p>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <a href="{% url 'products' %}" class="btn btn-primary">Discover products</a>
+                <a href="{% url 'tour:book_tour' %}" class="btn btn-outline-primary">Book a Tour</a>
+                <a href="{% url 'taproom:taproom_booking' %}" class="btn btn-outline-primary">Reserve a Table</a>
+            </div>
         </div>
     {% endif %}
 </section>

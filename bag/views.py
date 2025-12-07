@@ -181,6 +181,9 @@ def remove_from_bag(request, item_id):
 
         # Try database cart first
         try:
+            if not request.user.is_authenticated:
+                raise Cart.DoesNotExist
+
             cart = Cart.objects.get(user=request.user)
             cart_item = CartItem.objects.get(
                 cart=cart,

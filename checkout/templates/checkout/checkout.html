@@ -52,9 +52,9 @@
                                                 </div>
                                             {% else %}
                                                 <!-- Tour item -->
-                                                <div class="tour-icon" style="width: 80px; height: 80px; background: linear-gradient(135deg, #d4a574, #b8935f); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; border: 2px solid #e9ecef;">
-                                                    <i data-lucide="map-pin" style="width: 32px; height: 32px;"></i>
-                                                </div>
+                                                <img src="{% static 'tours/images/'|add:item.tour_booking.tour|add:'.png' %}" 
+                                                     alt="{{ item.tour_booking.get_tour_display }}"
+                                                     style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6;">
                                                 <div>
                                                     <strong>{{ item.tour_booking.get_tour_display }} Tour</strong>
                                                     <p class="text-small text-muted mb-0">{{ item.tour_date }} - {{ item.tour_guests }} guest{{ item.tour_guests|pluralize }}</p>
@@ -103,9 +103,9 @@
                                 </div>
                             {% else %}
                                 <!-- Tour item -->
-                                <div class="tour-icon" style="width: 80px; height: 80px; background: linear-gradient(135deg, #d4a574, #b8935f); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; border: 2px solid #e9ecef;">
-                                    <i data-lucide="map-pin" style="width: 32px; height: 32px;"></i>
-                                </div>
+                                <img src="{% static 'tours/images/'|add:item.tour_booking.tour|add:'.png' %}" 
+                                     alt="{{ item.tour_booking.get_tour_display }}"
+                                     style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6;">
                                 <div>
                                     <p class="mb-1"><strong>{{ item.tour_booking.get_tour_display }} Tour</strong></p>
                                     <p class="text-small text-muted mb-1">{{ item.tour_date }} - {{ item.tour_guests }} guest{{ item.tour_guests|pluralize }}</p>

@@ -1,3 +1,4 @@
+{% load static %}
 <div class="toast notification-toast notification-toast--success" role="status" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
     <div class="toast-body">
         <div class="notification-toast__icon" aria-hidden="true">
@@ -31,9 +32,10 @@
                                     <span class="text-small text-muted">Qty {{ item.quantity }}</span>
                                 </div>
                             {% elif item.item_type == 'tour' %}
-                                <div class="mini-bag__thumb mini-bag__thumb--icon" style="background: linear-gradient(135deg, #d4a574, #b8935f); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;">
-                                    <i data-lucide="map-pin" style="width: 24px; height: 24px;"></i>
-                                </div>
+                                <img src="{% static 'tours/images/'|add:item.tour_booking.tour|add:'.png' %}" 
+                                     alt="{{ item.tour_booking.get_tour_display }}"
+                                     class="mini-bag__thumb"
+                                     style="object-fit: cover;">
                                 <div class="mini-bag__meta">
                                     <span class="fw-semibold">{{ item.tour_booking.get_tour_display|default:"Tour" }} Tour</span>
                                     <span class="text-small">{{ item.tour_date }} - {{ item.tour_guests }} guest{{ item.tour_guests|pluralize }}</span>

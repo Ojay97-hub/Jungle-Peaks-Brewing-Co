@@ -105,3 +105,20 @@ class TourBooking(models.Model):
         if self.guests > self.get_available_slots():
             raise ValueError("Not enough slots available for this tour.")
         super().save(*args, **kwargs)
+
+    @property
+    def tour_slug(self):
+        """
+        Returns the URL slug for the tour.
+        """
+        # Mapping should ideally be centralized, but defining here for immediate utility
+        # derived from the inverse of what's typically in views
+        slug_map = {
+            "guided": "guided-brewery-tour",
+            "sunset": "sunset-tour",
+            "craft_tasting": "craft-beer-tasting",
+            "seasonal": "seasonal-selection",
+            "brewer_session": "master-brewer-session",
+        }
+        return slug_map.get(self.tour, "guided-brewery-tour")
+

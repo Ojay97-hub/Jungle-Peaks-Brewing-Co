@@ -55,12 +55,13 @@
                                                 </div>
                                             {% elif item.tour_booking %}
                                                 <!-- Tour booking item -->
-                                                <div class="order-item-icon" style="width: 80px; height: 80px; background: linear-gradient(135deg, #d4a574, #b8935f); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; border: 2px solid #e9ecef;">
-                                                    <i data-lucide="map-pin" style="width: 32px; height: 32px;"></i>
-                                                </div>
+                                                <img src="{% static 'tours/images/'|add:item.tour_booking.tour|add:'.png' %}" 
+                                                     alt="{{ item.tour_booking.get_tour_display }}"
+                                                     style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6;">
                                                 <div>
                                                     <strong>{{ item.tour_booking.get_tour_display }} Tour</strong>
-                                                    <p class="text-small text-muted mb-0 order-item-secondary">{{ item.tour_booking.date }} - {{ item.quantity }} guest{{ item.quantity|pluralize }}</p>
+                                                    <p class="text-small text-muted mb-1 order-item-secondary">{{ item.tour_booking.date }} - {{ item.quantity }} guest{{ item.quantity|pluralize }}</p>
+                                                    <a href="{% url 'tour:book_tour_specific' item.tour_booking.tour_slug %}" class="btn btn-sm btn-outline-secondary py-0" style="font-size: 0.75rem;">Book again</a>
                                                 </div>
                                             {% elif item.taproom_booking %}
                                                 <!-- Taproom booking item -->
@@ -69,7 +70,8 @@
                                                 </div>
                                                 <div>
                                                     <strong>{{ item.taproom_booking.get_booking_type_display }} Taproom Booking</strong>
-                                                    <p class="text-small text-muted mb-0 order-item-secondary">{{ item.taproom_booking.date }} at {{ item.taproom_booking.time }}</p>
+                                                    <p class="text-small text-muted mb-1 order-item-secondary">{{ item.taproom_booking.date }} at {{ item.taproom_booking.time }}</p>
+                                                    <a href="{% url 'taproom:taproom_booking' %}" class="btn btn-sm btn-outline-secondary py-0" style="font-size: 0.75rem;">Book again</a>
                                                 </div>
                                             {% else %}
                                                 <!-- Fallback for items without product, tour, or taproom booking -->
@@ -126,8 +128,9 @@
                         <button type="button" class="btn btn-light" onclick="window.print()"><i class="fas fa-print"></i> Print receipt</button>
                         <form action="{% url 'resend_order_confirmation' order.order_number %}" method="post" class="d-grid gap-2">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-envelope"></i> Resend email</button>
+                            <button type="submit" class="btn btn-outline-primary"><i class="fas fa-envelope"></i> Resend email</button>
                         </form>
+                        <a href="{% url 'reorder' order.id %}" class="btn btn-primary"><i class="fas fa-redo"></i> Book again</a>
                         {% if from_profile %}
                             <a href="{% url 'profile' %}" class="btn btn-light">Return to profile</a>
                         {% else %}

@@ -97,6 +97,8 @@ def bag_contents(request):
                         "item_id": item_id,
                         "quantity": item_data,
                         "product": product,
+                        "item_type": "product",
+                        "price": item_data * product.price,
                     }
                 )
             else:
@@ -109,6 +111,8 @@ def bag_contents(request):
                             "quantity": quantity,
                             "product": product,
                             "size": size,
+                            "item_type": "product",
+                            "price": quantity * product.price,
                         }
                     )
 

@@ -112,8 +112,15 @@ def reorder(request, order_id):
     # Retrieve the user's shopping bag from session
     bag = request.session.get('bag', {})
 
+    items_added = 0
+    items_skipped = 0
+
     # Add past order items to the shopping bag
     for item in OrderLineItem.objects.filter(order=order):
+        if not item.product:
+            items_skipped += 1
+            continue
+            
         product_id = str(item.product.id)
         quantity = item.quantity
 
@@ -121,10 +128,19 @@ def reorder(request, order_id):
             bag[product_id] += quantity
         else:
             bag[product_id] = quantity
+        
+        items_added += 1
 
     # Save updated bag to session
     request.session['bag'] = bag
 
-    messages.success(request, "Your previous order has been added to your bag. You can now proceed to checkout.")
+    if items_added > 0 and items_skipped > 0:
+        messages.success(request, "Products added to your bag. Note: Tours and bookings are date-specific and must be re-booked manually.")
+    elif items_added > 0:
+        messages.success(request, "Your previous order has been added to your bag. You can now proceed to checkout.")
+    elif items_skipped > 0:
+        messages.warning(request, "This order contains only date-specific items (Tours/Bookings) which must be re-booked manually.")
+    else:
+        messages.info(request, "No items were found to reorder.")
 
     return redirect('bag:view_bag')
