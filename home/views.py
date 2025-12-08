@@ -8,6 +8,7 @@ from django.contrib import messages
 
 from .forms import NewsletterForm
 from .models import NewsletterSubscriber
+from products.models import Product
 
 
 def index(request):
@@ -17,7 +18,18 @@ def index(request):
     Template Used:
     - home/home.html
     """
-    return render(request, 'home/home.html')
+    # Get the featured beer (Citrus Peak IPA)
+    featured_beer = None
+    try:
+        featured_beer = Product.objects.get(name="Citrus Peak IPA")
+    except Product.DoesNotExist:
+        pass
+    
+    context = {
+        'featured_beer': featured_beer,
+    }
+    return render(request, 'home/home.html', context)
+
 
 
 @csrf_exempt

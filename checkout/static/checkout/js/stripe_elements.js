@@ -142,35 +142,47 @@ try {
                     name: getTrimmedValue('full_name'),
                     phone: getTrimmedValue('phone_number'),
                     email: getTrimmedValue('email'),
-                    address: {
+                };
+
+                const country = getTrimmedValue('country');
+                if (country) {
+                    billingDetails.address = {
                         line1: getTrimmedValue('street_address1'),
                         line2: getTrimmedValue('street_address2'),
                         city: getTrimmedValue('town_or_city'),
-                        country: getTrimmedValue('country'),
+                        country: country,
                         state: getTrimmedValue('county')
-                    }
-                };
+                    };
+                }
 
-                const shippingDetails = {
-                    name: billingDetails.name,
-                    phone: billingDetails.phone,
-                    address: {
-                        line1: billingDetails.address.line1,
-                        line2: billingDetails.address.line2,
-                        city: billingDetails.address.city,
-                        country: billingDetails.address.country,
-                        postal_code: getTrimmedValue('postcode'),
-                        state: billingDetails.address.state
-                    }
-                };
+                let shippingDetails = null;
+                if (country) {
+                    shippingDetails = {
+                        name: billingDetails.name,
+                        phone: billingDetails.phone,
+                        address: {
+                            line1: billingDetails.address.line1,
+                            line2: billingDetails.address.line2,
+                            city: billingDetails.address.city,
+                            country: billingDetails.address.country,
+                            postal_code: getTrimmedValue('postcode'),
+                            state: billingDetails.address.state
+                        }
+                    };
+                }
 
-                const result = await stripe.confirmCardPayment(clientSecret, {
+                const paymentData = {
                     payment_method: {
                         card,
                         billing_details: billingDetails
-                    },
-                    shipping: shippingDetails
-                });
+                    }
+                };
+
+                if (shippingDetails) {
+                    paymentData.shipping = shippingDetails;
+                }
+
+                const result = await stripe.confirmCardPayment(clientSecret, paymentData);
 
                 if (result.error) {
                     renderError(result.error.message);

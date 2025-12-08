@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
   </div>
 </div>
 
-<!-- About Section -->
+<!-- About Section - Redesigned -->
 <div class="container mt-5 mb-2 reveal-on-scroll" id="about">
   <section class="about-modern">
     <div class="about-modern__hero">
@@ -89,22 +89,22 @@ document.addEventListener('DOMContentLoaded', function () {
         <div class="about-modern__stats">
             <article class="about-stat">
                 <span class="about-stat__label">Founded</span>
-                <strong>2010</strong>
+                <strong class="about-stat__number" data-target="2010">2010</strong>
                 <p>Years of brewing bold jungle-inspired beers.</p>
             </article>
             <article class="about-stat">
                 <span class="about-stat__label">Products</span>
-                <strong>40+</strong>
+                <strong class="about-stat__number">40+</strong>
                 <p>Seasonal and core beers crafted each year.</p>
             </article>
             <article class="about-stat">
                 <span class="about-stat__label">Tours hosted</span>
-                <strong>350+</strong>
+                <strong class="about-stat__number">350+</strong>
                 <p>Guided taproom and brewery experiences.</p>
             </article>
             <article class="about-stat">
                 <span class="about-stat__label">Awards</span>
-                <strong>12</strong>
+                <strong class="about-stat__number">12</strong>
                 <p>National and regional recognitions for flavor & design.</p>
             </article>
         </div>
@@ -112,41 +112,120 @@ document.addEventListener('DOMContentLoaded', function () {
   </section>
 </div>
 
+<!-- Featured Beer Section -->
+{% if featured_beer %}
+<section class="featured-beer reveal-on-scroll">
+    <div class="featured-beer__background"></div>
+    <div class="container">
+        <div class="featured-beer__grid">
+            <div class="featured-beer__image">
+                <div class="featured-beer__image-wrapper">
+                    {% if featured_beer.image_url %}
+                        <img src="{{ featured_beer.image_url }}" 
+                             alt="{{ featured_beer.name }}"
+                             loading="lazy">
+                    {% elif featured_beer.image %}
+                        <img src="{% imgix_url featured_beer.image.name params='w=600&h=600&fit=crop&auto=format,compress&q=85' %}" 
+                             alt="{{ featured_beer.name }}"
+                             loading="lazy">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="featured-beer__content">
+                <span class="featured-beer__eyebrow">Featured Brew</span>
+                <h2 class="featured-beer__title">{{ featured_beer.name }}</h2>
+                <div class="featured-beer__meta">
+                    <span class="featured-beer__meta-item">
+                        <i data-lucide="droplet"></i>
+                        330ML
+                    </span>
+                    {% if featured_beer.abv %}
+                    <span class="featured-beer__meta-item">
+                        <i data-lucide="percent"></i>
+                        {{ featured_beer.abv }}% ABV
+                    </span>
+                    {% endif %}
+                    <span class="featured-beer__meta-item">
+                        <i data-lucide="sparkles"></i>
+                        {{ featured_beer.type }}
+                    </span>
+                </div>
+                <p class="featured-beer__description">{{ featured_beer.description }}</p>
+                <div class="featured-beer__price">£{{ featured_beer.price|floatformat:2 }}</div>
+                <a href="{% url 'product_detail' featured_beer.id %}" class="featured-beer__cta">
+                    <i data-lucide="shopping-bag"></i>
+                    Shop Now
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Trusted Partners Section - Redesigned -->
 <section class="trusted-partners reveal-on-scroll">
   <div class="container">
     <div class="trusted-partners__content">
-        <div>
+        <div class="trusted-partners__header">
             <p class="trusted-partners__eyebrow">Trusted by communities worldwide</p>
             <h3>Brewing confidence with every pour</h3>
             <p>From boutique bottle shops to bustling taprooms, Jungle Peaks Brewing partners with teams who care about craft, consistency, and guest experience.</p>
         </div>
         <div class="trusted-partners__badges">
             <div class="trusted-badge">
+                <div class="trusted-badge__icon">
+                    <i data-lucide="globe" style="stroke: #fff;"></i>
+                </div>
                 <strong>Ship Worldwide</strong>
                 <span>Cold-chain logistics for premium freshness.</span>
             </div>
             <div class="trusted-badge">
+                <div class="trusted-badge__icon">
+                    <i data-lucide="building-2" style="stroke: #fff;"></i>
+                </div>
                 <strong>100+ Venues</strong>
                 <span>Bars & restaurants pouring our flagship lineup.</span>
             </div>
             <div class="trusted-badge">
+                <div class="trusted-badge__icon">
+                    <i data-lucide="leaf" style="stroke: #fff;"></i>
+                </div>
                 <strong>Eco Certified</strong>
                 <span>Sustainable sourcing & production standards.</span>
             </div>
             <div class="trusted-badge">
+                <div class="trusted-badge__icon">
+                    <i data-lucide="headphones" style="stroke: #fff;"></i>
+                </div>
                 <strong>24h Support</strong>
                 <span>Dedicated account team for partners.</span>
             </div>
         </div>
-        <div class="trusted-partners__logos">
-            <span>Peak Pourhouse</span>
-            <span>Forest Table</span>
-            <span>Atlas Spirits</span>
-            <span>Nomad Taphouse</span>
+        <div class="trusted-partners__marquee">
+            <div class="trusted-partners__marquee-track">
+                <span class="partner-logo">Peak Pourhouse</span>
+                <span class="partner-logo">Forest Table</span>
+                <span class="partner-logo">Atlas Spirits</span>
+                <span class="partner-logo">Nomad Taphouse</span>
+                <span class="partner-logo">Wild Hop Co.</span>
+                <span class="partner-logo">Summit Brewing</span>
+                <span class="partner-logo">Canopy Craft</span>
+                <span class="partner-logo">Vine & Hops</span>
+                <!-- Duplicate for seamless loop -->
+                <span class="partner-logo">Peak Pourhouse</span>
+                <span class="partner-logo">Forest Table</span>
+                <span class="partner-logo">Atlas Spirits</span>
+                <span class="partner-logo">Nomad Taphouse</span>
+                <span class="partner-logo">Wild Hop Co.</span>
+                <span class="partner-logo">Summit Brewing</span>
+                <span class="partner-logo">Canopy Craft</span>
+                <span class="partner-logo">Vine & Hops</span>
+            </div>
         </div>
     </div>
   </div>
 </section>
+
 
 <!-- CTA Section (Blue Background with Styled Cards) -->
 <div class="cta-section py-5 reveal-on-scroll">

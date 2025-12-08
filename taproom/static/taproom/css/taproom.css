@@ -78,6 +78,47 @@ section .container {
     line-height: 1.1;
 }
 
+/* Book a Table Button in Hero */
+.btn-book-table {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #5C6F53, #36472E);
+    color: white;
+    padding: 0.875rem 1.5rem;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(54, 71, 46, 0.4);
+    margin-left: auto;
+}
+
+.btn-book-table:hover {
+    background: linear-gradient(135deg, #6a805f, #445a38);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(54, 71, 46, 0.5);
+    color: white;
+}
+
+.btn-book-table i {
+    width: 20px;
+    height: 20px;
+}
+
+.taproom-image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+    padding: var(--space-3xl) var(--space-2xl) var(--space-xl);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
 /* Description Content Below Image */
 .taproom-hero-content {
     max-width: 900px;
@@ -164,42 +205,15 @@ section .container {
     padding: 40px 0;
 }
 
-/* Full Width Map Container */
-.map-container-full {
+/* Full Width Map Container - Flat Design */
+.map-container-flat {
     width: 100%;
-    display: flex;
-    justify-content: center;
     margin-bottom: 30px;
 }
 
-.location-map-wrapper-full {
-    width: 100%;
-    max-width: 1200px;
-    position: relative;
-    background: white;
-    border-radius: 25px;
-    overflow: hidden;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.location-map-wrapper-full:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.25);
-}
-
-.map-embed-full {
-    width: 100%;
-    height: 500px;
-    position: relative;
-    overflow: hidden;
-}
-
-.map-embed-full iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
+.map-container-flat iframe {
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 /* Location Content - Left Column */
@@ -209,65 +223,62 @@ section .container {
     animation: slideInLeft 0.8s ease-out;
 }
 
-.location-content-left h3 {
-    font-size: 2.5rem;
-    color: #333;
-    margin-bottom: 1.5rem;
-    text-align: left;
-}
-
-.location-content-left p {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    color: #555;
-    margin-bottom: 1.5rem;
-    text-align: left;
-}
-
 /* Location Info - Right Column */
 .location-info-right {
     padding-left: 20px;
     animation: slideInRight 0.8s ease-out 0.2s both;
 }
 
-/* Info Cards Stack */
-.info-cards-stack {
+/* Flat Info Items Stack */
+.info-items-flat {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin-bottom: 30px;
+    gap: 2rem;
+    margin-bottom: 2rem;
 }
 
-.info-card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+.info-item-flat {
     display: flex;
     align-items: flex-start;
-    text-align: left;
-    gap: 15px;
-}
-
-.info-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-color: #d0d0d0;
+    gap: 1rem;
 }
 
 .info-icon {
     flex-shrink: 0;
-    width: 56px;
-    height: 56px;
-    border-radius: 10px;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 0;
-    margin-bottom: 0;
+    color: white;
 }
+
+.info-icon i {
+    width: 24px;
+    height: 24px;
+}
+
+.info-text h5 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-heading);
+    margin: 0 0 0.25rem 0;
+    line-height: 1.2;
+}
+
+.info-text p {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Icon Colors */
+.info-icon-location { background-color: #FF6B9D; }
+.info-icon-parking { background-color: #FF4444; }
+.info-icon-access { background-color: #FFB800; }
+.info-icon-hours { background-color: #5C6F53; }
 
 .info-icon i {
     width: 28px;
