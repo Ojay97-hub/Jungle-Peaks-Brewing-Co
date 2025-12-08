@@ -235,8 +235,8 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Required for collectstatic
 
-# Whitenoise configuration for static files
-STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
+# Whitenoise configuration for static files (compressed + cached)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
