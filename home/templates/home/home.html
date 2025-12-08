@@ -30,15 +30,18 @@ document.addEventListener('DOMContentLoaded', function () {
 {% block content %}
 <!-- Hero Section -->
 <div class="hero-image position-relative reveal-on-scroll">
-  <img src="{% static 'images/jungle-hero-image-v2.jpg' %}" 
-     class="hero-img" width="1920" height="800" fetchpriority="high" alt="Hero Image">
-  <div class="hero-overlay-modern position-absolute top-50 start-50 translate-middle text-center">
-      <div class="hero-glass-card">
+  <img src="{% static 'images/jungle-hero-terrace.webp' %}" 
+     class="hero-img" width="1920" height="800" fetchpriority="high" alt="Jungle Terrace Brewery View">
+     
+  <!-- Centered Hero Text & CTA -->
+  <div class="hero-center-text position-absolute top-50 start-50 translate-middle text-center w-100 d-flex flex-column align-items-center justify-content-center">
+      <h1 class="hero-title-modern">Jungle Peaks Brewing</h1>
+      <p class="hero-subtitle-modern mb-4">Crafting nature's finest beers</p>
+      
+      <div class="hero-glass-card mt-2">
           <div class="hero-pill-modern">
               <span>Independent Brewery</span>
           </div>
-          <h1 class="hero-title-modern">Jungle Peaks Brewing</h1>
-          <p class="hero-subtitle-modern">Crafting nature's finest beers</p>
           <div class="hero-cta-modern">
               <a href="{% url 'products' %}" class="btn-modern btn-modern-primary">
                   <i data-lucide="shopping-bag"></i>

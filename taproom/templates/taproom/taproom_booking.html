@@ -8,146 +8,331 @@
 
 {% block content %}
 <div class="booking-modern">
-    <div class="booking-container">
+    <div class="booking-container-wide">
         <!-- Header -->
-        <div class="booking-header">
+        <div class="booking-header text-center mb-4">
             <h1 class="booking-title">
                 <i data-lucide="calendar-check" style="width: 2rem; height: 2rem; color: #d4a574;"></i>
                 Reserve Your Table
             </h1>
-            <p class="booking-subtitle">Join us for an exceptional dining experience at Jungle Peaks</p>
+            <p class="booking-subtitle">Select your preferred table for an exceptional dining experience</p>
         </div>
 
-        <!-- Booking Form -->
-        <div class="booking-card">
-            <form method="post">
-                {% csrf_token %}
+        <form method="post" id="booking-form">
+            {% csrf_token %}
+            <!-- Hidden Table Input -->
+            <input type="hidden" name="table_number" id="id_table_number">
 
-                <!-- Personal Information -->
-                <div class="form-section">
-                    <h3 class="section-title">
-                        <i data-lucide="user" class="section-icon"></i>
-                        Personal Information
-                    </h3>
+            <div class="booking-layout">
+                <!-- Left Column: Personal Info & Submit -->
+                <div class="booking-form-column">
+                    <div class="booking-card mb-4">
 
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                {{ form.name }}
-                                <label for="{{ form.name.id_for_label }}">Full Name *</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                {{ form.email }}
-                                <label for="{{ form.email.id_for_label }}">Email Address *</label>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-floating">
-                                {{ form.phone }}
-                                <label for="{{ form.phone.id_for_label }}">Phone Number *</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Reservation Details -->
-                <div class="form-section">
-                    <h3 class="section-title">
-                        <i data-lucide="calendar" class="section-icon"></i>
-                        Reservation Details
-                    </h3>
-
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <label for="{{ form.date.id_for_label }}" class="form-label fw-semibold">
-                                <i data-lucide="calendar-days" style="width: 16px; height: 16px; color: #d4a574;"></i>
-                                Date *
-                            </label>
-                            {{ form.date }}
-                        </div>
-                        <div class="col-md-4">
-                            <label for="{{ form.time.id_for_label }}" class="form-label fw-semibold">
-                                <i data-lucide="clock" style="width: 16px; height: 16px; color: #d4a574;"></i>
-                                Time *
-                            </label>
-                            {{ form.time }}
-                        </div>
-                        <div class="col-md-4">
-                            <label for="{{ form.guests.id_for_label }}" class="form-label fw-semibold">
-                                <i data-lucide="users" style="width: 16px; height: 16px; color: #d4a574;"></i>
-                                Guests *
-                            </label>
-                            {{ form.guests }}
-                        </div>
-                    </div>
-
-                    <!-- Booking Type Selection -->
-                    <div class="row g-3 mt-2">
-                        <div class="col-12">
-                            <label class="form-label fw-semibold mb-3">
-                                <i data-lucide="star" style="width: 16px; height: 16px; color: #d4a574;"></i>
-                                Booking Type *
-                            </label>
-                            <div class="booking-type-options">
-                                <div class="booking-type-item">
-                                    <input class="booking-type-radio" type="radio" name="booking_type" id="standard" value="standard" checked>
-                                    <label class="booking-type-label" for="standard">
-                                        <div class="booking-type-card">
-                                            <div class="booking-type-header">
-                                                <h6 class="booking-type-title">Standard</h6>
-                                                <div class="booking-type-radio-custom"></div>
-                                            </div>
-                                            <div class="booking-type-price">£10.00</div>
-                                            <small class="booking-type-desc">Regular table booking</small>
-                                        </div>
-                                    </label>
+                        <!-- Contact Details -->
+                        <div class="form-section mb-4">
+                            <h3 class="section-title">
+                                <i data-lucide="user" class="section-icon"></i>
+                                Your Details
+                            </h3>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        {{ form.name }}
+                                        <label for="{{ form.name.id_for_label }}">Full Name</label>
+                                    </div>
                                 </div>
-                                <div class="booking-type-item">
-                                    <input class="booking-type-radio" type="radio" name="booking_type" id="premium" value="premium">
-                                    <label class="booking-type-label" for="premium">
-                                        <div class="booking-type-card booking-type-card-premium" style="background: rgba(218, 165, 32, 0.2); border-color: rgba(184, 134, 11, 0.8);">
-                                            <div class="booking-type-header">
-                                                <h6 class="booking-type-title">Premium</h6>
-                                                <div class="booking-type-radio-custom"></div>
-                                            </div>
-                                            <div class="booking-type-price">£20.00</div>
-                                            <small class="booking-type-desc">Premium location & service</small>
-                                        </div>
-                                    </label>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        {{ form.email }}
+                                        <label for="{{ form.email.id_for_label }}">Email Address</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        {{ form.phone }}
+                                        <label for="{{ form.phone.id_for_label }}">Phone Number</label>
+                                    </div>
                                 </div>
                             </div>
-                            {{ form.booking_type }}
+                        </div>
+
+                        <!-- Special Requests Toggle -->
+                        <div class="form-section p-0 border-0">
+                            <div class="form-check form-switch custom-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="specialRequestsToggle">
+                                <label class="form-check-label fw-semibold text-muted" for="specialRequestsToggle">
+                                    Add Special Requests?
+                                </label>
+                            </div>
+                            
+                            <div id="specialRequestsContainer" style="display: none;">
+                                <div class="form-floating">
+                                    {{ form.special_requests }}
+                                    <label for="{{ form.special_requests.id_for_label }}">Any dietary requirements or accessibility needs?</label>
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- Submit Buttons -->
+
                         </div>
                     </div>
                 </div>
 
-                <!-- Special Requests -->
-                <div class="form-section">
-                    <h3 class="section-title">
-                        <i data-lucide="message-square" class="section-icon"></i>
-                        Special Requests
-                    </h3>
+            <!-- Right Column: Interactive Map -->
+            <div class="booking-map-column">
+                <div class="map-card mb-4">
+                    <!-- Map Header & Zone Selection -->
+                    <div class="map-header-container mb-4">
+                        <div class="d-flex justify-content-between align-items-end mb-3">
+                            <div>
+                                <h3 class="section-title mb-1">Select Table</h3>
+                                <p class="text-muted small mb-0">Choose your preferred seating area</p>
+                            </div>
+                            <div class="map-legend">
+                                <span class="legend-item"><span class="dot available"></span> Available</span>
+                                <span class="legend-item"><span class="dot booked"></span> Booked</span>
+                                <span class="legend-item"><span class="dot selected"></span> Your Table</span>
+                            </div>
+                        </div>
 
-                    <div class="form-floating">
-                        {{ form.special_requests }}
-                        <label for="{{ form.special_requests.id_for_label }}">Any special requests or dietary requirements?</label>
+                        <!-- Reservation Details -->
+                        <div class="mb-4 pt-3 pb-3 border-bottom">
+                            <div class="row g-2 align-items-end mb-2">
+                                <div class="col-md-3">
+                                    <label for="{{ form.date.id_for_label }}" class="form-label small fw-bold text-uppercase text-muted">Date</label>
+                                    {{ form.date }}
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="{{ form.time.id_for_label }}" class="form-label small fw-bold text-uppercase text-muted">Start Time</label>
+                                    {{ form.time }}
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="{{ form.end_time.id_for_label }}" class="form-label small fw-bold text-uppercase text-muted">End Time</label>
+                                    {{ form.end_time }}
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="{{ form.guests.id_for_label }}" class="form-label small fw-bold text-uppercase text-muted">Guests</label>
+                                    {{ form.guests }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Booking Type / Zone Selector -->
+                        <div class="zone-selector-grid mb-3">
+                            <!-- Standard Option -->
+                            <label class="zone-option" for="standard">
+                                <input class="zone-input" type="radio" name="booking_type" id="standard" value="standard" checked>
+                                <div class="zone-card">
+                                    <img src="{% static 'taproom/images/taproom_booking_standard.png' %}" alt="Front of House" class="mb-2" style="width: 100%; height: 120px; object-fit: cover; border-radius: 6px;">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span class="zone-name">Front of House</span>
+                                        <span class="badg badge-price">£10</span>
+                                    </div>
+                                    <div class="zone-desc">Standard indoor seating</div>
+                                    <div class="zone-indicator"></div>
+                                </div>
+                            </label>
+
+                            <!-- Premium Option -->
+                            <label class="zone-option" for="premium">
+                                <input class="zone-input" type="radio" name="booking_type" id="premium" value="premium">
+                                <div class="zone-card premium">
+                                    <img src="{% static 'taproom/images/taproom_booking_premium.png' %}" alt="Jungle Terrace" class="mb-2" style="width: 100%; height: 120px; object-fit: cover; border-radius: 6px;">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span class="zone-name"><i data-lucide="trees" style="width:14px; margin-right:4px;"></i>Jungle Terrace</span>
+                                        <span class="badg badge-price premium">£20</span>
+                                    </div>
+                                    <div class="zone-desc">Premium outdoor experience</div>
+                                    <div class="zone-indicator"></div>
+                                </div>
+                            </label>
+                        </div>
+                        
+
+                            <!-- Booking Fee Note -->
+                            <div class="mt-3 d-flex align-items-start gap-2">
+                                <i data-lucide="info" class="text-primary-custom mt-1" style="width: 16px; height: 16px;"></i>
+                                <small class="text-muted" style="line-height: 1.4;">
+                                    The booking fee covers your reservation and will be <strong>deducted from your final bill</strong> at the end of your dining experience.
+                                </small>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="taproom-floor-plan">
+                        <!-- Standard Zone (Front of House) -->
+                        <div class="zone-section active" data-zone="standard" style="height: 100%;">
+                            <div class="zone-header">Front of House</div>
+                            
+                            <div class="tables-layout-wrapper">
+                                <!-- Main Floor (Tables 1-7) -->
+                                <div class="main-floor">
+                                    <!-- Table 1: Large -->
+                                    <div class="table-unit large" data-table="1">
+                                        <div class="chair chair-n"></div><div class="chair chair-s"></div>
+                                        <div class="table-surface">1</div>
+                                    </div>
+                                    
+                                    <!-- Row: T2, T3 Medium -->
+                                    <div class="d-flex gap-4">
+                                        <div class="table-unit medium" data-table="2">
+                                            <div class="chair chair-n"></div><div class="chair chair-s"></div>
+                                            <div class="table-surface">2</div>
+                                        </div>
+                                        <div class="table-unit medium" data-table="3">
+                                            <div class="chair chair-n"></div><div class="chair chair-s"></div>
+                                            <div class="table-surface">3</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Table 4: Large -->
+                                    <div class="table-unit large" data-table="4">
+                                        <div class="chair chair-n"></div><div class="chair chair-s"></div>
+                                        <div class="table-surface">4</div>
+                                    </div>
+
+                                    <!-- Row: T5, T6, T7 Small -->
+                                    <div class="d-flex gap-3">
+                                        <div class="table-unit" data-table="5">
+                                            <div class="chair chair-n vertical"></div><div class="chair chair-s vertical"></div>
+                                            <div class="chair chair-w"></div><div class="chair chair-e"></div>
+                                            <div class="table-surface">5</div>
+                                        </div>
+                                        <div class="table-unit" data-table="6">
+                                            <div class="chair chair-n vertical"></div><div class="chair chair-s vertical"></div>
+                                            <div class="chair chair-w"></div><div class="chair chair-e"></div>
+                                            <div class="table-surface">6</div>
+                                        </div>
+                                        <div class="table-unit" data-table="7">
+                                            <div class="chair chair-n vertical"></div><div class="chair chair-s vertical"></div>
+                                            <div class="chair chair-w"></div><div class="chair chair-e"></div>
+                                            <div class="table-surface">7</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Side Floor (High Tops 8-12) -->
+                                <div class="side-floor">
+                                    <div class="table-unit hightop" data-table="8">
+                                        <div class="chair chair-w"></div><div class="chair chair-e"></div>
+                                        <div class="table-surface">8</div>
+                                    </div>
+                                    <div class="table-unit hightop" data-table="9">
+                                        <div class="chair chair-w"></div><div class="chair chair-e"></div>
+                                        <div class="table-surface">9</div>
+                                    </div>
+                                    <div class="table-unit hightop" data-table="10">
+                                        <div class="chair chair-w"></div><div class="chair chair-e"></div>
+                                        <div class="table-surface">10</div>
+                                    </div>
+                                    <div class="table-unit hightop" data-table="11">
+                                        <div class="chair chair-w"></div><div class="chair chair-e"></div>
+                                        <div class="table-surface">11</div>
+                                    </div>
+                                    <div class="table-unit hightop" data-table="12">
+                                        <div class="chair chair-w"></div><div class="chair chair-e"></div>
+                                        <div class="table-surface">12</div>
+                                    </div>
+                                </div>
+
+                                <!-- Bar Area -->
+                                <div class="bar-vertical-container">
+                                    <div class="bar-line">BAR</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Premium Zone (Jungle Terrace) - Practical Layout -->
+                        <div class="zone-section outdoor" data-zone="premium">
+                            <div class="zone-header">
+                                <i data-lucide="trees" style="width: 20px; height: 20px; color: #198754;"></i>
+                                Jungle Terrace
+                            </div>
+                            
+                            <div class="jungle-terrace-layout practical">
+                                <!-- Top Row: 4 Small Tables (4-seaters) -->
+                                <div class="terrace-row">
+                                    <div class="table-unit" data-table="13">
+                                        <div class="chair chair-n vertical"></div><div class="chair chair-s vertical"></div>
+                                        <div class="chair chair-w"></div><div class="chair chair-e"></div>
+                                        <div class="table-surface">13</div>
+                                    </div>
+                                    <div class="table-unit" data-table="14">
+                                        <div class="chair chair-n vertical"></div><div class="chair chair-s vertical"></div>
+                                        <div class="chair chair-w"></div><div class="chair chair-e"></div>
+                                        <div class="table-surface">14</div>
+                                    </div>
+                                    <div class="table-unit" data-table="15">
+                                        <div class="chair chair-n vertical"></div><div class="chair chair-s vertical"></div>
+                                        <div class="chair chair-w"></div><div class="chair chair-e"></div>
+                                        <div class="table-surface">15</div>
+                                    </div>
+                                    <div class="table-unit" data-table="16">
+                                        <div class="chair chair-n vertical"></div><div class="chair chair-s vertical"></div>
+                                        <div class="chair chair-w"></div><div class="chair chair-e"></div>
+                                        <div class="table-surface">16</div>
+                                    </div>
+                                </div>
+
+                                <!-- Middle Row: 4 Medium Tables (6-seaters) -->
+                                <div class="terrace-row">
+                                    <div class="table-unit medium" data-table="17">
+                                        <div class="chair chair-n"></div><div class="chair chair-s"></div>
+                                        <div class="table-surface">17</div>
+                                    </div>
+                                    <div class="table-unit medium" data-table="18">
+                                        <div class="chair chair-n"></div><div class="chair chair-s"></div>
+                                        <div class="table-surface">18</div>
+                                    </div>
+                                    <div class="table-unit medium" data-table="19">
+                                        <div class="chair chair-n"></div><div class="chair chair-s"></div>
+                                        <div class="table-surface">19</div>
+                                    </div>
+                                    <div class="table-unit medium" data-table="20">
+                                        <div class="chair chair-n"></div><div class="chair chair-s"></div>
+                                        <div class="table-surface">20</div>
+                                    </div>
+                                </div>
+
+                                <!-- Bottom Row: 2 Large Tables (8-seaters) -->
+                                <div class="terrace-row justify-content-center">
+                                    <div class="table-unit large" data-table="21">
+                                        <div class="chair chair-n"></div><div class="chair chair-s"></div>
+                                        <div class="table-surface">21</div>
+                                    </div>
+                                    <div class="table-unit large" data-table="22">
+                                        <div class="chair chair-n"></div><div class="chair chair-s"></div>
+                                        <div class="table-surface">22</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="terrace-path"></div>
+                            </div>
+
+                            <div class="terrace-footer">
+                                <small>Premium seating with garden views</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="map-footer text-center mt-3 text-muted">
+                        <small id="map-footer-text">Front of House</small>
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="button-group-wrapper mt-4 pt-3 border-top">
+                        <button type="submit" class="btn-booking btn-primary-custom" id="submit-btn" disabled>
+                            Select a Table to Book
+                        </button>
+                        <a href="{% url 'taproom' %}" class="btn-booking btn-secondary-custom">
+                            Back to Taproom
+                        </a>
                     </div>
                 </div>
-
-                <!-- Submit Buttons -->
-                <div class="button-group">
-                    <button type="submit" class="btn-booking btn-primary-custom">
-                        Book Table
-                    </button>
-                    <a href="{% url 'taproom' %}" class="btn-booking btn-secondary-custom">
-                        Back to Taproom
-                    </a>
-                </div>
-
-                <!-- Features -->
-                <div class="booking-features">
+                
+                 <!-- Features -->
+                 <div class="booking-features mt-4">
                     <div class="feature-item">
                         <i data-lucide="clock" class="feature-icon"></i>
                         <span>Instant confirmation</span>
@@ -157,91 +342,208 @@
                         <span>Secure booking</span>
                     </div>
                     <div class="feature-item">
-                        <i data-lucide="phone" class="feature-icon"></i>
-                        <span>24/7 support</span>
-                    </div>
-                    <div class="feature-item">
                         <i data-lucide="calendar-x" class="feature-icon"></i>
                         <span>Free cancellation</span>
                     </div>
                 </div>
-            </form>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+
+<!-- Styles have been moved to taproom_booking.css -->
+
+<!-- Custom Warning Modal -->
+<div class="modal fade" id="tableWarningModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 16px; overflow: hidden;">
+            <div class="modal-header border-0" style="background: linear-gradient(135deg, #1f2937 0%, #111827 100%); padding: 1.5rem;">
+                <h5 class="modal-title d-flex align-items-center" style="color: white;">
+                    <i data-lucide="alert-circle" style="width: 24px; height: 24px; color: #d4a574; margin-right: 10px;"></i>
+                    Action Required
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4 text-center">
+                <p class="mb-4" style="font-size: 1.1rem; color: #4b5563;">
+                    Please select a <strong>Date</strong> and <strong>Time</strong> first so we can show you which tables are available.
+                </p>
+                <button type="button" class="btn btn-primary-custom w-100" data-bs-dismiss="modal">
+                    Got it
+                </button>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Lucide icons
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
+    // Embedded script to ensure it runs with the new DOM elements
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    
+        // Target both standard and jungle table units
+        const tableUnits = document.querySelectorAll('.table-unit, .jungle-table-unit');
+        const dateInput = document.getElementById('id_date');
+        const timeInput = document.getElementById('id_time');
+        const hiddenTableInput = document.getElementById('id_table_number');
+        const submitBtn = document.getElementById('submit-btn');
+        const bookingTypeRadios = document.querySelectorAll('input[name="booking_type"]');
+        const zoneSections = document.querySelectorAll('.zone-section');
 
-    // Add form validation classes
-    const form = document.querySelector('form');
-    const inputs = form.querySelectorAll('input, select, textarea');
+        // Init Bootstrap modal
+        const warningModal = new bootstrap.Modal(document.getElementById('tableWarningModal'));
 
-    inputs.forEach(input => {
-        // Add Bootstrap classes for better styling
-        if (input.type === 'text' || input.type === 'email' || input.type === 'tel' || input.tagName === 'TEXTAREA') {
-            input.classList.add('form-control');
-        } else if (input.tagName === 'SELECT') {
-            input.classList.add('form-select');
-        }
-
-        // Add date/time input styling
-        if (input.type === 'date' || input.type === 'time') {
-            input.classList.add('form-control');
-        }
-
-        // Handle floating labels for pre-filled or autofilled fields
-        const floatingLabel = input.closest('.form-floating');
-        if (floatingLabel) {
-            const label = floatingLabel.querySelector('label');
-            if (input.value && input.value.trim() !== '') {
-                label.classList.add('floating-active');
-            }
+        // Logic to switch zones
+        function updateZoneVisibility() {
+            const selectedType = document.querySelector('input[name="booking_type"]:checked').value;
+            const mapFooterText = document.getElementById('map-footer-text');
             
-            // Handle autofill
-            input.addEventListener('animationstart', function(e) {
-                if (e.animationName === 'onAutoFillStart') {
-                    label.classList.add('floating-active');
+            zoneSections.forEach(section => {
+                section.classList.remove('active');
+                if (section.dataset.zone === selectedType) {
+                    section.classList.add('active');
+                }
+            });
+
+            // Update footer text based on zone
+            if (mapFooterText) {
+                mapFooterText.textContent = selectedType === 'premium' ? 'Jungle Terrace' : 'Front of House';
+            }
+        }
+
+        // Add listener to radios
+        bookingTypeRadios.forEach(radio => {
+            radio.addEventListener('change', updateZoneVisibility);
+        });
+
+        // Initial zone set
+        updateZoneVisibility();
+
+
+        // Function to fetch booked tables
+        function fetchAvailability() {
+            const date = dateInput.value;
+            const time = timeInput.value;
+
+            // Reset map if date/time missing
+            if (!date || !time) {
+                tableUnits.forEach(unit => {
+                    unit.classList.remove('booked', 'selected', 'available');
+                    unit.classList.add('booked'); // Disable by default until time selected
+                });
+                return;
+            }
+
+            fetch(`/taproom/api/get-booked-tables/?date=${date}&time=${time}`)
+                .then(res => res.json())
+                .then(data => {
+                    const bookedTables = data.booked_tables; // Array of IDs
+
+                    tableUnits.forEach(unit => {
+                        const tableId = parseInt(unit.dataset.table);
+                        
+                        // Reset classes
+                        unit.classList.remove('booked', 'selected', 'available');
+                        
+                        if (bookedTables.includes(tableId)) {
+                            unit.classList.add('booked');
+                            unit.title = "Reserved";
+                        } else {
+                            unit.classList.add('available');
+                            unit.title = "Available - Click to select";
+                        }
+                    });
+
+                    // Clear previous selection if it's now booked
+                    if (hiddenTableInput.value && bookedTables.includes(parseInt(hiddenTableInput.value))) {
+                        hiddenTableInput.value = '';
+                        updateSubmitButton();
+                    }
+                })
+                .catch(err => console.error("Error fetching tables:", err));
+        }
+
+        // Selection Logic - MULTI-TABLE SUPPORT
+        tableUnits.forEach(unit => {
+            unit.addEventListener('click', function() {
+                // Check if Date/Time selected first
+                if (!dateInput.value || !timeInput.value) {
+                    warningModal.show();
+                    return;
+                }
+
+                if (this.classList.contains('booked')) {
+                    return; // Do nothing if actually booked/reserved
+                }
+                
+                // Toggle selection (allow multiple)
+                this.classList.toggle('selected');
+                
+                // Update hidden input with all selected tables
+                updateSelectedTables();
+                updateSubmitButton();
+            });
+        });
+
+        // Function to gather all selected tables
+        function updateSelectedTables() {
+            const selectedTables = [];
+            tableUnits.forEach(unit => {
+                if (unit.classList.contains('selected')) {
+                    selectedTables.push(unit.dataset.table);
+                }
+            });
+            hiddenTableInput.value = selectedTables.join(',');
+        }
+
+        // Special Requests Toggle
+        const specialRequestsToggle = document.getElementById('specialRequestsToggle');
+        const specialRequestsContainer = document.getElementById('specialRequestsContainer');
+        
+        if(specialRequestsToggle && specialRequestsContainer) {
+            specialRequestsToggle.addEventListener('change', function() {
+                if(this.checked) {
+                    specialRequestsContainer.style.display = 'block';
+                    // Optional: Focus textarea
+                    const textarea = specialRequestsContainer.querySelector('textarea');
+                    if(textarea) textarea.focus();
+                } else {
+                    specialRequestsContainer.style.display = 'none';
+                    // Optional: Clear content if toggled off? Maybe safer to keep it.
                 }
             });
         }
-    });
 
-    // Booking type selection functionality
-    const bookingTypeRadios = form.querySelectorAll('.booking-type-radio');
-    const hiddenBookingType = form.querySelector('#id_booking_type');
-
-    bookingTypeRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            if (this.checked) {
-                hiddenBookingType.value = this.value;
-                // Visual feedback is handled by CSS :checked pseudo-selector
+        function updateSubmitButton() {
+            const selectedTables = hiddenTableInput.value;
+            if (selectedTables) {
+                const tableArray = selectedTables.split(',');
+                const count = tableArray.length;
+                submitBtn.disabled = false;
+                submitBtn.textContent = count === 1 
+                    ? `Book Table ${tableArray[0]}` 
+                    : `Book ${count} Tables (${tableArray.join(', ')})`;
+                submitBtn.classList.remove('btn-secondary');
+                submitBtn.classList.add('btn-primary-custom');
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Select a Table to Book';
             }
-        });
-    });
+        }
 
-    // Set initial selection
-    const initialChecked = form.querySelector('.booking-type-radio:checked');
-    if (initialChecked) {
-        hiddenBookingType.value = initialChecked.value;
-    }
+        // Event Listeners
+        if (dateInput) dateInput.addEventListener('change', fetchAvailability);
+        if (timeInput) timeInput.addEventListener('change', fetchAvailability);
 
-    // Form submission feedback
-    form.addEventListener('submit', function(e) {
-        const submitBtn = form.querySelector('.btn-booking');
-        submitBtn.innerHTML = '<i data-lucide="loader-2" style="width: 20px; height: 20px; animation: spin 1s linear infinite;"></i> Processing...';
-        submitBtn.disabled = true;
-
-        // Re-initialize icons for the loading spinner
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
+        // Initial fetch if values present (e.g. browser reload)
+        if (dateInput.value && timeInput.value) {
+            fetchAvailability();
+        } else {
+             // Initial state: disable all
+             tableUnits.forEach(unit => unit.classList.add('booked')); 
         }
     });
-});
 </script>
 
 {% endblock %}

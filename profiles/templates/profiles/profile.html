@@ -85,23 +85,35 @@
                         {% if table_bookings %}
                             {% for booking in table_bookings %}
                                 <article class="booking-card">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <h3 class="h6 mb-0">Table for {{ booking.guests }}</h3>
-                                        <span class="badge {% if booking.status == 'confirmed' %}bg-success{% else %}bg-secondary{% endif %}">{{ booking.status|default:'Pending' }}</span>
-                                    </div>
-                                    <div class="booking-meta">
-                                        <span>{{ booking.date|date:"j M Y" }}</span>
-                                        <span>{{ booking.time|time:"H:i" }}</span>
-                                    </div>
-                                    {% if booking.special_requests %}
-                                        <p class="text-small text-muted mb-0"><strong>Requests:</strong> {{ booking.special_requests }}</p>
-                                    {% endif %}
-                                    <div class="profile-actions">
-                                        <a href="{% url 'taproom:edit_booking' booking.id %}" class="btn btn-light btn-sm">Edit</a>
-                                        <form action="{% url 'taproom:cancel_booking' booking.id %}" method="post">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-outline-danger btn-sm">Cancel</button>
-                                        </form>
+                                    <div class="d-flex gap-3">
+                                        <div class="booking-image-wrapper" style="flex-shrink: 0;">
+                                            <img src="{% static 'taproom/images/taproom_booking_'|add:booking.booking_type|add:'.png' %}" 
+                                                 alt="{{ booking.get_booking_type_display }} Booking"
+                                                 style="width: 90px; height: 90px; object-fit: cover; border-radius: 8px; border: 1px solid #e9ecef;">
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <div>
+                                                    <h3 class="h6 mb-1">{{ booking.get_booking_type_display }} Table</h3>
+                                                    <p class="text-small text-muted mb-0">For {{ booking.guests }} Guest{{ booking.guests|pluralize }}</p>
+                                                </div>
+                                                <span class="badge {% if booking.status == 'confirmed' %}bg-success{% else %}bg-secondary{% endif %}">{{ booking.status|default:'Pending' }}</span>
+                                            </div>
+                                            <div class="booking-meta mb-2">
+                                                <span>{{ booking.date|date:"j M Y" }}</span>
+                                                <span>{{ booking.time|time:"H:i" }}</span>
+                                            </div>
+                                            {% if booking.special_requests %}
+                                                <p class="text-small text-muted mb-2"><strong>Requests:</strong> {{ booking.special_requests|truncatechars:30 }}</p>
+                                            {% endif %}
+                                            <div class="profile-actions">
+                                                <a href="{% url 'taproom:edit_booking' booking.id %}" class="btn btn-light btn-sm">Edit</a>
+                                                <form action="{% url 'taproom:cancel_booking' booking.id %}" method="post" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm">Cancel</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </article>
                             {% endfor %}

@@ -478,10 +478,10 @@
                     lucide.createIcons();
                 }
 
-                // Redirect to add tour to cart
-                const tourType = selectedTourRadio.value;
-                console.log('🔄 Redirecting to:', `/bag/add-tour/${tourType}/${selectedDate}/${guests}/`);
-                window.location.href = `/bag/add-tour/${tourType}/${selectedDate}/${guests}/`;
+                // Redirect to add tour to cart (By submitting form)
+                // We submit the form to the view, which will handle validation and session storage
+                // before redirecting to the cart view.
+                form.submit();
             });
         } else {
             console.error('❌ Add to Cart button not found!');

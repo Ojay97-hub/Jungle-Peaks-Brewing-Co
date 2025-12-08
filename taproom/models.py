@@ -18,7 +18,9 @@ class Booking(models.Model):
     phone = models.CharField(max_length=15)
     date = models.DateField()
     time = models.TimeField()
+    end_time = models.TimeField(null=True, blank=True)  # End time for reservation duration
     guests = models.PositiveIntegerField()
+    table_number = models.IntegerField(null=True, blank=True)
     booking_type = models.CharField(
         max_length=10, choices=[("standard", "Standard"), ("premium", "Premium")], default="standard"
     )

@@ -2,6 +2,7 @@
 
 # Django Imports
 from django.shortcuts import get_object_or_404, render, redirect, reverse
+from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -53,6 +54,13 @@ def booking(request):
             booking_type = form.cleaned_data['booking_type']
             booking_date = form.cleaned_data['date']
             booking_time = form.cleaned_data['time']
+
+            # Store contact info in session to pass to bag view and checkout
+            request.session['taproom_booking_contact'] = {
+                'name': form.cleaned_data['name'],
+                'email': form.cleaned_data['email'],
+                'phone': form.cleaned_data['phone']
+            }
 
             # Create URL for adding taproom booking to cart
             # Format date as YYYY-MM-DD and time as HH:MM for URL safety
@@ -146,3 +154,23 @@ def cancel_booking(request, booking_id):
     messages.success(request, "Your booking has been cancelled successfully!")
 
     return redirect("profile")  # Redirect user back to their profile
+
+
+def get_booked_tables(request):
+    """
+    API Validates availability for tables on specific date/time
+    Returns list of booked table IDs
+    """
+    date_str = request.GET.get('date')
+    time_str = request.GET.get('time')
+    
+    if not date_str or not time_str:
+        return JsonResponse({'booked_tables': []})
+        
+    # Convert string to date object if needed, or rely on Django's filter handling (usually string works for date field)
+    booked_tables = Booking.objects.filter(
+        date=date_str,
+        time=time_str
+    ).exclude(table_number__isnull=True).values_list('table_number', flat=True)
+    
+    return JsonResponse({'booked_tables': list(booked_tables)})

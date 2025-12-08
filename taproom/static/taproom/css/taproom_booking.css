@@ -91,7 +91,35 @@
     color: #6c757d;
 }
 
-/* Clean form controls */
+/* Custom Form Control Base */
+.custom-form-control {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #dee2e6;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.custom-form-control:hover {
+    border-color: #adb5bd;
+}
+
+.custom-form-control:focus {
+    border-color: #5C6F53;
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(92, 111, 83, 0.15);
+}
+
+/* Clean form controls - both cards */
 .booking-card input[type="text"],
 .booking-card input[type="email"],
 .booking-card input[type="tel"],
@@ -102,13 +130,25 @@
 .booking-card textarea,
 .booking-card .form-control,
 .booking-card .form-select,
-.booking-card .custom-form-control {
+.booking-card .custom-form-control,
+.map-card input[type="text"],
+.map-card input[type="email"],
+.map-card input[type="tel"],
+.map-card input[type="date"],
+.map-card input[type="time"],
+.map-card input[type="number"],
+.map-card select,
+.map-card textarea,
+.map-card .form-control,
+.map-card .form-select,
+.map-card .custom-form-control {
     border: 1px solid #ced4da !important;
     border-radius: 12px !important;
     font-size: 1rem !important;
     background: #ffffff !important;
     transition: all 0.2s ease !important;
     width: 100% !important;
+    padding: 0.75rem 1rem !important;
     font-family: inherit !important;
     color: #212529 !important;
     box-shadow: none !important;
@@ -180,44 +220,53 @@
     font-size: 0.875rem !important;
 }
 
-/* Floating Labels */
+/* Floating Labels - Labels at Top */
 .form-floating {
     position: relative;
 }
 
 .form-floating > .form-control,
-.form-floating > .form-select {
-    height: calc(3.5rem + 2px);
+.form-floating > .form-select,
+.form-floating > .custom-form-control {
+    height: calc(3rem + 2px);
     line-height: 1.25;
-    padding-top: 1.625rem;
-    padding-bottom: 0.625rem;
+    padding-top: 1.5rem;
+    padding-bottom: 0.5rem;
 }
 
 .form-floating > label {
     position: absolute;
     top: 0;
-    left: 0;
-    height: 100%;
-    padding: 1rem 0.75rem;
+    left: 0.75rem;
+    height: auto;
+    padding: 0.25rem 0.25rem;
     pointer-events: none;
-    border: 1px solid transparent;
     transform-origin: 0 0;
-    transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
+    transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out, font-size 0.1s ease-in-out;
     color: #6c757d;
     font-weight: 500;
+    font-size: 0.75rem;
+    background: white;
+    z-index: 2;
+    transform: translateY(-50%);
 }
 
+/* Always show label at top */
+.form-floating > .form-control ~ label,
+.form-floating > .form-select ~ label,
+.form-floating > .custom-form-control ~ label,
 .form-floating > .form-control:focus ~ label,
-.form-floating > .form-control:not(:placeholder-shown) ~ label,
-.form-floating > .form-select ~ label {
-    opacity: 0.65;
-    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+    opacity: 1;
+    font-size: 0.75rem;
+    transform: translateY(-50%);
     color: #6c757d;
 }
 
 .form-floating > .form-control:-webkit-autofill ~ label {
-    opacity: 0.65;
-    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+    opacity: 1;
+    font-size: 0.75rem;
+    transform: translateY(-50%);
     color: #6c757d;
 }
 
@@ -608,5 +657,380 @@
 
     .booking-type-desc {
         font-size: 0.75rem;
+    }
+}
+
+/* ==========================================
+   ADDITIONAL STYLES (moved from inline)
+   ========================================== */
+
+/* Wide Container Layout */
+.booking-container-wide {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.booking-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Map comes first (top) */
+.booking-map-column {
+    order: -1;
+}
+
+/* Map Styles - Clean Modern */
+.map-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid #e9ecef;
+}
+
+/* Map Floor Plan - Enhanced Visibility */
+.taproom-floor-plan {
+    background: linear-gradient(145deg, #e8ebe8 0%, #d9dcd9 100%);
+    padding: 2.5rem;
+    border-radius: 16px;
+    border: 1px solid #c5ccc5;
+    min-height: 420px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: inset 0 6px 16px rgba(0,0,0,0.12), inset 0 0 4px rgba(0,0,0,0.05); /* Enhanced depth */
+}
+
+.zone-section {
+    display: none;
+    animation: fadeIn 0.4s ease;
+    height: 100%;
+    flex-grow: 1;
+}
+.zone-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.zone-header {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.zone-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #dee2e6;
+}
+
+/* Standard Zone Layout */
+.tables-layout-wrapper {
+    display: flex;
+    gap: 2rem;
+    height: 100%;
+}
+
+.main-floor {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    padding-right: 2rem;
+    border-right: 1px dashed #dee2e6;
+}
+
+.side-floor {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Table Variations */
+.table-unit {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+}
+
+.table-unit .table-surface {
+    width: 50px;
+    height: 50px;
+    background: #ffffff;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #495057;
+    z-index: 2;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: 2px solid #adb5bd;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+}
+
+/* Large (8 Seater) */
+.table-unit.large { width: 200px; height: 100px; }
+.table-unit.large .table-surface { width: 170px; height: 60px; }
+.table-unit.large .chair.chair-n,
+.table-unit.large .chair.chair-s { width: 140px; height: 12px; }
+
+/* Medium (6 Seater) */
+.table-unit.medium { width: 140px; height: 90px; }
+.table-unit.medium .table-surface { width: 110px; height: 60px; }
+.table-unit.medium .chair.chair-n,
+.table-unit.medium .chair.chair-s { width: 80px; height: 12px; }
+
+/* High Top (2 Seater) */
+.table-unit.hightop { width: 60px; height: 60px; }
+.table-unit.hightop .table-surface { width: 40px; height: 40px; border-radius: 4px; }
+
+/* Chairs */
+.chair {
+    position: absolute;
+    width: 36px;
+    height: 12px;
+    background: #b0b8c0;
+    border-radius: 4px;
+    z-index: 1;
+    transition: all 0.25s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.chair.vertical { width: 12px; height: 36px; }
+
+/* Chair Positioning */
+.chair-n { top: -6px; }
+.chair-s { bottom: -6px; }
+.chair-w { left: -6px; }
+.chair-e { right: -6px; }
+
+/* Table States */
+.table-unit.available .table-surface { background: white; border-color: #ced4da; }
+.table-unit.available .chair { background: #ced4da; }
+.table-unit.available:hover .table-surface {
+    background: #d4a574;
+    color: white;
+    border-color: #d4a574;
+    transform: scale(1.05);
+}
+.table-unit.available:hover .chair { background: #d4a574; }
+
+.table-unit.selected .table-surface {
+    background: #28a745;
+    border-color: #28a745;
+    color: white;
+    transform: scale(1.05);
+}
+.table-unit.selected .chair { background: #28a745; }
+
+.table-unit.booked .table-surface {
+    opacity: 0.7;
+    color: #adb5bd;
+    text-decoration: line-through;
+    cursor: not-allowed;
+}
+
+/* Bar Vertical */
+.bar-vertical-container {
+    width: 60px;
+    display: flex;
+    flex-direction: column;
+}
+.bar-line {
+    flex-grow: 1;
+    background: #2c1a4d;
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    font-weight: bold;
+    letter-spacing: 4px;
+    font-size: 1.5rem;
+}
+
+/* Jungle Terrace - Practical Layout */
+.jungle-terrace-layout.practical {
+    background: #fdfcf0;
+    border: 2px dashed #b8860b;
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: relative;
+}
+
+.terrace-row {
+    display: flex;
+    justify-content: space-around;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.terrace-row.justify-content-center {
+    justify-content: center;
+}
+
+.terrace-path {
+    height: 4px;
+    background: repeating-linear-gradient(
+        90deg,
+        #e9ecef,
+        #e9ecef 15px,
+        transparent 15px,
+        transparent 30px
+    );
+    margin-top: 1rem;
+    opacity: 0.6;
+}
+
+.terrace-footer {
+    margin-top: 1rem;
+    text-align: center;
+    color: #b8860b;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Legend */
+.map-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+.map-legend { display: flex; gap: 1rem; font-size: 0.875rem; }
+.legend-item { display: flex; align-items: center; gap: 0.5rem; }
+.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.dot.available { background: white; border: 1px solid #ced4da; }
+.dot.booked { background: #dee2e6; }
+.dot.selected { background: #28a745; }
+
+/* Zone Selector */
+.zone-selector-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+.zone-option { cursor: pointer; width: 100%; margin: 0; }
+.zone-input { display: none; }
+
+.zone-card {
+    background: #fff;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 1rem;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.zone-name { font-weight: 700; color: #374151; display: flex; align-items: center; }
+.zone-desc { font-size: 0.8rem; color: #6b7280; margin-top: 2px; }
+.badge-price {
+    font-weight: 700;
+    font-size: 0.9rem;
+    background: #f3f4f6;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #1f2937;
+}
+
+.zone-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: transparent;
+    transition: all 0.2s;
+}
+
+/* Zone Selected States */
+.zone-input:checked + .zone-card {
+    border-color: #198754;
+    background: rgba(25, 135, 84, 0.03);
+}
+.zone-input:checked + .zone-card .zone-indicator { background: #198754; }
+
+/* Premium Zone */
+.zone-card.premium .badge-price.premium { background: #fff8e1; color: #b8860b; }
+
+.zone-input:checked + .zone-card.premium {
+    border-color: #b8860b;
+    background: rgba(253, 252, 240, 0.5);
+}
+.zone-input:checked + .zone-card.premium .zone-indicator { background: #b8860b; }
+
+.zone-card:hover { border-color: #ced4da; }
+
+/* Button Group Wrapper */
+.button-group-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 320px;
+    margin: 0 auto;
+}
+
+/* Mobile Responsiveness for Map */
+@media (max-width: 768px) {
+    .booking-container-wide {
+        padding: 1rem;
+    }
+    .map-card {
+        padding: 1.25rem;
+    }
+    .taproom-floor-plan {
+        padding: 1rem;
+        min-height: auto;
+    }
+    .tables-layout-wrapper {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .main-floor {
+        border-right: none;
+        border-bottom: 1px dashed #dee2e6;
+        padding-right: 0;
+        padding-bottom: 1.5rem;
+    }
+    .side-floor {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .button-group-wrapper {
+        max-width: 100%;
+    }
+    .zone-selector-grid {
+        grid-template-columns: 1fr;
     }
 }

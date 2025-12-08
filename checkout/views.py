@@ -127,17 +127,36 @@ def checkout(request):
             )
             return redirect(reverse("products"))
 
-        form_data = {
-            "full_name": request.POST["full_name"],
-            "email": request.POST["email"],
-            "phone_number": request.POST["phone_number"],
-            "country": request.POST["country"],
-            "postcode": request.POST["postcode"],
-            "town_or_city": request.POST["town_or_city"],
-            "street_address1": request.POST["street_address1"],
-            "street_address2": request.POST["street_address2"],
-            "county": request.POST["county"],
-        }
+        # Calculate bag contents to check for physical products
+        current_bag = bag_contents(request)
+        product_count = current_bag['product_count']
+
+        if product_count > 0:
+            form_data = {
+                "full_name": request.POST["full_name"],
+                "email": request.POST["email"],
+                "phone_number": request.POST["phone_number"],
+                "country": request.POST["country"],
+                "postcode": request.POST["postcode"],
+                "town_or_city": request.POST["town_or_city"],
+                "street_address1": request.POST["street_address1"],
+                "street_address2": request.POST["street_address2"],
+                "county": request.POST["county"],
+            }
+        else:
+            # Digital orders (Tours/Taproom) don't need entry address
+            form_data = {
+                "full_name": request.POST["full_name"],
+                "email": request.POST["email"],
+                "phone_number": request.POST["phone_number"],
+                # Fill required fields with dummy data for validation
+                "country": "GB", 
+                "postcode": "N/A",
+                "town_or_city": "Digital Delivery",
+                "street_address1": "Digital Delivery",
+                "street_address2": "",
+                "county": "",
+            }
 
         order_form = OrderForm(form_data)
 
@@ -170,6 +189,12 @@ def checkout(request):
                         product_size=cart_item.size
                     )
                 elif cart_item.item_type == 'tour' and cart_item.tour_booking:
+                    # Update booking contact details from order
+                    cart_item.tour_booking.name = order.full_name
+                    cart_item.tour_booking.email = order.email
+                    cart_item.tour_booking.phone = order.phone_number
+                    cart_item.tour_booking.save()
+                    
                     # Create order line item for tour
                     OrderLineItem.objects.create(
                         order=order,
@@ -178,6 +203,12 @@ def checkout(request):
                         tour_booking=cart_item.tour_booking
                     )
                 elif cart_item.item_type == 'taproom' and cart_item.taproom_booking:
+                    # Update booking contact details from order
+                    cart_item.taproom_booking.name = order.full_name
+                    cart_item.taproom_booking.email = order.email
+                    cart_item.taproom_booking.phone = order.phone_number
+                    cart_item.taproom_booking.save()
+
                     # Create order line item for taproom booking
                     OrderLineItem.objects.create(
                         order=order,
@@ -254,7 +285,7 @@ def checkout(request):
         if request.user.is_authenticated:
             try:
                 profile = UserProfile.objects.get(user=request.user)
-                order_form = OrderForm(initial={
+                initial_data = {
                     "full_name": profile.user.get_full_name(),
                     "email": profile.user.email,
                     "phone_number": profile.default_phone_number,
@@ -264,7 +295,40 @@ def checkout(request):
                     "street_address1": profile.default_street_address1,
                     "street_address2": profile.default_street_address2,
                     "county": profile.default_county,
-                })
+                }
+                
+                # Check if we need to supplement missing contact info from bookings in cart
+                if not initial_data["phone_number"] or not initial_data["full_name"]:
+                    try:
+                        # Inspect cart items for booking details
+                        # Get cart items directly from database
+                        try:
+                            cart = Cart.objects.get(user=request.user)
+                            cart_items = CartItem.objects.filter(cart=cart)
+                        except Cart.DoesNotExist:
+                            cart_items = []
+                        
+                        for item in cart_items:
+                            booking = None
+                            if item.item_type == 'tour' and item.tour_booking:
+                                booking = item.tour_booking
+                            elif item.item_type == 'taproom' and item.taproom_booking:
+                                booking = item.taproom_booking
+                            
+                            if booking:
+                                # Found a booking, use its contact info if ours is missing
+                                if not initial_data["full_name"] and booking.name:
+                                    initial_data["full_name"] = booking.name
+                                if not initial_data["phone_number"] and booking.phone:
+                                    initial_data["phone_number"] = booking.phone
+                                # If we found what we needed, break
+                                if initial_data["full_name"] and initial_data["phone_number"]:
+                                    break
+                    except Exception as e:
+                        # If anything fails in looking up bookings, just proceed with profile data
+                        pass
+
+                order_form = OrderForm(initial=initial_data)
             except UserProfile.DoesNotExist:
                 order_form = OrderForm()
 

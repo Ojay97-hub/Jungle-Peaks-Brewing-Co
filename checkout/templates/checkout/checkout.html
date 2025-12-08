@@ -50,6 +50,15 @@
                                                     <strong>{{ item.product.name }}</strong>
                                                     <p class="text-small text-muted mb-0">{{ item.product.description|truncatewords:12 }}</p>
                                                 </div>
+                                            {% elif item.item_type == 'taproom' %}
+                                                <!-- Taproom item -->
+                                                <img src="{% static 'taproom/images/taproom_booking_'|add:item.taproom_booking.booking_type|add:'.png' %}" 
+                                                     alt="{{ item.taproom_booking.get_booking_type_display }} Taproom Booking"
+                                                     style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6;">
+                                                <div>
+                                                    <strong>{{ item.taproom_booking.get_booking_type_display }} Taproom</strong>
+                                                    <p class="text-small text-muted mb-0">{{ item.taproom_booking.date }} at {{ item.taproom_booking.time }}</p>
+                                                </div>
                                             {% else %}
                                                 <!-- Tour item -->
                                                 <img src="{% static 'tours/images/'|add:item.tour_booking.tour|add:'.png' %}" 
@@ -65,6 +74,8 @@
                                     <td class="text-small text-muted">
                                         {% if item.item_type == 'product' %}
                                             {% if item.product.has_sizes %}Size {{ item.size|upper }}{% else %}Standard{% endif %}
+                                        {% elif item.item_type == 'taproom' %}
+                                            Taproom Reservation
                                         {% else %}
                                             Tour Experience
                                         {% endif %}
@@ -100,6 +111,17 @@
                                     <p class="text-small text-muted mb-1">{% if item.product.has_sizes %}Size {{ item.size|upper }}{% else %}Standard{% endif %}</p>
                                     <p class="text-small text-muted mb-1">Quantity {{ item.quantity }}</p>
                                     <p class="mb-0">£{{ item.product.price|calc_subtotal:item.quantity }}</p>
+                                </div>
+                            {% elif item.item_type == 'taproom' %}
+                                <!-- Taproom item -->
+                                <img src="{% static 'taproom/images/taproom_booking_'|add:item.taproom_booking.booking_type|add:'.png' %}" 
+                                     alt="{{ item.taproom_booking.get_booking_type_display }} Taproom Booking"
+                                     style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6;">
+                                <div>
+                                    <p class="mb-1"><strong>{{ item.taproom_booking.get_booking_type_display }} Taproom</strong></p>
+                                    <p class="text-small text-muted mb-1">{{ item.taproom_booking.date }} at {{ item.taproom_booking.time }}</p>
+                                    <p class="text-small text-muted mb-1">Taproom Reservation</p>
+                                    <p class="mb-0">£{{ item.price|default:0|floatformat:2 }}</p>
                                 </div>
                             {% else %}
                                 <!-- Tour item -->
@@ -138,10 +160,11 @@
                             <legend>Contact details</legend>
                             {{ order_form.full_name|as_crispy_field }}
                             {{ order_form.email|as_crispy_field }}
+                            {{ order_form.phone_number|as_crispy_field }}
                         </fieldset>
+                        {% if product_count > 0 %}
                         <fieldset>
                             <legend>Delivery address</legend>
-                            {{ order_form.phone_number|as_crispy_field }}
                             {{ order_form.street_address1|as_crispy_field }}
                             {{ order_form.street_address2|as_crispy_field }}
                             {{ order_form.town_or_city|as_crispy_field }}
@@ -149,6 +172,7 @@
                             {{ order_form.postcode|as_crispy_field }}
                             {{ order_form.country|as_crispy_field }}
                         </fieldset>
+                        {% endif %}
                         <fieldset>
                             <legend>Card payment</legend>
                             <p class="text-small text-muted">All transactions are secured and encrypted. We never store your card details.</p>

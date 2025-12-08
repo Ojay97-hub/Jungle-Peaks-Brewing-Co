@@ -65,9 +65,10 @@
                                                 </div>
                                             {% elif item.taproom_booking %}
                                                 <!-- Taproom booking item -->
-                                                <div class="order-item-icon" style="width: 80px; height: 80px; background: linear-gradient(135deg, #8B4513, #A0522D); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; border: 2px solid #e9ecef;">
-                                                    <i data-lucide="home" style="width: 32px; height: 32px;"></i>
-                                                </div>
+                                                <!-- Taproom booking item -->
+                                                <img src="{% if item.taproom_booking.booking_type == 'premium' %}{% static 'taproom/images/taproom_booking_premium.png' %}{% else %}{% static 'taproom/images/taproom_booking_standard.png' %}{% endif %}" 
+                                                     alt="{{ item.taproom_booking.get_booking_type_display }} Taproom Booking"
+                                                     style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6;">
                                                 <div>
                                                     <strong>{{ item.taproom_booking.get_booking_type_display }} Taproom Booking</strong>
                                                     <p class="text-small text-muted mb-1 order-item-secondary">{{ item.taproom_booking.date }} at {{ item.taproom_booking.time }}</p>
@@ -130,7 +131,7 @@
                             {% csrf_token %}
                             <button type="submit" class="btn btn-outline-primary"><i class="fas fa-envelope"></i> Resend email</button>
                         </form>
-                        <a href="{% url 'reorder' order.id %}" class="btn btn-primary"><i class="fas fa-redo"></i> Book again</a>
+
                         {% if from_profile %}
                             <a href="{% url 'profile' %}" class="btn btn-light">Return to profile</a>
                         {% else %}

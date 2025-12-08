@@ -22,4 +22,8 @@ urlpatterns = [
         "booking/cancel/<int:booking_id>/", cancel_booking,
         name="cancel_booking"
     ),
+    path(
+        "api/get-booked-tables/", views.get_booked_tables,
+        name="get_booked_tables"
+    ),
 ]

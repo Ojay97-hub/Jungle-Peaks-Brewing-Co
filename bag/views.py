@@ -242,9 +242,26 @@ def add_tour_to_cart(request, tour_type, tour_date, guests):
         # Get or create user's cart
         cart, created = Cart.objects.get_or_create(user=request.user)
 
+        # Get user's phone number from profile
+        try:
+            user_profile = UserProfile.objects.get(user=request.user)
+            profile_phone = user_profile.default_phone_number or ''
+        except UserProfile.DoesNotExist:
+            profile_phone = ''
+
+        # Get contact info passed from booking form (if valid)
+        booking_contact = request.session.pop('tour_booking_contact', {})
+        
+        booking_name = booking_contact.get('name') or request.user.get_full_name() or request.user.username
+        booking_email = booking_contact.get('email') or request.user.email
+        booking_phone = booking_contact.get('phone') or profile_phone
+
         # Create a temporary tour booking to validate availability
         tour_booking = TourBooking.objects.create(
             user=request.user,
+            name=booking_name,
+            email=booking_email,
+            phone=booking_phone,
             tour=tour_type,
             date=tour_date,
             guests=guests,
@@ -308,16 +325,23 @@ def add_taproom_to_cart(request, booking_type, booking_date, booking_time):
         # Get user's phone number from profile
         try:
             user_profile = UserProfile.objects.get(user=request.user)
-            phone_number = user_profile.default_phone_number or ''
+            profile_phone = user_profile.default_phone_number or ''
         except UserProfile.DoesNotExist:
-            phone_number = ''
+            profile_phone = ''
+
+        # Get contact info passed from booking form (if valid)
+        booking_contact = request.session.pop('taproom_booking_contact', {})
+        
+        booking_name = booking_contact.get('name') or request.user.get_full_name() or request.user.username
+        booking_email = booking_contact.get('email') or request.user.email
+        booking_phone = booking_contact.get('phone') or profile_phone
 
         # Create a temporary taproom booking to validate availability
         taproom_booking = Booking.objects.create(
             user=request.user,
-            name=request.user.get_full_name() or request.user.username,
-            email=request.user.email,
-            phone=phone_number,
+            name=booking_name,
+            email=booking_email,
+            phone=booking_phone,
             date=parsed_date,
             time=parsed_time,
             guests=1,  # Default to 1 guest for table booking

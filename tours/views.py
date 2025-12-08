@@ -68,16 +68,19 @@ def book_tour(request, tour_slug=None):
                 # If you use pretty slugs in your URL, redirect with slug again:
                 return redirect("book_tour", tour_slug=KEY_TO_SLUG.get(selected_tour, selected_tour))
 
-            # All good → confirm and save
-            booking.user = request.user
-            booking.status = "confirmed"
-            booking.save()  # model-level guard still prevents race-condition overbooking
+            # Store contact info in session to pass to bag view and checkout
+            request.session['tour_booking_contact'] = {
+                'name': form.cleaned_data['name'],
+                'email': form.cleaned_data['email'],
+                'phone': form.cleaned_data['phone']
+            }
 
-            messages.success(
-                request,
-                f"🎉 Your {tour_display_name} booking on {booking_date} is confirmed!"
-            )
-            return redirect("tour_booking_success", booking_id=booking.id)
+            # Redirect to add tour to cart instead of saving immediately
+            # This integrates with the checkout flow
+            return redirect("bag:add_tour_to_cart", 
+                          tour_type=selected_tour, 
+                          tour_date=booking_date, 
+                          guests=guests_requested)
     else:
         form = TourBookingForm(initial=initial_data)
 

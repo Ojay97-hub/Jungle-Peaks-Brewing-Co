@@ -116,12 +116,19 @@ def bag_contents(request):
                         }
                     )
 
-    if total < settings.FREE_DELIVERY_THRESHOLD:
-        delivery = total * Decimal(
-            settings.STANDARD_DELIVERY_PERCENTAGE / 100
-        )
-        free_delivery_delta = settings.FREE_DELIVERY_THRESHOLD - total
+    # Calculate delivery
+    # Only charge delivery if there are physical products in the bag
+    if product_count > 0:
+        if total < settings.FREE_DELIVERY_THRESHOLD:
+            delivery = total * Decimal(
+                settings.STANDARD_DELIVERY_PERCENTAGE / 100
+            )
+            free_delivery_delta = settings.FREE_DELIVERY_THRESHOLD - total
+        else:
+            delivery = 0
+            free_delivery_delta = 0
     else:
+        # If only tours or taproom bookings, no delivery fee
         delivery = 0
         free_delivery_delta = 0
 

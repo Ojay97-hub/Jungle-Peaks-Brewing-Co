@@ -41,9 +41,10 @@
                                     <span class="text-small">{{ item.tour_date }} - {{ item.tour_guests }} guest{{ item.tour_guests|pluralize }}</span>
                                 </div>
                             {% elif item.item_type == 'taproom' %}
-                                <div class="mini-bag__thumb mini-bag__thumb--icon" style="background: linear-gradient(135deg, #8B4513, #A0522D); display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;">
-                                    <i data-lucide="home" style="width: 24px; height: 24px;"></i>
-                                </div>
+                                <img src="{% static 'taproom/images/taproom_booking_'|add:item.taproom_booking.booking_type|add:'.png' %}" 
+                                     alt="{{ item.taproom_booking.get_booking_type_display }} Taproom Booking"
+                                     class="mini-bag__thumb"
+                                     style="object-fit: cover;">
                                 <div class="mini-bag__meta">
                                     <span class="fw-semibold">{{ item.taproom_booking.get_booking_type_display }} Taproom</span>
                                     <span class="text-small">{{ item.taproom_booking.date }} at {{ item.taproom_booking.time }}</span>
