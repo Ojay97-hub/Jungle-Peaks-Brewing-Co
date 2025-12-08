@@ -137,6 +137,7 @@ This upgrade transforms Jungle Peaks Brewing & Co. from a functional prototype i
 - [Deployment](#deployment)
   - [Heroku Deployment](#heroku-deployment)  
   - [Heroku Config Vars](#heroku-config-vars)  
+- [Implemented Features (Sept 2025 - Present)](#-implemented-features-sept-2025---present)
 - [Future Features](#future-features)  
 - [Credits](#credits)  
   - [Development & Technologies](#development--technologies)  
@@ -1521,6 +1522,108 @@ The following environment variables were applied to Heroku:
 
 [![Website](https://img.shields.io/badge/Live_Site-Jungle_Peaks_Brewing-brightgreen?style=for-the-badge&logo=heroku)](https://jungle-peaks-brewing-29d2cf7236c2.herokuapp.com/)
 
+
+## 📦 Implemented Features (Sept 2025 - Present)
+
+This section summarises all the new features, key changes, and improvements that have been committed to the project from **September 19, 2025** onwards. These updates represent significant enhancements to the platform's functionality, user experience, and deployment infrastructure.
+
+---
+
+### 🎨 UI/UX Enhancements (September 2025)
+
+| Feature | Description |
+|---------|-------------|
+| **Typography & Design System** | Updated typography, colour palette, and icons for a more modern and cohesive UI across the platform. |
+| **Product Pages Redesign** | Improved the product detail page and products listing page with cleaner, more modern layouts. |
+| **Navbar Modernisation** | Enhanced navbar UI for cleaner navigation and improved user experience. |
+| **Booking Forms UI** | Improved the UI for taproom and tours booking forms with better styling and responsiveness. |
+| **Product Filtering** | Added custom filter dropdowns for the store page, improved price filtering, and enhanced the responsive filter section. |
+| **Tours Page** | Fixed UI issues and applied correct styling classes for consistency. |
+| **Taproom Location** | Improved map size in the taproom location section for better usability. |
+
+---
+
+### 🛒 E-Commerce & Booking System (October 2025)
+
+| Feature | Description |
+|---------|-------------|
+| **Taproom Booking System** | Integrated taproom booking system with pricing tiers (Standard vs Premium). |
+| **Tour Booking Integration** | Enhanced tour booking system with improved form handling and availability checking. |
+| **Bag/Cart System** | Extended bag/cart functionality to support tours and taproom bookings alongside products. |
+| **Checkout Enhancements** | Improved checkout system to handle tours and taproom bookings seamlessly. |
+| **Database Schema Updates** | Updated database models to support tours and taproom integration. |
+| **Enhanced Notifications** | Improved UI notifications and styling for better user feedback. |
+
+---
+
+### 📧 Email & Communications (October 2025)
+
+| Feature | Description |
+|---------|-------------|
+| **SendGrid Integration** | Integrated SendGrid for email notifications to improve deliverability. |
+| **Order Confirmation Templates** | Enhanced order confirmation email templates with better formatting and information. |
+| **Management Commands** | Added new management commands for email and notification handling. |
+
+---
+
+### 🚀 Deployment & Infrastructure (October 2025)
+
+| Feature | Description |
+|---------|-------------|
+| **Heroku Deployment** | Prepared and optimised the application for Heroku deployment. |
+| **Whitenoise Integration** | Integrated Whitenoise for efficient static file management in production. |
+| **Security Settings** | Enhanced security settings for Heroku deployment with proper SSL handling. |
+| **Error Handling** | Improved error handling in settings and refactored ALLOWED_HOSTS. |
+| **Python Version** | Updated Python version configuration for Heroku compatibility. |
+| **Procfile Updates** | Updated Procfile for better logging and dependency management. |
+| **Imgix URL Fixes** | Fixed undefined variable issues in imgix_url template tag and refactored URL construction. |
+| **Stripe Webhook Fixes** | Improved error handling in Stripe webhook and JavaScript integration. |
+| **Checkout Redirect Fixes** | Fixed checkout redirect and enhanced error messaging in tour booking forms. |
+
+---
+
+### 📱 Responsive Design & Accessibility (November 2025)
+
+| Feature | Description |
+|---------|-------------|
+| **Responsive Checkout** | Enhanced checkout UI with improved responsive design for all device sizes. |
+| **Profile Page UI** | Improved profile page with responsive design and better layout. |
+| **Merit Upgrade Merge** | Merged comprehensive Merit upgrade with security hardening and UI polish. |
+
+---
+
+### 🏆 Major Feature Overhaul (December 2025)
+
+| Feature | Description |
+|---------|-------------|
+| **About Section Redesign** | Completely redesigned the About section with improved UX and visual appeal. |
+| **Taproom Section Redesign** | Overhauled the Taproom section with enhanced user experience and modern design. |
+| **Standard vs Premium Bookings** | Implemented distinct booking types with different images, pricing, and features. |
+| **Interactive Table Map** | Added interactive table map with zone selection (Jungle Terrace vs Front of House). |
+| **Contact Details Caching** | Implemented session caching for contact details (Name/Phone) with sync to Booking objects. |
+| **Tour Form Improvements** | Fixed Tour booking flow to submit form data via POST, ensuring contact info is captured correctly. |
+| **Digital Order Checkout** | Conditionally hide delivery address fields for digital-only orders (Tours/Taproom). |
+| **Pre-fill Checkout Form** | Automatically pre-fill checkout contact form with session-cached data. |
+| **Premium Booking Images** | Implemented 5 unique premium images for enhanced taproom booking experience. |
+| **Checkout Success Page** | Refined Checkout Success page with specific taproom images and improved layout. |
+| **Navigation Improvements** | Added "Book a Tour" and "Reserve Table" navigation buttons for better discoverability. |
+| **Order History Enhancements** | Added "Book again" buttons to Order History for improved repeat booking UX. |
+| **Gmail SMTP Email** | Replaced SendGrid with Gmail SMTP for reliable, free email delivery. |
+| **Taproom Booking Emails** | Automatic confirmation emails sent when taproom table reservations are completed. |
+| **Tour Booking Emails** | Automatic confirmation emails sent when brewery tour bookings are completed. |
+
+---
+
+### 📊 Summary of Changes (65+ Commits)
+
+| Period | Focus Area | Key Highlights |
+|--------|------------|----------------|
+| **Sept 2025** | UI/UX | Typography, product pages, navbar, booking forms, filtering |
+| **Oct 2025** | Core Commerce | Taproom/tour bookings, SendGrid, Whitenoise, Heroku deployment |
+| **Nov 2025** | Responsive Design | Checkout & profile UI, Merit upgrade integration |
+| **Dec 2025** | Feature Overhaul | Premium bookings, interactive maps, checkout refinements, Gmail SMTP, booking confirmation emails |
+
+---
 
 ## 🚀 Future Features
 

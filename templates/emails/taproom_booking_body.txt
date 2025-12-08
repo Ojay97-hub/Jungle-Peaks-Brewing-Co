@@ -1,0 +1,32 @@
+Hello {{ booking.name }},
+
+Thank you for your taproom reservation at Jungle Peaks Brewing!
+
+BOOKING DETAILS
+---------------
+Booking Type: {{ booking_type_display }}
+Date: {{ booking.date|date:"l, F j, Y" }}
+Time: {{ booking.time|time:"g:i A" }}
+Guests: {{ booking.guests }}
+{% if booking.table_number %}Table: {{ booking.table_number }}{% endif %}
+
+LOCATION
+--------
+Jungle Peaks Brewing Co.
+123 Brewery Lane
+Adventure City, AC 12345
+
+IMPORTANT INFORMATION
+---------------------
+- Please arrive 10 minutes before your reservation time
+- Your table will be held for 15 minutes after your booking time
+- For any changes or cancellations, please contact us or manage your booking through your account
+
+We look forward to seeing you!
+
+Cheers,
+The Jungle Peaks Brewing Team
+
+---
+This is an automated email. Please do not reply directly.
+Contact us at {{ contact_email }} for any questions.

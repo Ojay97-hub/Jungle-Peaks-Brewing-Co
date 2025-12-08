@@ -1,0 +1,41 @@
+Hello {{ booking.name }},
+
+Thank you for booking a brewery tour with Jungle Peaks Brewing!
+
+TOUR DETAILS
+------------
+Tour: {{ tour_display }}
+Date: {{ booking.date|date:"l, F j, Y" }}
+Guests: {{ booking.guests }}
+{% if booking.special_requests %}
+Special Requests: {{ booking.special_requests }}
+{% endif %}
+
+LOCATION
+--------
+Jungle Peaks Brewing Co.
+123 Brewery Lane
+Adventure City, AC 12345
+
+WHAT TO EXPECT
+--------------
+- Behind-the-scenes look at our brewing process
+- Learn about our unique ingredients and brewing techniques
+- Beer tasting session included
+- Please arrive 15 minutes before your tour start time
+
+IMPORTANT INFORMATION
+---------------------
+- Comfortable walking shoes are recommended
+- Tours last approximately 60-90 minutes
+- Must be 18+ to participate in beer tastings
+- For any changes or cancellations, please contact us or manage your booking through your account
+
+We can't wait to share our brewing adventure with you!
+
+Cheers,
+The Jungle Peaks Brewing Team
+
+---
+This is an automated email. Please do not reply directly.
+Contact us at {{ contact_email }} for any questions.

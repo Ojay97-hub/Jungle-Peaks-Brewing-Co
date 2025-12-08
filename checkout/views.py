@@ -21,6 +21,10 @@ from django.contrib.auth.models import User
 from tours.models import TourBooking
 from taproom.models import Booking
 from .utils import send_order_confirmation_email
+from core.email_utils import (
+    send_taproom_booking_confirmation,
+    send_tour_booking_confirmation
+)
 
 
 logger = logging.getLogger(__name__)
@@ -418,6 +422,40 @@ def checkout_success(request, order_number):
     success_message = f"Order successfully processed! Your order number is {order_number}."
     if email_sent:
         success_message += f" A confirmation email was sent to {order.email}."
+
+    # Send booking confirmation emails for any tour or taproom bookings in the order
+    booking_emails_sent = []
+    for line_item in order.lineitems.all():
+        try:
+            if line_item.tour_booking:
+                if send_tour_booking_confirmation(line_item.tour_booking):
+                    booking_emails_sent.append('tour')
+                    logger.info(
+                        "Tour booking confirmation sent for order %s",
+                        order_number
+                    )
+            if line_item.taproom_booking:
+                # Determine booking type from the booking or default to standard
+                booking_type = getattr(
+                    line_item.taproom_booking, 'booking_type', 'standard'
+                )
+                if send_taproom_booking_confirmation(
+                    line_item.taproom_booking, booking_type
+                ):
+                    booking_emails_sent.append('taproom')
+                    logger.info(
+                        "Taproom booking confirmation sent for order %s",
+                        order_number
+                    )
+        except Exception as e:
+            logger.warning(
+                "Failed to send booking confirmation for order %s: %s",
+                order_number, str(e)
+            )
+
+    if booking_emails_sent:
+        booking_types = ' and '.join(set(booking_emails_sent))
+        success_message += f" Booking confirmation(s) for {booking_types} also sent."
 
     messages.success(request, success_message)
 
