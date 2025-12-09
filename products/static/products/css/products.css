@@ -1173,6 +1173,22 @@
     align-items: center;
 }
 
+/* Stack quantity and add-to-cart button vertically in list view (all sizes) */
+.products-grid[data-view="list"] .add-to-cart-form {
+    flex-direction: column;
+    width: 100%;
+    gap: var(--space-sm);
+}
+
+.products-grid[data-view="list"] .quantity-controls {
+    width: 100%;
+    justify-content: center;
+}
+
+.products-grid[data-view="list"] .btn-add-to-cart {
+    width: 100%;
+}
+
 .quantity-controls {
     display: flex;
     align-items: center;
@@ -1616,19 +1632,36 @@
     }
 
     /* Grid view - smaller cards on tablet */
+    /* Grid view - ensure 2 columns on tablet (768px) */
     .products-grid[data-view="grid"] {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
         gap: var(--space-md) !important;
     }
     
     .products-grid:not([data-view="list"]) {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
         gap: var(--space-md) !important;
     }
     
     /* Ensure list view still works */
     .products-grid[data-view="list"] {
         grid-template-columns: 1fr !important;
+    }
+
+    /* Stack quantity and add to cart on tablet list view */
+    .products-grid[data-view="list"] .add-to-cart-form {
+        flex-direction: column;
+        width: 100%;
+        gap: var(--space-sm);
+    }
+
+    .products-grid[data-view="list"] .quantity-controls {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .products-grid[data-view="list"] .btn-add-to-cart {
+        width: 100%;
     }
 
 /* Enhanced mobile dropdown styling */
@@ -2255,12 +2288,12 @@
         width: 100% !important;
     }
     
-    /* Show add to cart form inline in mobile list view */
+    /* Show add to cart form stacked in mobile list view */
     .products-grid[data-view="list"] .add-to-cart-form {
         display: flex !important;
-        flex-direction: row !important;
-        gap: var(--space-xs) !important;
-        align-items: center !important;
+        flex-direction: column !important;
+        gap: var(--space-sm) !important;
+        align-items: stretch !important;
         width: 100% !important;
     }
     

@@ -1,0 +1,48 @@
+Category: Gift Sets
+ - Beer Lover's Gift Basket
+ - Craft Beer Sampler Box
+ - Ultimate IPA Gift Set
+
+Category: Light Beers
+ - Alpine Light
+ - Easy Peak Light
+ - Sunny Days Light Lager
+ - Trail Light Ale
+
+Category: Merchandise
+ - Branded Beer Mug
+ - Brewery Tote Bag
+ - Jungle Peaks Cap
+ - Jungle Peaks Hoodie
+ - Jungle Peaks T-Shirt
+
+Category: Pale Ales
+ - Amber Glow Pale Ale
+ - Golden Trail Pale Ale
+ - Sunrise Pale
+ - Trail Ale
+
+Category: Seasonal Brews
+ - Autumn Amber
+ - Frosty Peaks Winter Ale
+ - Spring Blossom Ale
+ - Summer Breeze
+
+Category: Sours
+ - Berry Burst Sour
+ - Citrus Zest Sour
+ - Passionfruit Pucker
+ - Wildflower Sour
+
+Category: Stouts & Porters
+ - Dark Peak Stout
+ - Midnight Ridge
+ - Shadow Brew
+ - Velvet Porter
+
+Category: Wheat Beers
+ - Canyon Wheat
+ - Citrus Cloud Wheat
+ - Golden Horizon
+ - Wheat Wanderer
+

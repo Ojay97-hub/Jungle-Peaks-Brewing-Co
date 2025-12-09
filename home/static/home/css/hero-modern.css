@@ -56,6 +56,9 @@
     align-items: center; /* Center content inside card */
     gap: 1rem;
     margin-top: 1rem;
+    animation: heroReveal 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: 0.6s;
+    opacity: 0;
 }
 
 .hero-glass-card::before {
@@ -101,6 +104,31 @@
     margin-bottom: 0.5rem;
     letter-spacing: -0.02em;
     text-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    /* Restore Entrance Animation */
+    animation: heroReveal 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    opacity: 0; 
+    pointer-events: auto; /* Enable hover on children */
+}
+
+/* Individual Letter Styling */
+.hero-title-modern span {
+    display: inline-block; /* Required for transforms */
+    transition: color 0.15s ease-out, transform 0.15s ease-out;
+    cursor: default;
+    /* Maintain space between words */
+    min-width: 0.25em; 
+}
+/* Reduce min-width for actual letters, this trick handles spaces if I used them, 
+   but since I wrapped letters, spaces are likely gaps in spans in HTML or external.
+   Refined approach below based on the HTML change:
+   The HTML has newlines which might collapse, but spaces between groups of spans 
+   (like ...</span> <span>...) render as spaces.
+*/
+
+.hero-title-modern span:hover {
+    color: #5c6f53;
+    transform: translateY(-4px) scale(1.1); /* Subtle "jump" effect */
+    text-shadow: 0 4px 20px rgba(92, 111, 83, 0.4);
 }
 
 .hero-subtitle-modern {
@@ -109,6 +137,9 @@
     margin-bottom: 0; 
     font-weight: 500;
     text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    animation: heroReveal 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: 0.3s;
+    opacity: 0;
 }
 
 .hero-cta-modern {
@@ -122,12 +153,12 @@
 /* Mobile Adjustments */
 @media (max-width: 991px) {
     .hero-center-text {
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-        transform: none !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
         width: 100% !important;
-        height: 100%;
+        height: auto;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -240,7 +271,7 @@
         text-align: center;
     }
     .hero-glass-card { padding: 1.5rem 1.5rem; border-radius: 18px; }
-    .hero-title-modern { font-size: 1.6rem; }
+    .hero-title-modern { font-size: 3rem; }
     .hero-subtitle-modern { font-size: 0.85rem; margin-bottom: 1.25rem; }
     .hero-cta-modern { flex-direction: column; justify-content: center; align-items: center; }
     .btn-modern { width: 100%; max-width: 260px; }
@@ -254,7 +285,7 @@
         width: 94%;
     }
     .hero-glass-card { padding: 1.25rem 1.25rem; border-radius: 16px; }
-    .hero-title-modern { font-size: 1.4rem; }
+    .hero-title-modern { font-size: 2.2rem; }
     .hero-pill-modern { font-size: 0.55rem; padding: 0.3rem 0.7rem; margin-bottom: 0.6rem; }
     .hero-subtitle-modern { font-size: 0.8rem; margin-bottom: 1rem; }
     .btn-modern { min-width: 140px; font-size: 13px; padding: 0.6rem 1rem; }
@@ -371,5 +402,23 @@
     .home-hero-page .modern-header.hide-promo .main-navbar,
     .home-hero-page .modern-header.promo-closed .main-navbar {
         margin-top: 0;
+    }
+}
+
+/* 
+   ----------------------------------------
+   Hero Title Animation 
+   ----------------------------------------
+*/
+@keyframes heroReveal {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+        filter: blur(8px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
     }
 }

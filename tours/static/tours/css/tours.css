@@ -417,16 +417,16 @@
 }
 
 .btn-accent {
-    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-golden) 100%);
-    border-color: var(--color-accent);
-    color: var(--color-heading);
+    background: #4a5568;
+    border-color: #4a5568;
+    color: #ffffff;
     border-radius: var(--radius-lg);
     padding: var(--space-sm) var(--space-xl);
     font-weight: 600;
     font-size: 0.9rem;
     letter-spacing: 0.02em;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px rgba(224, 176, 78, 0.25);
+    box-shadow: 0 4px 15px rgba(74, 85, 104, 0.25);
     position: relative;
     overflow: hidden;
 }
@@ -438,7 +438,7 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
     transition: left 0.5s;
 }
 
@@ -448,11 +448,11 @@
 
 .btn-accent:hover,
 .btn-accent:focus {
-    background: linear-gradient(135deg, var(--color-coral) 0%, #FF6B47 100%);
-    border-color: var(--color-coral);
-    color: var(--color-surface);
+    background: #2d3748;
+    border-color: #2d3748;
+    color: #ffffff;
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(255, 122, 89, 0.35);
+    box-shadow: 0 8px 25px rgba(45, 55, 72, 0.35);
 }
 
 /* Ensure Lucide icons work in buttons */
@@ -487,19 +487,19 @@
 }
 
 .btn-tour-booking.btn-accent {
-    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-golden) 100%);
-    border-color: var(--color-accent);
-    color: var(--color-heading);
+    background: #4a5568;
+    border-color: #4a5568;
+    color: #ffffff;
     padding: var(--space-sm) var(--space-lg);
 }
 
 .btn-tour-booking.btn-accent:hover,
 .btn-tour-booking.btn-accent:focus {
-    background: linear-gradient(135deg, var(--color-coral) 0%, #FF6B47 100%);
-    border-color: var(--color-coral);
-    color: var(--color-surface);
+    background: #2d3748;
+    border-color: #2d3748;
+    color: #ffffff;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 122, 89, 0.3);
+    box-shadow: 0 6px 20px rgba(45, 55, 72, 0.3);
 }
 
 /* Mobile responsive for tour booking buttons */

@@ -8,22 +8,21 @@
 {% block content %}
 <section class="container bag-shell">
     <div class="bag-header">
-        <h1 class="mb-2">Shopping bag</h1>
+        <h1 class="mb-2">Shopping bag <span class="badge rounded-pill bg-secondary fs-6 align-text-top ms-2">{{ bag_items|length }}<span class="visually-hidden"> items</span></span></h1>
         <p class="mb-0">Review your picks, adjust quantities, and continue when you're ready to check out.</p>
     </div>
 
     {% if bag_items %}
         <div class="bag-layout">
             <div>
-                <div class="table-responsive d-none d-lg-block">
+                <div class="table-responsive">
                     <table class="bag-table" aria-describedby="bag-summary-title">
                         <thead>
                             <tr>
                                 <th scope="col">Product</th>
-                                <th scope="col">Details</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col" class="text-end">Subtotal</th>
+                                <th scope="col" class="text-end">Price</th>
+                                <th scope="col" class="text-center">Qty</th>
+                                <th scope="col" style="width: 40px;"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,8 +48,7 @@
                                                 <!-- Taproom booking item -->
                                                 <!-- Taproom booking item -->
                                                 <img src="{% static 'taproom/images/taproom_booking_'|add:item.taproom_booking.booking_type|add:'.png' %}" 
-                                                     alt="{{ item.taproom_booking.get_booking_type_display }} Taproom Booking"
-                                                     style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6;">
+                                                     alt="{{ item.taproom_booking.get_booking_type_display }} Taproom Booking">
                                                 <div class="bag-item-meta">
                                                     <span class="fw-semibold">{{ item.taproom_booking.get_booking_type_display }} Taproom Booking</span>
                                                     <span class="text-small">{{ item.taproom_booking.date }} at {{ item.taproom_booking.time }}</span>
@@ -58,8 +56,8 @@
                                             {% else %}
                                                 {% if item.legacy_item %}
                                                     <!-- Legacy tour item -->
-                                                    <div class="tour-icon" style="width: 80px; height: 80px; background: linear-gradient(135deg, #6c757d, #5a6268); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; border: 2px solid #e9ecef;">
-                                                        <i data-lucide="map-pin" style="width: 32px; height: 32px;"></i>
+                                                    <div class="tour-icon-placeholder">
+                                                        <i data-lucide="map-pin"></i>
                                                     </div>
                                                     <div class="bag-item-meta">
                                                         <span class="fw-semibold">Tour Booking</span>
@@ -68,8 +66,7 @@
                                                 {% else %}
                                                     <!-- Tour item -->
                                                     <img src="{% static 'tours/images/'|add:item.tour_booking.tour|add:'.png' %}" 
-                                                         alt="{{ item.tour_booking.get_tour_display }}"
-                                                         style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6;">
+                                                         alt="{{ item.tour_booking.get_tour_display }}">
                                                     <div class="bag-item-meta">
                                                         <span class="fw-semibold">{{ item.tour_booking.get_tour_display|default:"Tour" }} Tour</span>
                                                         <span class="text-small">{{ item.tour_date }} - {{ item.tour_guests }} guest{{ item.tour_guests|pluralize }}</span>
@@ -78,22 +75,7 @@
                                             {% endif %}
                                         </div>
                                     </td>
-                                    <td>
-                                        <div class="bag-item-meta">
-                                            {% if item.item_type == 'product' %}
-                                                {% if item.product.has_sizes %}
-                                                    <span class="badge bg-light text-dark">Size {{ item.size|upper }}</span>
-                                                {% endif %}
-                                                <span class="sku">SKU: {{ item.product.sku|upper }}</span>
-                                            {% elif item.item_type == 'tour' %}
-                                                <span class="badge bg-info text-dark">Tour Experience</span>
-                                                <span class="sku">Date: {{ item.tour_date }}</span>
-                                            {% elif item.item_type == 'taproom' %}
-                                                <span class="badge bg-warning text-dark">Taproom Booking</span>
-                                                <span class="sku">{{ item.taproom_booking.date }} at {{ item.taproom_booking.time }}</span>
-                                            {% endif %}
-                                        </div>
-                                    </td>
+
                                     <td>
                                         {% if item.item_type == 'product' %}
                                             £{{ item.price|default:item.product.price|floatformat:2 }}
@@ -101,176 +83,62 @@
                                             £{{ item.price|default:0|floatformat:2 }}
                                         {% endif %}
                                     </td>
-                                    <td>
-                                        <div class="bag-actions">
-                                            {% if item.item_type == 'product' %}
-                                                <form method="post" action="{% url 'bag:adjust_bag' item.item_id %}" class="d-flex flex-column gap-2 align-items-start">
-                                                    {% csrf_token %}
-                                                    {% if item.product.has_sizes %}
-                                                        <input type="hidden" name="product_size" value="{{ item.size }}">
-                                                    {% endif %}
-                                                    <div class="quantity-stepper" data-quantity-stepper>
-                                                        <button type="button" data-step="decrease" aria-label="Decrease quantity for {{ item.product.name }}">&minus;</button>
-                                                        <input
-                                                            type="number"
-                                                            class="form-control"
-                                                            name="quantity"
-                                                            value="{{ item.quantity }}"
-                                                            min="1"
-                                                            max="99"
-                                                            inputmode="numeric"
-                                                            aria-label="Quantity for {{ item.product.name }}"
-                                                        >
-                                                        <button type="button" data-step="increase" aria-label="Increase quantity for {{ item.product.name }}">+</button>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-outline-primary btn-sm">Update</button>
-                                                </form>
-                                                <form method="post" action="{% url 'bag:remove_from_bag' item.item_id %}">
-                                                    {% csrf_token %}
-                                                    {% if item.product.has_sizes %}
-                                                        <input type="hidden" name="product_size" value="{{ item.size }}">
-                                                    {% endif %}
-                                                    <button type="submit" class="btn btn-link text-danger p-0">Remove</button>
-                                                </form>
-                                            {% elif item.item_type == 'taproom' %}
-                                                <!-- Taproom booking actions -->
-                                                {% if item.cart_item_id %}
-                                                    <form method="post" action="{% url 'bag:remove_taproom_from_cart' item.cart_item_id %}">
-                                                        {% csrf_token %}
-                                                        <button type="submit" class="btn btn-link text-danger p-0">Remove</button>
-                                                    </form>
+                                    <td class="text-center">
+                                        {% if item.item_type == 'product' %}
+                                            <form method="post" action="{% url 'bag:adjust_bag' item.item_id %}" class="qty-form">
+                                                {% csrf_token %}
+                                                {% if item.product.has_sizes %}
+                                                    <input type="hidden" name="product_size" value="{{ item.size }}">
                                                 {% endif %}
+                                                <div class="quantity-stepper quantity-stepper-compact" data-quantity-stepper>
+                                                    <button type="button" data-step="decrease" aria-label="Decrease">&minus;</button>
+                                                    <input type="number" class="form-control" name="quantity" value="{{ item.quantity }}" min="1" max="99" inputmode="numeric">
+                                                    <button type="button" data-step="increase" aria-label="Increase">+</button>
+                                                </div>
+                                            </form>
+                                        {% else %}
+                                            {% if item.item_type == 'tour' and item.tour_guests %}
+                                                <span class="text-muted">{{ item.tour_guests }} guest{{ item.tour_guests|pluralize }}</span>
+                                            {% elif item.item_type == 'taproom' and item.taproom_booking.guests %}
+                                                <span class="text-muted">{{ item.taproom_booking.guests }} guest{{ item.taproom_booking.guests|pluralize }}</span>
                                             {% else %}
-                                                <!-- Tour item actions -->
-                                                {% if item.item_type == 'tour' and item.cart_item_id %}
-                                                    <!-- Tour removal -->
-                                                    <form method="post" action="{% url 'bag:remove_tour_from_cart' item.cart_item_id %}">
-                                                        {% csrf_token %}
-                                                        <button type="submit" class="btn btn-link text-danger p-0">Remove</button>
-                                                    </form>
-                                                {% elif item.item_type == 'tour' and item.legacy_item %}
-                                                    <!-- Legacy tour item from session - allow removal -->
-                                                    <form method="post" action="{% url 'bag:remove_legacy_tour' item.item_id %}">
-                                                        {% csrf_token %}
-                                                        <button type="submit" class="btn btn-link text-danger p-0">Remove</button>
-                                                    </form>
-                                                {% endif %}
+                                                <span class="text-muted">—</span>
                                             {% endif %}
-                                        </div>
+                                        {% endif %}
                                     </td>
-                                    <td class="text-end">£{{ item.price|default:0|floatformat:2 }}</td>
+                                    <td class="text-center">
+                                        {% if item.item_type == 'product' %}
+                                            <form method="post" action="{% url 'bag:remove_from_bag' item.item_id %}" class="d-inline">
+                                                {% csrf_token %}
+                                                {% if item.product.has_sizes %}<input type="hidden" name="product_size" value="{{ item.size }}">{% endif %}
+                                                <button type="submit" class="btn-trash" title="Remove item" aria-label="Remove {{ item.product.name }}">
+                                                    <i data-lucide="trash-2"></i>
+                                                </button>
+                                            </form>
+                                        {% elif item.item_type == 'taproom' and item.cart_item_id %}
+                                            <form method="post" action="{% url 'bag:remove_taproom_from_cart' item.cart_item_id %}" class="d-inline">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn-trash" title="Remove booking"><i data-lucide="trash-2"></i></button>
+                                            </form>
+                                        {% elif item.item_type == 'tour' and item.cart_item_id %}
+                                            <form method="post" action="{% url 'bag:remove_tour_from_cart' item.cart_item_id %}" class="d-inline">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn-trash" title="Remove tour"><i data-lucide="trash-2"></i></button>
+                                            </form>
+                                        {% elif item.item_type == 'tour' and item.legacy_item %}
+                                            <form method="post" action="{% url 'bag:remove_legacy_tour' item.item_id %}" class="d-inline">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn-trash" title="Remove"><i data-lucide="trash-2"></i></button>
+                                            </form>
+                                        {% endif %}
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
 
-                <div class="d-lg-none d-grid gap-3">
-                    {% for item in bag_items %}
-                        <article class="bag-item-card" aria-label="{% if item.item_type == 'product' %}{{ item.product.name }}{% else %}{{ item.tour_booking.get_tour_display }} Tour{% endif %}">
-                            {% if item.item_type == 'product' %}
-                                {% if item.product.image_url %}
-                                    <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}">
-                                {% elif item.product.image %}
-                                    <img src="{% imgix_url item.product.image.name params='w=400&h=300&fit=crop&auto=format,compress&q=75' %}" alt="{{ item.product.name }}">
-                                {% else %}
-                                    <img src="{% imgix_url 'noimage.png' params='w=400&h=300&fit=crop&auto=format,compress&q=75' %}" alt="{{ item.product.name }}">
-                                {% endif %}
-                                <div>
-                                    <h2 class="h5 mb-2">{{ item.product.name }}</h2>
-                                    {% if item.product.has_sizes %}
-                                        <p class="mb-1"><strong>Size:</strong> {{ item.size|upper }}</p>
-                                    {% endif %}
-                                    <p class="text-small mb-2">SKU: {{ item.product.sku|upper }}</p>
-                                    <p class="mb-2">£{{ item.product.price|floatformat:2 }}</p>
-                                </div>
-                                <div class="bag-actions stack">
-                                    <form method="post" action="{% url 'bag:adjust_bag' item.item_id %}">
-                                        {% csrf_token %}
-                                        {% if item.product.has_sizes %}
-                                            <input type="hidden" name="product_size" value="{{ item.size }}">
-                                        {% endif %}
-                                        <div class="quantity-stepper" data-quantity-stepper>
-                                            <button type="button" data-step="decrease" aria-label="Decrease quantity for {{ item.product.name }}">&minus;</button>
-                                            <input
-                                                type="number"
-                                                class="form-control"
-                                                name="quantity"
-                                                value="{{ item.quantity }}"
-                                                min="1"
-                                                max="99"
-                                                inputmode="numeric"
-                                                aria-label="Quantity for {{ item.product.name }}"
-                                            >
-                                            <button type="button" data-step="increase" aria-label="Increase quantity for {{ item.product.name }}">+</button>
-                                        </div>
-                                        <button type="submit" class="btn btn-outline-primary btn-sm mt-2">Update</button>
-                                    </form>
-                                    <form method="post" action="{% url 'bag:remove_from_bag' item.item_id %}">
-                                        {% csrf_token %}
-                                        {% if item.product.has_sizes %}
-                                            <input type="hidden" name="product_size" value="{{ item.size }}">
-                                        {% endif %}
-                                        <button type="submit" class="btn btn-link text-danger btn-sm p-0 text-start">Remove</button>
-                                    </form>
-                                </div>
-                                <p class="fw-semibold mb-0">Subtotal £{{ item.product.price|calc_subtotal:item.quantity }}</p>
-                            {% elif item.item_type == 'taproom' %}
-                                <!-- Taproom booking item for mobile -->
-                                <!-- Taproom booking item for mobile -->
-                                <img src="{% static 'taproom/images/taproom_booking_'|add:item.taproom_booking.booking_type|add:'.png' %}" 
-                                     alt="{{ item.taproom_booking.get_booking_type_display }} Taproom Booking"
-                                     style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6; margin-bottom: 1rem;">
-                                <div>
-                                    <h2 class="h5 mb-2">{{ item.taproom_booking.get_booking_type_display }} Taproom Booking</h2>
-                                    <p class="mb-1"><strong>Date:</strong> {{ item.taproom_booking.date }}</p>
-                                    <p class="mb-1"><strong>Time:</strong> {{ item.taproom_booking.time }}</p>
-                                    <p class="mb-2">£{{ item.price|default:0|floatformat:2 }}</p>
-                                </div>
-                                <div class="bag-actions stack">
-                                    {% if item.cart_item_id %}
-                                        <form method="post" action="{% url 'bag:remove_taproom_from_cart' item.cart_item_id %}">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-link text-danger btn-sm p-0 text-start">Remove</button>
-                                        </form>
-                                    {% endif %}
-                                </div>
-                                <p class="fw-semibold mb-0">Subtotal £{{ item.price|default:0|floatformat:2 }}</p>
-                            {% else %}
-                                <!-- Tour item for mobile -->
-                                <img src="{% static 'tours/images/'|add:item.tour_booking.tour|add:'.png' %}" 
-                                     alt="{{ item.tour_booking.get_tour_display }}"
-                                     style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6; margin-bottom: 1rem;">
-                                <div>
-                                    {% if item.legacy_item %}
-                                        <h2 class="h5 mb-2">Tour Booking</h2>
-                                        <p class="mb-2 text-muted">Legacy item from session - can be removed directly.</p>
-                                    {% else %}
-                                        <h2 class="h5 mb-2">{{ item.tour_booking.get_tour_display|default:"Tour" }} Tour</h2>
-                                        <p class="mb-1"><strong>Date:</strong> {{ item.tour_date }}</p>
-                                        <p class="mb-1"><strong>Guests:</strong> {{ item.tour_guests }}</p>
-                                    {% endif %}
-                                    <p class="mb-2">£{{ item.price|default:0|floatformat:2 }}</p>
-                                </div>
-                                <div class="bag-actions stack">
-                                    {% if item.item_type == 'tour' and item.cart_item_id %}
-                                        <form method="post" action="{% url 'bag:remove_tour_from_cart' item.cart_item_id %}">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-link text-danger btn-sm p-0 text-start">Remove</button>
-                                        </form>
-                                    {% elif item.item_type == 'tour' and item.legacy_item %}
-                                        <!-- Legacy tour item from session - allow removal -->
-                                        <form method="post" action="{% url 'bag:remove_legacy_tour' item.item_id %}">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-link text-danger btn-sm p-0 text-start">Remove</button>
-                                        </form>
-                                    {% endif %}
-                                </div>
-                                <p class="fw-semibold mb-0">Subtotal £{{ item.price|default:0|floatformat:2 }}</p>
-                            {% endif %}
-                        </article>
-                    {% endfor %}
-                </div>
+                {% comment %}Mobile cards section hidden - using table for all screen sizes{% endcomment %}
             </div>
 
             <aside class="bag-summary-card" aria-live="polite">

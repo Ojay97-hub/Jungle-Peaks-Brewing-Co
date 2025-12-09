@@ -177,9 +177,16 @@ small,
 }
 
 .btn-accent {
-    background-color: var(--color-golden);
-    border-color: var(--color-golden);
-    color: var(--color-heading);
+    background-color: #4a5568;
+    border-color: #4a5568;
+    color: #ffffff;
+}
+
+.btn-accent:hover,
+.btn-accent:focus {
+    background-color: #2d3748;
+    border-color: #2d3748;
+    color: #ffffff;
 }
 
 .btn-light {
@@ -226,7 +233,7 @@ small,
     border-radius: 999px;
     font-weight: 600;
     background-color: var(--color-surface-alt);
-    color: var(--color-primary-dark);
+    color: #fff;
 }
 
 .badge-success {
@@ -380,6 +387,26 @@ legend {
     color: var(--color-surface) !important;
     transform: translateY(-2px) !important;
     box-shadow: 0 6px 20px rgba(255, 122, 89, 0.3) !important;
+}
+
+/* Newsletter form - tablet breakpoint fix */
+@media (min-width: 576px) and (max-width: 991.98px) {
+    #newsletter-form {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+    
+    #newsletter-form .form-control {
+        width: 100% !important;
+        margin-bottom: var(--space-sm);
+    }
+    
+    #newsletter-form .btn-newsletter-subscribe {
+        width: auto !important;
+        max-width: none !important;
+        align-self: center !important;
+        padding: var(--space-sm) var(--space-xl) !important;
+    }
 }
 
 /* base.css */
@@ -2343,7 +2370,7 @@ legend {
 @media (max-width: 991.98px) and (min-width: 768px) and (orientation: landscape) {
     .navbar-content {
         flex-direction: row;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         justify-content: space-between;
         align-items: center;
     }
@@ -2375,21 +2402,67 @@ legend {
 /* Original tablet styles with improvements */
 @media (max-width: 767.98px) {
     .navbar-content {
-        gap: 12px;
+        gap: 8px;
+        flex-wrap: nowrap !important;
+        flex-direction: row !important;
+        padding: 12px 0 !important;
+        min-height: auto;
     }
 
     .brand-logo {
         font-size: 1.6rem;
+        flex-shrink: 0;
     }
 
     .logo-icon {
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
     }
 
     .logo-icon i {
-        width: 18px;
-        height: 18px;
+        width: 16px;
+        height: 16px;
+    }
+
+    .navbar-content {
+        padding: 20px 16px !important;
+        min-height: 48px;
+        justify-content: space-between !important;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+        flex-direction: row !important;
+        display: flex !important;
+    }
+    
+    .brand-logo {
+        order: 1;
+        flex: 0 0 auto;
+        margin: 0;
+    }
+    
+    .navbar-actions {
+        order: 2;
+        flex: 0 0 auto;
+        margin-left: auto !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+    
+    /* Hide mobile menu button on very small screens if needed */
+    .mobile-menu-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+    }
+    
+    /* Show only JP on mobile instead of Jungle Peaks */
+    .logo-text::after {
+        content: 'JP';
+        font-size: 1.6rem;
+    }
+    
+    .logo-text {
+        font-size: 0;
     }
 
     .search-container {
@@ -2430,29 +2503,39 @@ legend {
     }
 
     .navbar-actions {
-        gap: 24px;
+        gap: 8px;
     }
 
     .action-btn {
-        padding: 8px 10px;
+        padding: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        min-width: 40px;
+        justify-content: center;
+        overflow: visible;
     }
 
     .btn-icon {
-        width: 36px;
-        height: 36px;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        overflow: visible;
+        position: relative;
     }
 
     .btn-icon i {
-        width: 16px;
-        height: 16px;
+        width: 20px;
+        height: 20px;
     }
 
     .cart-badge {
         width: 18px;
         height: 18px;
         font-size: 10px;
-        top: -5px;
-        right: -5px;
+        top: -4px;
+        right: -4px;
+        border-width: 2px;
     }
 }
 

@@ -325,6 +325,19 @@
     text-align: left;
 }
 
+/* Reviews section tablet breakpoint */
+@media (min-width: 768px) and (max-width: 991px) {
+    .reviews-section .col-md-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    .reviews-section .card {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
 /* Ethos Section */
 .ethos-section {
     background-color: #fff; /* White background */
@@ -365,6 +378,21 @@
     font-size: 0.95rem;
 }
 
+/* Ethos section tablet breakpoint */
+@media (min-width: 768px) and (max-width: 991px) {
+    .ethos-section .col-md-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+        text-align: center;
+        margin-bottom: var(--space-lg);
+    }
+    
+    .ethos-section .col-md-4 p {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}
+
 
 /* Responsive Adjustments */
 @media (max-width: 1200px) {
@@ -383,9 +411,15 @@
         max-width: 90%; /* Prevents the image from being too wide */
     }
 
+    /* CTA cards: single column on tablet like reviews */
     .cta-section .col-md-4 {
-        flex: 1 1 calc(50% - 20px); /* 2 cards per row */
-        max-width: calc(50% - 20px);
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    .cta-section .col-md-4 .card {
+        max-width: 500px;
+        margin: 0 auto;
     }
 }
 
@@ -410,7 +444,7 @@
     }
 
     .hero-title {
-        font-size: 2rem; /* Reduce text size for small screens */
+        font-size: 2.5rem; /* Larger title for proper visual hierarchy */
     }
 
     .hero-subtitle {
@@ -448,7 +482,7 @@
 
 @media (max-width: 400px) {
     .hero-title {
-        font-size: 1.8rem;
+        font-size: 2.2rem;
     }
 
     .hero-subtitle {
@@ -827,21 +861,21 @@
     align-items: center;
     gap: 0.75rem;
     padding: 1rem 2rem;
-    background: #c4a35a;
-    color: #0d2833;
+    background: #5c6f53;
+    color: #fff;
     font-weight: 700;
     font-size: 1rem;
     text-decoration: none;
     border-radius: var(--radius-md);
     transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(196, 163, 90, 0.3);
+    box-shadow: 0 4px 20px rgba(92, 111, 83, 0.3);
 }
 
 .featured-beer__cta:hover {
-    background: #d4b76a;
+    background: #4a5b42;
     transform: translateY(-3px);
-    box-shadow: 0 8px 30px rgba(196, 163, 90, 0.4);
-    color: #0d2833;
+    box-shadow: 0 8px 30px rgba(92, 111, 83, 0.4);
+    color: #fff;
 }
 
 .featured-beer__cta i {
@@ -884,6 +918,30 @@
     
     .about-modern__stats {
         grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Tablet breakpoint - Stack about section, 2x2 badges */
+@media (min-width: 768px) and (max-width: 991px) {
+    /* About section: stack content with stats below text */
+    .about-modern__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+    }
+    
+    .about-modern__content {
+        max-width: 100%;
+    }
+    
+    .about-modern__stats {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 600px;
+    }
+    
+    /* Trusted partner badges: 2x2 grid */
+    .trusted-partners__badges {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-md);
     }
 }
 

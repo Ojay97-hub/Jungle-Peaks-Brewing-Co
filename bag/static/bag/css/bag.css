@@ -1,5 +1,90 @@
+/* Remove any borders from table wrapper */
+.table-responsive {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
 .bag-shell {
     padding: var(--space-2xl) 0;
+}
+
+
+/* Accessibility Helper */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Compact trash button for remove action */
+.btn-trash {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+}
+
+.btn-trash:hover {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+
+.btn-trash i {
+    width: 18px;
+    height: 18px;
+}
+
+/* Compact quantity stepper in table */
+.quantity-stepper-compact {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background-color: var(--color-surface);
+}
+
+.quantity-stepper-compact button {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    color: var(--color-text);
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+
+.quantity-stepper-compact button:hover {
+    background: var(--color-surface-alt);
+}
+
+.quantity-stepper-compact input {
+    width: 36px;
+    height: 28px;
+    border: none;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+    background: var(--color-surface);
+}
+
+/* Auto-submit quantity form styling */
+.qty-form {
+    display: inline-block;
 }
 
 .bag-header {
@@ -21,29 +106,65 @@
 .bag-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
+    background-color: transparent;
+    border: none;
     border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-xs);
+    overflow: visible;
+    box-shadow: none;
 }
 
 .bag-table thead {
-    background-color: var(--color-surface-alt);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
+    display: none;
 }
 
 .bag-table th,
 .bag-table td {
-    padding: var(--space-sm) var(--space-md);
+    padding: var(--space-lg) var(--space-xl);
     vertical-align: middle;
 }
 
-.bag-table tbody tr + tr {
+.bag-table tbody {
+    display: table-row-group;
+}
+
+.bag-table tr {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xs);
+    /* For spacing on desktop table rows, we need a trick because margin doesn't work on tr */
+}
+
+/* Global Table Card Styling */
+.bag-table {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-collapse: separate;
+    border-spacing: 0 var(--space-md); /* Spacing between rows */
+    margin-top: calc(var(--space-md) * -1);
+}
+
+.bag-table td {
+    background: var(--color-surface);
     border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.bag-table td:first-child {
+    border-left: 1px solid var(--color-border);
+    border-top-left-radius: var(--radius-lg);
+    border-bottom-left-radius: var(--radius-lg);
+}
+
+.bag-table td:last-child {
+    border-right: 1px solid var(--color-border);
+    border-top-right-radius: var(--radius-lg);
+    border-bottom-right-radius: var(--radius-lg);
+}
+
+.bag-table tbody tr + tr {
+    border-top: none; /* Remove the old separator */
 }
 
 .bag-item-info {
@@ -60,10 +181,46 @@
     border: 1px solid var(--color-border);
 }
 
+/* Tour icon placeholder for legacy items */
+.tour-icon-placeholder {
+    width: 72px;
+    height: 72px;
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+.tour-icon-placeholder i {
+    width: 28px;
+    height: 28px;
+}
+
 .bag-item-meta {
     display: flex;
     flex-direction: column;
     gap: var(--space-xxs);
+    max-width: 350px; /* Prevent text from getting too close to remove button */
+    overflow: hidden;
+}
+
+.bag-item-meta .fw-semibold {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bag-item-meta .text-small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: normal;
 }
 
 .bag-item-meta .sku {
@@ -217,47 +374,241 @@
     }
 }
 
-@media (max-width: 767.98px) {
-    .bag-shell {
-        padding: var(--space-xl) var(--space-md);
+/* Small laptop/desktop: Optimize table for tighter screens */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .bag-layout {
+        grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+        gap: var(--space-md);
     }
-
-    .bag-header {
-        margin-bottom: var(--space-lg);
+    
+    .bag-table th,
+    .bag-table td {
+        padding: var(--space-sm) var(--space-md);
+        font-size: 0.875rem;
     }
-
+    
+    .bag-table thead {
+        font-size: 0.7rem;
+    }
+    
     .bag-item-info {
-        align-items: flex-start;
+        gap: var(--space-xs);
     }
-
+    
     .bag-item-info img {
-        width: 64px;
-        height: 64px;
+        width: 56px;
+        height: 56px;
     }
-
-    /* Mobile cart cards spacing */
-    .d-lg-none.d-grid {
-        gap: var(--space-md) !important;
-        margin: 0;
+    
+    .tour-icon-placeholder {
+        width: 56px;
+        height: 56px;
     }
-
-    .bag-item-card {
-        margin: 0;
-        box-shadow: var(--shadow-sm);
+    
+    .tour-icon-placeholder i {
+        width: 22px;
+        height: 22px;
     }
-
-    /* Ensure summary card also has proper spacing */
+    
+    .bag-item-meta small {
+        font-size: 0.7rem;
+        max-width: 140px;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
     .bag-summary-card {
-        margin-top: var(--space-lg);
+        padding: var(--space-md);
+    }
+    
+    .bag-summary-card h2 {
+        font-size: 1rem;
     }
 }
 
-@media (max-width: 575.98px) {
+
+
+/* Unified Mobile/Tablet Stacked Card Layout */
+@media (max-width: 991.98px) {
+    .bag-layout .table-responsive {
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+    }
+
+    .bag-table {
+        background: transparent !important;
+        border: 0 !important;
+        outline: none !important;
+        box-shadow: none !important;
+        overflow: visible !important;
+    }
+
+    .bag-table thead {
+        display: none;
+    }
+    
+    .bag-table tbody, .bag-table tr, .bag-table td {
+        display: block;
+        width: 100%;
+    }
+    
+    .bag-table tbody tr {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-md);
+        box-shadow: var(--shadow-xs);
+        margin-top: var(--space-md);
+    }
+    
+    .bag-table tbody tr + tr {
+        border-top: 1px solid var(--color-border);
+    }
+    
+    /* Reset global td borders for stacked view */
+    .bag-table td,
+    .bag-table td:first-child,
+    .bag-table td:last-child {
+        border: none !important;
+        background: transparent;
+        border-radius: 0;
+    }
+    
+    .bag-table td {
+        padding: var(--space-xs) 0 !important;
+        text-align: left;
+    }
+    
+    /* Product Row */
+    .bag-table td:first-child {
+        padding-top: 0 !important;
+        padding-bottom: var(--space-sm) !important;
+        border-bottom: 1px solid var(--color-border) !important;
+        margin-bottom: var(--space-sm);
+        display: flex;
+        flex-direction: row; /* Ensure image and text are side-by-side */
+        align-items: flex-start;
+        gap: var(--space-sm);
+    }
+    
+    /* Price Row */
+    .bag-table td:nth-child(2) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+    }
+    
+    .bag-table td:nth-child(2)::before {
+        content: "Price";
+        color: var(--color-text-muted);
+        font-weight: 400;
+        font-size: 0.875rem;
+    }
+    
+    /* Quantity Row */
+    .bag-table td:nth-child(3) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: var(--space-sm) !important;
+    }
+    
+    .bag-table td:nth-child(3)::before {
+        content: "Quantity";
+        color: var(--color-text-muted);
+        font-weight: 400;
+        font-size: 0.875rem;
+    }
+    
+    /* Actions Row */
+    .bag-table td:last-child {
+        text-align: right;
+        padding-top: var(--space-sm) !important;
+        margin-top: 0;
+        position: absolute;
+        top: var(--space-md);
+        right: var(--space-md);
+        width: auto;
+    }
+    
+    .bag-table tr {
+        position: relative;
+    }
+    
+    .bag-item-meta .text-small {
+        display: block;
+        margin-top: var(--space-xxs);
+        max-width: 100%;
+        color: var(--color-text-muted);
+        font-size: 12px;
+    }
+}
+
+/* Mobile: Even more compact table */
+@media (max-width: 767.98px) {
     .bag-shell {
         padding: var(--space-lg) var(--space-sm);
     }
 
-    .bag-item-card {
-        padding: var(--space-md) var(--space-sm);
+    .bag-header {
+        margin-bottom: var(--space-md);
+    }
+    
+    .bag-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .bag-header p {
+        font-size: 0.875rem;
+    }
+
+    .bag-summary-card .totals p {
+        font-size: 0.875rem;
+    }
+
+    /* Restore useful mobile sizing */
+    .quantity-stepper-compact {
+        transform: scale(0.9);
+        transform-origin: left center;
+    }
+
+    .btn-trash {
+        width: 28px;
+        height: 28px;
+    }
+
+    .btn-trash i {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+/* Extra small mobile */
+@media (max-width: 480px) {
+    .bag-shell {
+        padding: var(--space-md) var(--space-xs);
+    }
+    
+    .bag-item-info img {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .tour-icon-placeholder {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .tour-icon-placeholder i {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .bag-item-meta .fw-semibold {
+        font-size: 0.75rem;
     }
 }

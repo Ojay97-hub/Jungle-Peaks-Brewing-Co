@@ -8,6 +8,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         const min = parseInt(input.min || "1", 10);
         const max = parseInt(input.max || "99", 10);
+        const form = input.closest('form');
+        let debounceTimer = null;
+
+        // Auto-submit form after quantity change
+        const autoSubmit = () => {
+            if (form && form.classList.contains('qty-form')) {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    form.submit();
+                }, 500); // 500ms debounce
+            }
+        };
 
         stepper.addEventListener("click", (event) => {
             const button = event.target.closest("button[data-step]");
@@ -31,6 +43,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             input.value = currentValue;
+            autoSubmit();
+        });
+
+        // Also auto-submit on direct input change
+        input.addEventListener('change', () => {
+            autoSubmit();
         });
     });
 });
+

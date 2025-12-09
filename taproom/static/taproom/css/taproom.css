@@ -196,8 +196,31 @@ section .container {
         padding: var(--space-xl) var(--space-md) var(--space-md);
     }
     
-    .taproom-hero-content {
-        padding: 0 var(--space-md);
+    /* Mobile Hero Adjustments */
+    .taproom-image-overlay {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-end;
+        gap: 1rem;
+    }
+
+    .taproom-hero-title {
+        font-size: 2rem; 
+        max-width: 100%;
+        margin-bottom: 0;
+    }
+    
+    .btn-book-table {
+        padding: 0.7rem 1.2rem;
+        font-size: 1rem;
+        white-space: nowrap;
+        margin-left: 0; /* Align left */
+        width: auto; /* Or 100% if preferred, usually left aligned pill is nice */
+    }
+    
+    .btn-book-table i {
+        width: 18px;
+        height: 18px;
     }
 }
 /* Full Width Location Section */
@@ -597,6 +620,21 @@ section .container {
 
 .menu-card ul li {
     margin-bottom: 10px;
+}
+
+/* Menu card tablet breakpoint - wider on tablet */
+@media (min-width: 768px) and (max-width: 991px) {
+    .menu-card {
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    /* Override Bootstrap's col-md-8 for menu section */
+    .section-jungle .col-md-8 {
+        flex: 0 0 100%;
+        max-width: 100%;
+        width: 100%;
+    }
 }
 /* Carousel Image Styling */
 .carousel-inner img {
