@@ -20,6 +20,10 @@ def imgix_url(image_path, params=""):
         else:
             return f"{settings.STATIC_URL}{image_path}"
 
+    # If the path is explicitly a static path (migrated images), serve directly
+    if image_path.startswith('/static/'):
+        return image_path
+
     if settings.USE_IMGIX and settings.IMGIX_DOMAIN:
         base_url = f"https://{settings.IMGIX_DOMAIN}/{image_path.lstrip('/')}"
         if params:
