@@ -9,7 +9,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write('Starting S3 image fix for ALL products...')
         
-        s3_base = f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/media/products"
+        s3_base = f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static/images"
         
         # Complete mapping of product names to their S3 image filenames
         product_image_map = {
