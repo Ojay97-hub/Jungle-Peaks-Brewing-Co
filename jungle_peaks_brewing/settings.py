@@ -222,7 +222,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-USE_AWS = False  # Disabled for Heroku deployment - use Whitenoise instead
+USE_AWS = True  # Enabled for S3 storage
 
 # Imgix Configuration
 IMGIX_DOMAIN = "junglepeaksbrewing.imgix.net"
