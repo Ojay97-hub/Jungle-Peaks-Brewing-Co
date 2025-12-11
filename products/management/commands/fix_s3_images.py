@@ -51,7 +51,7 @@ class Command(BaseCommand):
             
             # Stouts & Porters
             'Dark Peak Stout': 'dark_peak_stout.png',
-            'Midnight Ridge': 'midnight_ridge_stout.png',
+            'Midnight Ridge': 'midnight_ridge_porter.png',
             'Shadow Brew': 'shadow_brew_porter.png',
             'Velvet Porter': 'velvet_porter.png',
             
