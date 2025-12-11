@@ -31,5 +31,9 @@ def imgix_url(image_path, params=""):
         else:
             return base_url
 
+    # Serve directly from S3
+    # Product images need the media/ prefix
+    if image_path.startswith('products/'):
+        return f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/media/{image_path.lstrip('/')}"
     return f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/{image_path.lstrip('/')}"
 

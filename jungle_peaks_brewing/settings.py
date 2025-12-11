@@ -226,7 +226,7 @@ USE_AWS = True  # Enabled for S3 storage
 
 # Imgix Configuration
 IMGIX_DOMAIN = "junglepeaksbrewing.imgix.net"
-USE_IMGIX = True  # Toggle this if you want to easily switch between S3 & Imgix
+USE_IMGIX = False  # Disabled - using S3 directly to avoid ORB errors
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
