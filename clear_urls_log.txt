@@ -1,8 +1,0 @@
-Clearing image_url for updated products...
-Cleared image_url for Citrus Peak IPA (was: https://www.leanbrew.co.uk/cdn/shop/files/leanbrew_ipa_new.jpg)
-Cleared image_url for Summit Breeze IPA (was: https://www.leanbrew.co.uk/cdn/shop/files/leanbrew_ipa_new.jpg)
-Cleared image_url for Golden Trail Lager (was: https://bownessbaybrewing.b-cdn.net/wp-content/uploads/2022/03/09-Helles-Lager-bottle2.jpg)
-Cleared image_url for Crystal Clear (was: https://bownessbaybrewing.b-cdn.net/wp-content/uploads/2022/03/09-Helles-Lager-bottle2.jpg)
-Cleared image_url for Basecamp Lager (was: https://bownessbaybrewing.b-cdn.net/wp-content/uploads/2022/03/09-Helles-Lager-bottle2.jpg)
-Cleared image_url for Summit Chill (was: https://bownessbaybrewing.b-cdn.net/wp-content/uploads/2022/03/09-Helles-Lager-bottle2.jpg)
-Done.
