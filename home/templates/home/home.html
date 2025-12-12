@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static imgix_tags %}
+{% load static %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'home/css/home.css' %}">
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
                              alt="{{ featured_beer.name }}"
                              loading="lazy">
                     {% elif featured_beer.image %}
-                        <img src="{% imgix_url featured_beer.image.name params='w=600&h=600&fit=crop&auto=format,compress&q=85' %}" 
+                        <img src="{{ featured_beer.image.url }}" 
                              alt="{{ featured_beer.name }}"
                              loading="lazy">
                     {% endif %}
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="row">
       <div class="col-md-4 mb-4">
           <div class="card h-100 shadow border-0 rounded-3">
-              <img src="{% imgix_url 'images/shop-beer.webp' 'w=800&h=600&fit=crop' %}" class="card-img-top rounded-top-3" loading="lazy"  width="1920" height="800" alt="Craft Beer Selection">
+              <img src="{% static 'images/shop-beer.webp' %}" class="card-img-top rounded-top-3" loading="lazy"  width="1920" height="800" alt="Craft Beer Selection">
               <div class="card-body">
                   <h3 class="card-title fw-bold">Craft Beer Selection</h3>
                   <p class="card-text">Explore our diverse range of craft beers brewed with unique flavors inspired by nature.</p>
@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
       <div class="col-md-4 mb-4">
           <div class="card h-100 shadow border-0 rounded-3">
-              <img src="{% imgix_url 'images/shop-merch.webp' 'w=800&h=600&fit=crop' %}" class="card-img-top rounded-top-3" loading="lazy" width="1920" height="800" alt="Merchandise">
+              <img src="{% static 'images/shop-merch.webp' %}" class="card-img-top rounded-top-3" loading="lazy" width="1920" height="800" alt="Merchandise">
               <div class="card-body">
                   <h3 class="card-title fw-bold">Merchandise</h3>
                   <p class="card-text">Discover our exclusive line of merchandise, perfect for any brewery enthusiast.</p>
@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
       <div class="col-md-4 mb-4">
           <div class="card h-100 shadow border-0 rounded-3">
-              <img src="{% imgix_url 'images/go-to-taproom.webp' 'w=800&h=600&fit=crop' %}" class="card-img-top rounded-top-3" loading="lazy" width="1920" height="800" alt="Taproom Experience">
+              <img src="{% static 'images/go-to-taproom.webp' %}" class="card-img-top rounded-top-3" loading="lazy" width="1920" height="800" alt="Taproom Experience">
               <div class="card-body">
                   <h3 class="card-title fw-bold">Taproom Experience</h3>
                   <p class="card-text">Join us for an unforgettable taproom experience, featuring our latest brews.</p>

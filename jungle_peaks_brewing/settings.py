@@ -224,9 +224,7 @@ USE_TZ = True
 
 USE_AWS = True  # Enabled for S3 storage
 
-# Imgix Configuration
-IMGIX_DOMAIN = "junglepeaksbrewing.imgix.net"
-USE_IMGIX = False  # Disabled - using S3 directly to avoid ORB errors
+
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'

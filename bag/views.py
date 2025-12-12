@@ -344,7 +344,7 @@ def add_taproom_to_cart(request, booking_type, booking_date, booking_time):
             phone=booking_phone,
             date=parsed_date,
             time=parsed_time,
-            guests=1,  # Default to 1 guest for table booking
+            guests=booking_contact.get('guests', 1),  # Get guests from session
             booking_type=booking_type
         )
 

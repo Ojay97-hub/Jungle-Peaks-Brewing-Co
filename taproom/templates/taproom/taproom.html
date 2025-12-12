@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static imgix_tags %}
+{% load static %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'taproom/css/taproom.css' %}">
@@ -14,7 +14,7 @@
             <!-- Main Image with Overlay Title -->
             <div class="taproom-hero-image">
                 <img class="taproom-main-image"
-                    src="{% imgix_url 'images/taproom.jpg' params='w=1200&h=700&fit=crop&auto=format,compress&q=85' %}" 
+                    src="{% static 'images/taproom.jpg' %}" 
                     alt="Jungle Peaks Brewing Taproom">
                 <div class="taproom-image-overlay">
                     <h2 class="taproom-hero-title">Our Taproom</h2>

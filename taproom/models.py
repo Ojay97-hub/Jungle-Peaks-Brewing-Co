@@ -8,6 +8,13 @@ TABLE_PRICING = {
     "premium": 20,   # £20 per table booking (premium location/time)
 }
 
+# Booking status choices
+BOOKING_STATUS = [
+    ("pending", "Pending"),
+    ("confirmed", "Confirmed"),
+    ("declined", "Declined"),
+]
+
 # Booking a table model
 class Booking(models.Model):
     user = models.ForeignKey(
@@ -25,6 +32,9 @@ class Booking(models.Model):
         max_length=10, choices=[("standard", "Standard"), ("premium", "Premium")], default="standard"
     )
     special_requests = models.TextField(blank=True, null=True)
+    status = models.CharField(
+        max_length=10, choices=BOOKING_STATUS, default="pending"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def get_total_price(self):

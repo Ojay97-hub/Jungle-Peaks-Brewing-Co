@@ -59,7 +59,8 @@ def booking(request):
             request.session['taproom_booking_contact'] = {
                 'name': form.cleaned_data['name'],
                 'email': form.cleaned_data['email'],
-                'phone': form.cleaned_data['phone']
+                'phone': form.cleaned_data['phone'],
+                'guests': form.cleaned_data['guests']
             }
 
             # Create URL for adding taproom booking to cart
@@ -158,19 +159,45 @@ def cancel_booking(request, booking_id):
 
 def get_booked_tables(request):
     """
-    API Validates availability for tables on specific date/time
-    Returns list of booked table IDs
+    API endpoint to get booked tables for a specific date/time window.
+    Returns tables that are booked during overlapping time periods.
+    Only considers confirmed bookings to prevent double-booking.
     """
+    from datetime import datetime
+    
     date_str = request.GET.get('date')
-    time_str = request.GET.get('time')
+    start_time_str = request.GET.get('time')
+    end_time_str = request.GET.get('end_time')
     
-    if not date_str or not time_str:
+    if not date_str or not start_time_str:
         return JsonResponse({'booked_tables': []})
-        
-    # Convert string to date object if needed, or rely on Django's filter handling (usually string works for date field)
-    booked_tables = Booking.objects.filter(
-        date=date_str,
-        time=time_str
-    ).exclude(table_number__isnull=True).values_list('table_number', flat=True)
     
-    return JsonResponse({'booked_tables': list(booked_tables)})
+    try:
+        requested_start = datetime.strptime(start_time_str, '%H:%M').time()
+        # If no end time provided, assume same as start (point-in-time check)
+        requested_end = (
+            datetime.strptime(end_time_str, '%H:%M').time() 
+            if end_time_str 
+            else requested_start
+        )
+    except ValueError:
+        return JsonResponse({'booked_tables': []})
+    
+    # Find confirmed bookings on that date with a table assigned
+    bookings = Booking.objects.filter(
+        date=date_str,
+        status='confirmed'
+    ).exclude(table_number__isnull=True)
+    
+    booked_tables = []
+    for booking in bookings:
+        booking_start = booking.time
+        # If no end_time on booking, treat as 2-hour slot
+        booking_end = booking.end_time or booking.time
+        
+        # Check for time overlap: (start1 < end2) AND (start2 < end1)
+        # This catches: partial overlaps, full containment, and exact matches
+        if booking_start < requested_end and requested_start < booking_end:
+            booked_tables.append(booking.table_number)
+    
+    return JsonResponse({'booked_tables': booked_tables})

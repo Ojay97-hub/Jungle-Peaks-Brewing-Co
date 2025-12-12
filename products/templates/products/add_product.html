@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static imgix_tags %}
+{% load static %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'products/css/product_form.css' %}">
@@ -169,7 +169,7 @@
             <div class="image-preview">
                 <figure>
                     <div class="placeholder" data-image-placeholder>Image preview</div>
-                    <img src="{% imgix_url 'noimage.png' params='w=600&h=450&fit=crop&auto=format,compress&q=75' %}" alt="Product preview" data-image-preview hidden>
+                    <img src="{% static 'images/noimage.png' %}" alt="Product preview" data-image-preview hidden>
                 </figure>
                 <p class="text-small text-muted mb-0">Upload images at least 1200×900px for crisp display across the site.</p>
             </div>

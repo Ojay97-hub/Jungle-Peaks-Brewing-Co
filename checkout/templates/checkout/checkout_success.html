@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static imgix_tags %}
+{% load static %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
@@ -46,7 +46,7 @@
                                         <div class="order-item-info">
                                             {% if item.product %}
                                                 <!-- Product item -->
-                                                <img src="{% if item.product.image_url %}{{ item.product.image_url }}{% elif item.product.image %}{% imgix_url item.product.image.name params='w=300&h=300&fit=crop&auto=format,compress&q=75' %}{% else %}{% imgix_url 'noimage.png' params='w=300&h=300&fit=crop&auto=format,compress&q=75' %}{% endif %}" alt="{{ item.product.name }}">
+                                                <img src="{% if item.product.image_url %}{% if 'http' in item.product.image_url %}{{ item.product.image_url }}{% else %}{{ item.product.image_url }}{% endif %}{% elif item.product.image %}{{ item.product.image.url }}{% else %}{% static 'images/noimage.png' %}{% endif %}" alt="{{ item.product.name }}">
                                                 <div>
                                                     <strong>{{ item.product.name }}</strong>
                                                     {% if item.product.description %}

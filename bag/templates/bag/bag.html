@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static bag_tools imgix_tags %}
+{% load static bag_tools %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'bag/css/bag.css' %}">
@@ -32,11 +32,15 @@
                                         <div class="bag-item-info">
                                             {% if item.item_type == 'product' %}
                                                 {% if item.product.image_url %}
-                                                    <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}">
+                                                    {% if "http" in item.product.image_url %}
+                                                        <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}">
+                                                    {% else %}
+                                                        <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}">
+                                                    {% endif %}
                                                 {% elif item.product.image %}
-                                                    <img src="{% imgix_url item.product.image.name params='w=200&h=200&fit=crop&auto=format,compress&q=75' %}" alt="{{ item.product.name }}">
+                                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
                                                 {% else %}
-                                                    <img src="{% imgix_url 'noimage.png' params='w=200&h=200&fit=crop&auto=format,compress&q=75' %}" alt="{{ item.product.name }}">
+                                                    <img src="{% static 'images/noimage.png' %}" alt="{{ item.product.name }}">
                                                 {% endif %}
                                                 <div class="bag-item-meta">
                                                     <span class="fw-semibold">{{ item.product.name }}</span>

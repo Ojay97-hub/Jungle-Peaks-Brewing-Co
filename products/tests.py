@@ -66,7 +66,7 @@ class ProductImageUploadTests(TestCase):
             "Image file should exist in the configured media directory",
         )
 
-    @override_settings(USE_IMGIX=False, AWS_STORAGE_BUCKET_NAME="test-bucket")
+    @override_settings(AWS_STORAGE_BUCKET_NAME="test-bucket")
     def test_product_detail_uses_fallback_image(self):
         """Products without an uploaded image render the shared placeholder."""
         product = Product.objects.create(

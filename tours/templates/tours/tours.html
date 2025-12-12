@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static imgix_tags %}
+{% load static %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'tours/css/tours.css' %}">
@@ -11,7 +11,7 @@
 <section class="tours-hero">
     <div class="hero-background">
         <img class="hero-image"
-            src="{% imgix_url 'images/tours-hero.jpg' params='w=1400&h=700&fit=crop&auto=format,compress&q=85' %}"
+            src="{% static 'images/tours-hero.jpg' %}"
             alt="Jungle Peaks Brewery Tours">
         <div class="hero-overlay"></div>
     </div>

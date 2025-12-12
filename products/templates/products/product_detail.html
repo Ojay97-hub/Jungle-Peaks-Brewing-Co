@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static imgix_tags %}
+{% load static %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'products/css/product_detail.css' %}">
@@ -51,12 +51,12 @@
                             {% if "http" in product.image_url %}
                                 <img src="{{ product.image_url }}" alt="{{ product.name }}" class="img-fluid rounded-3" style="max-height: 500px; object-fit: contain;">
                             {% else %}
-                                <img src="{% imgix_url product.image_url params='w=600&h=500&fit=crop&auto=format,compress&q=85' %}" alt="{{ product.name }}" class="img-fluid rounded-3" style="max-height: 500px; object-fit: contain;">
+                                <img src="{{ product.image_url }}" alt="{{ product.name }}" class="img-fluid rounded-3" style="max-height: 500px; object-fit: contain;">
                             {% endif %}
                         {% elif product.image %}
-                            <img src="{% imgix_url product.image.name params='w=600&h=500&fit=crop&auto=format,compress&q=85' %}" alt="{{ product.name }}" class="img-fluid rounded-3" style="max-height: 500px; object-fit: contain;">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded-3" style="max-height: 500px; object-fit: contain;">
                         {% else %}
-                            <img src="{% imgix_url 'noimage.png' params='w=600&h=500&fit=crop&auto=format,compress&q=85' %}" alt="{{ product.name }}" class="img-fluid rounded-3" style="max-height: 500px; object-fit: contain;">
+                            <img src="{% static 'images/noimage.png' %}" alt="{{ product.name }}" class="img-fluid rounded-3" style="max-height: 500px; object-fit: contain;">
                         {% endif %}
                     </div>
                 </div>
@@ -368,7 +368,7 @@
             const decreaseBtn = document.querySelector('.qty-decrease');
             const increaseBtn = document.querySelector('.qty-increase');
             const totalPrice = document.getElementById('total-price');
-            const basePrice = {{ product.price }};
+            const basePrice = parseFloat("{{ product.price }}");
 
             if (decreaseBtn && increaseBtn && qtyInput) {
                 decreaseBtn.addEventListener('click', function() {

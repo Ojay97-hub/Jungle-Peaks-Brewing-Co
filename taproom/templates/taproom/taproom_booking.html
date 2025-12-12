@@ -425,6 +425,8 @@
         function fetchAvailability() {
             const date = dateInput.value;
             const time = timeInput.value;
+            const endTimeInput = document.getElementById('id_end_time');
+            const endTime = endTimeInput ? endTimeInput.value : '';
 
             // Reset map if date/time missing
             if (!date || !time) {
@@ -435,7 +437,11 @@
                 return;
             }
 
-            fetch(`/taproom/api/get-booked-tables/?date=${date}&time=${time}`)
+            // Build URL with optional end_time for overlap detection
+            let url = `/taproom/api/get-booked-tables/?date=${date}&time=${time}`;
+            if (endTime) url += `&end_time=${endTime}`;
+            
+            fetch(url)
                 .then(res => res.json())
                 .then(data => {
                     const bookedTables = data.booked_tables; // Array of IDs
@@ -535,6 +541,10 @@
         // Event Listeners
         if (dateInput) dateInput.addEventListener('change', fetchAvailability);
         if (timeInput) timeInput.addEventListener('change', fetchAvailability);
+        
+        // Also refresh availability when end time changes (for overlap detection)
+        const endTimeEl = document.getElementById('id_end_time');
+        if (endTimeEl) endTimeEl.addEventListener('change', fetchAvailability);
 
         // Initial fetch if values present (e.g. browser reload)
         if (dateInput.value && timeInput.value) {
