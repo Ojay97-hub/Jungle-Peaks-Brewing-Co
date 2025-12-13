@@ -9,7 +9,7 @@ class BookingAdmin(admin.ModelAdmin):
 
     list_display = (
         "name", "email", "phone", "date",
-        "time", "guests", "booking_type", "status", "created_at"
+        "time", "guests", "table_number", "booking_type", "status", "created_at"
     )
     list_filter = ("date", "time", "guests", "status", "booking_type")
     search_fields = ("name", "email", "phone")

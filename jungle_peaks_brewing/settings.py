@@ -222,7 +222,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-USE_AWS = True  # Enabled for S3 storage
+USE_AWS = 'AWS_ACCESS_KEY_ID' in os.environ and not DEBUG
 
 
 

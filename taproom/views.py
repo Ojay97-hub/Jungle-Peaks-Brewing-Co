@@ -55,12 +55,16 @@ def booking(request):
             booking_date = form.cleaned_data['date']
             booking_time = form.cleaned_data['time']
 
+            # Get table_number from hidden input (not part of form)
+            table_number = request.POST.get('table_number', '')
+
             # Store contact info in session to pass to bag view and checkout
             request.session['taproom_booking_contact'] = {
                 'name': form.cleaned_data['name'],
                 'email': form.cleaned_data['email'],
                 'phone': form.cleaned_data['phone'],
-                'guests': form.cleaned_data['guests']
+                'guests': form.cleaned_data['guests'],
+                'table_number': table_number,  # Include table selection
             }
 
             # Create URL for adding taproom booking to cart
@@ -183,10 +187,11 @@ def get_booked_tables(request):
     except ValueError:
         return JsonResponse({'booked_tables': []})
     
-    # Find confirmed bookings on that date with a table assigned
+    # Find confirmed OR pending bookings on that date with a table assigned
+    # Include pending to prevent double-booking during the booking flow
     bookings = Booking.objects.filter(
         date=date_str,
-        status='confirmed'
+        status__in=['confirmed', 'pending']
     ).exclude(table_number__isnull=True)
     
     booked_tables = []

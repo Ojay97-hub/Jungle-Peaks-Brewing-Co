@@ -336,6 +336,17 @@ def add_taproom_to_cart(request, booking_type, booking_date, booking_time):
         booking_email = booking_contact.get('email') or request.user.email
         booking_phone = booking_contact.get('phone') or profile_phone
 
+        # Get table_number from session (may be comma-separated for multiple tables)
+        table_number_str = booking_contact.get('table_number', '')
+        # For now, take the first table if multiple were selected
+        table_number = None
+        if table_number_str:
+            try:
+                first_table = table_number_str.split(',')[0]
+                table_number = int(first_table)
+            except (ValueError, IndexError):
+                pass
+
         # Create a temporary taproom booking to validate availability
         taproom_booking = Booking.objects.create(
             user=request.user,
@@ -345,7 +356,8 @@ def add_taproom_to_cart(request, booking_type, booking_date, booking_time):
             date=parsed_date,
             time=parsed_time,
             guests=booking_contact.get('guests', 1),  # Get guests from session
-            booking_type=booking_type
+            booking_type=booking_type,
+            table_number=table_number,  # Include selected table
         )
 
         # Create cart item for the taproom booking

@@ -437,6 +437,17 @@
     font-weight: 600;
     font-size: 1rem;
     color: var(--color-text-primary);
+    /* Hide native browser spinners */
+    -moz-appearance: textfield;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* Hide spinners on Chrome, Safari, Edge, Opera */
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .qty-input:focus {

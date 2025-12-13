@@ -762,6 +762,8 @@
     position: relative;
     max-width: 400px;
     animation: floatBeer 4s ease-in-out infinite;
+    border-radius: 16px;
+    overflow: hidden;
 }
 
 .featured-beer__image-wrapper::before {
@@ -783,6 +785,7 @@
     object-fit: contain;
     filter: drop-shadow(0 30px 60px rgba(0,0,0,0.4));
     transition: transform 0.4s ease;
+    border-radius: 16px;
 }
 
 .featured-beer__image-wrapper:hover img {
