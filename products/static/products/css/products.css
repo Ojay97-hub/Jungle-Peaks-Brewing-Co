@@ -857,13 +857,37 @@
     --color-white: #FFFFFF;
 }
 
+/* Base Layout (Small Desktop/Laptop): 3 columns */
 .products-grid {
     display: grid;
     gap: var(--space-xl);
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     opacity: 0;
     transform: translateY(20px);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Large Desktop: 4 columns */
+@media (min-width: 1400px) {
+    .products-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Tablet: 2 columns */
+@media (max-width: 991.98px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: var(--space-lg);
+    }
+}
+
+/* Mobile: 1 column (below 768px) */
+@media (max-width: 767.98px) {
+    .products-grid {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-md);
+    }
 }
 
 .products-grid[data-loaded="true"] {
@@ -1099,10 +1123,10 @@
 }
 
 .product-card__body {
-    padding: 16px 20px;
+    padding: 16px 20px 12px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
 }
 
 /* Header row: title left, price right */
@@ -1157,9 +1181,9 @@
 }
 
 .product-description {
-    color: var(--color-text-muted);
-    font-size: 0.875rem;
-    line-height: 1.5;
+    color: #888;
+    font-size: 0.8rem;
+    line-height: 1.4;
     margin: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1167,6 +1191,7 @@
     -webkit-line-clamp: 1;
     line-clamp: 1;
     -webkit-box-orient: vertical;
+    opacity: 0.9;
 }
 
 .product-rating {
@@ -1208,8 +1233,10 @@
 
 .product-card__footer {
     padding: var(--space-md) var(--space-lg);
-    border-top: 1px solid var(--color-border);
-    background: var(--color-surface);
+    padding-top: 0;
+    margin-top: auto;
+    border-top: none;
+    background: transparent;
 }
 
 .add-to-cart-form {
@@ -1239,48 +1266,54 @@
     display: flex;
     align-items: center;
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    border-radius: 999px; /* Pill shape like Figma */
     overflow: hidden;
-    background: var(--color-white);
+    background: #f5f5f5; /* Light grey background like Figma */
+    padding: 4px; /* Inner padding for better spacing */
+    gap: 4px;
 }
 
 .qty-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 48px; /* Taller touch target matching button height approx */
+    width: 36px;
+    height: 36px; /* Square button matching input height */
     border: none;
     background: transparent;
     color: var(--color-text-muted);
     cursor: pointer;
     transition: all 0.2s ease;
+    border-radius: 50%; /* Circular buttons */
 }
 
 .qty-btn:hover {
     color: var(--color-olive);
-    background: var(--color-offwhite);
+    background: rgba(92, 111, 83, 0.1);
 }
 
 .qty-btn:active {
     transform: scale(0.95);
+    background: rgba(92, 111, 83, 0.2);
 }
 
 .qty-btn i {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
 }
 
 .qty-input {
-    width: 40px;
+    width: 44px;
     height: 36px;
-    border: none;
+    border: 1px solid var(--color-border);
+    border-radius: 999px; /* Rounded number container */
     text-align: center;
     font-weight: 600;
-    font-size: 0.875rem;
-    background: var(--color-surface);
+    font-size: 1rem;
+    background: var(--color-white);
     color: var(--color-text);
     outline: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     /* Hide native browser spinners */
     -moz-appearance: textfield;
     -webkit-appearance: none;
@@ -1295,9 +1328,8 @@
 }
 
 .qty-input:focus {
-    background: var(--color-surface-alt);
-    transform: scale(1.05);
-    box-shadow: 0 0 0 2px var(--color-primary);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(92, 111, 83, 0.2);
 }
 
 .qty-input.updating {
@@ -1309,7 +1341,7 @@
     align-items: center;
     gap: var(--space-xs);
     padding: 0 24px;
-    height: 48px; /* Taller button */
+    height: 48px;
     background: var(--color-olive);
     color: var(--color-white);
     border: none;
@@ -1319,7 +1351,9 @@
     cursor: pointer;
     transition: all 0.2s ease;
     justify-content: center;
-    text-transform: lowercase; /* Or uppercase based on Figma? keeping consistent for now */
+    text-transform: lowercase;
+    flex: 1;
+    max-width: 180px;
 }
 
 .btn-add-to-cart:hover {
@@ -1370,8 +1404,30 @@
 .skeleton-loading {
     display: grid;
     gap: var(--space-xl);
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 1400px) {
+    .skeleton-loading {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Skeleton Loading Responsive: Tablet 2 columns */
+@media (max-width: 991.98px) {
+    .skeleton-loading {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: var(--space-lg);
+    }
+}
+
+/* Skeleton Loading Responsive: Mobile 1 column */
+@media (max-width: 767.98px) {
+    .skeleton-loading {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-md);
+    }
 }
 
 .product-skeleton {
@@ -1650,16 +1706,25 @@
         text-align: center;
     }
 
-    /* Grid view - smaller cards on tablet */
     /* Grid view - ensure 2 columns on tablet (768px) */
     .products-grid[data-view="grid"] {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+        grid-template-columns: repeat(2, 1fr) !important;
         gap: var(--space-md) !important;
     }
     
     .products-grid:not([data-view="list"]) {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+        grid-template-columns: repeat(2, 1fr) !important;
         gap: var(--space-md) !important;
+    }
+    
+    /* Reduce min-height on tablet for better proportions */
+    .product-card {
+        min-height: auto;
+        max-width: none;
+    }
+    
+    .product-image {
+        height: 250px;
     }
     
     /* Ensure list view still works */
@@ -1949,15 +2014,26 @@
         padding: var(--space-md);
     }
 
-    /* Grid view - smaller cards on mobile */
+    /* Grid view - single column on mobile */
     .products-grid[data-view="grid"] {
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
-        gap: var(--space-sm) !important;
+        grid-template-columns: 1fr !important;
+        gap: var(--space-md) !important;
     }
     
     .products-grid:not([data-view="list"]) {
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
-        gap: var(--space-sm) !important;
+        grid-template-columns: 1fr !important;
+        gap: var(--space-md) !important;
+    }
+    
+    /* Larger image on single column mobile */
+    .product-card {
+        min-height: auto;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .product-image {
+        height: 380px;
     }
     
     /* Ensure list view still works */
@@ -2002,12 +2078,40 @@
     }
 
     .add-to-cart-form {
-        flex-direction: column;
-        gap: var(--space-sm);
+        flex-direction: row;
+        gap: var(--space-xs);
+        align-items: center;
+        flex-wrap: wrap; /* Allow wrap on very small screens if needed, but row preference */
     }
 
     .quantity-controls {
         align-self: center;
+        padding: 3px;
+        gap: 3px;
+    }
+    
+    .qty-btn {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .qty-btn i {
+        width: 14px;
+        height: 14px;
+    }
+    
+    .qty-input {
+        width: 38px;
+        height: 32px;
+        font-size: 0.875rem;
+    }
+    
+    .btn-add-to-cart {
+        width: auto;
+        flex: 1;
+        height: 40px;
+        font-size: 0.8rem;
+        min-width: 0; /* Prevent overflow */
     }
 
     /* Mobile dropdown enhancements */
@@ -2070,14 +2174,14 @@
         min-width: 0;
     }
 
-    /* Grid view - smaller cards on very small mobile */
+    /* Grid view - ensure single column on very small mobile */
     .products-grid[data-view="grid"] {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+        grid-template-columns: 1fr !important;
         gap: var(--space-sm) !important;
     }
     
     .products-grid:not([data-view="list"]) {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+        grid-template-columns: 1fr !important;
         gap: var(--space-sm) !important;
     }
     
@@ -2164,13 +2268,13 @@
 
 .products-grid[data-view="list"] .product-card {
     display: grid;
-    grid-template-columns: 200px 1fr auto;
+    grid-template-columns: 200px 1fr 220px; /* Fixed width for controls column */
     grid-template-rows: auto;
     height: auto;
-    min-height: auto; /* Override the grid view min-height */
+    min-height: auto;
     max-width: none;
-    margin: 0; /* Reset margin for list view */
-    align-items: center;
+    margin: 0;
+    align-items: stretch; /* Stretch to make border full height */
 }
 
 .products-grid[data-view="list"] .product-card__header {
@@ -2200,21 +2304,21 @@
 .products-grid[data-view="list"] .product-card__footer {
     grid-column: 3;
     grid-row: 1;
-    padding: var(--space-lg);
+    padding: var(--space-md) var(--space-md) var(--space-2xl) var(--space-md);
     border-top: none;
     border-left: 1px solid var(--color-border);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: var(--color-surface);
+    background: transparent;
     gap: var(--space-sm);
-    min-width: 150px;
+    box-sizing: border-box;
 }
 
 .products-grid[data-view="list"] .add-to-cart-form {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse; /* Button on Top */
     gap: var(--space-sm);
     align-items: center;
     width: 100%;
@@ -2223,10 +2327,16 @@
 .products-grid[data-view="list"] .quantity-controls {
     width: 100%;
     justify-content: center;
+    height: 46px;
+    box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 .products-grid[data-view="list"] .btn-add-to-cart {
     width: 100%;
+    height: 46px;
+    min-height: 46px; /* Stop squashing */
+    flex-shrink: 0; /* Stop squashing */
 }
 
 @media (max-width: 767.98px) {
@@ -2239,9 +2349,9 @@
     
     .products-grid[data-view="list"] .product-card {
         display: grid !important;
-        grid-template-columns: 120px 1fr !important;
+        grid-template-columns: 140px 1fr !important;
         grid-template-rows: auto auto !important;
-        gap: var(--space-md) !important;
+        gap: var(--space-sm) !important;
         max-width: none !important;
         height: auto !important;
         padding: var(--space-md) !important;
@@ -2252,7 +2362,7 @@
     .products-grid[data-view="list"] .product-card__header {
         grid-row: 1 / -1 !important;
         grid-column: 1 !important;
-        width: 120px !important;
+        width: 140px !important;
         margin: 0 !important;
         position: relative !important;
     }
@@ -2270,7 +2380,8 @@
     .products-grid[data-view="list"] .product-image {
         aspect-ratio: 1 !important;
         width: 100% !important;
-        height: 120px !important;
+        height: 140px !important;
+        border-radius: var(--radius-md) !important;
     }
     
     .products-grid[data-view="list"] .product-overlay {
@@ -2393,48 +2504,38 @@
     }
 }
 
-/* Responsive: Stack quantity and add to cart vertically at 400px */
+/* Responsive: Ensure controls stay in a row on mobile */
 @media (max-width: 400px) {
-    /* Grid view - stack controls vertically */
+    /* Grid view - keep controls in row */
     .products-grid[data-view="grid"] .add-to-cart-form,
     .products-grid:not([data-view="list"]) .add-to-cart-form {
-        flex-direction: column !important;
+        flex-direction: row !important;
         gap: var(--space-xs) !important;
     }
     
     .products-grid[data-view="grid"] .quantity-controls,
     .products-grid:not([data-view="list"]) .quantity-controls {
-        width: 100% !important;
-        justify-content: center !important;
+        width: auto !important;
     }
     
     .products-grid[data-view="grid"] .btn-add-to-cart,
     .products-grid:not([data-view="list"]) .btn-add-to-cart {
-        width: 100% !important;
+        width: auto !important;
+        flex: 1;
     }
     
-    /* List view - stack controls vertically */
+    /* List view - keep controls in row (if space permits, otherwise wrap is fine, but user asked for row) */
     .products-grid[data-view="list"] .add-to-cart-form {
-        flex-direction: column !important;
-        gap: var(--space-xs) !important;
+        flex-direction: row !important;
+        flex-wrap: wrap; /* Safety wrap */
     }
     
     .products-grid[data-view="list"] .quantity-controls {
-        width: 100% !important;
-        justify-content: center !important;
+        width: auto !important;
     }
     
     .products-grid[data-view="list"] .btn-add-to-cart {
-        width: 100% !important;
-    }
-    
-    /* View product link adjustments */
-    .product-view-link {
-        font-size: 0.8rem !important;
-        padding: var(--space-xs) var(--space-sm) !important;
-    }
-    
-    .product-view-link span {
-        display: inline !important;
+        width: auto !important;
+        flex: 1;
     }
 }

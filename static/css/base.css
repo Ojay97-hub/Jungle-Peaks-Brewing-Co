@@ -514,6 +514,17 @@ legend {
     letter-spacing: -0.02em;
 }
 
+.logo-image {
+    height: 80px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.mobile-drawer-logo .logo-image {
+    height: 60px; /* Smaller for mobile drawer */
+}
+
 /* Search Container */
 .search-container {
     flex: 1;
