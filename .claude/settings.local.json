@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Read(//c/Users/owenj/OneDrive/Pictures/Screenshots/**)"
-    ],
-    "deny": [],
-    "ask": []
-  }
-}
