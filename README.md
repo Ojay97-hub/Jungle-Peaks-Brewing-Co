@@ -1,5 +1,27 @@
 # Jungle Peaks Brewing & Co.
 
+## 🌐 Recent Updates (Render Migration - October 2026)
+
+The live site has moved from **Heroku** to **[Render](https://render.com)**: **[jungle-peaks-brewing-co.onrender.com](https://jungle-peaks-brewing-co.onrender.com/)**
+
+> **Note:** The site runs on Render's free tier, which sleeps when idle, so the first visit can take 30-60 seconds while the server wakes up.
+
+#### **🚀 Migration**
+- **Render web service**: Deployed from GitHub with migrations and `collectstatic` running in the build step (see [Render Deployment](#render-deployment)).
+- **Allowed hosts**: `settings.py` reads Render's `RENDER_EXTERNAL_HOSTNAME` and adds it to `ALLOWED_HOSTS` and `CSRF_TRUSTED_ORIGINS` automatically.
+- **Database**: PostgreSQL hosted on Neon, so no data needed moving.
+- **Stripe & Google**: The Stripe webhook endpoint and Google OAuth redirect URI were re-pointed at the Render domain.
+
+#### **📧 Email via Brevo**
+- **Problem**: Render's free tier blocks outbound SMTP, so Gmail SMTP could no longer send. The connection hung until gunicorn killed the worker, turning the checkout success page into a 500 error.
+- **Fix**: Emails now go through the **Brevo HTTP API** using `django-anymail` (14.0, the last release supporting Django 4.2) whenever `BREVO_API_KEY` is set, falling back to Gmail SMTP otherwise. SMTP also has a 5-second `EMAIL_TIMEOUT` so a blocked connection fails fast instead of hanging.
+
+#### **🐛 Bug Fixes**
+- **Stripe webhook**: `payment_intent.succeeded` read `intent.charges`, which Stripe removed in API version 2022-11-15, so every event returned a 500 on the new endpoint. The handler now fetches the charge via `intent.latest_charge`.
+- **Resend confirmation**: The "resend email" action always reported success, even when sending failed. It now only confirms when the email was actually sent.
+- **Footer social icons**: `lucide@latest` (1.x) dropped brand icons, leaving "Follow Us" empty. Lucide is now pinned to `0.469.0`, which includes all 81 icons the site uses.
+- **Missing Font Awesome icons**: Toast notifications, the checkout spinner, and print/resend/booking buttons used `fas fa-*` icons, but Font Awesome was never loaded. It's now included in `base.html`.
+
 ## 📋 Recent Updates (Merit Upgrade)
 
 ### **🔄 Merit Upgrade - Core Commerce Hardening & UI Polish**
@@ -135,6 +157,7 @@ This upgrade transforms Jungle Peaks Brewing & Co. from a functional prototype i
 - [Bugs](#bugs)
 - [Resolved Issues](#resolved-issues)
 - [Deployment](#deployment)
+  - [Render Deployment](#render-deployment)  
   - [Heroku Deployment](#heroku-deployment)  
   - [Heroku Config Vars](#heroku-config-vars)  
 - [Implemented Features (Sept 2025 - Present)](#-implemented-features-sept-2025---present)
@@ -151,9 +174,9 @@ This upgrade transforms Jungle Peaks Brewing & Co. from a functional prototype i
 
 ![alt text]( /static/images/screenshot-responsive.png)
 
-[![Live Site](https://img.shields.io/badge/Live_Site-Jungle_Peaks_Brewing-brightgreen?style=for-the-badge&logo=heroku)](https://jungle-peaks-brewing-29d2cf7236c2.herokuapp.com/)
+[![Live Site](https://img.shields.io/badge/Live_Site-Jungle_Peaks_Brewing-brightgreen?style=for-the-badge&logo=render)](https://jungle-peaks-brewing-co.onrender.com/)
 
-[![Responsive Preview](https://img.shields.io/badge/View-Responsive_Test-blue?style=for-the-badge&logo=googlechrome)](https://ui.dev/amiresponsive?url=https://jungle-peaks-brewing-29d2cf7236c2.herokuapp.com/)
+[![Responsive Preview](https://img.shields.io/badge/View-Responsive_Test-blue?style=for-the-badge&logo=googlechrome)](https://ui.dev/amiresponsive?url=https://jungle-peaks-brewing-co.onrender.com/)
 
 ## Introduction  
 
@@ -180,7 +203,8 @@ From a **technical standpoint**, the project is built using **Django (Python) fo
 🔹 **Frontend:** HTML, CSS, JavaScript, Bootstrap  
 🔹 **Payments:** Stripe API  
 🔹 **File Storage:** AWS S3 & Imgix for static and media file hosting  
-🔹 **Deployment:** Hosted on **Heroku** with a PostgreSQL database  
+🔹 **Deployment:** Hosted on **Render** (originally Heroku) with a Neon PostgreSQL database  
+🔹 **Email:** Brevo HTTP API via django-anymail  
 🔹 **💻 Development Environment:** Visual Studio Code (VS Code)  
 
 Whether you’re here for a **smooth stout, a hoppy IPA, or an exclusive brewery tour**, **Jungle Peaks Brewing & Co.** is your **ultimate craft beer adventure**. 🌿🍺  
@@ -247,7 +271,8 @@ Ensuring smooth deployment and scalability for production.
 
 | Technology   | Description |  
 |-------------|------------|  
-| ![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white) | **Heroku** - Cloud platform used to deploy and manage the live site. |  
+| ![Render](https://img.shields.io/badge/Render-000000?style=for-the-badge&logo=render&logoColor=white) | **Render** - Cloud platform hosting the live site (since October 2026). |  
+| ![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white) | **Heroku** - Original deployment platform, replaced by Render in October 2026. |  
 | ![Gunicorn](https://img.shields.io/badge/Gunicorn-499848?style=for-the-badge&logo=gunicorn&logoColor=white) | **Gunicorn** - A WSGI HTTP server for handling Django requests efficiently. |  
 | ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white) | **GitHub** - Version control and collaborative code management. |  
 
@@ -1382,12 +1407,54 @@ To deploy my **Jungle Peaks Brewing** project, you need to **clone the GitHub re
 3. Run the following command to clone the repository:  
    ```sh
    git clone https://github.com/Ojay97-hub/Jungle-Peaks-Brewing-Co
+   ```
 
 --- 
 
-This project was deployed on heroku - the steps to do so are number below:
+This project was originally deployed on Heroku and was migrated to Render in October 2026. The current Render setup is below, followed by the original Heroku steps for reference.
 
-### Heroku
+### Render Deployment
+
+**Live site:** https://jungle-peaks-brewing-co.onrender.com
+
+#### Web service settings
+
+In the Render dashboard click **New > Web Service**, connect this repository and use:
+
+| Setting | Value |
+|---|---|
+| Runtime | Python 3 |
+| Build command | `pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate` |
+| Start command | `gunicorn jungle_peaks_brewing.wsgi` |
+| Instance type | Free |
+
+Migrations run as part of the build command because Render's free tier doesn't offer shell access.
+
+#### Environment variables
+
+| Key | Purpose |
+|---|---|
+| `SECRET_KEY` | Django secret key (required). |
+| `DATABASE_URL` | Neon PostgreSQL connection string. |
+| `PYTHON_VERSION` | `3.11.9` |
+| `STRIPE_PUBLIC_KEY` | Stripe publishable key (required in production). |
+| `STRIPE_SECRET_KEY` | Stripe secret key (required in production). |
+| `STRIPE_WH_SECRET` | Signing secret of the Render webhook endpoint (required in production). |
+| `BREVO_API_KEY` | Brevo API key; switches email sending to the Brevo HTTP API. Only "Transactional email" permission is needed. |
+| `DEFAULT_FROM_EMAIL` | Sender verified in Brevo, e.g. `Jungle Peaks Brewing Co <address@example.com>`. |
+| `EMAIL_HOST_USER` / `EMAIL_HOST_PASSWORD` | Gmail SMTP fallback, used only when `BREVO_API_KEY` isn't set. |
+| `GOOGLE_OAUTH_CLIENT_ID` / `GOOGLE_OAUTH_CLIENT_SECRET` | Google sign-in. |
+| `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` | Optional. When set, static and media files are served from the S3 bucket; otherwise Whitenoise serves static files. |
+
+`DEBUG` should be left unset (it defaults to `False`).
+
+#### External services
+
+- **Stripe:** Webhook endpoint `https://jungle-peaks-brewing-co.onrender.com/checkout/wh/`. Each endpoint has its own signing secret, which goes in `STRIPE_WH_SECRET`.
+- **Google OAuth:** Authorised redirect URI `https://jungle-peaks-brewing-co.onrender.com/accounts/google/login/callback/` in Google Cloud Console.
+- **Brevo:** Verify the sender address under Senders, then create an API key. Senders on free email domains (e.g. Gmail) are sent from a `brevosend.com` address with the display name kept, and may land in spam.
+
+### Heroku Deployment
 
 #### Step 1: Create a Heroku app
 
@@ -1400,6 +1467,7 @@ This project was deployed on heroku - the steps to do so are number below:
    # Create a Heroku app and set DISABLE_COLLECTSTATIC
    heroku create your-app-name
    heroku config:set DISABLE_COLLECTSTATIC=1
+   ```
 
 #### Step 2: Update your code for deployment 
 1.	Install the required dependencies and update requirements.txt:
@@ -1518,9 +1586,11 @@ The following environment variables were applied to Heroku:
 | STRIPE_WH_SECRET       | Webhook secret for Stripe event handling.   |
 | USE_AWS               | Boolean (True/False) to enable AWS for media storage. |
 
-**My heroku app link:** 
+**Live site (Render):** 
 
-[![Website](https://img.shields.io/badge/Live_Site-Jungle_Peaks_Brewing-brightgreen?style=for-the-badge&logo=heroku)](https://jungle-peaks-brewing-29d2cf7236c2.herokuapp.com/)
+[![Website](https://img.shields.io/badge/Live_Site-Jungle_Peaks_Brewing-brightgreen?style=for-the-badge&logo=render)](https://jungle-peaks-brewing-co.onrender.com/)
+
+_The original Heroku app has been retired._
 
 
 ## 📦 Implemented Features (Sept 2025 - Present)
@@ -1614,6 +1684,18 @@ This section summarises all the new features, key changes, and improvements that
 
 ---
 
+### 🌐 Render Migration & Fixes (October 2026)
+
+| Feature | Description |
+|---------|-------------|
+| **Render Deployment** | Migrated hosting from Heroku to Render, with the Render hostname added to `ALLOWED_HOSTS` and `CSRF_TRUSTED_ORIGINS` automatically. |
+| **Brevo Email** | Replaced Gmail SMTP (blocked on Render's free tier) with the Brevo HTTP API via django-anymail, keeping SMTP as a fallback with a 5-second timeout. |
+| **Stripe Webhook Fix** | Updated `payment_intent.succeeded` to read the charge via `latest_charge`, as `PaymentIntent.charges` was removed in newer Stripe API versions. |
+| **Resend Email Fix** | The resend confirmation action now only reports success when the email actually sends. |
+| **Icon Fixes** | Pinned Lucide to `0.469.0` to restore footer social icons, and loaded Font Awesome so toast and button icons render. |
+
+---
+
 ### 📊 Summary of Changes (65+ Commits)
 
 | Period | Focus Area | Key Highlights |
@@ -1622,6 +1704,7 @@ This section summarises all the new features, key changes, and improvements that
 | **Oct 2025** | Core Commerce | Taproom/tour bookings, SendGrid, Whitenoise, Heroku deployment |
 | **Nov 2025** | Responsive Design | Checkout & profile UI, Merit upgrade integration |
 | **Dec 2025** | Feature Overhaul | Premium bookings, interactive maps, checkout refinements, Gmail SMTP, booking confirmation emails |
+| **Oct 2026** | Hosting & Fixes | Render migration, Brevo email, Stripe webhook fix, icon fixes |
 
 ---
 
