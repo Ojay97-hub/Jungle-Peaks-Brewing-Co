@@ -66,6 +66,12 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.herokuapp.com',  # For Heroku deployment
 ]
 
+# Render deployment (hostname is set automatically by Render)
+RENDER_HOST = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_HOST:
+    ALLOWED_HOSTS.append(RENDER_HOST)
+    CSRF_TRUSTED_ORIGINS.append(f'https://{RENDER_HOST}')
+
 # am i responsive screenshot generator
 X_FRAME_OPTIONS = "ALLOWALL"
 
