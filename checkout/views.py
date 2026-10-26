@@ -491,7 +491,9 @@ def resend_order_confirmation(request, order_number):
         return redirect("home")
 
     try:
-        send_order_confirmation_email(order)
+        # Returns 0 (rather than raising) when sending fails
+        if not send_order_confirmation_email(order):
+            raise RuntimeError("Confirmation email was not sent")
         sent_orders = request.session.get("orders_with_sent_email", [])
         if order_number not in sent_orders:
             sent_orders.append(order_number)
