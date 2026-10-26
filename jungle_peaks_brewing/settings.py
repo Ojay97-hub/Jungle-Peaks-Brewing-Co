@@ -293,6 +293,9 @@ if not DEBUG:
     EMAIL_HOST = 'smtp.gmail.com'
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
+    # Fail fast if SMTP is unreachable (e.g. blocked on Render's free tier)
+    # so requests don't hang until the gunicorn worker is killed
+    EMAIL_TIMEOUT = 5
     EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
     DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)
