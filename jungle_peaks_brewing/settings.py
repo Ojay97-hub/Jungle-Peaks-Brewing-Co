@@ -299,6 +299,15 @@ if not DEBUG:
     EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
     DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)
+
+    # Brevo HTTP API (used when SMTP is blocked, e.g. Render's free tier).
+    # DEFAULT_FROM_EMAIL must be a sender verified in Brevo.
+    if os.getenv('BREVO_API_KEY'):
+        EMAIL_BACKEND = 'anymail.backends.brevo.EmailBackend'
+        ANYMAIL = {
+            'BREVO_API_KEY': os.getenv('BREVO_API_KEY'),
+            'REQUESTS_TIMEOUT': 10,
+        }
 else:
     # Development: Print emails to console
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
