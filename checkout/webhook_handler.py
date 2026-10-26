@@ -9,6 +9,8 @@ from .utils import send_order_confirmation_email
 import json
 import time
 
+import stripe
+
 
 class StripeWH_Handler:
     """Handle Stripe webhooks."""
@@ -56,9 +58,12 @@ class StripeWH_Handler:
         bag = intent.metadata.bag
         save_info = intent.metadata.save_info
 
-        billing_details = intent.charges.data[0].billing_details
+        # PaymentIntent.charges was removed in Stripe API 2022-11-15,
+        # so fetch the charge via latest_charge instead
+        charge = stripe.Charge.retrieve(intent.latest_charge)
+        billing_details = charge.billing_details
         shipping_details = intent.shipping
-        grand_total = round(intent.charges.data[0].amount / 100, 2)
+        grand_total = round(charge.amount / 100, 2)
 
         # Clean data in the shipping details
         for field, value in shipping_details.address.items():
